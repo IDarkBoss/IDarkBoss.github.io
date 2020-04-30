@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/32x32.webp">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.webp">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.webp">
+  <link rel="mask-icon" href="/images/32x32.webp" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"idarkboss.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","width":300,"display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文介绍了启用 rcm 和 tis 服务的流程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rcm和tis服务配置">
+<meta property="og:url" content="https://idarkboss.github.io/posts/58028/index.html">
+<meta property="og:site_name" content="大老黑的豆腐渣集散地">
+<meta property="og:description" content="本文介绍了启用 rcm 和 tis 服务的流程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312095629399.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312095851142.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312092635813.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312150317447.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312100457680.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/clip_image002-1583978757296.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/clip_image004-1583978757297.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312101512379.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312101823863.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312101846570.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312102020798.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312101903786.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/clip_image002-1583979814205.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312102454485.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312102512022.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312094346188.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312094537890.png">
+<meta property="article:published_time" content="2020-03-12T00:59:31.000Z">
+<meta property="article:modified_time" content="2020-04-29T03:27:07.691Z">
+<meta property="article:author" content="DarkBoss">
+<meta property="article:tag" content="Comstar">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312095629399.png">
+
+<link rel="canonical" href="https://idarkboss.github.io/posts/58028/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>rcm和tis服务配置 | 大老黑的豆腐渣集散地</title><meta name="robots" content="noindex">
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">大老黑的豆腐渣集散地</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录日常遇到的头秃问题</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://idarkboss.github.io/posts/58028/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/256x256.webp">
+      <meta itemprop="name" content="DarkBoss">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大老黑的豆腐渣集散地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          rcm和tis服务配置
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-12 08:59:31" itemprop="dateCreated datePublished" datetime="2020-03-12T08:59:31+08:00">2020-03-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-29 11:27:07" itemprop="dateModified" datetime="2020-04-29T11:27:07+08:00">2020-04-29</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>本文介绍了启用 rcm 和 tis 服务的流程</p>
+          </div>
+
+<a id="more"></a>
+
+<h2 id="需要软件"><a href="#需要软件" class="headerlink" title="需要软件"></a>需要软件</h2><ul>
+<li>JDK（rcm 和 tis 服务需要 JDK1.8 版本）</li>
+<li>Maven （注意 Maven 的版本）</li>
+<li>IDEA</li>
+<li>TortoiseSVN</li>
+<li>Putty or Secure crt</li>
+<li>Oracle Client</li>
+<li>Sencha cmd 6</li>
+<li>Typora（Markdown 阅读器，推荐）</li>
+</ul>
+<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>…………</p>
+<h2 id="配置流程"><a href="#配置流程" class="headerlink" title="配置流程"></a>配置流程</h2><h3 id="设置-hosts"><a href="#设置-hosts" class="headerlink" title="设置 hosts"></a>设置 hosts</h3><ul>
+<li>172.19.223.218 fis-ext-dev</li>
+<li>192.168.7.201 fis-ext-devtest</li>
+<li>172.19.196.26 wms-devtest.chinamoney.com.cn</li>
+<li>210.22.151.39 fis1-comstar.chinamoney.com.cn</li>
+<li>210.22.151.39 cms1-comstar.chinamoney.com.cn</li>
+<li>210.22.151.39 xms1-comstar.chinamoney.com.cn</li>
+<li>172.19.223.73 ots-comstar.chinamoney.com.cn</li>
+<li>192.168.236.30 maven-private-server</li>
+</ul>
+<h3 id="SVN-克隆代码"><a href="#SVN-克隆代码" class="headerlink" title="SVN 克隆代码"></a>SVN 克隆代码</h3><h4 id="SVN-地址"><a href="#SVN-地址" class="headerlink" title="SVN 地址"></a>SVN 地址</h4><p>rcm SVN 地址： <a href="http://192.168.7.201:18088/Rcs/rcm" target="_blank" rel="noopener">http://192.168.7.201:18088/Rcs/rcm</a></p>
+<p>tis SVN 地址： <a href="http://192.168.7.201:18088/Rcs/tis" target="_blank" rel="noopener">http://192.168.7.201:18088/Rcs/tis</a></p>
+<h4 id="svn-代码-CheckOut"><a href="#svn-代码-CheckOut" class="headerlink" title="svn 代码 CheckOut"></a>svn 代码 CheckOut</h4><p>在本地创建 svn 目录，右键选中目录,”TortoiseSVN-&gt;Checkout”，并点击<code>Choose items</code>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312095629399.png" alt="创建Checkout路径"></p>
+<p>弹出框中可选择需要导出的内容</p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312095851142.png" alt="勾选导入内容"></p>
+<p>以上几项必导，注意”branch”目录只需要导出一个空目录即可，里面的内容是历史的版本分支，且很大，没有必要导。</p>
+<h3 id="PuTTY"><a href="#PuTTY" class="headerlink" title="PuTTY"></a>PuTTY</h3><p>rcm 的开发数据库是在内网 <code>192.168.8.116</code>上，不能直接连接，需要使用 SSH Tunnel 方式连接。可以使用 PuTTY 或者 Secure crt 来完成，配置方式和 ComStar 前中台连接开发数据库类似。</p>
+<h4 id="SSH-Tunnel-的基本原理"><a href="#SSH-Tunnel-的基本原理" class="headerlink" title="SSH Tunnel 的基本原理"></a>SSH Tunnel 的基本原理</h4><p>基本原理是，以 <code>172.19.223.218</code>为跳板，该服务器有公网 IP，也同时有内网 IP <code>192.168.8.1</code>。建立连接后，同时建立本地端口 <code>20051</code> 到 <code>192.168.8.116:1521</code> （数据库的监听端口）的映射，该映射复用已有的到 <code>172.19.223.218</code>的连接。在需要连接数据库的时候，只要连接本地端口 <code>20051</code>，在 <code>172.19.223.218</code>的连接已经建立的情况下，会发送到该服务器并转发到目标服务器端口 <code>192.168.8.116:1521</code>，如果与 <code>172.19.223.218</code>的连接断开，那么与内网的其他连接也全部断开。具体可以参考 SSH Tunnel 相关文档。</p>
+<p>以上配置完成后，连接 PuTTY 或 Secure crt，然后启动 rcm 服务即可成功连接到数据库。</p>
+<div class="note primary">
+            <p>注意：配置的本地端口 <code>20051</code>是可以改变的，只要与本地的 <code>application.properties</code>中配置的 jdbc 的端口一致即可。可以改变。但只建议连开发环境，且因为 TIS 轮询机制的存在， 当多人同时起 TIS 时， 可能会造成收不到消息的现象。</p>
+          </div>
+
+<h4 id="PuTTY-配置-SSH-Tunnel"><a href="#PuTTY-配置-SSH-Tunnel" class="headerlink" title="PuTTY 配置 SSH Tunnel"></a>PuTTY 配置 SSH Tunnel</h4><p>先新建一个 Session，在 Session 页面，填写“Host Name”为 <code>172.19.223.218</code>，端口 <code>22</code>，用户名密码请询问运维组人员。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312092635813.png" alt="新建Session"></p>
+<p>然后，在该 Session 中，“putty configuration”-&gt;“category”-&gt;“SSH”-&gt;“Tunnels”中，添加 Tunnels。最后，返回 Session 页面，并返回 Session 选项点击 <code>Save</code>，保存配置到当前 Session 中。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312150317447.png" alt="添加Tunnels"></p>
+<h3 id="Oracle-Client-和-PL-SQL-Developer-配置"><a href="#Oracle-Client-和-PL-SQL-Developer-配置" class="headerlink" title="Oracle Client 和 PL/SQL Developer 配置"></a>Oracle Client 和 PL/SQL Developer 配置</h3><p>在 Oracle Client 安装目录下的<code>network\admin</code>目录下，找到文件<code>tnsnames.ora</code>，添加以下内</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FPS_DEV_NEW =</span><br><span class="line">  (DESCRIPTION =</span><br><span class="line">    (ADDRESS_LIST =</span><br><span class="line">      (ADDRESS = (PROTOCOL = TCP)(HOST = 127.0.0.1)(PORT = 20051))</span><br><span class="line">    )</span><br><span class="line">    (CONNECT_DATA =</span><br><span class="line">      (SERVICE_NAME = kobra)</span><br><span class="line">    )</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
+
+<p>PORT 为配置的 DB 的 ssh 转发时选用的端口。</p>
+<p>Oracle Client 的连接也是复用的 SSH Tunnel，因此需要先连接 SSH Tunnel，然后启动 PL/SQL Developer。启动 PL/SQL Developer 后，使用 rcm 用户连接<code>FPS_DEV_NEW</code>即可登录数据库。</p>
+<h3 id="本地-Zookeeper-服务"><a href="#本地-Zookeeper-服务" class="headerlink" title="本地 Zookeeper 服务"></a>本地 Zookeeper 服务</h3><div class="note primary">
+            <p>本服务需要在启动 rcm 和 tis 服务前先启动。</p>
+          </div>
+
+<ol>
+<li><p>首先下载 Zookeeper，并解压到本地</p>
+</li>
+<li><p>进入 conf 目录修改 zoo_sample.cfg 文件名为 zoo.cfg</p>
+</li>
+<li><p>打开 zoo.cfg 修改 data 目录为（新建 data 目录）：<code>dataDir=D:\\zookeeper\\data</code> （路径根据自己的路径填写）</p>
+</li>
+<li><p>创建 zkStart.bat 文件，文件内容为：<code>&quot;Your Path&quot;\bin\zkServer.cmd</code></p>
+</li>
+<li><p>双击打开 zkStart.bat 运行 zookeeper（必须配置 JAVA_HOME 环境变量）</p>
+</li>
+</ol>
+<h3 id="IDEA-配置"><a href="#IDEA-配置" class="headerlink" title="IDEA 配置"></a>IDEA 配置</h3><h4 id="导入代码"><a href="#导入代码" class="headerlink" title="导入代码"></a>导入代码</h4><p>Open 进入<code>E:\svn\Rcs\rcm</code>目录，在右边 Maven 管理界面处点击<code>Add Maven Project</code>，同时添加 rcm 中的 pom.xml 和 tis 中的 pom.xml。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312100457680.png" alt="添加Maven项目"></p>
+<h4 id="忽略版本控制文件"><a href="#忽略版本控制文件" class="headerlink" title="忽略版本控制文件"></a>忽略版本控制文件</h4><p>使用 IDEA 时，编辑器会自动生成一些文件，如<strong>*.idea</strong>，<strong>*.iml</strong>等，这些文件不是项目文件，不需要提交，可以设置为忽略列表，这样通过编辑器提交修改时，不会将这类文件误提交，修改方法如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/clip_image002-1583978757296.jpg" alt="img"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/clip_image004-1583978757297.jpg" alt="img"></p>
+<h4 id="模块配置"><a href="#模块配置" class="headerlink" title="模块配置"></a>模块配置</h4><p>选中模块，点击 F4，进入模块配置，如图配置(一般 Dependencies 会由 Maven 自动带入):</p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312101512379.png" alt="Project SDK"></p>
+<h5 id="Sources"><a href="#Sources" class="headerlink" title="Sources"></a>Sources</h5><p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312101823863.png" alt="Sources-rcm-common"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312101846570.png" alt="Sources-rcm-server"></p>
+<h5 id="Dependencies"><a href="#Dependencies" class="headerlink" title="Dependencies"></a>Dependencies</h5><p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312102020798.png" alt="Dependencies-rcm-common"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312101903786.png" alt="Dependencies-rcm-server"></p>
+<h4 id="执行、调试配置"><a href="#执行、调试配置" class="headerlink" title="执行、调试配置"></a>执行、调试配置</h4><p>打开配置界面</p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/clip_image002-1583979814205.jpg" alt="img"></p>
+<p>新增应用配置</p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312102454485.png" alt="Application-rcm"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312102512022.png" alt="Application-tis"></p>
+<div class="note primary">
+            <p>在启动服务时，要先启动 tis 服务。</p>
+          </div>
+
+<h4 id="properties-配置文件修改"><a href="#properties-配置文件修改" class="headerlink" title=".properties 配置文件修改"></a>.properties 配置文件修改</h4><p>注意：以下例子中，IP 为 127.0.0.1 或者 localhost 的配置中对应的端口，请根据自己的配置替换。</p>
+<p>例子中的文件均基于通用设置目录的配置，若不喜欢可在 rcm-server 中的 resources 中找到相应文件修改，切记不要提交。</p>
+<p>首先将代码目录下的配置文件复制到用户目录，如：把<code>E:\svn\Rcs\rcm\rcm-server\src\main\resources\application-zookeeper.properties</code>复制到<code>{user.home}/settings/rcm/application-zookeeper.properties</code>。</p>
+<h5 id="Zookeeper-地址"><a href="#Zookeeper-地址" class="headerlink" title="Zookeeper 地址"></a>Zookeeper 地址</h5><p>文件路径：<code>{user.home}/settings/rcm/application-zookeeper.properties</code></p>
+<p>内容为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#zookeeper config</span><br><span class="line">zookeeper.address=zookeeper:<span class="comment">//127.0.0.1:2181</span></span><br></pre></td></tr></table></figure>
+
+<p>文件路径：<code>{user.home}/settings/tis/application-zookeeper.properties</code></p>
+<p>内容为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#zookeeper config</span><br><span class="line">zookeeper.address=zookeeper:<span class="comment">//127.0.0.1:2181</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="Kafka-地址"><a href="#Kafka-地址" class="headerlink" title="Kafka 地址"></a>Kafka 地址</h5><p>文件路径：<code>{user.home}/settings/rcm/application-kafka.properties</code></p>
+<p>内容为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#kafka config</span><br><span class="line">bootstrap.servers=<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">9092</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="Redis-地址"><a href="#Redis-地址" class="headerlink" title="Redis 地址"></a>Redis 地址</h5><p>文件路径：<code>{user.home}/settings/rcm/application-redis.properties</code></p>
+<p>内容为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#redis config</span><br><span class="line">redis.pool.maxTotal=<span class="number">100</span></span><br><span class="line">redis.pool.maxIdle=<span class="number">20</span></span><br><span class="line">redis.pool.maxWaitMillis=<span class="number">1000</span></span><br><span class="line">redis.pool.testOnBorrow=<span class="keyword">true</span></span><br><span class="line"></span><br><span class="line">redis.hostname=localhost</span><br><span class="line">redis.port=<span class="number">11677</span></span><br><span class="line">redis.password=</span><br><span class="line">redis.timeout=<span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="数据库地址"><a href="#数据库地址" class="headerlink" title="数据库地址"></a>数据库地址</h5><p>文件路径：<code>{user.home}/settings/rcm/application.properties</code></p>
+<p>内容为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#oracle database settings</span><br><span class="line">jdbc.driver=net.sf.log4jdbc.DriverSpy</span><br><span class="line"></span><br><span class="line">#local</span><br><span class="line">jdbc.url=jdbc:log4jdbc:oracle:thin:@<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">20051</span>:kobra</span><br><span class="line">jdbc.username=rcm</span><br><span class="line">jdbc.password=rcm</span><br><span class="line"></span><br><span class="line">#connection pool settings</span><br><span class="line">jdbc.pool.maxIdle=<span class="number">10</span></span><br><span class="line">jdbc.pool.maxActive=<span class="number">50</span></span><br><span class="line"></span><br><span class="line"># TIS configuration</span><br><span class="line">tis.host=<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">tis.port=<span class="number">9007</span></span><br><span class="line">tis.preUrl=/tis/api/rest/</span><br><span class="line">tis.defaultUsername=connector</span><br><span class="line">tis.defaultPassword=connector123</span><br><span class="line"></span><br><span class="line"># system name</span><br><span class="line">system.name=RCM-DEV-A</span><br></pre></td></tr></table></figure>
+
+<p>文件路径：<code>{user.home}/settings/rcm/application.properties</code></p>
+<p>内容为（同时有 A、B、C、D 四套，格式相同）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#真实的地址 192.168.8.158：1521</span><br><span class="line">jdbc.urlD=jdbc:log4jdbc:oracle:thin:@<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">20051</span>:kobra</span><br><span class="line">jdbc.usernameD=rcm</span><br><span class="line">jdbc.passwordD=rcm</span><br><span class="line">jdbc.driverD=net.sf.log4jdbc.DriverSpy</span><br><span class="line">#connection pool settings</span><br><span class="line">jdbc.pool.maxIdleD=<span class="number">10</span></span><br><span class="line">jdbc.pool.maxActiveD=<span class="number">50</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="maven-配置"><a href="#maven-配置" class="headerlink" title="maven 配置"></a>maven 配置</h3><p>maven 主要需要配置仓库的地址，配置文件在<code>{user.home}/.m2/setting.xml</code>。直接用 SVN 上的<code>setting.xml</code>（地址在：<a href="http://192.168.7.201:18088/Rcs/rcm/settings.xml" target="_blank" rel="noopener">http://192.168.7.201:18088/Rcs/rcm/settings.xml</a>）替换原有的<code>setting.xml</code>。</p>
+<p>配置完 maven 后，在命令行工具下，进入 rcm 项目的根目录，运行<code>mvn install -D maven.test.skip=true</code>指令可以进行项目构建，会需要一段时间，耐心等待。首次构建，maven 会下载相关的 jar 包和 plugin 到本地。如看到了 maven 的构建提示，说明 maven 配置无误。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312094346188.png" alt="Maven编译-rcm"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/rcm%E5%92%8Ctis%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/image-20200312094537890.png" alt="Maven编译-tis"></p>
+<div class="note primary">
+            <p>注意 tis 下的<code>tis-base-info/pom.xml</code>中的版本号需要为 1.9.2-SNAPSHOT（以最新为准），否则编译时可能会找不到 jar 包。</p>
+          </div>
+
+<h3 id="Sencha-cmd-6-配置"><a href="#Sencha-cmd-6-配置" class="headerlink" title="Sencha cmd 6 配置"></a>Sencha cmd 6 配置</h3><p>Sencha cmd 6 不需要配置即可使用，但首次使用的时候，需要构建整个 web 工程。</p>
+<ul>
+<li>进入<code>rcm-server/src/main/webapp/</code>，运行<code>sencha app build classic</code>。</li>
+<li>进入<code>tis-server/src/main/webapp/</code>，运行<code>sencha app build classic</code>。</li>
+</ul>
+<h2 id="打开浏览器界面"><a href="#打开浏览器界面" class="headerlink" title="打开浏览器界面"></a>打开浏览器界面</h2><ul>
+<li><a href="127.0.0.1:9006/rms">RMS 地址</a></li>
+<li><a href="127.0.0.1:9007/tis">TIS 地址</a></li>
+</ul>
+<!-- flag of hidden posts -->
+    </div>
+
+    
+    
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+            -------------本文结束 <i class="fa fa-paw"></i> 感谢您的阅读-------------
+        </div>
+    
+</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Comstar/" rel="tag"># Comstar</a>
+          </div>
+
+        
+
+
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#需要软件"><span class="nav-number">1.</span> <span class="nav-text">需要软件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装软件"><span class="nav-number">2.</span> <span class="nav-text">安装软件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置流程"><span class="nav-number">3.</span> <span class="nav-text">配置流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设置-hosts"><span class="nav-number">3.1.</span> <span class="nav-text">设置 hosts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SVN-克隆代码"><span class="nav-number">3.2.</span> <span class="nav-text">SVN 克隆代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SVN-地址"><span class="nav-number">3.2.1.</span> <span class="nav-text">SVN 地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#svn-代码-CheckOut"><span class="nav-number">3.2.2.</span> <span class="nav-text">svn 代码 CheckOut</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PuTTY"><span class="nav-number">3.3.</span> <span class="nav-text">PuTTY</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SSH-Tunnel-的基本原理"><span class="nav-number">3.3.1.</span> <span class="nav-text">SSH Tunnel 的基本原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PuTTY-配置-SSH-Tunnel"><span class="nav-number">3.3.2.</span> <span class="nav-text">PuTTY 配置 SSH Tunnel</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Oracle-Client-和-PL-SQL-Developer-配置"><span class="nav-number">3.4.</span> <span class="nav-text">Oracle Client 和 PL&#x2F;SQL Developer 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地-Zookeeper-服务"><span class="nav-number">3.5.</span> <span class="nav-text">本地 Zookeeper 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IDEA-配置"><span class="nav-number">3.6.</span> <span class="nav-text">IDEA 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#导入代码"><span class="nav-number">3.6.1.</span> <span class="nav-text">导入代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#忽略版本控制文件"><span class="nav-number">3.6.2.</span> <span class="nav-text">忽略版本控制文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模块配置"><span class="nav-number">3.6.3.</span> <span class="nav-text">模块配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Sources"><span class="nav-number">3.6.3.1.</span> <span class="nav-text">Sources</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Dependencies"><span class="nav-number">3.6.3.2.</span> <span class="nav-text">Dependencies</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行、调试配置"><span class="nav-number">3.6.4.</span> <span class="nav-text">执行、调试配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#properties-配置文件修改"><span class="nav-number">3.6.5.</span> <span class="nav-text">.properties 配置文件修改</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Zookeeper-地址"><span class="nav-number">3.6.5.1.</span> <span class="nav-text">Zookeeper 地址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Kafka-地址"><span class="nav-number">3.6.5.2.</span> <span class="nav-text">Kafka 地址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Redis-地址"><span class="nav-number">3.6.5.3.</span> <span class="nav-text">Redis 地址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数据库地址"><span class="nav-number">3.6.5.4.</span> <span class="nav-text">数据库地址</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#maven-配置"><span class="nav-number">3.7.</span> <span class="nav-text">maven 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sencha-cmd-6-配置"><span class="nav-number">3.8.</span> <span class="nav-text">Sencha cmd 6 配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打开浏览器界面"><span class="nav-number">4.</span> <span class="nav-text">打开浏览器界面</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DarkBoss"
+      src="/images/256x256.webp">
+  <p class="site-author-name" itemprop="name">DarkBoss</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/IDarkBoss" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;IDarkBoss" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/SKArthur" title="Zhihu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;SKArthur" rel="noopener" target="_blank"><i class="iconfont icon-zhihu fa-fw"></i>Zhihu</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DarkBoss</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">17k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">16 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/velocity-animate@1/velocity.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/velocity-animate@1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+    <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three-waves.min.js"></script>
+    <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/canvas_lines.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://idarkboss.github.io/posts/58028/',]
+      });
+      });
+  </script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '75b52ae366a9e59a5193',
+      clientSecret: '1bb3f02e37e8bbdb822edc4bc313d6fd4a284f0a',
+      repo        : 'gitalk',
+      owner       : 'IDarkBoss',
+      admin       : ['IDarkBoss'],
+      id          : '0aab01fb8a1be1a106a0b35fce38d155',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas>
+  <script src="//cdn.jsdelivr.net/npm/animejs@2.2.0/anime.min.js"></script>
+  <script async src="/js/cursor/explosion.min.js"></script>
+
+<script src="/js/cursor/skyrim.js"></script>
+
+// 
+//
+//   <script src="/js/activate-power-mode.min.js"></script>
+//   <script>
+//     POWERMODE.colorful = true;
+//     POWERMODE.shake = false;
+//     document.body.addEventListener('input', POWERMODE);
+//   </script>
+//
+  <script src="/live2d-widget/autoload.js"></script>
+  <script src="/js/crash_cheat.js"></script>
+
+</body>
+</html>
