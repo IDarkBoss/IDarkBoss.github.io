@@ -151,6 +151,19 @@
       </tags>
   </entry>
   <entry>
+    <title>Java中List的循环用法</title>
+    <url>/posts/54882/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>Java 中 List 的循环用法</p>
+          </div>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Liebiao</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span>[] numbers = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> x : numbers) &#123;</span><br><span class="line">   System.out.print(x);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  System.out.print(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">  String[] names = &#123;<span class="string">"James"</span>, <span class="string">"Larry"</span>, <span class="string">"Tom"</span>, <span class="string">"Lacy"</span>&#125;;</span><br><span class="line">  <span class="keyword">for</span> (String name : names) &#123;</span><br><span class="line">   System.out.print(name);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java数组使用方法</title>
     <url>/posts/41103/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
@@ -284,19 +297,6 @@
 </tr>
 </tbody></table>
 <div id="footnotes"><hr><div id="footnotelist"><ol style="list-style: none; padding-left: 0; margin-left: 40px"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px; margin-left: -40px">1.</span><span style="display: inline-block; vertical-align: top; margin-left: 10px;">转载自: <a href="https://www.runoob.com/java/java-array.html" target="_blank" rel="noopener">菜鸟教程</a><a href="#fnref:1" rev="footnote"> ↩</a></span></li></ol></div></div>]]></content>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java中List的循环用法</title>
-    <url>/posts/54882/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>Java 中 List 的循环用法</p>
-          </div>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Liebiao</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span>[] numbers = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> x : numbers) &#123;</span><br><span class="line">   System.out.print(x);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  System.out.print(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">  String[] names = &#123;<span class="string">"James"</span>, <span class="string">"Larry"</span>, <span class="string">"Tom"</span>, <span class="string">"Lacy"</span>&#125;;</span><br><span class="line">  <span class="keyword">for</span> (String name : names) &#123;</span><br><span class="line">   System.out.print(name);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
       <tags>
         <tag>Java</tag>
       </tags>
