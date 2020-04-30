@@ -121,6 +121,49 @@
       </tags>
   </entry>
   <entry>
+    <title>IDEA 遇到的问题</title>
+    <url>/posts/15956/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>本文收集了一些在 IDEA 中可能遇到的问题。<br>如：Project 的 SDK 设置，IDEA 的内存设置等。</p>
+          </div>
+
+<a id="more"></a>
+
+<h2 id="Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6"><a href="#Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6" class="headerlink" title="Error:java: Compilation failed: internal java compiler error(JAVA 1.6)"></a>Error:java: Compilation failed: internal java compiler error(JAVA 1.6)</h2><h3 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h3><p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115427415.png" alt="报错信息"></p>
+<h3 id="报错原因"><a href="#报错原因" class="headerlink" title="报错原因"></a>报错原因</h3><ul>
+<li><p>项目中 Java 版本不一致，可以查看项目中的 jdk 配置</p>
+<ul>
+<li><p>查看项目的 jdk（Ctrl+Alt+shift+S）<br>File -&gt;Project Structure-&gt;Project Settings -&gt;Project</p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115842839.png" alt="SDK"></p>
+</li>
+<li><p>查看工程的 jdk（Ctrl+Alt+shift+S）<br>File -&gt;Project Structure-&gt;Project Settings -&gt; Modules -&gt; （需要修改的工程名称） -&gt; Sources -&gt;</p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120000830.png" alt="Language Level"></p>
+</li>
+<li><p>查看 idea 中 Java 配置</p>
+<p>File–&gt;Other Settings–&gt;Default Settings–&gt;Compiler–&gt;Java Compiler</p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120302052.png" alt="Java Compiler"></p>
+<p>如果出现的 Choose Module 框中是空白，无法修改 Target bytecode version.则：</p>
+<p>选中项目，右击选择 Maven–&gt;Reimport, 然后再次编译，问题解决。</p>
+</li>
+</ul>
+</li>
+<li><p>内存设置过大</p>
+<ul>
+<li><p>heap size 过大，2048M 是不行的（6u21）。但是在 6u45 上又要设置到 2048M。。凸(艹皿艹 )</p>
+<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/heapsize.png" alt="Heap Size"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Insufficient-Momery"><a href="#Insufficient-Momery" class="headerlink" title="Insufficient Momery"></a>Insufficient Momery</h2><p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/image-20200306102435696.png" alt="VM Option"></p>
+<h2 id="“interface-implement-of-class-‘class-java-lang-Object’-not-found”"><a href="#“interface-implement-of-class-‘class-java-lang-Object’-not-found”" class="headerlink" title="“interface implement of class ‘class java.lang.Object’ not found”"></a>“interface implement of class ‘class java.lang.Object’ not found”</h2><h3 id="报错原因-1"><a href="#报错原因-1" class="headerlink" title="报错原因"></a>报错原因</h3><p>在调试模式下就会报错，暂时无发现异常。</p>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+        <tag>IDEA</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java数组使用方法</title>
     <url>/posts/41103/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
@@ -259,68 +302,6 @@
       </tags>
   </entry>
   <entry>
-    <title>IDEA 遇到的问题</title>
-    <url>/posts/15956/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>本文收集了一些在 IDEA 中可能遇到的问题。<br>如：Project 的 SDK 设置，IDEA 的内存设置等。</p>
-          </div>
-
-<a id="more"></a>
-
-<h2 id="Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6"><a href="#Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6" class="headerlink" title="Error:java: Compilation failed: internal java compiler error(JAVA 1.6)"></a>Error:java: Compilation failed: internal java compiler error(JAVA 1.6)</h2><h3 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h3><p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115427415.png" alt="报错信息"></p>
-<h3 id="报错原因"><a href="#报错原因" class="headerlink" title="报错原因"></a>报错原因</h3><ul>
-<li><p>项目中 Java 版本不一致，可以查看项目中的 jdk 配置</p>
-<ul>
-<li><p>查看项目的 jdk（Ctrl+Alt+shift+S）<br>File -&gt;Project Structure-&gt;Project Settings -&gt;Project</p>
-<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115842839.png" alt="SDK"></p>
-</li>
-<li><p>查看工程的 jdk（Ctrl+Alt+shift+S）<br>File -&gt;Project Structure-&gt;Project Settings -&gt; Modules -&gt; （需要修改的工程名称） -&gt; Sources -&gt;</p>
-<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120000830.png" alt="Language Level"></p>
-</li>
-<li><p>查看 idea 中 Java 配置</p>
-<p>File–&gt;Other Settings–&gt;Default Settings–&gt;Compiler–&gt;Java Compiler</p>
-<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120302052.png" alt="Java Compiler"></p>
-<p>如果出现的 Choose Module 框中是空白，无法修改 Target bytecode version.则：</p>
-<p>选中项目，右击选择 Maven–&gt;Reimport, 然后再次编译，问题解决。</p>
-</li>
-</ul>
-</li>
-<li><p>内存设置过大</p>
-<ul>
-<li><p>heap size 过大，2048M 是不行的（6u21）。但是在 6u45 上又要设置到 2048M。。凸(艹皿艹 )</p>
-<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/heapsize.png" alt="Heap Size"></p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="Insufficient-Momery"><a href="#Insufficient-Momery" class="headerlink" title="Insufficient Momery"></a>Insufficient Momery</h2><p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/image-20200306102435696.png" alt="VM Option"></p>
-<h2 id="“interface-implement-of-class-‘class-java-lang-Object’-not-found”"><a href="#“interface-implement-of-class-‘class-java-lang-Object’-not-found”" class="headerlink" title="“interface implement of class ‘class java.lang.Object’ not found”"></a>“interface implement of class ‘class java.lang.Object’ not found”</h2><h3 id="报错原因-1"><a href="#报错原因-1" class="headerlink" title="报错原因"></a>报错原因</h3><p>在调试模式下就会报错，暂时无发现异常。</p>
-]]></content>
-      <tags>
-        <tag>Java</tag>
-        <tag>IDEA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NexT-Pisces主题配置</title>
-    <url>/posts/14831/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
-<h2 id="背景半透明"><a href="#背景半透明" class="headerlink" title="背景半透明"></a>背景半透明</h2><h3 id="新建自定义格式文件"><a href="#新建自定义格式文件" class="headerlink" title="新建自定义格式文件"></a>新建自定义格式文件</h3><p>在 <code>theme/next/source/css/</code> 下新建 <code>_custom</code> 文件夹，进入文件夹并创建 <code>custom.styl</code> 。</p>
-<p>在 <code>themes/next/source/css/main.styl</code> 中加入：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@import</span> <span class="string">"/_custom/custom.styl"</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改-custom-styl-文件"><a href="#修改-custom-styl-文件" class="headerlink" title="修改 custom.styl 文件"></a>修改 custom.styl 文件</h3><p>我的配置如下：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.content-wrap</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.header-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="文章结束标识"><a href="#文章结束标识" class="headerlink" title="文章结束标识"></a>文章结束标识</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>在博客根目录下新建 <code>source/_data/post-body-end.swig</code> ,即 <code>_data</code> 目录和 <code>_posts</code> 目录平级。</p>
-<p>在根目录的 <code>_config.yml</code> 取消 <code>custom_file_path</code> 下 <code>postBodyEnd</code> 的注释。</p>
-<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% if not is_index %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"text-align:center;color: #ccc;font-size:14px;"</span>&gt;</span></span><br><span class="line">    -------------本文结束 <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-paw"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span> 感谢您的阅读-------------</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>hexo-NexT</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Nginx 反代配置</title>
     <url>/posts/13817/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
@@ -344,6 +325,25 @@
 ]]></content>
       <tags>
         <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NexT-Pisces主题配置</title>
+    <url>/posts/14831/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
+<h2 id="背景半透明"><a href="#背景半透明" class="headerlink" title="背景半透明"></a>背景半透明</h2><h3 id="新建自定义格式文件"><a href="#新建自定义格式文件" class="headerlink" title="新建自定义格式文件"></a>新建自定义格式文件</h3><p>在 <code>theme/next/source/css/</code> 下新建 <code>_custom</code> 文件夹，进入文件夹并创建 <code>custom.styl</code> 。</p>
+<p>在 <code>themes/next/source/css/main.styl</code> 中加入：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@import</span> <span class="string">"/_custom/custom.styl"</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改-custom-styl-文件"><a href="#修改-custom-styl-文件" class="headerlink" title="修改 custom.styl 文件"></a>修改 custom.styl 文件</h3><p>我的配置如下：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.content-wrap</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.header-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文章结束标识"><a href="#文章结束标识" class="headerlink" title="文章结束标识"></a>文章结束标识</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>在博客根目录下新建 <code>source/_data/post-body-end.swig</code> ,即 <code>_data</code> 目录和 <code>_posts</code> 目录平级。</p>
+<p>在根目录的 <code>_config.yml</code> 取消 <code>custom_file_path</code> 下 <code>postBodyEnd</code> 的注释。</p>
+<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% if not is_index %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"text-align:center;color: #ccc;font-size:14px;"</span>&gt;</span></span><br><span class="line">    -------------本文结束 <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-paw"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span> 感谢您的阅读-------------</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>hexo-NexT</tag>
       </tags>
   </entry>
   <entry>
