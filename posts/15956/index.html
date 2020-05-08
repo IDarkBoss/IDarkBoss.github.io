@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"idarkboss.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","width":300,"display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"idarkboss.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","width":300,"display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="本文收集了一些在 IDEA 中可能遇到的问题。如：Project 的 SDK 设置，IDEA 的内存设置等。">
@@ -224,7 +224,14 @@
                 <time title="修改时间：2020-04-29 11:27:07" itemprop="dateModified" datetime="2020-04-29T11:27:07+08:00">2020-04-29</time>
               </span>
 
-          <br>
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
@@ -255,19 +262,19 @@
 
 <a id="more"></a>
 
-<h2 id="Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6"><a href="#Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6" class="headerlink" title="Error:java: Compilation failed: internal java compiler error(JAVA 1.6)"></a>Error:java: Compilation failed: internal java compiler error(JAVA 1.6)</h2><h3 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h3><p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115427415.png" alt="报错信息"></p>
+<h2 id="Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6"><a href="#Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6" class="headerlink" title="Error:java: Compilation failed: internal java compiler error(JAVA 1.6)"></a>Error:java: Compilation failed: internal java compiler error(JAVA 1.6)</h2><h3 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h3><p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115427415.png" alt="报错信息"></p>
 <h3 id="报错原因"><a href="#报错原因" class="headerlink" title="报错原因"></a>报错原因</h3><ul>
 <li><p>项目中 Java 版本不一致，可以查看项目中的 jdk 配置</p>
 <ul>
 <li><p>查看项目的 jdk（Ctrl+Alt+shift+S）<br>File -&gt;Project Structure-&gt;Project Settings -&gt;Project</p>
-<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115842839.png" alt="SDK"></p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115842839.png" alt="SDK"></p>
 </li>
 <li><p>查看工程的 jdk（Ctrl+Alt+shift+S）<br>File -&gt;Project Structure-&gt;Project Settings -&gt; Modules -&gt; （需要修改的工程名称） -&gt; Sources -&gt;</p>
-<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120000830.png" alt="Language Level"></p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120000830.png" alt="Language Level"></p>
 </li>
 <li><p>查看 idea 中 Java 配置</p>
 <p>File–&gt;Other Settings–&gt;Default Settings–&gt;Compiler–&gt;Java Compiler</p>
-<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120302052.png" alt="Java Compiler"></p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120302052.png" alt="Java Compiler"></p>
 <p>如果出现的 Choose Module 框中是空白，无法修改 Target bytecode version.则：</p>
 <p>选中项目，右击选择 Maven–&gt;Reimport, 然后再次编译，问题解决。</p>
 </li>
@@ -276,12 +283,12 @@
 <li><p>内存设置过大</p>
 <ul>
 <li><p>heap size 过大，2048M 是不行的（6u21）。但是在 6u45 上又要设置到 2048M。。凸(艹皿艹 )</p>
-<p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/heapsize.png" alt="Heap Size"></p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/heapsize.png" alt="Heap Size"></p>
 </li>
 </ul>
 </li>
 </ul>
-<h2 id="Insufficient-Momery"><a href="#Insufficient-Momery" class="headerlink" title="Insufficient Momery"></a>Insufficient Momery</h2><p><img src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/image-20200306102435696.png" alt="VM Option"></p>
+<h2 id="Insufficient-Momery"><a href="#Insufficient-Momery" class="headerlink" title="Insufficient Momery"></a>Insufficient Momery</h2><p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/image-20200306102435696.png" alt="VM Option"></p>
 <h2 id="“interface-implement-of-class-‘class-java-lang-Object’-not-found”"><a href="#“interface-implement-of-class-‘class-java-lang-Object’-not-found”" class="headerlink" title="“interface implement of class ‘class java.lang.Object’ not found”"></a>“interface implement of class ‘class java.lang.Object’ not found”</h2><h3 id="报错原因-1"><a href="#报错原因-1" class="headerlink" title="报错原因"></a>报错原因</h3><p>在调试模式下就会报错，暂时无发现异常。</p>
 
     </div>
@@ -390,12 +397,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -444,18 +451,38 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">17k</span>
+    <span title="站点总字数">30k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">16 分钟</span>
+    <span title="站点阅读时长">27 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
 
         
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
 
 
@@ -474,6 +501,8 @@
   <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
   <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/velocity-animate@1/velocity.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/velocity-animate@1/velocity.ui.min.js"></script>
 
@@ -615,14 +644,15 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
 
 <script src="js/cursor/skyrim.js"></script>
 
-// 
-//
-//   <script src="/js/activate-power-mode.min.js"></script>
-//   <script>
-//     POWERMODE.colorful = true;
-//     POWERMODE.shake = false;
-//     document.body.addEventListener('input', POWERMODE);
-//   </script>
-//
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+<script src="/js/live2d.js"></script>
+<script src="/js/crash_cheat.js"></script>
 </body>
 </html>
