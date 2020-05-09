@@ -171,7 +171,7 @@
   <entry>
     <title>IDEA VMOptions设置</title>
     <url>/posts/7328/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>IntelliJ IDEA 运行在 JVM 上，JVM 有很多的选项和开关配置可以用来调整性能，也就是说，可以通过手动的调整这些 JVM 参数来优化 IntelliJ IDEA 的性能。这篇文章主要是总结一下我的学习过程。</p>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>IntelliJ IDEA 运行在 JVM 上，JVM 有很多的选项和开关配置可以用来调整性能，也就是说，可以通过手动的调整这些 JVM 参数来优化 IntelliJ IDEA 的性能。这篇文章主要总结了 VMOptions 的用法。</p>
 <a id="more"></a>
 
 <h2 id="打开-Memory-Indicator"><a href="#打开-Memory-Indicator" class="headerlink" title="打开 Memory Indicator"></a>打开 Memory Indicator</h2><ul>
