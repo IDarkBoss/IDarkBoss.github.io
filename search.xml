@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>IDEA VMOptions设置</title>
+    <url>/posts/7328/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>IntelliJ IDEA 运行在 JVM 上，JVM 有很多的选项和开关配置可以用来调整性能，也就是说，可以通过手动的调整这些 JVM 参数来优化 IntelliJ IDEA 的性能。这篇文章主要总结了 VMOptions 的用法。</p>
+<a id="more"></a>
+
+<h2 id="打开-Memory-Indicator"><a href="#打开-Memory-Indicator" class="headerlink" title="打开 Memory Indicator"></a>打开 Memory Indicator</h2><ul>
+<li>首先打开 Memory Indicator</li>
+</ul>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA-VMOptions%E8%AE%BE%E7%BD%AE/20200509105017.png" alt="Memory Indicator"></p>
+<p>可以看到普通使用 IntelliJ IDEA 大概就使用了 500M 左右的内存。</p>
+<ul>
+<li>开启方法可以在工具栏-View 中设定：</li>
+</ul>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA-VMOptions%E8%AE%BE%E7%BD%AE/image-20200509105214158.png" alt="Memory Indicator"></p>
+<h2 id="Edit-VM-Options"><a href="#Edit-VM-Options" class="headerlink" title="Edit VM Options"></a>Edit VM Options</h2><p>在菜单 <code>Help | Edit Custom VM Options</code> 中可以设置。</p>
+<h2 id="VM-options"><a href="#VM-options" class="headerlink" title="VM options"></a>VM options</h2><p>下载安装包后一定要把压缩包下的 README 读完，里面有详细的路径及配置说明。这里先给一个全部内容的预览，下面再一一解释。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-ea</span><br><span class="line">-Xms2g</span><br><span class="line">-Xmx2g</span><br><span class="line">-XX:ReservedCodeCacheSize=<span class="number">240</span>m</span><br><span class="line">-XX:+UseConcMarkSweepGC</span><br><span class="line">-XX:SoftRefLRUPolicyMSPerMB=<span class="number">50</span></span><br><span class="line">-XX:CICompilerCount=<span class="number">2</span></span><br><span class="line">-Dsun.io.useCanonPrefixCache=<span class="keyword">false</span></span><br><span class="line">-Djava.net.preferIPv4Stack=<span class="keyword">true</span></span><br><span class="line">-Djdk.http.auth.tunneling.disabledSchemes=<span class="string">""</span></span><br><span class="line">-XX:+HeapDumpOnOutOfMemoryError</span><br><span class="line">-XX:-OmitStackTraceInFastThrow</span><br><span class="line">-Djdk.attach.allowAttachSelf=<span class="keyword">true</span></span><br><span class="line">-Dkotlinx.coroutines.debug=off</span><br><span class="line">-Djdk.<span class="keyword">module</span>.illegalAccess.silent=<span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Heap-Size"><a href="#Heap-Size" class="headerlink" title="Heap Size"></a>Heap Size</h3><p><code>-Xms</code> 和 <code>-Xmx</code> 配置堆内存，也就是 IntelliJ 可以使用的内存。</p>
+<ul>
+<li><code>-Xms</code> 初始堆内存，调大该内存可以让启动速度更快，以省去分配内存的时间</li>
+<li><code>-Xmx</code> 最大堆内存，如果遇到 <code>OutOfMemoryError</code> 可以调大该数值，最大不要超过系统 1/4.</li>
+</ul>
+<h3 id="GC-Algorithm"><a href="#GC-Algorithm" class="headerlink" title="GC Algorithm"></a>GC Algorithm</h3><p><code>-XX:+UseConcMarkSweepGC</code> 参数用来调整 GC 算法。使用该算法利用多个线程在后台进行 GC，以避免应用程序停止。</p>
+<p>当分配超过 4GB 的堆内存时，可以尝试使用 <code>-XX:+UseG1GC</code>.</p>
+<h3 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h3><p><code>-ea</code> 选项开启 assertions。如果调试 IntelliJ 或者开发插件时可能用到，对 IntelliJ 性能并没有影响。</p>
+<p><code>-server</code> 虚拟机的解释执行模式。</p>
+<p><code>-XX:SoftRefLRUPolicyMSPerMB=[value]</code> 参数用来控制每 M 空间中 soft reference 保证存活的毫秒数。默认的时间是 1000，JetBrains 推荐 50。</p>
+<p><code>-XX:ReservedCodeCacheSize=510m</code> 设置编译器最大的 code cache，另外一个相关的 JVM 参数是 <code>-XX:InitialCodeCacheSize</code> JetBrains 推荐这里使用 240m. <a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:codecache" target="_blank" rel="noopener">1</a></p>
+<p><code>-Dsun.io.useCanonCaches=[boolean]</code> 该参数是否开启文件名及路径缓存，默认 java 会缓存文件名 30 秒 <a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:c" target="_blank" rel="noopener">2</a>，JetBrains 建议关闭。</p>
+<p><code>-XX:+OmitStackTraceInFastThrow</code> JetBrains 官方推荐的参数。</p>
+<p><code>-XX:MaxJavaStackTraceDepth=-1</code> JVM 在实现 <code>java.lang.Throwable.fillInStackTrace()</code> 时把整个调用栈上的所有 Java 栈帧消息记录下来</p>
+<p><code>-XX:+HeapDumpOnOutOfMemoryError</code> 当发生 <code>OutOfMemoryError</code> 时 dump 堆内容。<a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:dump" target="_blank" rel="noopener">3</a></p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html" target="_blank" rel="noopener">https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html</a></li>
+<li><a href="https://intellij-support.jetbrains.com/hc/en-us/articles/206544869-Configuring-JVM-options-and-platform-properties" target="_blank" rel="noopener">https://intellij-support.jetbrains.com/hc/en-us/articles/206544869-Configuring-JVM-options-and-platform-properties</a></li>
+<li><a href="https://github.com/FoxxMD/intellij-jvm-options-explained" target="_blank" rel="noopener">https://github.com/FoxxMD/intellij-jvm-options-explained</a></li>
+</ul>
+<ol>
+<li><a href="https://blog.codecentric.de/en/2012/07/useful-jvm-flags-part-4-heap-tuning" target="_blank" rel="noopener">https://blog.codecentric.de/en/2012/07/useful-jvm-flags-part-4-heap-tuning</a></li>
+<li><a href="https://stackoverflow.com/a/7479642" target="_blank" rel="noopener">https://stackoverflow.com/a/7479642</a></li>
+<li><a href="http://www.oracle.com/technetwork/java/javase/clopts-139448.html#gbzrr" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/clopts-139448.html#gbzrr</a></li>
+</ol>
+]]></content>
+      <tags>
+        <tag>IDEA</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ExtJS-Java 前后台交互</title>
     <url>/posts/41187/</url>
     <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对， 请再试试。" data-whm="抱歉，这个文章不能被校验，不过您还是能看看解密后的内容。">
@@ -16,6 +66,219 @@
         <tag>Java</tag>
         <tag>ExtJS</tag>
         <tag>Comstar</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java中List的循环用法</title>
+    <url>/posts/54882/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>Java 中 List 的循环用法</p>
+          </div>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Liebiao</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span>[] numbers = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> x : numbers) &#123;</span><br><span class="line">   System.out.print(x);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  System.out.print(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">  String[] names = &#123;<span class="string">"James"</span>, <span class="string">"Larry"</span>, <span class="string">"Tom"</span>, <span class="string">"Lacy"</span>&#125;;</span><br><span class="line">  <span class="keyword">for</span> (String name : names) &#123;</span><br><span class="line">   System.out.print(name);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NexT-Pisces主题配置</title>
+    <url>/posts/14831/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
+<h2 id="背景半透明"><a href="#背景半透明" class="headerlink" title="背景半透明"></a>背景半透明</h2><h3 id="新建自定义格式文件"><a href="#新建自定义格式文件" class="headerlink" title="新建自定义格式文件"></a>新建自定义格式文件</h3><p>在 <code>theme/next/source/css/</code> 下新建 <code>_custom</code> 文件夹，进入文件夹并创建 <code>custom.styl</code> 。</p>
+<p>在 <code>themes/next/source/css/main.styl</code> 中加入：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@import</span> <span class="string">"/_custom/custom.styl"</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改-custom-styl-文件"><a href="#修改-custom-styl-文件" class="headerlink" title="修改 custom.styl 文件"></a>修改 custom.styl 文件</h3><p>我的配置如下：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.content-wrap</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.header-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文章结束标识"><a href="#文章结束标识" class="headerlink" title="文章结束标识"></a>文章结束标识</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>在博客根目录下新建 <code>source/_data/post-body-end.swig</code> ,即 <code>_data</code> 目录和 <code>_posts</code> 目录平级。</p>
+<p>在根目录的 <code>_config.yml</code> 取消 <code>custom_file_path</code> 下 <code>postBodyEnd</code> 的注释。</p>
+<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% if not is_index %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"text-align:center;color: #ccc;font-size:14px;"</span>&gt;</span></span><br><span class="line">    -------------本文结束 <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-paw"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span> 感谢您的阅读-------------</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>hexo-NexT</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nginx 反代配置</title>
+    <url>/posts/13817/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>Nginx 反代配置</p>
+          </div>
+
+<ul>
+<li><p>不要用宝塔下载的 Nginx！！！！（不要问我怎么知道的）</p>
+</li>
+<li><p>进入 /etc/nginx/conf.d 目录</p>
+</li>
+<li><p>新建一个.conf 文件，名称任意，内容为</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">upstream ice &#123;</span><br><span class="line">        server 0.0.0.0:你的服务需要的端口;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name 你的服务器IP;</span><br><span class="line">        location / &#123;</span><br><span class="line">        # 后端的Web服务器可以通过X-Forwarded-For获取用户真实IP</span><br><span class="line">        proxy_next_upstream error timeout invalid_header http_500 http_502 http$</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_set_header X_Nginx_Proxy true;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>/etc/nginx/nginx.conf 下的 http 中添加</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">include /etc/nginx/conf.d/*.conf;</span><br><span class="line">include /etc/nginx/sites-enabled/*;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启 Nginx 服务</p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Oracle数据库操作</title>
+    <url>/posts/50348/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>Oracle 数据库</p>
+          </div>
+
+<h2 id="Oracle-用读写模式查询记录"><a href="#Oracle-用读写模式查询记录" class="headerlink" title="Oracle 用读写模式查询记录"></a>Oracle 用读写模式查询记录</h2><ul>
+<li><code>select \* from user_func_role a where USER_NUMBER=&#39;258&#39; for update</code></li>
+<li><code>select a.rowid,a* from user_func_role a where USER_NUMBER=&#39;258&#39;</code></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Oracle</tag>
+        <tag>PL/SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java数组使用方法</title>
+    <url>/posts/41103/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p> 本文介绍 Java 数组使用方法 <sup id="fnref:1"><a href="#fn:1" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="转载自: [菜鸟教程](https://www.runoob.com/java/java-array.html)">[1]</span></a></sup> </p>
+          </div>
+
+<p>数组对于每一门编程语言来说都是重要的数据结构之一，当然不同语言对数组的实现及处理也不尽相同。</p>
+<p>Java 语言中提供的数组是用来存储固定大小的同类型元素。</p>
+<p>你可以声明一个数组变量，如 numbers[100] 来代替直接声明 100 个独立变量 number0，number1，….，number99。</p>
+<p>本教程将为大家介绍 Java 数组的声明、创建和初始化，并给出其对应的代码。</p>
+<a id="more"></a>
+
+<h2 id="声明数组变量"><a href="#声明数组变量" class="headerlink" title="声明数组变量"></a>声明数组变量</h2><p>首先必须声明数组变量，才能在程序中使用数组。下面是声明数组变量的语法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">dataType[] arrayRefVar; <span class="comment">// 首选的方法</span></span><br><span class="line"></span><br><span class="line">或</span><br><span class="line"></span><br><span class="line">dataType arrayRefVar[]; <span class="comment">// 效果相同，但不是首选方法</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意:</strong> 建议使用 <strong>dataType[] arrayRefVar</strong> 的声明风格声明数组变量。 dataType arrayRefVar[] 风格是来自 C/C++ 语言 ，在 Java 中采用是为了让 C/C++ 程序员能够快速理解 java 语言。</p>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>下面是这两种语法的代码示例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">double</span>[] myList;         <span class="comment">// 首选的方法</span></span><br><span class="line"></span><br><span class="line">或</span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> myList[];         <span class="comment">//  效果相同，但不是首选方法</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="创建数组"><a href="#创建数组" class="headerlink" title="创建数组"></a>创建数组</h2><p>Java 语言使用 new 操作符来创建数组，语法如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">arrayRefVar = <span class="keyword">new</span> dataType[arraySize];</span><br></pre></td></tr></table></figure>
+
+<p>上面的语法语句做了两件事：</p>
+<ul>
+<li>一、使用 dataType[arraySize] 创建了一个数组。</li>
+<li>二、把新创建的数组的引用赋值给变量 arrayRefVar。</li>
+</ul>
+<p>数组变量的声明，和创建数组可以用一条语句完成，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">dataType[] arrayRefVar = <span class="keyword">new</span> dataType[arraySize];</span><br></pre></td></tr></table></figure>
+
+<p>另外，你还可以使用如下的方式创建数组。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">dataType[] arrayRefVar = &#123;value0, value1, ..., valuek&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>数组的元素是通过索引访问的。数组索引从 0 开始，所以索引值从 0 到 arrayRefVar.length-1。</p>
+<h3 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h3><p>下面的语句首先声明了一个数组变量 myList，接着创建了一个包含 10 个 double 类型元素的数组，并且把它的引用赋值给 myList 变量。</p>
+<h4 id="TestArray-java-文件代码"><a href="#TestArray-java-文件代码" class="headerlink" title="TestArray.java 文件代码"></a>TestArray.java 文件代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestArray</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      <span class="comment">// 数组大小</span></span><br><span class="line">      <span class="keyword">int</span> size = <span class="number">10</span>;</span><br><span class="line">      <span class="comment">// 定义数组</span></span><br><span class="line">      <span class="keyword">double</span>[] myList = <span class="keyword">new</span> <span class="keyword">double</span>[size];</span><br><span class="line">      myList[<span class="number">0</span>] = <span class="number">5.6</span>;</span><br><span class="line">      myList[<span class="number">1</span>] = <span class="number">4.5</span>;</span><br><span class="line">      myList[<span class="number">2</span>] = <span class="number">3.3</span>;</span><br><span class="line">      myList[<span class="number">3</span>] = <span class="number">13.2</span>;</span><br><span class="line">      myList[<span class="number">4</span>] = <span class="number">4.0</span>;</span><br><span class="line">      myList[<span class="number">5</span>] = <span class="number">34.33</span>;</span><br><span class="line">      myList[<span class="number">6</span>] = <span class="number">34.0</span>;</span><br><span class="line">      myList[<span class="number">7</span>] = <span class="number">45.45</span>;</span><br><span class="line">      myList[<span class="number">8</span>] = <span class="number">99.993</span>;</span><br><span class="line">      myList[<span class="number">9</span>] = <span class="number">11123</span>;</span><br><span class="line">      <span class="comment">// 计算所有元素的总和</span></span><br><span class="line">      <span class="keyword">double</span> total = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">         total += myList[i];</span><br><span class="line">      &#125;</span><br><span class="line">      System.out.println(<span class="string">"总和为： "</span> + total);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上实例输出结果为：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">总和为： <span class="number">11367.373</span></span><br></pre></td></tr></table></figure>
+
+<p>下面的图片描绘了数组 myList。这里 myList 数组里有 10 个 double 元素，它的下标从 0 到 9。</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/Java%E6%95%B0%E7%BB%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/12-130Q0221Q5602%5B1%5D.jpg" alt="java数组结构说明"></p>
+<hr>
+<h2 id="处理数组"><a href="#处理数组" class="headerlink" title="处理数组"></a>处理数组</h2><p>数组的元素类型和数组的大小都是确定的，所以当处理数组元素时候，我们通常使用基本循环或者 For-Each 循环。</p>
+<h3 id="实例-2"><a href="#实例-2" class="headerlink" title="实例"></a>实例</h3><p>该实例完整地展示了如何创建、初始化和操纵数组：</p>
+<h4 id="TestArray-java-文件代码-1"><a href="#TestArray-java-文件代码-1" class="headerlink" title="TestArray.java 文件代码"></a>TestArray.java 文件代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestArray</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">double</span>[] myList = &#123;<span class="number">1.9</span>, <span class="number">2.9</span>, <span class="number">3.4</span>, <span class="number">3.5</span>&#125;;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 打印所有数组元素</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; myList.length; i++) &#123;</span><br><span class="line">         System.out.println(myList[i] + <span class="string">" "</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 计算所有元素的总和</span></span><br><span class="line">      <span class="keyword">double</span> total = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; myList.length; i++) &#123;</span><br><span class="line">         total += myList[i];</span><br><span class="line">      &#125;</span><br><span class="line">      System.out.println(<span class="string">"Total is "</span> + total);</span><br><span class="line">      <span class="comment">// 查找最大元素</span></span><br><span class="line">      <span class="keyword">double</span> max = myList[<span class="number">0</span>];</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; myList.length; i++) &#123;</span><br><span class="line">         <span class="keyword">if</span> (myList[i] &gt; max) max = myList[i];</span><br><span class="line">      &#125;</span><br><span class="line">      System.out.println(<span class="string">"Max is "</span> + max);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上实例编译运行结果如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">1.9</span></span><br><span class="line"><span class="number">2.9</span></span><br><span class="line"><span class="number">3.4</span></span><br><span class="line"><span class="number">3.5</span></span><br><span class="line">Total is <span class="number">11.7</span></span><br><span class="line">Max is <span class="number">3.5</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="For-Each-循环"><a href="#For-Each-循环" class="headerlink" title="For-Each 循环"></a>For-Each 循环</h2><p>JDK 1.5 引进了一种新的循环类型，被称为 For-Each 循环或者加强型循环，它能在不使用下标的情况下遍历数组。</p>
+<p>语法格式如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(type element: array)</span><br><span class="line">&#123;</span><br><span class="line">    System.out.println(element);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="实例-2"><a href="#实例-2" class="headerlink" title="实例 2"></a>实例 2</h3><p>该实例用来显示数组 myList 中的所有元素：</p>
+<h4 id="TestArray-java-文件代码-2"><a href="#TestArray-java-文件代码-2" class="headerlink" title="TestArray.java 文件代码 2"></a>TestArray.java 文件代码 2</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestArray</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">double</span>[] myList = &#123;<span class="number">1.9</span>, <span class="number">2.9</span>, <span class="number">3.4</span>, <span class="number">3.5</span>&#125;;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 打印所有数组元素</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">double</span> element: myList) &#123;</span><br><span class="line">         System.out.println(element);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上实例编译运行结果如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">1.9</span></span><br><span class="line"><span class="number">2.9</span></span><br><span class="line"><span class="number">3.4</span></span><br><span class="line"><span class="number">3.5</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="数组作为函数的参数"><a href="#数组作为函数的参数" class="headerlink" title="数组作为函数的参数"></a>数组作为函数的参数</h2><p>数组可以作为参数传递给方法。</p>
+<p>例如，下面的例子就是一个打印 int 数组中元素的方法:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printArray</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">    System.out.print(array[i] + <span class="string">" "</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面例子调用 printArray 方法打印出 3，1，2，6，4 和 2：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">printArray(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">4</span>, <span class="number">2</span>&#125;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="数组作为函数的返回值"><a href="#数组作为函数的返回值" class="headerlink" title="数组作为函数的返回值"></a>数组作为函数的返回值</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] reverse(<span class="keyword">int</span>[] list) &#123;</span><br><span class="line">  <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[list.length];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, j = result.length - <span class="number">1</span>; i &lt; list.length; i++, j--) &#123;</span><br><span class="line">    result[j] = list[i];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上实例中 result 数组作为函数的返回值。</p>
+<hr>
+<h2 id="多维数组"><a href="#多维数组" class="headerlink" title="多维数组"></a>多维数组</h2><p>多维数组可以看成是数组的数组，比如二维数组就是一个特殊的一维数组，其每一个元素都是一个一维数组，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String str[][] = <span class="keyword">new</span> String[<span class="number">3</span>][<span class="number">4</span>];</span><br></pre></td></tr></table></figure>
+
+<h3 id="多维数组的动态初始化（以二维数组为例）"><a href="#多维数组的动态初始化（以二维数组为例）" class="headerlink" title="多维数组的动态初始化（以二维数组为例）"></a>多维数组的动态初始化（以二维数组为例）</h3><ol>
+<li><p>直接为每一维分配空间，格式如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">type[][] typeName = <span class="keyword">new</span> type[typeLength1][typelength2];</span><br></pre></td></tr></table></figure>
+
+<p>type 可以为基本数据类型和复合数据类型，arraylength1 和 arraylength2 必须为正整数，arraylength1 为行数，arraylength2 为列数。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a[][] = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>][<span class="number">3</span>];</span><br></pre></td></tr></table></figure>
+
+<p>解析：</p>
+<p>二维数组 a 可以看成一个两行三列的数组。</p>
+</li>
+<li><p>从最高维开始，分别为每一维分配空间，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String s[][] = <span class="keyword">new</span> String[<span class="number">2</span>][];</span><br><span class="line">s[<span class="number">0</span>] = <span class="keyword">new</span> String[<span class="number">2</span>];</span><br><span class="line">s[<span class="number">1</span>] = <span class="keyword">new</span> String[<span class="number">3</span>];</span><br><span class="line">s[<span class="number">0</span>][<span class="number">0</span>] = <span class="keyword">new</span> String(<span class="string">"Good"</span>);</span><br><span class="line">s[<span class="number">0</span>][<span class="number">1</span>] = <span class="keyword">new</span> String(<span class="string">"Luck"</span>);</span><br><span class="line">s[<span class="number">1</span>][<span class="number">0</span>] = <span class="keyword">new</span> String(<span class="string">"to"</span>);</span><br><span class="line">s[<span class="number">1</span>][<span class="number">1</span>] = <span class="keyword">new</span> String(<span class="string">"you"</span>);</span><br><span class="line">s[<span class="number">1</span>][<span class="number">2</span>] = <span class="keyword">new</span> String(<span class="string">"!"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>解析：</p>
+<p><strong>s[0]=new String[2]</strong> 和 <strong>s[1]=new String[3]</strong> 是为最高维分配引用空间，也就是为最高维限制其能保存数据的最长的长度，然后再为其每个数组元素单独分配空间 <strong>s0=new String(“Good”)</strong> 等操作。</p>
+</li>
+</ol>
+<h3 id="多维数组的引用（以二维数组为例）"><a href="#多维数组的引用（以二维数组为例）" class="headerlink" title="多维数组的引用（以二维数组为例）"></a>多维数组的引用（以二维数组为例）</h3><p>对二维数组中的每个元素，引用方式为 <strong>arrayName[index1][index2]</strong>，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">num[<span class="number">1</span>][<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Arrays-类"><a href="#Arrays-类" class="headerlink" title="Arrays 类"></a>Arrays 类</h2><p>java.util.Arrays 类能方便地操作数组，它提供的所有方法都是静态的。</p>
+<p>具有以下功能：</p>
+<ul>
+<li>给数组赋值：通过 fill 方法。</li>
+<li>对数组排序：通过 sort 方法,按升序。</li>
+<li>比较数组：通过 equals 方法比较数组中元素值是否相等。</li>
+<li>查找数组元素：通过 binarySearch 方法能对排序好的数组进行二分查找法操作。</li>
+</ul>
+<p>具体说明请查看下表：</p>
+<table>
+<thead>
+<tr>
+<th align="left">序号</th>
+<th align="left">方法和说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left"><strong>public static int binarySearch(Object[] a, Object key)</strong> <br />用二分查找算法在给定数组中搜索给定值的对象(Byte,Int,double 等)。数组在调用前必须排序好的。如果查找值包含在数组中，则返回搜索键的索引；否则返回 (-(<em>插入点</em>) - 1)。</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left"><strong>public static boolean equals(long[] a, long[] a2)</strong> <br />如果两个指定的 long 型数组彼此<em>相等</em>，则返回 true。如果两个数组包含相同数量的元素，并且两个数组中的所有相应元素对都是相等的，则认为这两个数组是相等的。换句话说，如果两个数组以相同顺序包含相同的元素，则两个数组是相等的。同样的方法适用于所有的其他基本数据类型（Byte，short，Int 等）。</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left"><strong>public static void fill(int[] a, int val)</strong> <br />将指定的 int 值分配给指定 int 型数组指定范围中的每个元素。同样的方法适用于所有的其他基本数据类型（Byte，short，Int 等）。</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left"><strong>public static void sort(Object[] a)</strong> <br />对指定对象数组根据其元素的自然顺序进行升序排列。同样的方法适用于所有的其他基本数据类型（Byte，short，Int 等）。</td>
+</tr>
+</tbody></table>
+<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style: none; padding-left: 0; margin-left: 40px"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px; margin-left: -40px">1.</span><span style="display: inline-block; vertical-align: top; margin-left: 10px;">转载自: <a href="https://www.runoob.com/java/java-array.html" target="_blank" rel="noopener">菜鸟教程</a><a href="#fnref:1" rev="footnote"> ↩</a></span></li></ol></div></div>]]></content>
+      <tags>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -164,271 +427,8 @@
 <h2 id="“interface-implement-of-class-‘class-java-lang-Object’-not-found”"><a href="#“interface-implement-of-class-‘class-java-lang-Object’-not-found”" class="headerlink" title="“interface implement of class ‘class java.lang.Object’ not found”"></a>“interface implement of class ‘class java.lang.Object’ not found”</h2><h3 id="报错原因-1"><a href="#报错原因-1" class="headerlink" title="报错原因"></a>报错原因</h3><p>在调试模式下就会报错，暂时无发现异常。</p>
 ]]></content>
       <tags>
-        <tag>Java</tag>
         <tag>IDEA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>IDEA VMOptions设置</title>
-    <url>/posts/7328/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>IntelliJ IDEA 运行在 JVM 上，JVM 有很多的选项和开关配置可以用来调整性能，也就是说，可以通过手动的调整这些 JVM 参数来优化 IntelliJ IDEA 的性能。这篇文章主要总结了 VMOptions 的用法。</p>
-<a id="more"></a>
-
-<h2 id="打开-Memory-Indicator"><a href="#打开-Memory-Indicator" class="headerlink" title="打开 Memory Indicator"></a>打开 Memory Indicator</h2><ul>
-<li>首先打开 Memory Indicator</li>
-</ul>
-<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA-VMOptions%E8%AE%BE%E7%BD%AE/20200509105017.png" alt="Memory Indicator"></p>
-<p>可以看到普通使用 IntelliJ IDEA 大概就使用了 500M 左右的内存。</p>
-<ul>
-<li>开启方法可以在工具栏-View 中设定：</li>
-</ul>
-<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA-VMOptions%E8%AE%BE%E7%BD%AE/image-20200509105214158.png" alt="Memory Indicator"></p>
-<h2 id="Edit-VM-Options"><a href="#Edit-VM-Options" class="headerlink" title="Edit VM Options"></a>Edit VM Options</h2><p>在菜单 <code>Help | Edit Custom VM Options</code> 中可以设置。</p>
-<h2 id="VM-options"><a href="#VM-options" class="headerlink" title="VM options"></a>VM options</h2><p>下载安装包后一定要把压缩包下的 README 读完，里面有详细的路径及配置说明。这里先给一个全部内容的预览，下面再一一解释。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-ea</span><br><span class="line">-Xms2g</span><br><span class="line">-Xmx2g</span><br><span class="line">-XX:ReservedCodeCacheSize=<span class="number">240</span>m</span><br><span class="line">-XX:+UseConcMarkSweepGC</span><br><span class="line">-XX:SoftRefLRUPolicyMSPerMB=<span class="number">50</span></span><br><span class="line">-XX:CICompilerCount=<span class="number">2</span></span><br><span class="line">-Dsun.io.useCanonPrefixCache=<span class="keyword">false</span></span><br><span class="line">-Djava.net.preferIPv4Stack=<span class="keyword">true</span></span><br><span class="line">-Djdk.http.auth.tunneling.disabledSchemes=<span class="string">""</span></span><br><span class="line">-XX:+HeapDumpOnOutOfMemoryError</span><br><span class="line">-XX:-OmitStackTraceInFastThrow</span><br><span class="line">-Djdk.attach.allowAttachSelf=<span class="keyword">true</span></span><br><span class="line">-Dkotlinx.coroutines.debug=off</span><br><span class="line">-Djdk.<span class="keyword">module</span>.illegalAccess.silent=<span class="keyword">true</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Heap-Size"><a href="#Heap-Size" class="headerlink" title="Heap Size"></a>Heap Size</h3><p><code>-Xms</code> 和 <code>-Xmx</code> 配置堆内存，也就是 IntelliJ 可以使用的内存。</p>
-<ul>
-<li><code>-Xms</code> 初始堆内存，调大该内存可以让启动速度更快，以省去分配内存的时间</li>
-<li><code>-Xmx</code> 最大堆内存，如果遇到 <code>OutOfMemoryError</code> 可以调大该数值，最大不要超过系统 1/4.</li>
-</ul>
-<h3 id="GC-Algorithm"><a href="#GC-Algorithm" class="headerlink" title="GC Algorithm"></a>GC Algorithm</h3><p><code>-XX:+UseConcMarkSweepGC</code> 参数用来调整 GC 算法。使用该算法利用多个线程在后台进行 GC，以避免应用程序停止。</p>
-<p>当分配超过 4GB 的堆内存时，可以尝试使用 <code>-XX:+UseG1GC</code>.</p>
-<h3 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h3><p><code>-ea</code> 选项开启 assertions。如果调试 IntelliJ 或者开发插件时可能用到，对 IntelliJ 性能并没有影响。</p>
-<p><code>-server</code> 虚拟机的解释执行模式。</p>
-<p><code>-XX:SoftRefLRUPolicyMSPerMB=[value]</code> 参数用来控制每 M 空间中 soft reference 保证存活的毫秒数。默认的时间是 1000，JetBrains 推荐 50。</p>
-<p><code>-XX:ReservedCodeCacheSize=510m</code> 设置编译器最大的 code cache，另外一个相关的 JVM 参数是 <code>-XX:InitialCodeCacheSize</code> JetBrains 推荐这里使用 240m. <a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:codecache" target="_blank" rel="noopener">1</a></p>
-<p><code>-Dsun.io.useCanonCaches=[boolean]</code> 该参数是否开启文件名及路径缓存，默认 java 会缓存文件名 30 秒 <a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:c" target="_blank" rel="noopener">2</a>，JetBrains 建议关闭。</p>
-<p><code>-XX:+OmitStackTraceInFastThrow</code> JetBrains 官方推荐的参数。</p>
-<p><code>-XX:MaxJavaStackTraceDepth=-1</code> JVM 在实现 <code>java.lang.Throwable.fillInStackTrace()</code> 时把整个调用栈上的所有 Java 栈帧消息记录下来</p>
-<p><code>-XX:+HeapDumpOnOutOfMemoryError</code> 当发生 <code>OutOfMemoryError</code> 时 dump 堆内容。<a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:dump" target="_blank" rel="noopener">3</a></p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html" target="_blank" rel="noopener">https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html</a></li>
-<li><a href="https://intellij-support.jetbrains.com/hc/en-us/articles/206544869-Configuring-JVM-options-and-platform-properties" target="_blank" rel="noopener">https://intellij-support.jetbrains.com/hc/en-us/articles/206544869-Configuring-JVM-options-and-platform-properties</a></li>
-<li><a href="https://github.com/FoxxMD/intellij-jvm-options-explained" target="_blank" rel="noopener">https://github.com/FoxxMD/intellij-jvm-options-explained</a></li>
-</ul>
-<ol>
-<li><a href="https://blog.codecentric.de/en/2012/07/useful-jvm-flags-part-4-heap-tuning" target="_blank" rel="noopener">https://blog.codecentric.de/en/2012/07/useful-jvm-flags-part-4-heap-tuning</a></li>
-<li><a href="https://stackoverflow.com/a/7479642" target="_blank" rel="noopener">https://stackoverflow.com/a/7479642</a></li>
-<li><a href="http://www.oracle.com/technetwork/java/javase/clopts-139448.html#gbzrr" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/clopts-139448.html#gbzrr</a></li>
-</ol>
-]]></content>
-      <tags>
         <tag>Java</tag>
-        <tag>IDEA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java中List的循环用法</title>
-    <url>/posts/54882/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>Java 中 List 的循环用法</p>
-          </div>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Liebiao</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span>[] numbers = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> x : numbers) &#123;</span><br><span class="line">   System.out.print(x);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  System.out.print(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">  String[] names = &#123;<span class="string">"James"</span>, <span class="string">"Larry"</span>, <span class="string">"Tom"</span>, <span class="string">"Lacy"</span>&#125;;</span><br><span class="line">  <span class="keyword">for</span> (String name : names) &#123;</span><br><span class="line">   System.out.print(name);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NexT-Pisces主题配置</title>
-    <url>/posts/14831/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
-<h2 id="背景半透明"><a href="#背景半透明" class="headerlink" title="背景半透明"></a>背景半透明</h2><h3 id="新建自定义格式文件"><a href="#新建自定义格式文件" class="headerlink" title="新建自定义格式文件"></a>新建自定义格式文件</h3><p>在 <code>theme/next/source/css/</code> 下新建 <code>_custom</code> 文件夹，进入文件夹并创建 <code>custom.styl</code> 。</p>
-<p>在 <code>themes/next/source/css/main.styl</code> 中加入：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@import</span> <span class="string">"/_custom/custom.styl"</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改-custom-styl-文件"><a href="#修改-custom-styl-文件" class="headerlink" title="修改 custom.styl 文件"></a>修改 custom.styl 文件</h3><p>我的配置如下：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.content-wrap</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.header-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="文章结束标识"><a href="#文章结束标识" class="headerlink" title="文章结束标识"></a>文章结束标识</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>在博客根目录下新建 <code>source/_data/post-body-end.swig</code> ,即 <code>_data</code> 目录和 <code>_posts</code> 目录平级。</p>
-<p>在根目录的 <code>_config.yml</code> 取消 <code>custom_file_path</code> 下 <code>postBodyEnd</code> 的注释。</p>
-<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% if not is_index %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"text-align:center;color: #ccc;font-size:14px;"</span>&gt;</span></span><br><span class="line">    -------------本文结束 <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-paw"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span> 感谢您的阅读-------------</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>hexo-NexT</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java数组使用方法</title>
-    <url>/posts/41103/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p> 本文介绍 Java 数组使用方法 <sup id="fnref:1"><a href="#fn:1" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="转载自: [菜鸟教程](https://www.runoob.com/java/java-array.html)">[1]</span></a></sup> </p>
-          </div>
-
-<p>数组对于每一门编程语言来说都是重要的数据结构之一，当然不同语言对数组的实现及处理也不尽相同。</p>
-<p>Java 语言中提供的数组是用来存储固定大小的同类型元素。</p>
-<p>你可以声明一个数组变量，如 numbers[100] 来代替直接声明 100 个独立变量 number0，number1，….，number99。</p>
-<p>本教程将为大家介绍 Java 数组的声明、创建和初始化，并给出其对应的代码。</p>
-<a id="more"></a>
-
-<h2 id="声明数组变量"><a href="#声明数组变量" class="headerlink" title="声明数组变量"></a>声明数组变量</h2><p>首先必须声明数组变量，才能在程序中使用数组。下面是声明数组变量的语法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">dataType[] arrayRefVar; <span class="comment">// 首选的方法</span></span><br><span class="line"></span><br><span class="line">或</span><br><span class="line"></span><br><span class="line">dataType arrayRefVar[]; <span class="comment">// 效果相同，但不是首选方法</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>注意:</strong> 建议使用 <strong>dataType[] arrayRefVar</strong> 的声明风格声明数组变量。 dataType arrayRefVar[] 风格是来自 C/C++ 语言 ，在 Java 中采用是为了让 C/C++ 程序员能够快速理解 java 语言。</p>
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>下面是这两种语法的代码示例：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">double</span>[] myList;         <span class="comment">// 首选的方法</span></span><br><span class="line"></span><br><span class="line">或</span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> myList[];         <span class="comment">//  效果相同，但不是首选方法</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="创建数组"><a href="#创建数组" class="headerlink" title="创建数组"></a>创建数组</h2><p>Java 语言使用 new 操作符来创建数组，语法如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">arrayRefVar = <span class="keyword">new</span> dataType[arraySize];</span><br></pre></td></tr></table></figure>
-
-<p>上面的语法语句做了两件事：</p>
-<ul>
-<li>一、使用 dataType[arraySize] 创建了一个数组。</li>
-<li>二、把新创建的数组的引用赋值给变量 arrayRefVar。</li>
-</ul>
-<p>数组变量的声明，和创建数组可以用一条语句完成，如下所示：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">dataType[] arrayRefVar = <span class="keyword">new</span> dataType[arraySize];</span><br></pre></td></tr></table></figure>
-
-<p>另外，你还可以使用如下的方式创建数组。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">dataType[] arrayRefVar = &#123;value0, value1, ..., valuek&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>数组的元素是通过索引访问的。数组索引从 0 开始，所以索引值从 0 到 arrayRefVar.length-1。</p>
-<h3 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h3><p>下面的语句首先声明了一个数组变量 myList，接着创建了一个包含 10 个 double 类型元素的数组，并且把它的引用赋值给 myList 变量。</p>
-<h4 id="TestArray-java-文件代码"><a href="#TestArray-java-文件代码" class="headerlink" title="TestArray.java 文件代码"></a>TestArray.java 文件代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestArray</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      <span class="comment">// 数组大小</span></span><br><span class="line">      <span class="keyword">int</span> size = <span class="number">10</span>;</span><br><span class="line">      <span class="comment">// 定义数组</span></span><br><span class="line">      <span class="keyword">double</span>[] myList = <span class="keyword">new</span> <span class="keyword">double</span>[size];</span><br><span class="line">      myList[<span class="number">0</span>] = <span class="number">5.6</span>;</span><br><span class="line">      myList[<span class="number">1</span>] = <span class="number">4.5</span>;</span><br><span class="line">      myList[<span class="number">2</span>] = <span class="number">3.3</span>;</span><br><span class="line">      myList[<span class="number">3</span>] = <span class="number">13.2</span>;</span><br><span class="line">      myList[<span class="number">4</span>] = <span class="number">4.0</span>;</span><br><span class="line">      myList[<span class="number">5</span>] = <span class="number">34.33</span>;</span><br><span class="line">      myList[<span class="number">6</span>] = <span class="number">34.0</span>;</span><br><span class="line">      myList[<span class="number">7</span>] = <span class="number">45.45</span>;</span><br><span class="line">      myList[<span class="number">8</span>] = <span class="number">99.993</span>;</span><br><span class="line">      myList[<span class="number">9</span>] = <span class="number">11123</span>;</span><br><span class="line">      <span class="comment">// 计算所有元素的总和</span></span><br><span class="line">      <span class="keyword">double</span> total = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">         total += myList[i];</span><br><span class="line">      &#125;</span><br><span class="line">      System.out.println(<span class="string">"总和为： "</span> + total);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>以上实例输出结果为：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">总和为： <span class="number">11367.373</span></span><br></pre></td></tr></table></figure>
-
-<p>下面的图片描绘了数组 myList。这里 myList 数组里有 10 个 double 元素，它的下标从 0 到 9。</p>
-<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/Java%E6%95%B0%E7%BB%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/12-130Q0221Q5602%5B1%5D.jpg" alt="java数组结构说明"></p>
-<hr>
-<h2 id="处理数组"><a href="#处理数组" class="headerlink" title="处理数组"></a>处理数组</h2><p>数组的元素类型和数组的大小都是确定的，所以当处理数组元素时候，我们通常使用基本循环或者 For-Each 循环。</p>
-<h3 id="实例-2"><a href="#实例-2" class="headerlink" title="实例"></a>实例</h3><p>该实例完整地展示了如何创建、初始化和操纵数组：</p>
-<h4 id="TestArray-java-文件代码-1"><a href="#TestArray-java-文件代码-1" class="headerlink" title="TestArray.java 文件代码"></a>TestArray.java 文件代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestArray</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">double</span>[] myList = &#123;<span class="number">1.9</span>, <span class="number">2.9</span>, <span class="number">3.4</span>, <span class="number">3.5</span>&#125;;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 打印所有数组元素</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; myList.length; i++) &#123;</span><br><span class="line">         System.out.println(myList[i] + <span class="string">" "</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 计算所有元素的总和</span></span><br><span class="line">      <span class="keyword">double</span> total = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; myList.length; i++) &#123;</span><br><span class="line">         total += myList[i];</span><br><span class="line">      &#125;</span><br><span class="line">      System.out.println(<span class="string">"Total is "</span> + total);</span><br><span class="line">      <span class="comment">// 查找最大元素</span></span><br><span class="line">      <span class="keyword">double</span> max = myList[<span class="number">0</span>];</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; myList.length; i++) &#123;</span><br><span class="line">         <span class="keyword">if</span> (myList[i] &gt; max) max = myList[i];</span><br><span class="line">      &#125;</span><br><span class="line">      System.out.println(<span class="string">"Max is "</span> + max);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>以上实例编译运行结果如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">1.9</span></span><br><span class="line"><span class="number">2.9</span></span><br><span class="line"><span class="number">3.4</span></span><br><span class="line"><span class="number">3.5</span></span><br><span class="line">Total is <span class="number">11.7</span></span><br><span class="line">Max is <span class="number">3.5</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="For-Each-循环"><a href="#For-Each-循环" class="headerlink" title="For-Each 循环"></a>For-Each 循环</h2><p>JDK 1.5 引进了一种新的循环类型，被称为 For-Each 循环或者加强型循环，它能在不使用下标的情况下遍历数组。</p>
-<p>语法格式如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(type element: array)</span><br><span class="line">&#123;</span><br><span class="line">    System.out.println(element);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="实例-2"><a href="#实例-2" class="headerlink" title="实例 2"></a>实例 2</h3><p>该实例用来显示数组 myList 中的所有元素：</p>
-<h4 id="TestArray-java-文件代码-2"><a href="#TestArray-java-文件代码-2" class="headerlink" title="TestArray.java 文件代码 2"></a>TestArray.java 文件代码 2</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestArray</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">double</span>[] myList = &#123;<span class="number">1.9</span>, <span class="number">2.9</span>, <span class="number">3.4</span>, <span class="number">3.5</span>&#125;;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 打印所有数组元素</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">double</span> element: myList) &#123;</span><br><span class="line">         System.out.println(element);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>以上实例编译运行结果如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">1.9</span></span><br><span class="line"><span class="number">2.9</span></span><br><span class="line"><span class="number">3.4</span></span><br><span class="line"><span class="number">3.5</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="数组作为函数的参数"><a href="#数组作为函数的参数" class="headerlink" title="数组作为函数的参数"></a>数组作为函数的参数</h2><p>数组可以作为参数传递给方法。</p>
-<p>例如，下面的例子就是一个打印 int 数组中元素的方法:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printArray</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">    System.out.print(array[i] + <span class="string">" "</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>下面例子调用 printArray 方法打印出 3，1，2，6，4 和 2：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">printArray(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">4</span>, <span class="number">2</span>&#125;);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="数组作为函数的返回值"><a href="#数组作为函数的返回值" class="headerlink" title="数组作为函数的返回值"></a>数组作为函数的返回值</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] reverse(<span class="keyword">int</span>[] list) &#123;</span><br><span class="line">  <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[list.length];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, j = result.length - <span class="number">1</span>; i &lt; list.length; i++, j--) &#123;</span><br><span class="line">    result[j] = list[i];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>以上实例中 result 数组作为函数的返回值。</p>
-<hr>
-<h2 id="多维数组"><a href="#多维数组" class="headerlink" title="多维数组"></a>多维数组</h2><p>多维数组可以看成是数组的数组，比如二维数组就是一个特殊的一维数组，其每一个元素都是一个一维数组，例如：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String str[][] = <span class="keyword">new</span> String[<span class="number">3</span>][<span class="number">4</span>];</span><br></pre></td></tr></table></figure>
-
-<h3 id="多维数组的动态初始化（以二维数组为例）"><a href="#多维数组的动态初始化（以二维数组为例）" class="headerlink" title="多维数组的动态初始化（以二维数组为例）"></a>多维数组的动态初始化（以二维数组为例）</h3><ol>
-<li><p>直接为每一维分配空间，格式如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">type[][] typeName = <span class="keyword">new</span> type[typeLength1][typelength2];</span><br></pre></td></tr></table></figure>
-
-<p>type 可以为基本数据类型和复合数据类型，arraylength1 和 arraylength2 必须为正整数，arraylength1 为行数，arraylength2 为列数。</p>
-<p>例如：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a[][] = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>][<span class="number">3</span>];</span><br></pre></td></tr></table></figure>
-
-<p>解析：</p>
-<p>二维数组 a 可以看成一个两行三列的数组。</p>
-</li>
-<li><p>从最高维开始，分别为每一维分配空间，例如：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String s[][] = <span class="keyword">new</span> String[<span class="number">2</span>][];</span><br><span class="line">s[<span class="number">0</span>] = <span class="keyword">new</span> String[<span class="number">2</span>];</span><br><span class="line">s[<span class="number">1</span>] = <span class="keyword">new</span> String[<span class="number">3</span>];</span><br><span class="line">s[<span class="number">0</span>][<span class="number">0</span>] = <span class="keyword">new</span> String(<span class="string">"Good"</span>);</span><br><span class="line">s[<span class="number">0</span>][<span class="number">1</span>] = <span class="keyword">new</span> String(<span class="string">"Luck"</span>);</span><br><span class="line">s[<span class="number">1</span>][<span class="number">0</span>] = <span class="keyword">new</span> String(<span class="string">"to"</span>);</span><br><span class="line">s[<span class="number">1</span>][<span class="number">1</span>] = <span class="keyword">new</span> String(<span class="string">"you"</span>);</span><br><span class="line">s[<span class="number">1</span>][<span class="number">2</span>] = <span class="keyword">new</span> String(<span class="string">"!"</span>);</span><br></pre></td></tr></table></figure>
-
-<p>解析：</p>
-<p><strong>s[0]=new String[2]</strong> 和 <strong>s[1]=new String[3]</strong> 是为最高维分配引用空间，也就是为最高维限制其能保存数据的最长的长度，然后再为其每个数组元素单独分配空间 <strong>s0=new String(“Good”)</strong> 等操作。</p>
-</li>
-</ol>
-<h3 id="多维数组的引用（以二维数组为例）"><a href="#多维数组的引用（以二维数组为例）" class="headerlink" title="多维数组的引用（以二维数组为例）"></a>多维数组的引用（以二维数组为例）</h3><p>对二维数组中的每个元素，引用方式为 <strong>arrayName[index1][index2]</strong>，例如：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">num[<span class="number">1</span>][<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="Arrays-类"><a href="#Arrays-类" class="headerlink" title="Arrays 类"></a>Arrays 类</h2><p>java.util.Arrays 类能方便地操作数组，它提供的所有方法都是静态的。</p>
-<p>具有以下功能：</p>
-<ul>
-<li>给数组赋值：通过 fill 方法。</li>
-<li>对数组排序：通过 sort 方法,按升序。</li>
-<li>比较数组：通过 equals 方法比较数组中元素值是否相等。</li>
-<li>查找数组元素：通过 binarySearch 方法能对排序好的数组进行二分查找法操作。</li>
-</ul>
-<p>具体说明请查看下表：</p>
-<table>
-<thead>
-<tr>
-<th align="left">序号</th>
-<th align="left">方法和说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">1</td>
-<td align="left"><strong>public static int binarySearch(Object[] a, Object key)</strong> <br />用二分查找算法在给定数组中搜索给定值的对象(Byte,Int,double 等)。数组在调用前必须排序好的。如果查找值包含在数组中，则返回搜索键的索引；否则返回 (-(<em>插入点</em>) - 1)。</td>
-</tr>
-<tr>
-<td align="left">2</td>
-<td align="left"><strong>public static boolean equals(long[] a, long[] a2)</strong> <br />如果两个指定的 long 型数组彼此<em>相等</em>，则返回 true。如果两个数组包含相同数量的元素，并且两个数组中的所有相应元素对都是相等的，则认为这两个数组是相等的。换句话说，如果两个数组以相同顺序包含相同的元素，则两个数组是相等的。同样的方法适用于所有的其他基本数据类型（Byte，short，Int 等）。</td>
-</tr>
-<tr>
-<td align="left">3</td>
-<td align="left"><strong>public static void fill(int[] a, int val)</strong> <br />将指定的 int 值分配给指定 int 型数组指定范围中的每个元素。同样的方法适用于所有的其他基本数据类型（Byte，short，Int 等）。</td>
-</tr>
-<tr>
-<td align="left">4</td>
-<td align="left"><strong>public static void sort(Object[] a)</strong> <br />对指定对象数组根据其元素的自然顺序进行升序排列。同样的方法适用于所有的其他基本数据类型（Byte，short，Int 等）。</td>
-</tr>
-</tbody></table>
-<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style: none; padding-left: 0; margin-left: 40px"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px; margin-left: -40px">1.</span><span style="display: inline-block; vertical-align: top; margin-left: 10px;">转载自: <a href="https://www.runoob.com/java/java-array.html" target="_blank" rel="noopener">菜鸟教程</a><a href="#fnref:1" rev="footnote"> ↩</a></span></li></ol></div></div>]]></content>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Nginx 反代配置</title>
-    <url>/posts/13817/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>Nginx 反代配置</p>
-          </div>
-
-<ul>
-<li><p>不要用宝塔下载的 Nginx！！！！（不要问我怎么知道的）</p>
-</li>
-<li><p>进入 /etc/nginx/conf.d 目录</p>
-</li>
-<li><p>新建一个.conf 文件，名称任意，内容为</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">upstream ice &#123;</span><br><span class="line">        server 0.0.0.0:你的服务需要的端口;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name 你的服务器IP;</span><br><span class="line">        location / &#123;</span><br><span class="line">        # 后端的Web服务器可以通过X-Forwarded-For获取用户真实IP</span><br><span class="line">        proxy_next_upstream error timeout invalid_header http_500 http_502 http$</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_set_header X_Nginx_Proxy true;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>/etc/nginx/nginx.conf 下的 http 中添加</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">include /etc/nginx/conf.d/*.conf;</span><br><span class="line">include /etc/nginx/sites-enabled/*;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重启 Nginx 服务</p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>Nginx</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Oracle数据库操作</title>
-    <url>/posts/50348/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>Oracle 数据库</p>
-          </div>
-
-<h2 id="Oracle-用读写模式查询记录"><a href="#Oracle-用读写模式查询记录" class="headerlink" title="Oracle 用读写模式查询记录"></a>Oracle 用读写模式查询记录</h2><ul>
-<li><code>select \* from user_func_role a where USER_NUMBER=&#39;258&#39; for update</code></li>
-<li><code>select a.rowid,a* from user_func_role a where USER_NUMBER=&#39;258&#39;</code></li>
-</ul>
-]]></content>
-      <tags>
-        <tag>Oracle</tag>
-        <tag>PL/SQL</tag>
       </tags>
   </entry>
   <entry>
