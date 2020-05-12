@@ -21,24 +21,20 @@
     var CONFIG = {"hostname":"idarkboss.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","width":300,"display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":false,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="IntelliJ IDEA 运行在 JVM 上，JVM 有很多的选项和开关配置可以用来调整性能，也就是说，可以通过手动的调整这些 JVM 参数来优化 IntelliJ IDEA 的性能。这篇文章主要总结了 VMOptions 的用法。">
+  <meta name="description" content="使用场景（举例说明）Chaos Monkey 是一个测试实例健壮性和弹性的工具。之前版本的 Chaos Monkey，除了支持关闭服务实例之外，还支持其他一些操作系统级别的破坏，例如提高 CPU 占用率、阻塞网络 IO、写满硬盘空间等。Chaos Monkey 2.0 移除了这些功能，只支持关闭服务实例。对于这些功能移除，Netflix 的工程师认为，这些功能应该被放到故障注入服务中进行定向注入，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="IDEA VMOptions设置">
-<meta property="og:url" content="https://idarkboss.github.io/posts/7328/index.html">
+<meta property="og:title" content="Chaos Monkey使用场景">
+<meta property="og:url" content="https://idarkboss.github.io/posts/35502/index.html">
 <meta property="og:site_name" content="大老黑的豆腐渣集散地">
-<meta property="og:description" content="IntelliJ IDEA 运行在 JVM 上，JVM 有很多的选项和开关配置可以用来调整性能，也就是说，可以通过手动的调整这些 JVM 参数来优化 IntelliJ IDEA 的性能。这篇文章主要总结了 VMOptions 的用法。">
+<meta property="og:description" content="使用场景（举例说明）Chaos Monkey 是一个测试实例健壮性和弹性的工具。之前版本的 Chaos Monkey，除了支持关闭服务实例之外，还支持其他一些操作系统级别的破坏，例如提高 CPU 占用率、阻塞网络 IO、写满硬盘空间等。Chaos Monkey 2.0 移除了这些功能，只支持关闭服务实例。对于这些功能移除，Netflix 的工程师认为，这些功能应该被放到故障注入服务中进行定向注入，">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA-VMOptions%E8%AE%BE%E7%BD%AE/20200509105017.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA-VMOptions%E8%AE%BE%E7%BD%AE/image-20200509105214158.png">
-<meta property="article:published_time" content="2020-05-09T02:22:09.000Z">
-<meta property="article:modified_time" content="2020-05-09T03:57:35.379Z">
+<meta property="article:published_time" content="2020-05-12T08:58:53.000Z">
+<meta property="article:modified_time" content="2020-05-12T09:03:58.581Z">
 <meta property="article:author" content="DarkBoss">
-<meta property="article:tag" content="Java">
-<meta property="article:tag" content="IDEA">
+<meta property="article:tag" content="Chaos Monkey">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA-VMOptions%E8%AE%BE%E7%BD%AE/20200509105017.png">
 
-<link rel="canonical" href="https://idarkboss.github.io/posts/7328/">
+<link rel="canonical" href="https://idarkboss.github.io/posts/35502/">
 
 
 <script id="page-configurations">
@@ -51,7 +47,7 @@
   };
 </script>
 
-  <title>IDEA VMOptions设置 | 大老黑的豆腐渣集散地</title>
+  <title>Chaos Monkey使用场景 | 大老黑的豆腐渣集散地</title><meta name="robots" content="noindex">
   
 
 
@@ -187,7 +183,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://idarkboss.github.io/posts/7328/">
+    <link itemprop="mainEntityOfPage" href="https://idarkboss.github.io/posts/35502/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/256x256.webp">
@@ -200,7 +196,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          IDEA VMOptions设置
+          Chaos Monkey使用场景
         </h1>
 
         <div class="post-meta">
@@ -211,7 +207,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-05-09 10:22:09 / 修改时间：11:57:35" itemprop="dateCreated datePublished" datetime="2020-05-09T10:22:09+08:00">2020-05-09</time>
+              <time title="创建时间：2020-05-12 16:58:53 / 修改时间：17:03:58" itemprop="dateCreated datePublished" datetime="2020-05-12T16:58:53+08:00">2020-05-12</time>
             </span>
 
           
@@ -246,48 +242,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>IntelliJ IDEA 运行在 JVM 上，JVM 有很多的选项和开关配置可以用来调整性能，也就是说，可以通过手动的调整这些 JVM 参数来优化 IntelliJ IDEA 的性能。这篇文章主要总结了 VMOptions 的用法。</p>
-<a id="more"></a>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="使用场景（举例说明）"><a href="#使用场景（举例说明）" class="headerlink" title="使用场景（举例说明）"></a>使用场景（举例说明）</h2><p>Chaos Monkey 是一个测试实例健壮性和弹性的工具。之前版本的 Chaos Monkey，除了支持关闭服务实例之外，还支持其他一些操作系统级别的破坏，例如提高 CPU 占用率、阻塞网络 IO、写满硬盘空间等。Chaos Monkey 2.0 移除了这些功能，只支持关闭服务实例。对于这些功能移除，Netflix 的工程师认为，这些功能应该被放到故障注入服务中进行定向注入，而不是作为 Chaos Monkey 的随机操作之一。关于故障注入，Netflix 也有一些。</p>
+<p>以面向 spring boot 的 chaos monkey 为例，assaults 包下是四种攻击方式包括抛出自定义异常、杀掉应用、延迟攻击、内存攻击,分为两类 ChaosMonkeyRequestAssault 和 ChaosMonkeyRuntimeAssault.一个时请求攻击,另一个是应用运行时攻击(可以接口调用,也可以定时任务调用)。</p>
+<h3 id="调用了-AssaultException-的-throwExceptionInstance，根据配置通过反射创建异常实例"><a href="#调用了-AssaultException-的-throwExceptionInstance，根据配置通过反射创建异常实例" class="headerlink" title="调用了 AssaultException 的 throwExceptionInstance，根据配置通过反射创建异常实例"></a>调用了 AssaultException 的 throwExceptionInstance，根据配置通过反射创建异常实例</h3><p>例如 yml 里配置自定义 exception,就会抛出自定义异常。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">assaults:</span></span><br><span class="line">  <span class="attr">level:</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">latencyActive:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">exceptionsActive:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">exception:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">pl.piomin.services.customer.ZuoqiException</span></span><br><span class="line"></span><br><span class="line">    <span class="string">arguments[0]:</span></span><br><span class="line">      <span class="attr">className:</span> <span class="string">java.lang.String</span></span><br><span class="line"></span><br><span class="line">      <span class="attr">value:</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">killApplicationActive:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="打开-Memory-Indicator"><a href="#打开-Memory-Indicator" class="headerlink" title="打开 Memory Indicator"></a>打开 Memory Indicator</h2><ul>
-<li>首先打开 Memory Indicator</li>
-</ul>
-<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA-VMOptions%E8%AE%BE%E7%BD%AE/20200509105017.png" alt="Memory Indicator"></p>
-<p>可以看到普通使用 IntelliJ IDEA 大概就使用了 500M 左右的内存。</p>
-<ul>
-<li>开启方法可以在工具栏-View 中设定：</li>
-</ul>
-<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA-VMOptions%E8%AE%BE%E7%BD%AE/image-20200509105214158.png" alt="Memory Indicator"></p>
-<h2 id="Edit-VM-Options"><a href="#Edit-VM-Options" class="headerlink" title="Edit VM Options"></a>Edit VM Options</h2><p>在菜单 <code>Help | Edit Custom VM Options</code> 中可以设置。</p>
-<h2 id="VM-options"><a href="#VM-options" class="headerlink" title="VM options"></a>VM options</h2><p>下载安装包后一定要把压缩包下的 README 读完，里面有详细的路径及配置说明。这里先给一个全部内容的预览，下面再一一解释。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">-ea</span><br><span class="line">-Xms2g</span><br><span class="line">-Xmx2g</span><br><span class="line">-XX:ReservedCodeCacheSize=<span class="number">240</span>m</span><br><span class="line">-XX:+UseConcMarkSweepGC</span><br><span class="line">-XX:SoftRefLRUPolicyMSPerMB=<span class="number">50</span></span><br><span class="line">-XX:CICompilerCount=<span class="number">2</span></span><br><span class="line">-Dsun.io.useCanonPrefixCache=<span class="keyword">false</span></span><br><span class="line">-Djava.net.preferIPv4Stack=<span class="keyword">true</span></span><br><span class="line">-Djdk.http.auth.tunneling.disabledSchemes=<span class="string">""</span></span><br><span class="line">-XX:+HeapDumpOnOutOfMemoryError</span><br><span class="line">-XX:-OmitStackTraceInFastThrow</span><br><span class="line">-Djdk.attach.allowAttachSelf=<span class="keyword">true</span></span><br><span class="line">-Dkotlinx.coroutines.debug=off</span><br><span class="line">-Djdk.<span class="keyword">module</span>.illegalAccess.silent=<span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<h3 id="KillAppAssault-杀掉应用"><a href="#KillAppAssault-杀掉应用" class="headerlink" title="KillAppAssault 杀掉应用"></a>KillAppAssault 杀掉应用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        LOGGER.info(<span class="string">"Chaos Monkey - I am killing your Application!"</span>);</span><br><span class="line">        <span class="keyword">if</span> (metricEventPublisher != <span class="keyword">null</span>) &#123;</span><br><span class="line">            metricEventPublisher.publishMetricEvent(MetricType.KILLAPP_ASSAULT);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> exit = SpringApplication.exit(context, (ExitCodeGenerator) () -&gt; <span class="number">0</span>);</span><br><span class="line">        Thread.sleep(<span class="number">5000</span>); <span class="comment">// wait before kill to deliver some metrics</span></span><br><span class="line">        System.exit(exit);</span><br><span class="line">    ​&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        LOGGER.info(<span class="string">"Chaos Monkey - Unable to kill the App, I am not the BOSS!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="Heap-Size"><a href="#Heap-Size" class="headerlink" title="Heap Size"></a>Heap Size</h3><p><code>-Xms</code> 和 <code>-Xmx</code> 配置堆内存，也就是 IntelliJ 可以使用的内存。</p>
-<ul>
-<li><code>-Xms</code> 初始堆内存，调大该内存可以让启动速度更快，以省去分配内存的时间</li>
-<li><code>-Xmx</code> 最大堆内存，如果遇到 <code>OutOfMemoryError</code> 可以调大该数值，最大不要超过系统 1/4.</li>
-</ul>
-<h3 id="GC-Algorithm"><a href="#GC-Algorithm" class="headerlink" title="GC Algorithm"></a>GC Algorithm</h3><p><code>-XX:+UseConcMarkSweepGC</code> 参数用来调整 GC 算法。使用该算法利用多个线程在后台进行 GC，以避免应用程序停止。</p>
-<p>当分配超过 4GB 的堆内存时，可以尝试使用 <code>-XX:+UseG1GC</code>.</p>
-<h3 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h3><p><code>-ea</code> 选项开启 assertions。如果调试 IntelliJ 或者开发插件时可能用到，对 IntelliJ 性能并没有影响。</p>
-<p><code>-server</code> 虚拟机的解释执行模式。</p>
-<p><code>-XX:SoftRefLRUPolicyMSPerMB=[value]</code> 参数用来控制每 M 空间中 soft reference 保证存活的毫秒数。默认的时间是 1000，JetBrains 推荐 50。</p>
-<p><code>-XX:ReservedCodeCacheSize=510m</code> 设置编译器最大的 code cache，另外一个相关的 JVM 参数是 <code>-XX:InitialCodeCacheSize</code> JetBrains 推荐这里使用 240m. <a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:codecache" target="_blank" rel="noopener">1</a></p>
-<p><code>-Dsun.io.useCanonCaches=[boolean]</code> 该参数是否开启文件名及路径缓存，默认 java 会缓存文件名 30 秒 <a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:c" target="_blank" rel="noopener">2</a>，JetBrains 建议关闭。</p>
-<p><code>-XX:+OmitStackTraceInFastThrow</code> JetBrains 官方推荐的参数。</p>
-<p><code>-XX:MaxJavaStackTraceDepth=-1</code> JVM 在实现 <code>java.lang.Throwable.fillInStackTrace()</code> 时把整个调用栈上的所有 Java 栈帧消息记录下来</p>
-<p><code>-XX:+HeapDumpOnOutOfMemoryError</code> 当发生 <code>OutOfMemoryError</code> 时 dump 堆内容。<a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:dump" target="_blank" rel="noopener">3</a></p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html" target="_blank" rel="noopener">https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html</a></li>
-<li><a href="https://intellij-support.jetbrains.com/hc/en-us/articles/206544869-Configuring-JVM-options-and-platform-properties" target="_blank" rel="noopener">https://intellij-support.jetbrains.com/hc/en-us/articles/206544869-Configuring-JVM-options-and-platform-properties</a></li>
-<li><a href="https://github.com/FoxxMD/intellij-jvm-options-explained" target="_blank" rel="noopener">https://github.com/FoxxMD/intellij-jvm-options-explained</a></li>
-</ul>
-<ol>
-<li><a href="https://blog.codecentric.de/en/2012/07/useful-jvm-flags-part-4-heap-tuning" target="_blank" rel="noopener">https://blog.codecentric.de/en/2012/07/useful-jvm-flags-part-4-heap-tuning</a></li>
-<li><a href="https://stackoverflow.com/a/7479642" target="_blank" rel="noopener">https://stackoverflow.com/a/7479642</a></li>
-<li><a href="http://www.oracle.com/technetwork/java/javase/clopts-139448.html#gbzrr" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/clopts-139448.html#gbzrr</a></li>
-</ol>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+<h3 id="LatencyAssault-延迟攻击"><a href="#LatencyAssault-延迟攻击" class="headerlink" title="LatencyAssault 延迟攻击"></a>LatencyAssault 延迟攻击</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    LOGGER.debug(<span class="string">"Chaos Monkey - timeout"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在配置的延迟攻击范围内随机取值</span></span><br><span class="line">    Int timeout =ThreadLocalRandom</span><br><span class="line">        .current()</span><br><span class="line">        .nextInt(settings</span><br><span class="line">            .getAssaultProperties()</span><br><span class="line">            .getLatencyRangeStart(),settings.getAssaultProperties().getLatencyRangeEnd());</span><br><span class="line">    atomicTimeoutGauge.set(timeout);</span><br><span class="line">    LOGGER.info(<span class="string">"Chaos Monkey latency timr"</span> + timeout);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// metrics</span></span><br><span class="line">    <span class="keyword">if</span> (metricEventPublisher != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">//发布事件</span></span><br><span class="line">        metricEventPublisher.publishMetricEvent(MetricType.LATENCY_ASSAULT);</span><br><span class="line">        metricEventPublisher.publishMetricEvent(MetricType.LATENCY_ASSAULT, atomicTimeoutGauge);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">    ​   <span class="comment">//线程睡眠随机数值</span></span><br><span class="line">        Thread.sleep(timeout);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">    ​ <span class="comment">// do nothing</span></span><br><span class="line">        ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="MemoryAssault-内存攻击-引发-gc"><a href="#MemoryAssault-内存攻击-引发-gc" class="headerlink" title="MemoryAssault 内存攻击,引发 gc"></a>MemoryAssault 内存攻击,引发 gc</h3><!-- flag of hidden posts --><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
     </div>
 
     
@@ -302,24 +266,13 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Java/" rel="tag"># Java</a>
-              <a href="/tags/IDEA/" rel="tag"># IDEA</a>
+              <a href="/tags/Chaos-Monkey/" rel="tag"># Chaos Monkey</a>
           </div>
 
         
 
 
         
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/posts/45537/" rel="prev" title="BigDecimal详解">
-      <i class="fa fa-chevron-left"></i> BigDecimal详解
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/posts/35227/" rel="next" title="FIS-CMS-WMS下载安装配置(IDEA)">
-      FIS-CMS-WMS下载安装配置(IDEA) <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
       </footer>
     
   </article>
@@ -378,7 +331,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#打开-Memory-Indicator"><span class="nav-number">1.</span> <span class="nav-text">打开 Memory Indicator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Edit-VM-Options"><span class="nav-number">2.</span> <span class="nav-text">Edit VM Options</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VM-options"><span class="nav-number">3.</span> <span class="nav-text">VM options</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Heap-Size"><span class="nav-number">3.1.</span> <span class="nav-text">Heap Size</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GC-Algorithm"><span class="nav-number">3.2.</span> <span class="nav-text">GC Algorithm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Other"><span class="nav-number">3.3.</span> <span class="nav-text">Other</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用场景（举例说明）"><span class="nav-number">1.</span> <span class="nav-text">使用场景（举例说明）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#调用了-AssaultException-的-throwExceptionInstance，根据配置通过反射创建异常实例"><span class="nav-number">1.1.</span> <span class="nav-text">调用了 AssaultException 的 throwExceptionInstance，根据配置通过反射创建异常实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KillAppAssault-杀掉应用"><span class="nav-number">1.2.</span> <span class="nav-text">KillAppAssault 杀掉应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LatencyAssault-延迟攻击"><span class="nav-number">1.3.</span> <span class="nav-text">LatencyAssault 延迟攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MemoryAssault-内存攻击-引发-gc"><span class="nav-number">1.4.</span> <span class="nav-text">MemoryAssault 内存攻击,引发 gc</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -608,7 +561,7 @@ window.addEventListener('pjax:success', () => {
       quicklink({
         timeout : 3000,
         priority: true,
-        ignores : [uri => uri.includes('#'),uri => uri === 'https://idarkboss.github.io/posts/7328/',]
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://idarkboss.github.io/posts/35502/',]
       });
       });
   </script>
@@ -624,7 +577,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'gitalk',
       owner       : 'IDarkBoss',
       admin       : ['IDarkBoss'],
-      id          : 'd1d1e84a0d6c73a6165283f86aa0301b',
+      id          : '1e93365e23b3f175af6f85a9da95196c',
         language: '',
       distractionFreeMode: true
     });
