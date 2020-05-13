@@ -248,7 +248,7 @@
 <p>默认情况下，混沌猴子将分别对待每个区域。但是，如果未选中“区域是独立的”选项，那么 Chaos Monkey 将不会终止位于同一组但位于不同区域中的实例。这旨在支持跨区域复制的数据库，而跨区域的同时终止是不可取的。但是也会有例外情况，也可以选择退出账户，区域，堆栈和明细的组合。在上面显示的示例配置中，Chaos Monkey 不会终止 us-west-2 区域中 prod 账户中带有“staging”堆栈和空白明细字段的实例。</p>
 <p>解密器可以使用 MySQL 数据库密码和 Spinnaker p12 证书的密码的加密版本。Chaos Monkey 将在使用密码之前调用解密器解密密码。Chaos Monkey 不附带任何解密器实现。如果希望使用此功能，则需要实现自己的功能。如果要存储加密的密码并在运行时使用解密系统，则需要：给解密器起一个名字，在 Go 中编码一个实现 Decryptor 接口的类型，修改 decryptor.go，使其可以识别你的解密器，编辑配置文件以指定解密器。</p>
 <p>错误计数器用于将 Chaos Monkey 生成的错误率记录到外部系统（例如度量标准或警报系统）。在 Netflix 内部，我们使用错误计数器将错误计数记录到度量系统 1：Atlas 中。如果希望使用外部系统记录错误计数，则需要：给错误计数器起一个名字，在 Go 中编写一个实现 ErrotCounter 接口的类型，修改 errorcounter.go，使其可以识别你的错误计数器，编辑配置文件以指定错误计数器。</p>
-<!-- flag of hidden posts --><link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+<!-- flag of hidden posts -->
     </div>
 
     
