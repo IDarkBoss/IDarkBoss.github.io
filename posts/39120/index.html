@@ -21,20 +21,20 @@
     var CONFIG = {"hostname":"idarkboss.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","width":300,"display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":false,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="本文介绍了 Chaos Monkey">
+  <meta name="description" content="有东西被加密了，请输入密码查看。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Chaos Monkey">
-<meta property="og:url" content="https://idarkboss.github.io/posts/29264/index.html">
+<meta property="og:title" content="risk代码调试须知">
+<meta property="og:url" content="https://idarkboss.github.io/posts/39120/index.html">
 <meta property="og:site_name" content="大老黑的豆腐渣集散地">
-<meta property="og:description" content="本文介绍了 Chaos Monkey">
+<meta property="og:description" content="有东西被加密了，请输入密码查看。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-05-12T07:10:28.000Z">
-<meta property="article:modified_time" content="2020-05-13T01:23:17.602Z">
+<meta property="article:published_time" content="2020-05-13T05:55:33.000Z">
+<meta property="article:modified_time" content="2020-05-15T01:47:39.442Z">
 <meta property="article:author" content="DarkBoss">
-<meta property="article:tag" content="Chaos Monkey">
+<meta property="article:tag" content="Comstar">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://idarkboss.github.io/posts/29264/">
+<link rel="canonical" href="https://idarkboss.github.io/posts/39120/">
 
 
 <script id="page-configurations">
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>Chaos Monkey | 大老黑的豆腐渣集散地</title>
+  <title>risk代码调试须知 | 大老黑的豆腐渣集散地</title>
   
 
 
@@ -183,7 +183,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://idarkboss.github.io/posts/29264/">
+    <link itemprop="mainEntityOfPage" href="https://idarkboss.github.io/posts/39120/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/256x256.webp">
@@ -196,7 +196,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Chaos Monkey
+          risk代码调试须知
         </h1>
 
         <div class="post-meta">
@@ -206,14 +206,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-05-12 15:10:28" itemprop="dateCreated datePublished" datetime="2020-05-12T15:10:28+08:00">2020-05-12</time>
+              <time title="创建时间：2020-05-13 13:55:33" itemprop="dateCreated datePublished" datetime="2020-05-13T13:55:33+08:00">2020-05-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-13 09:23:17" itemprop="dateModified" datetime="2020-05-13T09:23:17+08:00">2020-05-13</time>
+                <time title="修改时间：2020-05-15 09:47:39" itemprop="dateModified" datetime="2020-05-15T09:47:39+08:00">2020-05-15</time>
               </span>
 
           
@@ -229,14 +229,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.1k</span>
+              <span>342</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -248,58 +248,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>本文介绍了 Chaos Monkey </p>
-          </div>
-
-<a id="more"></a>
-
-<h2 id="开发背景"><a href="#开发背景" class="headerlink" title="开发背景"></a>开发背景</h2><p>2008 年 8 月， Netflix 主要数据库的故障导致了三天的停机， DVD 租赁业务中断，多个国家的大量用户受此影响。之后 Netflix 工程师着手寻找替代架构，并在 2011 年起，逐步将系统迁移到 AWS 上，运行基于微服务的新型分布式架构。这种架构消除了单点故障，但也引入了新的复杂性类型，需要更加可靠和容错的系统。为此， Netflix 工程师创建了 Chaos Monkey ，会随机终止在生产环境中运行的 EC2 实例。工程师可以快速了解他们正在构建的服务是否健壮，有足够的弹性，可以容忍计划外的故障。至此，混沌工程开始兴起。</p>
-<p>Chaos Monkey 是在 Netflix 整体微服务化的形势下开发的。为了增加微服务架构的弹性，需要确保当服务集群中有节点失败或者退出时不会影响整体服务。由于 Netflix 的内部文化，没有办法通过框架或者编码规范来形成一套能够满足弹性要求的框架。最终，Netflix 选择开发了 Chaos Monkey：一个在生产环境随机选择并关闭服务的工具。通过频繁的服务失败演练，使得开发团队对服务集群稳定性有了更高的重视，以确保不会因为这些演练对最终用户产生影响。Netflix 将 Chaos Monkey 定位为提升服务质量的高效工具。</p>
-<p>Spinnaker 是 Netflix 的持续交付平台，可以在 Spinnaker 上对 Chaos Monkey 进行配置。同时 Chaos Monkey 可以从 Spinnaker 获取服务部署的相关信息并通过 Spinnaker 关闭服务实例。由于集成了 Spinnaker，Chaos Monkey 增加了对多种后端的支持，包括：AWS、GCP、Azure、Kubernetes、Cloud Foundry。</p>
-<h2 id="技术原理"><a href="#技术原理" class="headerlink" title="技术原理"></a>技术原理</h2><p><a href="https://idarkboss.github.io/posts/16861">技术原理</a></p>
-<h2 id="使用场景（举例说明）"><a href="#使用场景（举例说明）" class="headerlink" title="使用场景（举例说明）"></a>使用场景（举例说明）</h2><p><a href="https://idarkboss.github.io/posts/35502">使用场景（举例说明）</a></p>
-<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p><a href="https://idarkboss.github.io/posts/35161">模型</a></p>
-<h2 id="Demo-搭建"><a href="#Demo-搭建" class="headerlink" title="Demo 搭建"></a>Demo 搭建</h2><p><a href="https://idarkboss.github.io/posts/51089">Demo 搭建</a></p>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>我们可以手动调用 Chaos Monkey 终止实例。 例如：</p>
-<p><code>chaosmonkey terminate chaosguineapig test --cluster=chaosguineapig--region=**us**-east-1</code></p>
-<p>应用中启用 Chaos Monkey，在 Spring Boot 应用中开启 Chaos Monkey 支持仅需要两步，首先在项目依赖中添加在 chaos-monkey-spring-boot。再然后，我们在应用启动时激活 chaos-monkey 的 profile。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>de.codecentric<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>chaos-monkey-spring-boot<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">java -jar target/order-service-1.0-SNAPSHOT.jar --spring.profiles.active=chaos-monkey</span></span><br></pre></td></tr></table></figure>
-
-<p>在 Codecentric Chaos Monkey 库的 2.0 版本中有个新的特性：Spring Boot Actuator 访问端口，通过 management.endpoint.chaosmonkey.enabled 属性来设置是否开启，在应用启动后，就可以通过 HTTP 访问端口来访问了。</p>
-<h2 id="设计场景与应用"><a href="#设计场景与应用" class="headerlink" title="设计场景与应用"></a>设计场景与应用</h2><p><a href="https://idarkboss.github.io/posts/19759">设计场景与应用</a></p>
-<h2 id="补充内容"><a href="#补充内容" class="headerlink" title="补充内容"></a>补充内容</h2><h3 id="中断检查器"><a href="#中断检查器" class="headerlink" title="中断检查器"></a>中断检查器</h3><p>中断检查器用于在正在进行的中断期间自动禁用 Chaos Monkey。如果希望让 Chaos Monkey 检查是否有持续的中断并相应地禁用它，则需要：给你的中断检查人员起一个名字（例如，“聊天机器人”），在 Go 中编码一个实现<a href="https://godoc.org/github.com/netflix/chaosmonkey/#Outage" target="_blank" rel="noopener">中断</a>接口的类型。修改<a href="https://github.com/Netflix/chaosmonkey/blob/master/outage/outage.go" target="_blank" rel="noopener">outage.go</a>，以便它识别你的中断检查器。编辑你的<a href="https://netflix.github.io/chaosmonkey/Configuration-file-format/" target="_blank" rel="noopener">配置文件</a>以指定中断检查器。</p>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>运行这些测试的最简单方法是在本地计算机上安装 Docker。这些测试使用 mysql:5.6 容器（使用 5.6 版以确保与<a href="https://aws.amazon.com/rds/aurora" target="_blank" rel="noopener">Amazon Aurora</a>兼容）。</p>
-<p>请注意，如果使用的是 macOS，则必须使用<a href="https://docs.docker.com/engine/installation/mac/" target="_blank" rel="noopener">Docker for Mac</a>而不是 Docker Toolbox。否则，将无法通过 127.0.0.1 访问 Docker 容器。</p>
-<p>如果要运行这些测试，请确保已在本地安装 Docker，并抓住 mysql：5.6 容器：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mysql:5.6</span><br></pre></td></tr></table></figure>
-
-<p>然后使用 docker 标记运行测试，如下所示：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go test -tags docker ./...</span><br></pre></td></tr></table></figure>
-
-<p>测试将自动启动 mysql 容器，然后将其关闭。</p>
-<p>如果在不上下移动 Docker 容器的情况下进行测试。如果你不希望测试每次都启动和关闭 mysql Docker 容器（例如，你想更快地运行测试，或者想通过本地运行 mysql 实例进行测试），请使用“dockerup”标志以及“docker”标志。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go test -tags "docker dockerup" ./...</span><br></pre></td></tr></table></figure>
-
-<h3 id="启用组"><a href="#启用组" class="headerlink" title="启用组"></a>启用组</h3><p>如果 Spinnaker 将服务器组标记为启用，那么 Chaos Monkey 将仅考虑有资格终止的服务器组。Spinnaker API 公开了 isDisabled 布尔标志，以指示是否禁用了组。Chaos Monkey 对此进行了过滤，以确保它仅从活动组中终止。</p>
-<h3 id="可能性"><a href="#可能性" class="headerlink" title="可能性"></a>可能性</h3><p>对于每个应用程序，Chaos Monkey 将实例分为实例组（分组取决于应用程序的配置方式）。每个工作日，对于每个实例组，Chaos Monkey 都会掷一枚加权硬币，以决定是否从该组中终止实例。如果硬币朝上，Chaos Monkey 会安排在当天的上午 9 点至下午 3 点之间的任意时间终止。</p>
-<p>在这种情况下，实例组终止之间的工作日数是一个具有<a href="https://en.wikipedia.org/wiki/Geometric_distribution" target="_blank" rel="noopener">几何分布</a>的随机变量。</p>
-<p>下面的等式描述了终止之间时间的概率分布。<em>X</em>是随机变量，<em>n</em>是终止之间的工作天数，<em>p</em>是硬币出现正面的概率。</p>
-<p>$$P(X=n) = (1-p)^(n-1) × p, n&gt;=1$$</p>
-<p>对<em>X</em>取期望得到平均值：</p>
-<p>$$E[X] = 1/p$$</p>
-<p>每个应用程序定义两个参数来控制 Chaos Monkey 应该为该应用程序实例执行的频率：</p>
-<p>工作日之间的平均终止时间（μ），上班时间之间的最短间隔时间（ɛ），混沌猴子使用 μ 来确定 p 应该是多少。如果我们忽略 the 的影响并求解 p：</p>
-<p>$$μ = E[X] = 1/p$$<br>$$p = 1/μ$$</p>
-<p>例如，对于给定的应用程序，假定 μ= 5。在每一天，终止的可能性是 1/5。请注意，如果 ɛ&gt; 1，混沌猴子的终止行为将不再是几何分布：</p>
-<p>$$P(X=n) = (1-p)^(n-1) × p, n&gt;=ɛ$$</p>
-<p>特别是，随着 larger 变大，$E[X]-μ$ 也变大。我们不对此进行校正，因为数学上的额外复杂度不值得让 $E[X]$ 完全等于 $μ$。还要注意，如果 $μ=1$，则 $p=1$，这保证了每天终止。</p>
-<h3 id="追踪器"><a href="#追踪器" class="headerlink" title="追踪器"></a>追踪器</h3><p>跟踪器用于记录某种外部系统中的终止事件。在 Netflix 内部，我们使用跟踪器记录到<a href="https://github.com/netflix/atlas/wiki" target="_blank" rel="noopener">Atlas</a>（我们的指标系统）和事件跟踪系统 1 Chronos 的终止 。</p>
-<p>如果你希望记录某些外部系统的终止，则需要：给你的跟踪器起一个名字，在 Go 中编码一个实现<a href="https://godoc.org/github.com/Netflix/chaosmonkey/#Tracker" target="_blank" rel="noopener">Tracker</a>界面的类型。修改<a href="https://github.com/Netflix/chaosmonkey/blob/master/tracker/tracker.go" target="_blank" rel="noopener">github.com/netflix/chaosmonkey/tracker/getTracker</a>，使其可以识别你的跟踪器。编辑你的<a href="https://netflix.github.io/chaosmonkey/Configuration-File-Format" target="_blank" rel="noopener">配置文件</a>以指定你的跟踪器。不幸的是，我们无法将这些跟踪器中的任何一个作为开源发布。我们的 Atlas 跟踪器与尚未发布为开源的<a href="https://github.com/Netflix/Prana" target="_blank" rel="noopener">Prana</a>版本进行通信 ，Chronos 也尚未发布为开源。</p>
-<h3 id="供应商依赖性"><a href="#供应商依赖性" class="headerlink" title="供应商依赖性"></a>供应商依赖性</h3><p>如果要向 Chaos Monkey 添加新的依赖项，使用<a href="https://github.com/kardianos/govendor" target="_blank" rel="noopener">govendor</a>进行添加。确保新依赖项的许可证与 Chaos Monkey 的许可证兼容：<a href="https://github.com/Netflix/chaosmonkey/blob/master/LICENSE" target="_blank" rel="noopener">Apache License Version 2.0</a>。</p>
-
+        <div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对， 请再试试。" data-whm="抱歉，这个文章不能被校验，不过您还是能看看解密后的内容。">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">您好，这里需要密码。如果不能解密请刷新页面哦。</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="5cde6e1b089edbbb3c086c09692982e2d9d87d830e76bfa8cc7dc4f2867d7f20">56503e17de7fd7fe81c69c7f255076a3c60ac387d80f95d23209fd96699fd69b8a1f53a4eaed2d75557d974ebc9f7a48487526f90786729ec488baea5a0295911d438e5d735d93a0986ba1d9b23ec7425ae66b88f4456a75cbbfe06de15f08044aa91489cc99fc3a80e25297e0c8b6a914ad7dde0e8231fe7c62fba1fdd004b7b0b080194c03adeebac7d50e6ea27b342cdb4dd6d6ab0d0d24fa1afadd6897f281c205af6e251820e14e8ea2550047637984b55cfa709e36de40e79088a5fc87b5d92fcffecf43f111249d85885d6c3cf3d064463a08f62da941cbc1ee5d870629de28ef360ad9b7d04446aae5484a12e0d678bfb78c918a0c22f7e4c05912731c618bc963e3e93c16a23ac2d9155901f346f423f19828e74e11d9115059791075868341904c519db32ef850bfabc280ac8e4813a79555124a7221305c858ad07b1c059e863c1f12a61bf3863d0272bd9ccef33455ae4f8e5b368a0fe2ec2e480636c3451045e7d2326e152f9f87c4e477d3f21d0ef8e786860f6d74c3f34ba8a60d9631e7d97948b5be9b37891f6cb62bc2c19428b023fdc2139c6cf258765ccdaf245a8cdcc2a79f0498811ba420ecb08fa6021937919d441a649646198a9e1b2f6a887ba797975ca69ed11523086b48d250a0efaf5489269089bdf3739b3f85000bd335b337ad03960608c73ea87adb64bd4d58b1de51cca887d9f0aa02701daf8275adad32c287a76fc31962f997ba761ff08135b25d7b319175fb856a3c342adc40ddc461580b19f7ea3dc7b23cb3e816e883de2642409285251b1c7cb4618bcc82d49b5061ea08b2e74b1d3c4f04f6ae3d8811cbcd616bba7c437a7c503a896cfa2d45ad48391a862e17f364c8ecd472846aa17165e8953df84aad38ee4badbc5075e5b028c42e08f7d60bded20d1748380df29f04b59c6faccef4697b36d59d7ed3125c0ddf3dec1c9bd92625960017c3fd676182a2befa8a867b5eed63b6bfc2a6bd27ca05d83ff9395efaf10cc92260f673c3b147823161508a780f2414ddebdf428b43b779b51b2aec6f3e81f0ca439027071e0ee7b4e8e3649c12e755766f3eaffd7b629a443a0cf5a9ee75231a07c2e51d7b244ec906763225a22446bdc1279ede8222d5fc4d0db5db7b4130de87f2f6f01365df981550658ab3b074f06fe895c16eb0734eac38906f3867e9ec4a2aa6a7205badcde08e99129267cf33b034d36bade3cb6daf21ac1a8a626723aa67cc3658ce486f7b4059ff064298ed1b4541ce03cb0a2570afd881a357c84630e30fb1403036238205ff0b8fda90a8a8dfdc9ccb5b10cc0e8d0f7bd10c43f1e02a407ce636c73453f409ddffcca6ed0a261eb0abed2ee5ef4159cebc79974e3d4005e776b9f4ca611733498d3fc41e102ed32bc86b70bab639c51745f1f720a92911de6d5d4ece42fce0763740746405b97f56dac98af21bfedb9a231e268dc383b4a07a6effbf537c04882bd5bd24b87601466b94a055aaf55edc5638c20a746b5624fe117ab127c6a6704e884b56b5b36b3b552b65aad7d759b2ebca78782ff258f6b9afd4e19250503fc2ede7d6dc1b6419457d74154e1a720d24dfc94dc03c4fc06f3932e8aacf63a7220ca191990ee77c7eb54eb6c60b253b8d0ed59e8d066ec38dfba207b32fb60bac247abd8faf5027acc318a968d57bbbecae4b529f9602e6f1e1d573d0ae6059b67bf1046bc65b770e2cfd50a011bc2f35d1b8380c368b4550ed48b48f73e6a6ad38f9f261a438af05330dcde24de18278c5dcf6629fa140aa2a98fdefdb8a8753762943029db0a930c0eba098e975014f89e6fc19e41b8522d02deddfecbe4861146cc4e9df2ed98c241e16c6f3f5abb2d59b687e9610f78df3f269148ec0aefa8171f599ed9da5860686e853be5c4d269564a9a58373fe5f4598ad2924b67ea27ba4f4a272c087ea2d039794a5491a790d22b60fc5873fda513a93f1f265f70b7c83cee10e0f5cae00680ed6530a7edd63bc48e355e1b4d924d1b253369fcbaf246dc3d4a021efe7f721449b38492c16426c325ccf0341f38c36e5317a75dc6e06238a0ca6e734e0b7af8b9912b8931d0cd162a9a43e5a755804d8f15723856e3a168986a3095be581982020ac367621581eed4c53f534902107ef3f7161d6e52ced87f4713d70f112d3956585318637cc8b4a9f0d10d105a510ed9bf70c55c3e756baf92573173f4336b4d18ebeadaec4ff1e5a788d4b029e2e90c1ec7532625f0e8f31ca950227da8744799d1785df7f099e55937e5bfd6ca8c22ae2e69d35341ee4abbaf536ec669584c97ce702377b732a5bb0a0cf74ed60347fe4aa9f0dd17baf53e82d9e971383023725001fa91bc0b01d425ac498dd998f68fcd94e7fb1d589be3de80fddbb75fe3abcec837f98ec3b0bc44597697336b6aea7133af917f9d597b5e358b1c581529edf2d66060e51837d3ce178c39311c78897a2ab29bbffe61afbc682f41eda04a282d6f0381b49e67712753b6f87f0e72dfb7d07ae460ed11c1ef88e49c3f3efa7da0634ab4b1f02fe3c5af9b13fbddb5f9ebd03ccceeef14c1c43482b173b4d9fc0884e1c4d0f64349af6afd956b550fc03eb5b50628294258ecedb30d2427c841a432fdc453a704ed7cf55bf82d9117e0c88b274fbdd276ba5d618e32ed4c43ef5e1076e08244dc40be60bec18cfa6dda463419eb3a82ef229baa8eeff326967b4be26cfebeb5a1a4e47c652f19701b6da0a8a6dc32b66517b882c430ab2e9859db60b640fd08e040fba86f45bcde1a95bff2f582f5b812eec715d547189bcf28e0015fa433cd3df92861f4ef06e7d512d54f3d65f85320ad883eaaa2a54f88c1d2db87b107ac4518dd0b1e1f0857bbb51ac59bbd0def819947ca0aeab8d067050682e1600e01b67bee932eb9b214d567d4c80b3c5f44a9738033cf38cd81a12847cd8a5875bdf549be29a0f3fe00b3b0ebad9c199e2d3bcf9628359df95259e4ec07af667b5c974c382e55cdd3f2f21633fa497a4d7f3468189dab567c0b83fd4502f590cc2d3b44be6cc97df2d2c1bc04d1f26</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
     </div>
 
     
@@ -314,7 +271,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Chaos-Monkey/" rel="tag"># Chaos Monkey</a>
+              <a href="/tags/Comstar/" rel="tag"># Comstar</a>
           </div>
 
         
@@ -323,13 +280,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/posts/35227/" rel="prev" title="FIS-CMS-WMS下载安装配置(IDEA)">
-      <i class="fa fa-chevron-left"></i> FIS-CMS-WMS下载安装配置(IDEA)
+    <a href="/posts/29264/" rel="prev" title="Chaos Monkey">
+      <i class="fa fa-chevron-left"></i> Chaos Monkey
     </a></div>
-      <div class="post-nav-item">
-    <a href="/posts/39120/" rel="next" title="risk代码调试须知">
-      risk代码调试须知 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -389,7 +343,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开发背景"><span class="nav-number">1.</span> <span class="nav-text">开发背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#技术原理"><span class="nav-number">2.</span> <span class="nav-text">技术原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用场景（举例说明）"><span class="nav-number">3.</span> <span class="nav-text">使用场景（举例说明）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">4.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-搭建"><span class="nav-number">5.</span> <span class="nav-text">Demo 搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法"><span class="nav-number">6.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计场景与应用"><span class="nav-number">7.</span> <span class="nav-text">设计场景与应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充内容"><span class="nav-number">8.</span> <span class="nav-text">补充内容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#中断检查器"><span class="nav-number">8.1.</span> <span class="nav-text">中断检查器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">8.2.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启用组"><span class="nav-number">8.3.</span> <span class="nav-text">启用组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可能性"><span class="nav-number">8.4.</span> <span class="nav-text">可能性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#追踪器"><span class="nav-number">8.5.</span> <span class="nav-text">追踪器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#供应商依赖性"><span class="nav-number">8.6.</span> <span class="nav-text">供应商依赖性</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -617,7 +570,7 @@ window.addEventListener('pjax:success', () => {
       quicklink({
         timeout : 3000,
         priority: true,
-        ignores : [uri => uri.includes('#'),uri => uri === 'https://idarkboss.github.io/posts/29264/',]
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://idarkboss.github.io/posts/39120/',]
       });
       });
   </script>
@@ -633,7 +586,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'gitalk',
       owner       : 'IDarkBoss',
       admin       : ['IDarkBoss'],
-      id          : 'dc9a5814a0930052561feec4c8fd7372',
+      id          : '2119b5468fcceea08821c7ca2baca424',
         language: '',
       distractionFreeMode: true
     });
