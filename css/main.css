@@ -1,3 +1,15 @@
+.moon-menu {
+  --moon-cricle: #607d8b;
+  --color: #fff;
+  --moon-item-bg-color: #000;
+}
+@media (prefers-color-scheme: dark) {
+  .moon-menu {
+    --moon-cricle: #2b5278;
+    --color: #9ab;
+    --moon-item-bg-color: #182533;
+  }
+}
 :root {
   --body-bg-color: #f5f7f9;
   --content-bg-color: #fff;
@@ -177,7 +189,7 @@ body {
 body {
   background: var(--body-bg-color);
   color: var(--text-color);
-  font-family: 'Roboto', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Noto Sans', "PingFang SC", "Microsoft YaHei", sans-serif;
   font-size: 1em;
   line-height: 2;
 }
@@ -193,7 +205,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Roboto Slab', 'Roboto', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Roboto Slab', 'Noto Sans', "PingFang SC", "Microsoft YaHei", sans-serif;
   font-weight: bold;
   line-height: 1.5;
   margin: 20px 0 15px;
@@ -1016,7 +1028,7 @@ pre .javascript .function {
   color: var(--brand-hover-color);
 }
 .site-title {
-  font-family: 'Roboto', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Noto Sans', "PingFang SC", "Microsoft YaHei", sans-serif;
   font-size: 1.375em;
   font-weight: normal;
   margin: 0;
@@ -1200,7 +1212,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #f4bfff;
+  background: #14e7eb;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1580,7 +1592,7 @@ pre .javascript .function {
   top: 0;
 }
 .post-body {
-  font-family: 'Roboto', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Noto Sans', "PingFang SC", "Microsoft YaHei", sans-serif;
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
@@ -1878,7 +1890,7 @@ pre .javascript .function {
 }
 .posts-expand .post-meta {
   color: #999;
-  font-family: 'Roboto', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Noto Sans', "PingFang SC", "Microsoft YaHei", sans-serif;
   font-size: 0.75em;
   margin: 3px 0 60px 0;
   text-align: center;
@@ -2634,6 +2646,72 @@ ul.breadcrumb li + li:last-child {
 }
 .icon-zhihu:before {
   content: "\e87c";
+}
+.moon-menu,
+.moon-menu-bg,
+.moon-menu-content {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 4em;
+  height: 4em;
+  z-index: 999;
+}
+.moon-menu-button {
+  width: 4em;
+  height: 4em;
+  cursor: pointer;
+}
+.moon-menu-cricle {
+  fill: var(--moon-cricle, #607d8b);
+  opacity: 0.9;
+}
+.moon-menu-border {
+  stroke: var(--moon-cricle, #607d8b);
+  opacity: 0.9;
+  stroke-width: 1px;
+  fill: none;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+.moon-menu-icon {
+  font-size: 2.5em;
+  line-height: 1.6em;
+  color: var(--color, #fff);
+  text-align: center;
+}
+.moon-menu-icon i,
+.moon-menu-icon svg {
+  transition: all 0.15s cubic-bezier(0, 0, 0.382, 1.618);
+}
+.moon-menu-icon.active i,
+.moon-menu-icon.active svg {
+  transform: rotate(90deg);
+}
+.moon-menu-text {
+  color: var(--color, #fff);
+  font-weight: 400;
+  text-align: center;
+  line-height: 3.2em;
+  font-size: 1.2em;
+  display: none;
+}
+.moon-menu-item {
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 50%;
+  background-color: var(--moon-item-bg-color, #000);
+  opacity: 0;
+  display: block;
+  transition: all 0.3s cubic-bezier(0, 0, 0.382, 1.618);
+  z-index: -1;
+  text-align: center;
+  line-height: 2.5em;
+  color: var(--color, #fff);
+  cursor: pointer;
 }
 .post {
   margin-top: 60px;
