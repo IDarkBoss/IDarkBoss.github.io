@@ -17,53 +17,62 @@
       </tags>
   </entry>
   <entry>
-    <title>IDEA VMOptions设置</title>
-    <url>/posts/7328/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>IntelliJ IDEA 运行在 JVM 上，JVM 有很多的选项和开关配置可以用来调整性能，也就是说，可以通过手动的调整这些 JVM 参数来优化 IntelliJ IDEA 的性能。这篇文章主要总结了 VMOptions 的用法。</p>
+    <title>Chaos Monkey</title>
+    <url>/posts/29264/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>本文介绍了 Chaos Monkey </p>
+          </div>
+
 <a id="more"></a>
 
-<h2 id="打开-Memory-Indicator"><a href="#打开-Memory-Indicator" class="headerlink" title="打开 Memory Indicator"></a>打开 Memory Indicator</h2><ul>
-<li>首先打开 Memory Indicator</li>
-</ul>
-<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA-VMOptions%E8%AE%BE%E7%BD%AE/20200509105017.png" alt="Memory Indicator"></p>
-<p>可以看到普通使用 IntelliJ IDEA 大概就使用了 500M 左右的内存。</p>
-<ul>
-<li>开启方法可以在工具栏-View 中设定：</li>
-</ul>
-<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA-VMOptions%E8%AE%BE%E7%BD%AE/image-20200509105214158.png" alt="Memory Indicator"></p>
-<h2 id="Edit-VM-Options"><a href="#Edit-VM-Options" class="headerlink" title="Edit VM Options"></a>Edit VM Options</h2><p>在菜单 <code>Help | Edit Custom VM Options</code> 中可以设置。</p>
-<h2 id="VM-options"><a href="#VM-options" class="headerlink" title="VM options"></a>VM options</h2><p>下载安装包后一定要把压缩包下的 README 读完，里面有详细的路径及配置说明。这里先给一个全部内容的预览，下面再一一解释。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-ea</span><br><span class="line">-Xms2g</span><br><span class="line">-Xmx2g</span><br><span class="line">-XX:ReservedCodeCacheSize=<span class="number">240</span>m</span><br><span class="line">-XX:+UseConcMarkSweepGC</span><br><span class="line">-XX:SoftRefLRUPolicyMSPerMB=<span class="number">50</span></span><br><span class="line">-XX:CICompilerCount=<span class="number">2</span></span><br><span class="line">-Dsun.io.useCanonPrefixCache=<span class="keyword">false</span></span><br><span class="line">-Djava.net.preferIPv4Stack=<span class="keyword">true</span></span><br><span class="line">-Djdk.http.auth.tunneling.disabledSchemes=<span class="string">""</span></span><br><span class="line">-XX:+HeapDumpOnOutOfMemoryError</span><br><span class="line">-XX:-OmitStackTraceInFastThrow</span><br><span class="line">-Djdk.attach.allowAttachSelf=<span class="keyword">true</span></span><br><span class="line">-Dkotlinx.coroutines.debug=off</span><br><span class="line">-Djdk.<span class="keyword">module</span>.illegalAccess.silent=<span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="开发背景"><a href="#开发背景" class="headerlink" title="开发背景"></a>开发背景</h2><p>2008 年 8 月， Netflix 主要数据库的故障导致了三天的停机， DVD 租赁业务中断，多个国家的大量用户受此影响。之后 Netflix 工程师着手寻找替代架构，并在 2011 年起，逐步将系统迁移到 AWS 上，运行基于微服务的新型分布式架构。这种架构消除了单点故障，但也引入了新的复杂性类型，需要更加可靠和容错的系统。为此， Netflix 工程师创建了 Chaos Monkey ，会随机终止在生产环境中运行的 EC2 实例。工程师可以快速了解他们正在构建的服务是否健壮，有足够的弹性，可以容忍计划外的故障。至此，混沌工程开始兴起。</p>
+<p>Chaos Monkey 是在 Netflix 整体微服务化的形势下开发的。为了增加微服务架构的弹性，需要确保当服务集群中有节点失败或者退出时不会影响整体服务。由于 Netflix 的内部文化，没有办法通过框架或者编码规范来形成一套能够满足弹性要求的框架。最终，Netflix 选择开发了 Chaos Monkey：一个在生产环境随机选择并关闭服务的工具。通过频繁的服务失败演练，使得开发团队对服务集群稳定性有了更高的重视，以确保不会因为这些演练对最终用户产生影响。Netflix 将 Chaos Monkey 定位为提升服务质量的高效工具。</p>
+<p>Spinnaker 是 Netflix 的持续交付平台，可以在 Spinnaker 上对 Chaos Monkey 进行配置。同时 Chaos Monkey 可以从 Spinnaker 获取服务部署的相关信息并通过 Spinnaker 关闭服务实例。由于集成了 Spinnaker，Chaos Monkey 增加了对多种后端的支持，包括：AWS、GCP、Azure、Kubernetes、Cloud Foundry。</p>
+<h2 id="技术原理"><a href="#技术原理" class="headerlink" title="技术原理"></a>技术原理</h2><p><a href="https://idarkboss.github.io/posts/16861">技术原理</a></p>
+<h2 id="使用场景（举例说明）"><a href="#使用场景（举例说明）" class="headerlink" title="使用场景（举例说明）"></a>使用场景（举例说明）</h2><p><a href="https://idarkboss.github.io/posts/35502">使用场景（举例说明）</a></p>
+<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p><a href="https://idarkboss.github.io/posts/35161">模型</a></p>
+<h2 id="Demo-搭建"><a href="#Demo-搭建" class="headerlink" title="Demo 搭建"></a>Demo 搭建</h2><p><a href="https://idarkboss.github.io/posts/51089">Demo 搭建</a></p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>我们可以手动调用 Chaos Monkey 终止实例。 例如：</p>
+<p><code>chaosmonkey terminate chaosguineapig test --cluster=chaosguineapig--region=**us**-east-1</code></p>
+<p>应用中启用 Chaos Monkey，在 Spring Boot 应用中开启 Chaos Monkey 支持仅需要两步，首先在项目依赖中添加在 chaos-monkey-spring-boot。再然后，我们在应用启动时激活 chaos-monkey 的 profile。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>de.codecentric<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>chaos-monkey-spring-boot<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="Heap-Size"><a href="#Heap-Size" class="headerlink" title="Heap Size"></a>Heap Size</h3><p><code>-Xms</code> 和 <code>-Xmx</code> 配置堆内存，也就是 IntelliJ 可以使用的内存。</p>
-<ul>
-<li><code>-Xms</code> 初始堆内存，调大该内存可以让启动速度更快，以省去分配内存的时间</li>
-<li><code>-Xmx</code> 最大堆内存，如果遇到 <code>OutOfMemoryError</code> 可以调大该数值，最大不要超过系统 1/4.</li>
-</ul>
-<h3 id="GC-Algorithm"><a href="#GC-Algorithm" class="headerlink" title="GC Algorithm"></a>GC Algorithm</h3><p><code>-XX:+UseConcMarkSweepGC</code> 参数用来调整 GC 算法。使用该算法利用多个线程在后台进行 GC，以避免应用程序停止。</p>
-<p>当分配超过 4GB 的堆内存时，可以尝试使用 <code>-XX:+UseG1GC</code>.</p>
-<h3 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h3><p><code>-ea</code> 选项开启 assertions。如果调试 IntelliJ 或者开发插件时可能用到，对 IntelliJ 性能并没有影响。</p>
-<p><code>-server</code> 虚拟机的解释执行模式。</p>
-<p><code>-XX:SoftRefLRUPolicyMSPerMB=[value]</code> 参数用来控制每 M 空间中 soft reference 保证存活的毫秒数。默认的时间是 1000，JetBrains 推荐 50。</p>
-<p><code>-XX:ReservedCodeCacheSize=510m</code> 设置编译器最大的 code cache，另外一个相关的 JVM 参数是 <code>-XX:InitialCodeCacheSize</code> JetBrains 推荐这里使用 240m. <a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:codecache" target="_blank" rel="noopener">1</a></p>
-<p><code>-Dsun.io.useCanonCaches=[boolean]</code> 该参数是否开启文件名及路径缓存，默认 java 会缓存文件名 30 秒 <a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:c" target="_blank" rel="noopener">2</a>，JetBrains 建议关闭。</p>
-<p><code>-XX:+OmitStackTraceInFastThrow</code> JetBrains 官方推荐的参数。</p>
-<p><code>-XX:MaxJavaStackTraceDepth=-1</code> JVM 在实现 <code>java.lang.Throwable.fillInStackTrace()</code> 时把整个调用栈上的所有 Java 栈帧消息记录下来</p>
-<p><code>-XX:+HeapDumpOnOutOfMemoryError</code> 当发生 <code>OutOfMemoryError</code> 时 dump 堆内容。<a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:dump" target="_blank" rel="noopener">3</a></p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html" target="_blank" rel="noopener">https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html</a></li>
-<li><a href="https://intellij-support.jetbrains.com/hc/en-us/articles/206544869-Configuring-JVM-options-and-platform-properties" target="_blank" rel="noopener">https://intellij-support.jetbrains.com/hc/en-us/articles/206544869-Configuring-JVM-options-and-platform-properties</a></li>
-<li><a href="https://github.com/FoxxMD/intellij-jvm-options-explained" target="_blank" rel="noopener">https://github.com/FoxxMD/intellij-jvm-options-explained</a></li>
-</ul>
-<ol>
-<li><a href="https://blog.codecentric.de/en/2012/07/useful-jvm-flags-part-4-heap-tuning" target="_blank" rel="noopener">https://blog.codecentric.de/en/2012/07/useful-jvm-flags-part-4-heap-tuning</a></li>
-<li><a href="https://stackoverflow.com/a/7479642" target="_blank" rel="noopener">https://stackoverflow.com/a/7479642</a></li>
-<li><a href="http://www.oracle.com/technetwork/java/javase/clopts-139448.html#gbzrr" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/clopts-139448.html#gbzrr</a></li>
-</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">java -jar target/order-service-1.0-SNAPSHOT.jar --spring.profiles.active=chaos-monkey</span></span><br></pre></td></tr></table></figure>
+
+<p>在 Codecentric Chaos Monkey 库的 2.0 版本中有个新的特性：Spring Boot Actuator 访问端口，通过 management.endpoint.chaosmonkey.enabled 属性来设置是否开启，在应用启动后，就可以通过 HTTP 访问端口来访问了。</p>
+<h2 id="设计场景与应用"><a href="#设计场景与应用" class="headerlink" title="设计场景与应用"></a>设计场景与应用</h2><p><a href="https://idarkboss.github.io/posts/19759">设计场景与应用</a></p>
+<h2 id="补充内容"><a href="#补充内容" class="headerlink" title="补充内容"></a>补充内容</h2><h3 id="中断检查器"><a href="#中断检查器" class="headerlink" title="中断检查器"></a>中断检查器</h3><p>中断检查器用于在正在进行的中断期间自动禁用 Chaos Monkey。如果希望让 Chaos Monkey 检查是否有持续的中断并相应地禁用它，则需要：给你的中断检查人员起一个名字（例如，“聊天机器人”），在 Go 中编码一个实现<a href="https://godoc.org/github.com/netflix/chaosmonkey/#Outage" target="_blank" rel="noopener">中断</a>接口的类型。修改<a href="https://github.com/Netflix/chaosmonkey/blob/master/outage/outage.go" target="_blank" rel="noopener">outage.go</a>，以便它识别你的中断检查器。编辑你的<a href="https://netflix.github.io/chaosmonkey/Configuration-file-format/" target="_blank" rel="noopener">配置文件</a>以指定中断检查器。</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>运行这些测试的最简单方法是在本地计算机上安装 Docker。这些测试使用 mysql:5.6 容器（使用 5.6 版以确保与<a href="https://aws.amazon.com/rds/aurora" target="_blank" rel="noopener">Amazon Aurora</a>兼容）。</p>
+<p>请注意，如果使用的是 macOS，则必须使用<a href="https://docs.docker.com/engine/installation/mac/" target="_blank" rel="noopener">Docker for Mac</a>而不是 Docker Toolbox。否则，将无法通过 127.0.0.1 访问 Docker 容器。</p>
+<p>如果要运行这些测试，请确保已在本地安装 Docker，并抓住 mysql：5.6 容器：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull mysql:5.6</span><br></pre></td></tr></table></figure>
+
+<p>然后使用 docker 标记运行测试，如下所示：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">go test -tags docker ./...</span><br></pre></td></tr></table></figure>
+
+<p>测试将自动启动 mysql 容器，然后将其关闭。</p>
+<p>如果在不上下移动 Docker 容器的情况下进行测试。如果你不希望测试每次都启动和关闭 mysql Docker 容器（例如，你想更快地运行测试，或者想通过本地运行 mysql 实例进行测试），请使用“dockerup”标志以及“docker”标志。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">go test -tags "docker dockerup" ./...</span><br></pre></td></tr></table></figure>
+
+<h3 id="启用组"><a href="#启用组" class="headerlink" title="启用组"></a>启用组</h3><p>如果 Spinnaker 将服务器组标记为启用，那么 Chaos Monkey 将仅考虑有资格终止的服务器组。Spinnaker API 公开了 isDisabled 布尔标志，以指示是否禁用了组。Chaos Monkey 对此进行了过滤，以确保它仅从活动组中终止。</p>
+<h3 id="可能性"><a href="#可能性" class="headerlink" title="可能性"></a>可能性</h3><p>对于每个应用程序，Chaos Monkey 将实例分为实例组（分组取决于应用程序的配置方式）。每个工作日，对于每个实例组，Chaos Monkey 都会掷一枚加权硬币，以决定是否从该组中终止实例。如果硬币朝上，Chaos Monkey 会安排在当天的上午 9 点至下午 3 点之间的任意时间终止。</p>
+<p>在这种情况下，实例组终止之间的工作日数是一个具有<a href="https://en.wikipedia.org/wiki/Geometric_distribution" target="_blank" rel="noopener">几何分布</a>的随机变量。</p>
+<p>下面的等式描述了终止之间时间的概率分布。<em>X</em>是随机变量，<em>n</em>是终止之间的工作天数，<em>p</em>是硬币出现正面的概率。</p>
+<p>$$P(X=n) = (1-p)^(n-1) × p, n&gt;=1$$</p>
+<p>对<em>X</em>取期望得到平均值：</p>
+<p>$$E[X] = 1/p$$</p>
+<p>每个应用程序定义两个参数来控制 Chaos Monkey 应该为该应用程序实例执行的频率：</p>
+<p>工作日之间的平均终止时间（μ），上班时间之间的最短间隔时间（ɛ），混沌猴子使用 μ 来确定 p 应该是多少。如果我们忽略 the 的影响并求解 p：</p>
+<p>$$μ = E[X] = 1/p$$<br>$$p = 1/μ$$</p>
+<p>例如，对于给定的应用程序，假定 μ= 5。在每一天，终止的可能性是 1/5。请注意，如果 ɛ&gt; 1，混沌猴子的终止行为将不再是几何分布：</p>
+<p>$$P(X=n) = (1-p)^(n-1) × p, n&gt;=ɛ$$</p>
+<p>特别是，随着 larger 变大，$E[X]-μ$ 也变大。我们不对此进行校正，因为数学上的额外复杂度不值得让 $E[X]$ 完全等于 $μ$。还要注意，如果 $μ=1$，则 $p=1$，这保证了每天终止。</p>
+<h3 id="追踪器"><a href="#追踪器" class="headerlink" title="追踪器"></a>追踪器</h3><p>跟踪器用于记录某种外部系统中的终止事件。在 Netflix 内部，我们使用跟踪器记录到<a href="https://github.com/netflix/atlas/wiki" target="_blank" rel="noopener">Atlas</a>（我们的指标系统）和事件跟踪系统 1 Chronos 的终止 。</p>
+<p>如果你希望记录某些外部系统的终止，则需要：给你的跟踪器起一个名字，在 Go 中编码一个实现<a href="https://godoc.org/github.com/Netflix/chaosmonkey/#Tracker" target="_blank" rel="noopener">Tracker</a>界面的类型。修改<a href="https://github.com/Netflix/chaosmonkey/blob/master/tracker/tracker.go" target="_blank" rel="noopener">github.com/netflix/chaosmonkey/tracker/getTracker</a>，使其可以识别你的跟踪器。编辑你的<a href="https://netflix.github.io/chaosmonkey/Configuration-File-Format" target="_blank" rel="noopener">配置文件</a>以指定你的跟踪器。不幸的是，我们无法将这些跟踪器中的任何一个作为开源发布。我们的 Atlas 跟踪器与尚未发布为开源的<a href="https://github.com/Netflix/Prana" target="_blank" rel="noopener">Prana</a>版本进行通信 ，Chronos 也尚未发布为开源。</p>
+<h3 id="供应商依赖性"><a href="#供应商依赖性" class="headerlink" title="供应商依赖性"></a>供应商依赖性</h3><p>如果要向 Chaos Monkey 添加新的依赖项，使用<a href="https://github.com/kardianos/govendor" target="_blank" rel="noopener">govendor</a>进行添加。确保新依赖项的许可证与 Chaos Monkey 的许可证兼容：<a href="https://github.com/Netflix/chaosmonkey/blob/master/LICENSE" target="_blank" rel="noopener">Apache License Version 2.0</a>。</p>
 ]]></content>
       <tags>
-        <tag>IDEA</tag>
-        <tag>Java</tag>
+        <tag>Chaos Monkey</tag>
       </tags>
   </entry>
   <entry>
@@ -77,6 +86,59 @@
 ]]></content>
       <tags>
         <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Manjaro更换Deepin桌面环境</title>
+    <url>/posts/1977/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>Deepin 桌面环境（DDE）是真滴好看，然而似乎有些地方并不是很稳定。So what？盘它！</p>
+<a id="more"></a>
+
+<h2 id="下载-Deepin-桌面环境（DDE）"><a href="#下载-Deepin-桌面环境（DDE）" class="headerlink" title="下载 Deepin 桌面环境（DDE）"></a>下载 Deepin 桌面环境（DDE）</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Sy deepin deepin-extra</span><br></pre></td></tr></table></figure>
+
+<p>修改 <code>/etc/lightdm/lightdm.conf</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/lightdm/lightdm.conf</span><br><span class="line"></span><br><span class="line">greeter-session=lightdm-deepin-greeter</span><br></pre></td></tr></table></figure>
+
+<h2 id="禁用当前桌面环境"><a href="#禁用当前桌面环境" class="headerlink" title="禁用当前桌面环境"></a>禁用当前桌面环境</h2><h3 id="KDE-桌面"><a href="#KDE-桌面" class="headerlink" title="KDE 桌面"></a>KDE 桌面</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl disable sddm</span><br></pre></td></tr></table></figure>
+
+<h3 id="Xfce-桌面"><a href="#Xfce-桌面" class="headerlink" title="Xfce 桌面"></a>Xfce 桌面</h3><p>似乎不用？我也布吉岛-_-||</p>
+<h2 id="启用-LightDm"><a href="#启用-LightDm" class="headerlink" title="启用 LightDm"></a>启用 LightDm</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl enable lightdm</span><br></pre></td></tr></table></figure>
+
+<h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+<h2 id="卸载原桌面环境的组件"><a href="#卸载原桌面环境的组件" class="headerlink" title="卸载原桌面环境的组件"></a>卸载原桌面环境的组件</h2><h3 id="KDE-环境-详见-ArchWiki-KDE"><a href="#KDE-环境-详见-ArchWiki-KDE" class="headerlink" title="KDE 环境 - 详见 ArchWiki-KDE"></a>KDE 环境 - 详见 <a href="https://wiki.archlinux.org/index.php/KDE_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">ArchWiki-KDE</a></h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Rsc plasma</span><br><span class="line">pacman -Rsc kde-applications</span><br></pre></td></tr></table></figure>
+
+<h3 id="Xfce-环境-详见-ArchWiki-Xfce"><a href="#Xfce-环境-详见-ArchWiki-Xfce" class="headerlink" title="Xfce 环境 - 详见 ArchWiki-Xfce"></a>Xfce 环境 - 详见 <a href="https://wiki.archlinux.org/index.php/Xfce_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">ArchWiki-Xfce</a></h3><p>Xfce 环境一定要卸载，不然不能切换到 DDE。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Rsc xfce4 # 别的不知道了</span><br><span class="line">reboot # 再重启一次</span><br></pre></td></tr></table></figure>
+
+<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>kde 对应的是 <a href="https://wiki.archlinux.org/index.php/SDDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">SDDM</a></p>
+<p>deepin 对应的是 <a href="https://wiki.archlinux.org/index.php/LightDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">LightDm</a></p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://www.jianshu.com/p/a1e31a9a50dc" target="_blank" rel="noopener">vygjyfjt</a></li>
+<li><a href="https://blog.csdn.net/weixin_30836759/article/details/96636929" target="_blank" rel="noopener">weixin_30836759</a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Manjaro</tag>
+        <tag>Deepin</tag>
+        <tag>Manjaro-Deepin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>FIS-CMS-WMS下载安装配置(IDEA)</title>
+    <url>/posts/35227/</url>
+    <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对， 请再试试。" data-whm="抱歉，这个文章不能被校验，不过您还是能看看解密后的内容。">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">您好，这里需要密码。如果不能解密请刷新页面哦。</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="946fe14382bab658b712d98bb4103e7b7d95366551387aefd3ef624bb3ef801f">56503e17de7fd7fe81c69c7f255076a3c60ac387d80f95d23209fd96699fd69b8a1f53a4eaed2d75557d974ebc9f7a48487526f90786729ec488baea5a0295911d438e5d735d93a0986ba1d9b23ec7425ae66b88f4456a75cbbfe06de15f0804aa36f195bc420ac5ab21dad85f310ae7d4cac23ee22786dcd900b700e8c8f98bcec96a4f347caab27393f2e517d8a4824236498fbc663aeca9d4ea6061b50c99520a459da631aeb65b4f18d91aaf7c689d299bdcd2feba45b183bff4a99fdb4cad6eba5c1e8d440cf14c43f6f2e5c15ff7405512af0069d8eb379dcfb9f3794bd3c33b048836215832549c932ec493cc0803cddb775212c995fa7b3faf702ee260f2dee506e4426e375d03df62232b7d33cf7c264f748ab42acf7f12fe68f774d35159f7aa6edc05c6cc3e65a0efcc8dc6859e8763e420a0a4e1d432c98f30c0a690a35a7944bedb2585c8a5057521ba956839442511e2eb8e5065402adb046e3aa8ced5fc808f358ec0391f637f3f761899191a7b49a2f3dce8b5dd51848c018b8bad88b1f8faf62117970a9f428c81d1179cc3e47fd6573f11fdf4e710227f46119bb3ea95def53979c6f3fbaaea8f7b784f54fa5ea85eb304cda9c6ed296e4a3457e0660993470e7e9c772ed9fe3e284dc5afff1ba377f03bf6b51fe970205e22be1243195447979b08273051d5370415b324056753e07861091318f7c7f3b6f21ff3e8abad60ce847c2f61b61f3b1997e3c7b1c9759400f21e416bbc1cb655c8004d844504b02a81658cfc554f879256e3b30e55c5e64746015ad2d5969a8efba6bedac2d77ea52c3682dbad1555b1f89bd1b724b180fa4cf0663f89843be18faf05a91fd5a61828cfa31c8e19e25a2654b0043b3245ef5cd6af2e02d90880e8d8df1f248690766d7b84b0ed45d8af9b590be4128237b600eb32e458660959dafd44fff4260ec72fd8fd53e86a8f30fef0bdb3a1d4d2ba693040b4e37441b55e08e43c234f3dcd6bf2647bf4d24d7e6857eab87dd8f3b0cecabd2e44ad12a462a9a944d4942dc27021084d1eaf0b81fa133aba4c76d0607b49dee637caea2ed1ccd569212cc5f28153312cddce2c37cf1563dc848b1a34213c8767a51a928d4f66ccd1f7514bbbc4593e2da80c0338e543cf2074dba26923bb54d3272c2e6466335ea2461ed09f35d1b109422b6d5a8e6c439f074f17392be9d37fb919902b1f3fd7eb759061add42a1cf5bb066f0d921df26224fa4bc5bf430ea719562c76366a455510db3ba5e1abf8288f432d8329095afbc420752e891141148e495ab557d40c066ef5344eadc7b3ca1727c5a26305c120f83619493177d58c0f335ce8f635b13e58126836bf841d3ccc6bf43cd5a72d5bf6f8048c48c685caefecd1111e741b563aff8bd5c3ba0c5baf84a96d5741ffcda4e86a4328fcb8b2eb374c6e9121c4626a4b94c9f1c512def22efc04bc1e506039e2f1eace5f6cf660435122ecf28ae8a3a1b1b1a754185d2acab970f600e24d623696153d2d7370212e37d1b80fdf8dd5c308d5d0cf54f4cf7bb4873ad7f18a62982495cec3d8817c6448ba0608a32e1a0acba9d3fd8b51d65d43f9796d5af681d8513c3fb60438e11bafcd216071d4a8e663b42723cd200e2f9bdc96692dfe6b989618e8faef61e5340702e1fe34e4eaea9029d40cba0ed4b46bbfc737cdaaefde8bd11901524e58647cce325eb34c1a1338e7e1362eeff8b23a01e9a8929f9d43e167df497f14d35e4bcdcc292910e04246ec65f33b2c96497d2b13fc629ff5639d84279c8da3bd9fb04aad75b74cd878240e34dadfcf385de07b2fbd1cc45cfa705268b19dfc07f56529bbf1ee0ab7eaabdabdb2fff388e9f1860843c99de24d0615b9ac7fe2dd6ef0ae9a29b2485a3757e8b578254e0750a18eddf2805fa5e90405004255718a8a06eee793d38365620fd77d95777721502b44aff420b5e65f47d18452456a83c8f302fd8d4d8a86a79d640b25b6b116449d2d0ea8616ba1d0e13496c48a7a795a5ea47e0be6f6b6d5162bc85ca20cbfe9bddea27ed9e31edce5a65b7f97669101daa5d4a2bfdf5c17610d1f03761100676ac9a622ee763428c0dc606f246ee6511e9f3c665e76a5576890a9ea8fd4ba1ceda3469716742516a2b35a451f8790a65cc6128989187b9a019ee966d83507434bd45abca6cbeda97a4246c8e3cad809bc19567b781820dfed89fc9fa65c926d75e58b47ece84d9d3d93ba84c94d08b467e7e1f78c2bfc25084e5fc80f8e95cf08e5479d77f368e766be4335dacf470392fcf75764a401cf8a06854dfb8256006fe19a04d5d078bfbf99b0d69d229da37fadecb820b729eb47f8b4d9c468c11635a1275e3041d02c2bf4e7dd6cbdcd11415ba0c8f70e521444e026e9f7b2a5c1e3a8894dbf9986f0abc44b128e4c53b1e1958703020af4d2608ca5aafa638ab2241a354231518a48f7da1b6b95382cbee7917607822e01358a12f48878e4017274202e9668c8e9a7d99e2c6b292b0c4d9881079c71c539f6e5fb9c87cf89ed5c457b7687c7903f77f39c120da43d6608f931e30d2ea0958c15259d0ccc0a49717f091760bea19f0e57e1791f3c31065f9e2ecb4c10dbbc5d8a7e735cd472bc5864193ff9ff5e7d49ce71e2cd14f82955bb45685c2e50a50e92bda14a227a521073e6fb25a6c91960a6233e66604befaa8b131a9ea7cc42a58beb675f99486c51e2fe9147fc557fd4700634dc8644d07a68ca5b8e0f01b36fb3f2ccf54291c90694319be6dcdca462975b8437a86165a26e4e6b93be4e9f0c68cd1e16a02c4c0234d11c121aa018ca39d5ae5a17933e05e6e75f82e4d194543b3d2c810d6818476928daf021887d0d3f6c854d45fbcc7c218f5390fc39bda0d20e22caf21ab8e2c0bbe08773be6d3e1c647d22d1871dc6990fb3483f3db5c8c7e625d6d20b0b73ec6967ec629fddd6d731c4c7c9f6f43bed4d22edea48bf411a2e10a35fcb622eff8e2bf50f987902d63c0ddbaf84daf00cc64f91c9139cb1b01bdd0a7abc59c06bf25b5ea62a48e1c22896872acdc05c1a57448fcf763873af184abd90aa2384f3127aeb26713ea760be3922c8c3d98f4b5267366c1c1c349c3ab858097cf7e39f7ca448857915caad6ef1bf4f4a971157a01c11138a0d8834bcb17a642deb3c6f36913bdfc8aa1a9fb346be58b8e6860263fe27b555f671e53289c8eab74b4bcba7b20b60a26603d98a90b7dae4e2ad98bc2f02c443fe45971bafc92ab52ab975e33d9d2da4832966612d17ace928d3b2f541dc100aba74a05f7f56e4a40fbe308fa9c11ef289cdebac5e08dba3fda2671d5bfce4d7c25623deb338a33353d606a28b822d7a9dbb1a54b51acb7d836118b8d8bbbba7d669cd9dcaae75f96c49f2dcb312a343a02158c06367d251353b24a72d30ea604b1abfb152ff3b1b1316b1b8cad6b71904085e3de3adfad4a15cbb2a5f838ec6de52b509e0de7847157ebdfdb3f5dfa2bb6a27d49c8d7ef4bdf4d01eb3071f80f15776427ccf64975dd0b90d209b81a09a29ec86331b3815f44883207dd6b5ed13165639d78ec7b7c3d4f0233ca57c4e67a81b5a49f0c946b6bc48afa80ec3a8d3bdfb852d675826ad6f93dc454bb95b1135952c6e41d7b1b92fcb6d20f692026be2cce1b685d5af902f9bb3b86a2044ecfe46a3969d15340e8153be46beccb26ebde24402fbd985fc9dbed7e9d90c482f28384a99ad9a4033b8e2cbf3abc66ebe8df2f457c82779f87df04caf509a1bff46c435a94cae8a57d3e6fe6364640dd966b5b145a5e4a338d1d551112e8fcc3daeb61a0394cba2ed2292dc7e9e58a579ecc3e4b20457b06d1ce4f063ce8512a29706f1f743f406a56a030a56d85363b9555b60b26fe5ab8730bd53ce5b0c9a767011cbd914a9c1aa1c9f27306b3a24e1ae4ab39ba854754b2605c6015ff91be8f8c7baead823e24ecc09c617d2ee4cf2adf0e1a5e35d14c4e6d835dc5650237da9a12e907f6e0f40abaddcbf260f9efade70d4a81d659b8b765aaf6932fcb03f26db0675fec02cb58ec040bc849991fffc6bf3badd080762f9a09475021b45f13278659eef9fdcf9d4f65fee58595af4659dcadf317603302ed436ab9df1a576d9dc4e1bd783d168d195cee314f886646ba27bc392a31a1d13034a5681aae9f1146fce7421e0ab40d42648e1695d9008b830a24aa6e181aef04adc4620597e3222122cfac69cd6fe8e9e13fe91724a4bb45035c52ba96e799c185ea35c70ad65ea351dd9c224560fb0f3c799f32acebcfef9cc7cd4e366aa16ada120a9910eb6fe807384e3f9293714f1ef500d8de7a5366b2c29b00cebcc65669e24c818e4794a7fcf8110f53df341136bf48290fdb75c196a8c5cc5fc81cda14fb6f2b26e2818522b7750b1ec23bd613dbef3c487dfe404c1b96846b54211039f95b8f54544cf39cf21692bed6ae5a0c3d1b99e26df941fdeaa8b92cf8525accc7a1f2ca9e75cc54e0d4a2100e6d3ff8688325f816c04e9f1b50038fcc4327114d26cde036d18155485ccdf7b3ce3b739bc875fc458e8da3f6fe43d507c31b44b36e4640ac88528711c5e1edf071d314e012afe2dd396b963448353ef065126d4abf52eebddd5d961e299294df07ffeb20faac5d24e11cfe98bafb8595f0c60fe3ffc0125a210fd4e89aad543383fb72a7bc020849af9bedb14f3ca5ded827049a46101994a989bf46c01db2b91a17de0cf8c2ebd8732cdd088850275cc7fa9870c41066a005f480d24e58efba01ecfcd314880f4a4dc1821132aaee6c4815039b340504409d05124211e6896fbf06983a82b940c10496bfa7463a6170d76a2bac6607cc6199fe807bd60085deb87c2d41798c75f660aae2502a016e748e90c96d336f728b96c8a5dc2f0ea656651a158cd6ee5293f816d6da5b0c1bf640591c95f7de5c2fb2c4fdcea280b1196e9e5bd1ac5f1a434acb97996816fdf5bfd9f8e0c076704fbeb609429f3d1615c32c4632c140c6616baeb000feec14a1eefa61dfeb197c3f0bca4a61a9b462485064f952335d10b56790794fcb6364ef1c319d44c3d86ab382257f6ab06eea6f0d8d529059edc3ec53eeda7f00daf23ce1352f938829378e25a20d474ec4ba8b66863480d10da84af47dc60a4325ebd3397d2d824adbf2e5fcc2633534cd02981c0164249414315ed0bd5e8dad7035c951a2a54d5ef63699617fbd6ca4c64eb2cb88fd7ae351747ddf3aede1031197a65b42a78f76639457de54a08526d9739e6fcfc086faf9746bcdc0cf8edebd2053b092b30cab38041165f62ab554e2a7eb7de3346d0514f2d6048b34173d7294871193052d2b009fa65e386bb04c4601e824fccc90976d3aafe6e51786d056d8cbca685355c5d0c1a871927b1a2b98f57ed81bf7c1b9adeb28448bf3dcf76e8e36bf5dbe9b94292bd9965b50a1d14a3bcd59c20677b6b4c4a58acffc2bc905ad07bd740dadb4426e4e67825a0c2924abf6152f805eca7850f1f3adf320e997b9f852b95eaac7a177bcd8f66312f6f416765d61b2bc9d359643d524b1b05493483910ddadf1e03e4a913f2b6a9b008be417c6154ef31c8b7fb78f0afb91834ce377559bf12706f11b301a3fd15090ff5bb61227dfca8a01f60eac79b5c4df08b005ae06d5650a2486eeb9bbdcabce890d4e8fdf784ecd60cdb883f3e62f600872047cc0a3c149283c783c8a3fe3ae966942bdc109d391f695c9fe7f183357818ec0e28a536688cdbb1bca60f538c59146eb23575d0dcbd2e99384b737eb5dcc3974df2cd205d6fb0e317af4d0ef7dce8216ee559d0ed391fa35a8d581f1e5d6dd949833d56970e6e6908134429c410d357bd136fd026341b09cddc86cd47b43934f9d74fee631fb45c899c685ec1b2f9e36f61652f6447c2b61e1ac23bf61ab1aacb2d8e0d1dd09ab5255e50e9eaecd3c9e17f331184e51ebdf9efa15b87b2410c760c1c3d92f6f1bb8f3b839c3e1d289579a91680a100b14f1bc8097eeb8eaffc0112bd7dcfe58fbe02a11621f1eb4531b168231ec56c0ba962908b5c904319229f399449889153b37cb0bfc5a0b26cebe83977583c3f62e270685d5892c480da31ad25c0549166cbba5d05992445ee5cfb999451fc37fe7e25cea1ebd37f344b5c523f31d1b66f5c93b568ea5ad8886c7c98413d64ef414617ae5ce2b1a3ac2db1c4795fc80c5071b618ae65a5a3cada916b30</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
+      <tags>
+        <tag>Comstar</tag>
       </tags>
   </entry>
   <entry>
@@ -187,145 +249,53 @@
       </tags>
   </entry>
   <entry>
-    <title>IDEA 遇到的问题</title>
-    <url>/posts/15956/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>本文收集了一些在 IDEA 中可能遇到的问题。<br>如：Project 的 SDK 设置，IDEA 的内存设置等。</p>
-          </div>
-
+    <title>IDEA VMOptions设置</title>
+    <url>/posts/7328/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>IntelliJ IDEA 运行在 JVM 上，JVM 有很多的选项和开关配置可以用来调整性能，也就是说，可以通过手动的调整这些 JVM 参数来优化 IntelliJ IDEA 的性能。这篇文章主要总结了 VMOptions 的用法。</p>
 <a id="more"></a>
 
-<h2 id="Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6"><a href="#Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6" class="headerlink" title="Error:java: Compilation failed: internal java compiler error(JAVA 1.6)"></a>Error:java: Compilation failed: internal java compiler error(JAVA 1.6)</h2><h3 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h3><p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115427415.png" alt="报错信息"></p>
-<h3 id="报错原因"><a href="#报错原因" class="headerlink" title="报错原因"></a>报错原因</h3><ul>
-<li><p>项目中 Java 版本不一致，可以查看项目中的 jdk 配置</p>
+<h2 id="打开-Memory-Indicator"><a href="#打开-Memory-Indicator" class="headerlink" title="打开 Memory Indicator"></a>打开 Memory Indicator</h2><ul>
+<li>首先打开 Memory Indicator</li>
+</ul>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA-VMOptions%E8%AE%BE%E7%BD%AE/20200509105017.png" alt="Memory Indicator"></p>
+<p>可以看到普通使用 IntelliJ IDEA 大概就使用了 500M 左右的内存。</p>
 <ul>
-<li><p>查看项目的 jdk（Ctrl+Alt+shift+S）<br>File -&gt;Project Structure-&gt;Project Settings -&gt;Project</p>
-<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115842839.png" alt="SDK"></p>
-</li>
-<li><p>查看工程的 jdk（Ctrl+Alt+shift+S）<br>File -&gt;Project Structure-&gt;Project Settings -&gt; Modules -&gt; （需要修改的工程名称） -&gt; Sources -&gt;</p>
-<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120000830.png" alt="Language Level"></p>
-</li>
-<li><p>查看 idea 中 Java 配置</p>
-<p>File–&gt;Other Settings–&gt;Default Settings–&gt;Compiler–&gt;Java Compiler</p>
-<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120302052.png" alt="Java Compiler"></p>
-<p>如果出现的 Choose Module 框中是空白，无法修改 Target bytecode version.则：</p>
-<p>选中项目，右击选择 Maven–&gt;Reimport, 然后再次编译，问题解决。</p>
-</li>
+<li>开启方法可以在工具栏-View 中设定：</li>
 </ul>
-</li>
-<li><p>内存设置过大</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA-VMOptions%E8%AE%BE%E7%BD%AE/image-20200509105214158.png" alt="Memory Indicator"></p>
+<h2 id="Edit-VM-Options"><a href="#Edit-VM-Options" class="headerlink" title="Edit VM Options"></a>Edit VM Options</h2><p>在菜单 <code>Help | Edit Custom VM Options</code> 中可以设置。</p>
+<h2 id="VM-options"><a href="#VM-options" class="headerlink" title="VM options"></a>VM options</h2><p>下载安装包后一定要把压缩包下的 README 读完，里面有详细的路径及配置说明。这里先给一个全部内容的预览，下面再一一解释。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-ea</span><br><span class="line">-Xms2g</span><br><span class="line">-Xmx2g</span><br><span class="line">-XX:ReservedCodeCacheSize=<span class="number">240</span>m</span><br><span class="line">-XX:+UseConcMarkSweepGC</span><br><span class="line">-XX:SoftRefLRUPolicyMSPerMB=<span class="number">50</span></span><br><span class="line">-XX:CICompilerCount=<span class="number">2</span></span><br><span class="line">-Dsun.io.useCanonPrefixCache=<span class="keyword">false</span></span><br><span class="line">-Djava.net.preferIPv4Stack=<span class="keyword">true</span></span><br><span class="line">-Djdk.http.auth.tunneling.disabledSchemes=<span class="string">""</span></span><br><span class="line">-XX:+HeapDumpOnOutOfMemoryError</span><br><span class="line">-XX:-OmitStackTraceInFastThrow</span><br><span class="line">-Djdk.attach.allowAttachSelf=<span class="keyword">true</span></span><br><span class="line">-Dkotlinx.coroutines.debug=off</span><br><span class="line">-Djdk.<span class="keyword">module</span>.illegalAccess.silent=<span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Heap-Size"><a href="#Heap-Size" class="headerlink" title="Heap Size"></a>Heap Size</h3><p><code>-Xms</code> 和 <code>-Xmx</code> 配置堆内存，也就是 IntelliJ 可以使用的内存。</p>
 <ul>
-<li><p>heap size 过大，2048M 是不行的（6u21）。但是在 6u45 上又要设置到 2048M。。凸(艹皿艹 )</p>
-<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/heapsize.png" alt="Heap Size"></p>
-</li>
+<li><code>-Xms</code> 初始堆内存，调大该内存可以让启动速度更快，以省去分配内存的时间</li>
+<li><code>-Xmx</code> 最大堆内存，如果遇到 <code>OutOfMemoryError</code> 可以调大该数值，最大不要超过系统 1/4.</li>
 </ul>
-</li>
-</ul>
-<h2 id="Insufficient-Momery"><a href="#Insufficient-Momery" class="headerlink" title="Insufficient Momery"></a>Insufficient Momery</h2><p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/image-20200306102435696.png" alt="VM Option"></p>
-<h2 id="“interface-implement-of-class-‘class-java-lang-Object’-not-found”"><a href="#“interface-implement-of-class-‘class-java-lang-Object’-not-found”" class="headerlink" title="“interface implement of class ‘class java.lang.Object’ not found”"></a>“interface implement of class ‘class java.lang.Object’ not found”</h2><h3 id="报错原因-1"><a href="#报错原因-1" class="headerlink" title="报错原因"></a>报错原因</h3><p>在调试模式下就会报错，暂时无发现异常。</p>
-]]></content>
-      <tags>
-        <tag>IDEA</tag>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Manjaro更换Deepin桌面环境</title>
-    <url>/posts/1977/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>Deepin 桌面环境（DDE）是真滴好看，然而似乎有些地方并不是很稳定。So what？盘它！</p>
-<a id="more"></a>
-
-<h2 id="下载-Deepin-桌面环境（DDE）"><a href="#下载-Deepin-桌面环境（DDE）" class="headerlink" title="下载 Deepin 桌面环境（DDE）"></a>下载 Deepin 桌面环境（DDE）</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Sy deepin deepin-extra</span><br></pre></td></tr></table></figure>
-
-<p>修改 <code>/etc/lightdm/lightdm.conf</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/lightdm/lightdm.conf</span><br><span class="line">greeter-session=lightdm-deepin-greeter</span><br></pre></td></tr></table></figure>
-
-<h2 id="禁用当前桌面环境"><a href="#禁用当前桌面环境" class="headerlink" title="禁用当前桌面环境"></a>禁用当前桌面环境</h2><h3 id="KDE-桌面"><a href="#KDE-桌面" class="headerlink" title="KDE 桌面"></a>KDE 桌面</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl disable sddm #禁用KDE桌面环境的addm登录管理器</span><br></pre></td></tr></table></figure>
-
-<h3 id="Xfce-桌面"><a href="#Xfce-桌面" class="headerlink" title="Xfce 桌面"></a>Xfce 桌面</h3><p>似乎不用？我也布吉岛-_-||</p>
-<h2 id="启用-lightdm"><a href="#启用-lightdm" class="headerlink" title="启用 lightdm"></a>启用 lightdm</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl enable lightdm</span><br></pre></td></tr></table></figure>
-
-<h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure>
-
-<h2 id="卸载原桌面环境的组件"><a href="#卸载原桌面环境的组件" class="headerlink" title="卸载原桌面环境的组件"></a>卸载原桌面环境的组件</h2><p>可选项。然而强迫症必选。。</p>
-<h3 id="kde-环境-详见-arch-kde"><a href="#kde-环境-详见-arch-kde" class="headerlink" title="kde 环境-详见 arch kde"></a>kde 环境-详见 arch kde</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Rsc plasma</span><br><span class="line">pacman -Rsc kde-applications</span><br></pre></td></tr></table></figure>
-
-<h3 id="Xfce-环境"><a href="#Xfce-环境" class="headerlink" title="Xfce 环境"></a>Xfce 环境</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Rsc xfce4</span><br><span class="line"><span class="meta">#</span><span class="bash"> 别的不知道了</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>kde 对应的是 <a href="https://wiki.archlinux.org/index.php/SDDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">SDDM</a></p>
-<p>deepin 对应的是 <a href="https://wiki.archlinux.org/index.php/LightDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">LightDm</a></p>
+<h3 id="GC-Algorithm"><a href="#GC-Algorithm" class="headerlink" title="GC Algorithm"></a>GC Algorithm</h3><p><code>-XX:+UseConcMarkSweepGC</code> 参数用来调整 GC 算法。使用该算法利用多个线程在后台进行 GC，以避免应用程序停止。</p>
+<p>当分配超过 4GB 的堆内存时，可以尝试使用 <code>-XX:+UseG1GC</code>.</p>
+<h3 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h3><p><code>-ea</code> 选项开启 assertions。如果调试 IntelliJ 或者开发插件时可能用到，对 IntelliJ 性能并没有影响。</p>
+<p><code>-server</code> 虚拟机的解释执行模式。</p>
+<p><code>-XX:SoftRefLRUPolicyMSPerMB=[value]</code> 参数用来控制每 M 空间中 soft reference 保证存活的毫秒数。默认的时间是 1000，JetBrains 推荐 50。</p>
+<p><code>-XX:ReservedCodeCacheSize=510m</code> 设置编译器最大的 code cache，另外一个相关的 JVM 参数是 <code>-XX:InitialCodeCacheSize</code> JetBrains 推荐这里使用 240m. <a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:codecache" target="_blank" rel="noopener">1</a></p>
+<p><code>-Dsun.io.useCanonCaches=[boolean]</code> 该参数是否开启文件名及路径缓存，默认 java 会缓存文件名 30 秒 <a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:c" target="_blank" rel="noopener">2</a>，JetBrains 建议关闭。</p>
+<p><code>-XX:+OmitStackTraceInFastThrow</code> JetBrains 官方推荐的参数。</p>
+<p><code>-XX:MaxJavaStackTraceDepth=-1</code> JVM 在实现 <code>java.lang.Throwable.fillInStackTrace()</code> 时把整个调用栈上的所有 Java 栈帧消息记录下来</p>
+<p><code>-XX:+HeapDumpOnOutOfMemoryError</code> 当发生 <code>OutOfMemoryError</code> 时 dump 堆内容。<a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:dump" target="_blank" rel="noopener">3</a></p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a href="https://www.jianshu.com/p/a1e31a9a50dc" target="_blank" rel="noopener">vygjyfjt</a></li>
-<li><a href="https://blog.csdn.net/weixin_30836759/article/details/96636929" target="_blank" rel="noopener">weixin_30836759</a></li>
+<li><a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html" target="_blank" rel="noopener">https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html</a></li>
+<li><a href="https://intellij-support.jetbrains.com/hc/en-us/articles/206544869-Configuring-JVM-options-and-platform-properties" target="_blank" rel="noopener">https://intellij-support.jetbrains.com/hc/en-us/articles/206544869-Configuring-JVM-options-and-platform-properties</a></li>
+<li><a href="https://github.com/FoxxMD/intellij-jvm-options-explained" target="_blank" rel="noopener">https://github.com/FoxxMD/intellij-jvm-options-explained</a></li>
 </ul>
+<ol>
+<li><a href="https://blog.codecentric.de/en/2012/07/useful-jvm-flags-part-4-heap-tuning" target="_blank" rel="noopener">https://blog.codecentric.de/en/2012/07/useful-jvm-flags-part-4-heap-tuning</a></li>
+<li><a href="https://stackoverflow.com/a/7479642" target="_blank" rel="noopener">https://stackoverflow.com/a/7479642</a></li>
+<li><a href="http://www.oracle.com/technetwork/java/javase/clopts-139448.html#gbzrr" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/clopts-139448.html#gbzrr</a></li>
+</ol>
 ]]></content>
       <tags>
-        <tag>Linux</tag>
-        <tag>Manjaro</tag>
-        <tag>Deepin</tag>
-        <tag>Manjaro-Deepin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Nginx 反代配置</title>
-    <url>/posts/13817/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>Nginx 反代配置</p>
-          </div>
-
-<ul>
-<li><p>不要用宝塔下载的 Nginx！！！！（不要问我怎么知道的）</p>
-</li>
-<li><p>进入 /etc/nginx/conf.d 目录</p>
-</li>
-<li><p>新建一个.conf 文件，名称任意，内容为</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">upstream ice &#123;</span><br><span class="line">        server 0.0.0.0:你的服务需要的端口;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name 你的服务器IP;</span><br><span class="line">        location / &#123;</span><br><span class="line">        # 后端的Web服务器可以通过X-Forwarded-For获取用户真实IP</span><br><span class="line">        proxy_next_upstream error timeout invalid_header http_500 http_502 http$</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_set_header X_Nginx_Proxy true;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>/etc/nginx/nginx.conf 下的 http 中添加</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">include /etc/nginx/conf.d/*.conf;</span><br><span class="line">include /etc/nginx/sites-enabled/*;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重启 Nginx 服务</p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>Nginx</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Oracle数据库操作</title>
-    <url>/posts/50348/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>Oracle 数据库</p>
-          </div>
-
-<h2 id="Oracle-用读写模式查询记录"><a href="#Oracle-用读写模式查询记录" class="headerlink" title="Oracle 用读写模式查询记录"></a>Oracle 用读写模式查询记录</h2><ul>
-<li><code>select \* from user_func_role a where USER_NUMBER=&#39;258&#39; for update</code></li>
-<li><code>select a.rowid,a* from user_func_role a where USER_NUMBER=&#39;258&#39;</code></li>
-</ul>
-]]></content>
-      <tags>
-        <tag>Oracle</tag>
-        <tag>PL/SQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NexT-Pisces主题配置</title>
-    <url>/posts/14831/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
-<h2 id="背景半透明"><a href="#背景半透明" class="headerlink" title="背景半透明"></a>背景半透明</h2><h3 id="新建自定义格式文件"><a href="#新建自定义格式文件" class="headerlink" title="新建自定义格式文件"></a>新建自定义格式文件</h3><p>在 <code>theme/next/source/css/</code> 下新建 <code>_custom</code> 文件夹，进入文件夹并创建 <code>custom.styl</code> 。</p>
-<p>在 <code>themes/next/source/css/main.styl</code> 中加入：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@import</span> <span class="string">"/_custom/custom.styl"</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改-custom-styl-文件"><a href="#修改-custom-styl-文件" class="headerlink" title="修改 custom.styl 文件"></a>修改 custom.styl 文件</h3><p>我的配置如下：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.content-wrap</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.header-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="文章结束标识"><a href="#文章结束标识" class="headerlink" title="文章结束标识"></a>文章结束标识</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>在博客根目录下新建 <code>source/_data/post-body-end.swig</code> ,即 <code>_data</code> 目录和 <code>_posts</code> 目录平级。</p>
-<p>在根目录的 <code>_config.yml</code> 取消 <code>custom_file_path</code> 下 <code>postBodyEnd</code> 的注释。</p>
-<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% if not is_index %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"text-align:center;color: #ccc;font-size:14px;"</span>&gt;</span></span><br><span class="line">    -------------本文结束 <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-paw"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span> 感谢您的阅读-------------</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>hexo-NexT</tag>
+        <tag>Java</tag>
+        <tag>IDEA</tag>
       </tags>
   </entry>
   <entry>
@@ -467,6 +437,68 @@
       </tags>
   </entry>
   <entry>
+    <title>Oracle数据库操作</title>
+    <url>/posts/50348/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>Oracle 数据库</p>
+          </div>
+
+<h2 id="Oracle-用读写模式查询记录"><a href="#Oracle-用读写模式查询记录" class="headerlink" title="Oracle 用读写模式查询记录"></a>Oracle 用读写模式查询记录</h2><ul>
+<li><code>select \* from user_func_role a where USER_NUMBER=&#39;258&#39; for update</code></li>
+<li><code>select a.rowid,a* from user_func_role a where USER_NUMBER=&#39;258&#39;</code></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Oracle</tag>
+        <tag>PL/SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nginx 反代配置</title>
+    <url>/posts/13817/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>Nginx 反代配置</p>
+          </div>
+
+<ul>
+<li><p>不要用宝塔下载的 Nginx！！！！（不要问我怎么知道的）</p>
+</li>
+<li><p>进入 /etc/nginx/conf.d 目录</p>
+</li>
+<li><p>新建一个.conf 文件，名称任意，内容为</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">upstream ice &#123;</span><br><span class="line">        server 0.0.0.0:你的服务需要的端口;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name 你的服务器IP;</span><br><span class="line">        location / &#123;</span><br><span class="line">        # 后端的Web服务器可以通过X-Forwarded-For获取用户真实IP</span><br><span class="line">        proxy_next_upstream error timeout invalid_header http_500 http_502 http$</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_set_header X_Nginx_Proxy true;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>/etc/nginx/nginx.conf 下的 http 中添加</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">include /etc/nginx/conf.d/*.conf;</span><br><span class="line">include /etc/nginx/sites-enabled/*;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启 Nginx 服务</p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NexT-Pisces主题配置</title>
+    <url>/posts/14831/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
+<h2 id="背景半透明"><a href="#背景半透明" class="headerlink" title="背景半透明"></a>背景半透明</h2><h3 id="新建自定义格式文件"><a href="#新建自定义格式文件" class="headerlink" title="新建自定义格式文件"></a>新建自定义格式文件</h3><p>在 <code>theme/next/source/css/</code> 下新建 <code>_custom</code> 文件夹，进入文件夹并创建 <code>custom.styl</code> 。</p>
+<p>在 <code>themes/next/source/css/main.styl</code> 中加入：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@import</span> <span class="string">"/_custom/custom.styl"</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改-custom-styl-文件"><a href="#修改-custom-styl-文件" class="headerlink" title="修改 custom.styl 文件"></a>修改 custom.styl 文件</h3><p>我的配置如下：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.content-wrap</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.header-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.7</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文章结束标识"><a href="#文章结束标识" class="headerlink" title="文章结束标识"></a>文章结束标识</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>在博客根目录下新建 <code>source/_data/post-body-end.swig</code> ,即 <code>_data</code> 目录和 <code>_posts</code> 目录平级。</p>
+<p>在根目录的 <code>_config.yml</code> 取消 <code>custom_file_path</code> 下 <code>postBodyEnd</code> 的注释。</p>
+<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% if not is_index %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"text-align:center;color: #ccc;font-size:14px;"</span>&gt;</span></span><br><span class="line">    -------------本文结束 <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-paw"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span> 感谢您的阅读-------------</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>hexo-NexT</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ExtJS-Java 前后台交互</title>
     <url>/posts/41187/</url>
     <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对， 请再试试。" data-whm="抱歉，这个文章不能被校验，不过您还是能看看解密后的内容。">
@@ -485,78 +517,46 @@
       </tags>
   </entry>
   <entry>
-    <title>Chaos Monkey</title>
-    <url>/posts/29264/</url>
+    <title>IDEA 遇到的问题</title>
+    <url>/posts/15956/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>本文介绍了 Chaos Monkey </p>
+            <p>本文收集了一些在 IDEA 中可能遇到的问题。<br>如：Project 的 SDK 设置，IDEA 的内存设置等。</p>
           </div>
 
 <a id="more"></a>
 
-<h2 id="开发背景"><a href="#开发背景" class="headerlink" title="开发背景"></a>开发背景</h2><p>2008 年 8 月， Netflix 主要数据库的故障导致了三天的停机， DVD 租赁业务中断，多个国家的大量用户受此影响。之后 Netflix 工程师着手寻找替代架构，并在 2011 年起，逐步将系统迁移到 AWS 上，运行基于微服务的新型分布式架构。这种架构消除了单点故障，但也引入了新的复杂性类型，需要更加可靠和容错的系统。为此， Netflix 工程师创建了 Chaos Monkey ，会随机终止在生产环境中运行的 EC2 实例。工程师可以快速了解他们正在构建的服务是否健壮，有足够的弹性，可以容忍计划外的故障。至此，混沌工程开始兴起。</p>
-<p>Chaos Monkey 是在 Netflix 整体微服务化的形势下开发的。为了增加微服务架构的弹性，需要确保当服务集群中有节点失败或者退出时不会影响整体服务。由于 Netflix 的内部文化，没有办法通过框架或者编码规范来形成一套能够满足弹性要求的框架。最终，Netflix 选择开发了 Chaos Monkey：一个在生产环境随机选择并关闭服务的工具。通过频繁的服务失败演练，使得开发团队对服务集群稳定性有了更高的重视，以确保不会因为这些演练对最终用户产生影响。Netflix 将 Chaos Monkey 定位为提升服务质量的高效工具。</p>
-<p>Spinnaker 是 Netflix 的持续交付平台，可以在 Spinnaker 上对 Chaos Monkey 进行配置。同时 Chaos Monkey 可以从 Spinnaker 获取服务部署的相关信息并通过 Spinnaker 关闭服务实例。由于集成了 Spinnaker，Chaos Monkey 增加了对多种后端的支持，包括：AWS、GCP、Azure、Kubernetes、Cloud Foundry。</p>
-<h2 id="技术原理"><a href="#技术原理" class="headerlink" title="技术原理"></a>技术原理</h2><p><a href="https://idarkboss.github.io/posts/16861">技术原理</a></p>
-<h2 id="使用场景（举例说明）"><a href="#使用场景（举例说明）" class="headerlink" title="使用场景（举例说明）"></a>使用场景（举例说明）</h2><p><a href="https://idarkboss.github.io/posts/35502">使用场景（举例说明）</a></p>
-<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p><a href="https://idarkboss.github.io/posts/35161">模型</a></p>
-<h2 id="Demo-搭建"><a href="#Demo-搭建" class="headerlink" title="Demo 搭建"></a>Demo 搭建</h2><p><a href="https://idarkboss.github.io/posts/51089">Demo 搭建</a></p>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>我们可以手动调用 Chaos Monkey 终止实例。 例如：</p>
-<p><code>chaosmonkey terminate chaosguineapig test --cluster=chaosguineapig--region=**us**-east-1</code></p>
-<p>应用中启用 Chaos Monkey，在 Spring Boot 应用中开启 Chaos Monkey 支持仅需要两步，首先在项目依赖中添加在 chaos-monkey-spring-boot。再然后，我们在应用启动时激活 chaos-monkey 的 profile。</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>de.codecentric<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>chaos-monkey-spring-boot<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">java -jar target/order-service-1.0-SNAPSHOT.jar --spring.profiles.active=chaos-monkey</span></span><br></pre></td></tr></table></figure>
-
-<p>在 Codecentric Chaos Monkey 库的 2.0 版本中有个新的特性：Spring Boot Actuator 访问端口，通过 management.endpoint.chaosmonkey.enabled 属性来设置是否开启，在应用启动后，就可以通过 HTTP 访问端口来访问了。</p>
-<h2 id="设计场景与应用"><a href="#设计场景与应用" class="headerlink" title="设计场景与应用"></a>设计场景与应用</h2><p><a href="https://idarkboss.github.io/posts/19759">设计场景与应用</a></p>
-<h2 id="补充内容"><a href="#补充内容" class="headerlink" title="补充内容"></a>补充内容</h2><h3 id="中断检查器"><a href="#中断检查器" class="headerlink" title="中断检查器"></a>中断检查器</h3><p>中断检查器用于在正在进行的中断期间自动禁用 Chaos Monkey。如果希望让 Chaos Monkey 检查是否有持续的中断并相应地禁用它，则需要：给你的中断检查人员起一个名字（例如，“聊天机器人”），在 Go 中编码一个实现<a href="https://godoc.org/github.com/netflix/chaosmonkey/#Outage" target="_blank" rel="noopener">中断</a>接口的类型。修改<a href="https://github.com/Netflix/chaosmonkey/blob/master/outage/outage.go" target="_blank" rel="noopener">outage.go</a>，以便它识别你的中断检查器。编辑你的<a href="https://netflix.github.io/chaosmonkey/Configuration-file-format/" target="_blank" rel="noopener">配置文件</a>以指定中断检查器。</p>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>运行这些测试的最简单方法是在本地计算机上安装 Docker。这些测试使用 mysql:5.6 容器（使用 5.6 版以确保与<a href="https://aws.amazon.com/rds/aurora" target="_blank" rel="noopener">Amazon Aurora</a>兼容）。</p>
-<p>请注意，如果使用的是 macOS，则必须使用<a href="https://docs.docker.com/engine/installation/mac/" target="_blank" rel="noopener">Docker for Mac</a>而不是 Docker Toolbox。否则，将无法通过 127.0.0.1 访问 Docker 容器。</p>
-<p>如果要运行这些测试，请确保已在本地安装 Docker，并抓住 mysql：5.6 容器：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull mysql:5.6</span><br></pre></td></tr></table></figure>
-
-<p>然后使用 docker 标记运行测试，如下所示：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">go test -tags docker ./...</span><br></pre></td></tr></table></figure>
-
-<p>测试将自动启动 mysql 容器，然后将其关闭。</p>
-<p>如果在不上下移动 Docker 容器的情况下进行测试。如果你不希望测试每次都启动和关闭 mysql Docker 容器（例如，你想更快地运行测试，或者想通过本地运行 mysql 实例进行测试），请使用“dockerup”标志以及“docker”标志。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">go test -tags "docker dockerup" ./...</span><br></pre></td></tr></table></figure>
-
-<h3 id="启用组"><a href="#启用组" class="headerlink" title="启用组"></a>启用组</h3><p>如果 Spinnaker 将服务器组标记为启用，那么 Chaos Monkey 将仅考虑有资格终止的服务器组。Spinnaker API 公开了 isDisabled 布尔标志，以指示是否禁用了组。Chaos Monkey 对此进行了过滤，以确保它仅从活动组中终止。</p>
-<h3 id="可能性"><a href="#可能性" class="headerlink" title="可能性"></a>可能性</h3><p>对于每个应用程序，Chaos Monkey 将实例分为实例组（分组取决于应用程序的配置方式）。每个工作日，对于每个实例组，Chaos Monkey 都会掷一枚加权硬币，以决定是否从该组中终止实例。如果硬币朝上，Chaos Monkey 会安排在当天的上午 9 点至下午 3 点之间的任意时间终止。</p>
-<p>在这种情况下，实例组终止之间的工作日数是一个具有<a href="https://en.wikipedia.org/wiki/Geometric_distribution" target="_blank" rel="noopener">几何分布</a>的随机变量。</p>
-<p>下面的等式描述了终止之间时间的概率分布。<em>X</em>是随机变量，<em>n</em>是终止之间的工作天数，<em>p</em>是硬币出现正面的概率。</p>
-<p>$$P(X=n) = (1-p)^(n-1) × p, n&gt;=1$$</p>
-<p>对<em>X</em>取期望得到平均值：</p>
-<p>$$E[X] = 1/p$$</p>
-<p>每个应用程序定义两个参数来控制 Chaos Monkey 应该为该应用程序实例执行的频率：</p>
-<p>工作日之间的平均终止时间（μ），上班时间之间的最短间隔时间（ɛ），混沌猴子使用 μ 来确定 p 应该是多少。如果我们忽略 the 的影响并求解 p：</p>
-<p>$$μ = E[X] = 1/p$$<br>$$p = 1/μ$$</p>
-<p>例如，对于给定的应用程序，假定 μ= 5。在每一天，终止的可能性是 1/5。请注意，如果 ɛ&gt; 1，混沌猴子的终止行为将不再是几何分布：</p>
-<p>$$P(X=n) = (1-p)^(n-1) × p, n&gt;=ɛ$$</p>
-<p>特别是，随着 larger 变大，$E[X]-μ$ 也变大。我们不对此进行校正，因为数学上的额外复杂度不值得让 $E[X]$ 完全等于 $μ$。还要注意，如果 $μ=1$，则 $p=1$，这保证了每天终止。</p>
-<h3 id="追踪器"><a href="#追踪器" class="headerlink" title="追踪器"></a>追踪器</h3><p>跟踪器用于记录某种外部系统中的终止事件。在 Netflix 内部，我们使用跟踪器记录到<a href="https://github.com/netflix/atlas/wiki" target="_blank" rel="noopener">Atlas</a>（我们的指标系统）和事件跟踪系统 1 Chronos 的终止 。</p>
-<p>如果你希望记录某些外部系统的终止，则需要：给你的跟踪器起一个名字，在 Go 中编码一个实现<a href="https://godoc.org/github.com/Netflix/chaosmonkey/#Tracker" target="_blank" rel="noopener">Tracker</a>界面的类型。修改<a href="https://github.com/Netflix/chaosmonkey/blob/master/tracker/tracker.go" target="_blank" rel="noopener">github.com/netflix/chaosmonkey/tracker/getTracker</a>，使其可以识别你的跟踪器。编辑你的<a href="https://netflix.github.io/chaosmonkey/Configuration-File-Format" target="_blank" rel="noopener">配置文件</a>以指定你的跟踪器。不幸的是，我们无法将这些跟踪器中的任何一个作为开源发布。我们的 Atlas 跟踪器与尚未发布为开源的<a href="https://github.com/Netflix/Prana" target="_blank" rel="noopener">Prana</a>版本进行通信 ，Chronos 也尚未发布为开源。</p>
-<h3 id="供应商依赖性"><a href="#供应商依赖性" class="headerlink" title="供应商依赖性"></a>供应商依赖性</h3><p>如果要向 Chaos Monkey 添加新的依赖项，使用<a href="https://github.com/kardianos/govendor" target="_blank" rel="noopener">govendor</a>进行添加。确保新依赖项的许可证与 Chaos Monkey 的许可证兼容：<a href="https://github.com/Netflix/chaosmonkey/blob/master/LICENSE" target="_blank" rel="noopener">Apache License Version 2.0</a>。</p>
+<h2 id="Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6"><a href="#Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6" class="headerlink" title="Error:java: Compilation failed: internal java compiler error(JAVA 1.6)"></a>Error:java: Compilation failed: internal java compiler error(JAVA 1.6)</h2><h3 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h3><p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115427415.png" alt="报错信息"></p>
+<h3 id="报错原因"><a href="#报错原因" class="headerlink" title="报错原因"></a>报错原因</h3><ul>
+<li><p>项目中 Java 版本不一致，可以查看项目中的 jdk 配置</p>
+<ul>
+<li><p>查看项目的 jdk（Ctrl+Alt+shift+S）<br>File -&gt;Project Structure-&gt;Project Settings -&gt;Project</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115842839.png" alt="SDK"></p>
+</li>
+<li><p>查看工程的 jdk（Ctrl+Alt+shift+S）<br>File -&gt;Project Structure-&gt;Project Settings -&gt; Modules -&gt; （需要修改的工程名称） -&gt; Sources -&gt;</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120000830.png" alt="Language Level"></p>
+</li>
+<li><p>查看 idea 中 Java 配置</p>
+<p>File–&gt;Other Settings–&gt;Default Settings–&gt;Compiler–&gt;Java Compiler</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120302052.png" alt="Java Compiler"></p>
+<p>如果出现的 Choose Module 框中是空白，无法修改 Target bytecode version.则：</p>
+<p>选中项目，右击选择 Maven–&gt;Reimport, 然后再次编译，问题解决。</p>
+</li>
+</ul>
+</li>
+<li><p>内存设置过大</p>
+<ul>
+<li><p>heap size 过大，2048M 是不行的（6u21）。但是在 6u45 上又要设置到 2048M。。凸(艹皿艹 )</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/heapsize.png" alt="Heap Size"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Insufficient-Momery"><a href="#Insufficient-Momery" class="headerlink" title="Insufficient Momery"></a>Insufficient Momery</h2><p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Images@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/image-20200306102435696.png" alt="VM Option"></p>
+<h2 id="“interface-implement-of-class-‘class-java-lang-Object’-not-found”"><a href="#“interface-implement-of-class-‘class-java-lang-Object’-not-found”" class="headerlink" title="“interface implement of class ‘class java.lang.Object’ not found”"></a>“interface implement of class ‘class java.lang.Object’ not found”</h2><h3 id="报错原因-1"><a href="#报错原因-1" class="headerlink" title="报错原因"></a>报错原因</h3><p>在调试模式下就会报错，暂时无发现异常。</p>
 ]]></content>
       <tags>
-        <tag>Chaos Monkey</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>FIS-CMS-WMS下载安装配置(IDEA)</title>
-    <url>/posts/35227/</url>
-    <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对， 请再试试。" data-whm="抱歉，这个文章不能被校验，不过您还是能看看解密后的内容。">
-  <div class="hbe-input-container">
-  <input type="password" id="hbePass" placeholder="" />
-    <label for="hbePass">您好，这里需要密码。如果不能解密请刷新页面哦。</label>
-    <div class="bottom-line"></div>
-  </div>
-  <script id="hbeData" type="hbeData" data-hmacdigest="946fe14382bab658b712d98bb4103e7b7d95366551387aefd3ef624bb3ef801f">56503e17de7fd7fe81c69c7f255076a3c60ac387d80f95d23209fd96699fd69b8a1f53a4eaed2d75557d974ebc9f7a48487526f90786729ec488baea5a0295911d438e5d735d93a0986ba1d9b23ec7425ae66b88f4456a75cbbfe06de15f0804aa36f195bc420ac5ab21dad85f310ae7d4cac23ee22786dcd900b700e8c8f98bcec96a4f347caab27393f2e517d8a4824236498fbc663aeca9d4ea6061b50c99520a459da631aeb65b4f18d91aaf7c689d299bdcd2feba45b183bff4a99fdb4cad6eba5c1e8d440cf14c43f6f2e5c15ff7405512af0069d8eb379dcfb9f3794bd3c33b048836215832549c932ec493cc0803cddb775212c995fa7b3faf702ee260f2dee506e4426e375d03df62232b7d33cf7c264f748ab42acf7f12fe68f774d35159f7aa6edc05c6cc3e65a0efcc8dc6859e8763e420a0a4e1d432c98f30c0a690a35a7944bedb2585c8a5057521ba956839442511e2eb8e5065402adb046e3aa8ced5fc808f358ec0391f637f3f761899191a7b49a2f3dce8b5dd51848c018b8bad88b1f8faf62117970a9f428c81d1179cc3e47fd6573f11fdf4e710227f46119bb3ea95def53979c6f3fbaaea8f7b784f54fa5ea85eb304cda9c6ed296e4a3457e0660993470e7e9c772ed9fe3e284dc5afff1ba377f03bf6b51fe970205e22be1243195447979b08273051d5370415b324056753e07861091318f7c7f3b6f21ff3e8abad60ce847c2f61b61f3b1997e3c7b1c9759400f21e416bbc1cb655c8004d844504b02a81658cfc554f879256e3b30e55c5e64746015ad2d5969a8efba6bedac2d77ea52c3682dbad1555b1f89bd1b724b180fa4cf0663f89843be18faf05a91fd5a61828cfa31c8e19e25a2654b0043b3245ef5cd6af2e02d90880e8d8df1f248690766d7b84b0ed45d8af9b590be4128237b600eb32e458660959dafd44fff4260ec72fd8fd53e86a8f30fef0bdb3a1d4d2ba693040b4e37441b55e08e43c234f3dcd6bf2647bf4d24d7e6857eab87dd8f3b0cecabd2e44ad12a462a9a944d4942dc27021084d1eaf0b81fa133aba4c76d0607b49dee637caea2ed1ccd569212cc5f28153312cddce2c37cf1563dc848b1a34213c8767a51a928d4f66ccd1f7514bbbc4593e2da80c0338e543cf2074dba26923bb54d3272c2e6466335ea2461ed09f35d1b109422b6d5a8e6c439f074f17392be9d37fb919902b1f3fd7eb759061add42a1cf5bb066f0d921df26224fa4bc5bf430ea719562c76366a455510db3ba5e1abf8288f432d8329095afbc420752e891141148e495ab557d40c066ef5344eadc7b3ca1727c5a26305c120f83619493177d58c0f335ce8f635b13e58126836bf841d3ccc6bf43cd5a72d5bf6f8048c48c685caefecd1111e741b563aff8bd5c3ba0c5baf84a96d5741ffcda4e86a4328fcb8b2eb374c6e9121c4626a4b94c9f1c512def22efc04bc1e506039e2f1eace5f6cf660435122ecf28ae8a3a1b1b1a754185d2acab970f600e24d623696153d2d7370212e37d1b80fdf8dd5c308d5d0cf54f4cf7bb4873ad7f18a62982495cec3d8817c6448ba0608a32e1a0acba9d3fd8b51d65d43f9796d5af681d8513c3fb60438e11bafcd216071d4a8e663b42723cd200e2f9bdc96692dfe6b989618e8faef61e5340702e1fe34e4eaea9029d40cba0ed4b46bbfc737cdaaefde8bd11901524e58647cce325eb34c1a1338e7e1362eeff8b23a01e9a8929f9d43e167df497f14d35e4bcdcc292910e04246ec65f33b2c96497d2b13fc629ff5639d84279c8da3bd9fb04aad75b74cd878240e34dadfcf385de07b2fbd1cc45cfa705268b19dfc07f56529bbf1ee0ab7eaabdabdb2fff388e9f1860843c99de24d0615b9ac7fe2dd6ef0ae9a29b2485a3757e8b578254e0750a18eddf2805fa5e90405004255718a8a06eee793d38365620fd77d95777721502b44aff420b5e65f47d18452456a83c8f302fd8d4d8a86a79d640b25b6b116449d2d0ea8616ba1d0e13496c48a7a795a5ea47e0be6f6b6d5162bc85ca20cbfe9bddea27ed9e31edce5a65b7f97669101daa5d4a2bfdf5c17610d1f03761100676ac9a622ee763428c0dc606f246ee6511e9f3c665e76a5576890a9ea8fd4ba1ceda3469716742516a2b35a451f8790a65cc6128989187b9a019ee966d83507434bd45abca6cbeda97a4246c8e3cad809bc19567b781820dfed89fc9fa65c926d75e58b47ece84d9d3d93ba84c94d08b467e7e1f78c2bfc25084e5fc80f8e95cf08e5479d77f368e766be4335dacf470392fcf75764a401cf8a06854dfb8256006fe19a04d5d078bfbf99b0d69d229da37fadecb820b729eb47f8b4d9c468c11635a1275e3041d02c2bf4e7dd6cbdcd11415ba0c8f70e521444e026e9f7b2a5c1e3a8894dbf9986f0abc44b128e4c53b1e1958703020af4d2608ca5aafa638ab2241a354231518a48f7da1b6b95382cbee7917607822e01358a12f48878e4017274202e9668c8e9a7d99e2c6b292b0c4d9881079c71c539f6e5fb9c87cf89ed5c457b7687c7903f77f39c120da43d6608f931e30d2ea0958c15259d0ccc0a49717f091760bea19f0e57e1791f3c31065f9e2ecb4c10dbbc5d8a7e735cd472bc5864193ff9ff5e7d49ce71e2cd14f82955bb45685c2e50a50e92bda14a227a521073e6fb25a6c91960a6233e66604befaa8b131a9ea7cc42a58beb675f99486c51e2fe9147fc557fd4700634dc8644d07a68ca5b8e0f01b36fb3f2ccf54291c90694319be6dcdca462975b8437a86165a26e4e6b93be4e9f0c68cd1e16a02c4c0234d11c121aa018ca39d5ae5a17933e05e6e75f82e4d194543b3d2c810d6818476928daf021887d0d3f6c854d45fbcc7c218f5390fc39bda0d20e22caf21ab8e2c0bbe08773be6d3e1c647d22d1871dc6990fb3483f3db5c8c7e625d6d20b0b73ec6967ec629fddd6d731c4c7c9f6f43bed4d22edea48bf411a2e10a35fcb622eff8e2bf50f987902d63c0ddbaf84daf00cc64f91c9139cb1b01bdd0a7abc59c06bf25b5ea62a48e1c22896872acdc05c1a57448fcf763873af184abd90aa2384f3127aeb26713ea760be3922c8c3d98f4b5267366c1c1c349c3ab858097cf7e39f7ca448857915caad6ef1bf4f4a971157a01c11138a0d8834bcb17a642deb3c6f36913bdfc8aa1a9fb346be58b8e6860263fe27b555f671e53289c8eab74b4bcba7b20b60a26603d98a90b7dae4e2ad98bc2f02c443fe45971bafc92ab52ab975e33d9d2da4832966612d17ace928d3b2f541dc100aba74a05f7f56e4a40fbe308fa9c11ef289cdebac5e08dba3fda2671d5bfce4d7c25623deb338a33353d606a28b822d7a9dbb1a54b51acb7d836118b8d8bbbba7d669cd9dcaae75f96c49f2dcb312a343a02158c06367d251353b24a72d30ea604b1abfb152ff3b1b1316b1b8cad6b71904085e3de3adfad4a15cbb2a5f838ec6de52b509e0de7847157ebdfdb3f5dfa2bb6a27d49c8d7ef4bdf4d01eb3071f80f15776427ccf64975dd0b90d209b81a09a29ec86331b3815f44883207dd6b5ed13165639d78ec7b7c3d4f0233ca57c4e67a81b5a49f0c946b6bc48afa80ec3a8d3bdfb852d675826ad6f93dc454bb95b1135952c6e41d7b1b92fcb6d20f692026be2cce1b685d5af902f9bb3b86a2044ecfe46a3969d15340e8153be46beccb26ebde24402fbd985fc9dbed7e9d90c482f28384a99ad9a4033b8e2cbf3abc66ebe8df2f457c82779f87df04caf509a1bff46c435a94cae8a57d3e6fe6364640dd966b5b145a5e4a338d1d551112e8fcc3daeb61a0394cba2ed2292dc7e9e58a579ecc3e4b20457b06d1ce4f063ce8512a29706f1f743f406a56a030a56d85363b9555b60b26fe5ab8730bd53ce5b0c9a767011cbd914a9c1aa1c9f27306b3a24e1ae4ab39ba854754b2605c6015ff91be8f8c7baead823e24ecc09c617d2ee4cf2adf0e1a5e35d14c4e6d835dc5650237da9a12e907f6e0f40abaddcbf260f9efade70d4a81d659b8b765aaf6932fcb03f26db0675fec02cb58ec040bc849991fffc6bf3badd080762f9a09475021b45f13278659eef9fdcf9d4f65fee58595af4659dcadf317603302ed436ab9df1a576d9dc4e1bd783d168d195cee314f886646ba27bc392a31a1d13034a5681aae9f1146fce7421e0ab40d42648e1695d9008b830a24aa6e181aef04adc4620597e3222122cfac69cd6fe8e9e13fe91724a4bb45035c52ba96e799c185ea35c70ad65ea351dd9c224560fb0f3c799f32acebcfef9cc7cd4e366aa16ada120a9910eb6fe807384e3f9293714f1ef500d8de7a5366b2c29b00cebcc65669e24c818e4794a7fcf8110f53df341136bf48290fdb75c196a8c5cc5fc81cda14fb6f2b26e2818522b7750b1ec23bd613dbef3c487dfe404c1b96846b54211039f95b8f54544cf39cf21692bed6ae5a0c3d1b99e26df941fdeaa8b92cf8525accc7a1f2ca9e75cc54e0d4a2100e6d3ff8688325f816c04e9f1b50038fcc4327114d26cde036d18155485ccdf7b3ce3b739bc875fc458e8da3f6fe43d507c31b44b36e4640ac88528711c5e1edf071d314e012afe2dd396b963448353ef065126d4abf52eebddd5d961e299294df07ffeb20faac5d24e11cfe98bafb8595f0c60fe3ffc0125a210fd4e89aad543383fb72a7bc020849af9bedb14f3ca5ded827049a46101994a989bf46c01db2b91a17de0cf8c2ebd8732cdd088850275cc7fa9870c41066a005f480d24e58efba01ecfcd314880f4a4dc1821132aaee6c4815039b340504409d05124211e6896fbf06983a82b940c10496bfa7463a6170d76a2bac6607cc6199fe807bd60085deb87c2d41798c75f660aae2502a016e748e90c96d336f728b96c8a5dc2f0ea656651a158cd6ee5293f816d6da5b0c1bf640591c95f7de5c2fb2c4fdcea280b1196e9e5bd1ac5f1a434acb97996816fdf5bfd9f8e0c076704fbeb609429f3d1615c32c4632c140c6616baeb000feec14a1eefa61dfeb197c3f0bca4a61a9b462485064f952335d10b56790794fcb6364ef1c319d44c3d86ab382257f6ab06eea6f0d8d529059edc3ec53eeda7f00daf23ce1352f938829378e25a20d474ec4ba8b66863480d10da84af47dc60a4325ebd3397d2d824adbf2e5fcc2633534cd02981c0164249414315ed0bd5e8dad7035c951a2a54d5ef63699617fbd6ca4c64eb2cb88fd7ae351747ddf3aede1031197a65b42a78f76639457de54a08526d9739e6fcfc086faf9746bcdc0cf8edebd2053b092b30cab38041165f62ab554e2a7eb7de3346d0514f2d6048b34173d7294871193052d2b009fa65e386bb04c4601e824fccc90976d3aafe6e51786d056d8cbca685355c5d0c1a871927b1a2b98f57ed81bf7c1b9adeb28448bf3dcf76e8e36bf5dbe9b94292bd9965b50a1d14a3bcd59c20677b6b4c4a58acffc2bc905ad07bd740dadb4426e4e67825a0c2924abf6152f805eca7850f1f3adf320e997b9f852b95eaac7a177bcd8f66312f6f416765d61b2bc9d359643d524b1b05493483910ddadf1e03e4a913f2b6a9b008be417c6154ef31c8b7fb78f0afb91834ce377559bf12706f11b301a3fd15090ff5bb61227dfca8a01f60eac79b5c4df08b005ae06d5650a2486eeb9bbdcabce890d4e8fdf784ecd60cdb883f3e62f600872047cc0a3c149283c783c8a3fe3ae966942bdc109d391f695c9fe7f183357818ec0e28a536688cdbb1bca60f538c59146eb23575d0dcbd2e99384b737eb5dcc3974df2cd205d6fb0e317af4d0ef7dce8216ee559d0ed391fa35a8d581f1e5d6dd949833d56970e6e6908134429c410d357bd136fd026341b09cddc86cd47b43934f9d74fee631fb45c899c685ec1b2f9e36f61652f6447c2b61e1ac23bf61ab1aacb2d8e0d1dd09ab5255e50e9eaecd3c9e17f331184e51ebdf9efa15b87b2410c760c1c3d92f6f1bb8f3b839c3e1d289579a91680a100b14f1bc8097eeb8eaffc0112bd7dcfe58fbe02a11621f1eb4531b168231ec56c0ba962908b5c904319229f399449889153b37cb0bfc5a0b26cebe83977583c3f62e270685d5892c480da31ad25c0549166cbba5d05992445ee5cfb999451fc37fe7e25cea1ebd37f344b5c523f31d1b66f5c93b568ea5ad8886c7c98413d64ef414617ae5ce2b1a3ac2db1c4795fc80c5071b618ae65a5a3cada916b30</script>
-</div>
-<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
-      <tags>
-        <tag>Comstar</tag>
+        <tag>Java</tag>
+        <tag>IDEA</tag>
       </tags>
   </entry>
   <entry>
