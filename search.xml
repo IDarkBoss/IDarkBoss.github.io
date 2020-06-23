@@ -183,52 +183,6 @@
       </tags>
   </entry>
   <entry>
-    <title>IDEA 遇到的问题</title>
-    <url>/posts/15956/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>本文收集了一些在 IDEA 中可能遇到的问题。<br>如：Project 的 SDK 设置，IDEA 的内存设置等。</p>
-          </div>
-
-<a id="more"></a>
-
-<h2 id="Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6"><a href="#Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6" class="headerlink" title="Error:java: Compilation failed: internal java compiler error(JAVA 1.6)"></a>Error:java: Compilation failed: internal java compiler error(JAVA 1.6)</h2><h3 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h3><p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115427415.png" alt="报错信息"></p>
-<h3 id="报错原因"><a href="#报错原因" class="headerlink" title="报错原因"></a>报错原因</h3><ul>
-<li><p>项目中 Java 版本不一致，可以查看项目中的 jdk 配置</p>
-<ul>
-<li><p>查看项目的 jdk（Ctrl+Alt+shift+S）<br>File -&gt;Project Structure-&gt;Project Settings -&gt;Project</p>
-<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115842839.png" alt="SDK"></p>
-</li>
-<li><p>查看工程的 jdk（Ctrl+Alt+shift+S）<br>File -&gt;Project Structure-&gt;Project Settings -&gt; Modules -&gt; （需要修改的工程名称） -&gt; Sources -&gt;</p>
-<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120000830.png" alt="Language Level"></p>
-</li>
-<li><p>查看 idea 中 Java 配置</p>
-<p>File–&gt;Other Settings–&gt;Default Settings–&gt;Compiler–&gt;Java Compiler</p>
-<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120302052.png" alt="Java Compiler"></p>
-<p>如果出现的 Choose Module 框中是空白，无法修改 Target bytecode version.则：</p>
-<p>选中项目，右击选择 Maven–&gt;Reimport, 然后再次编译，问题解决。</p>
-</li>
-</ul>
-</li>
-<li><p>内存设置过大</p>
-<ul>
-<li><p>heap size 过大，2048M 是不行的（6u21）。但是在 6u45 上又要设置到 2048M。。凸(艹皿艹 )</p>
-<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/heapsize.png" alt="Heap Size"></p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="Insufficient-Momery"><a href="#Insufficient-Momery" class="headerlink" title="Insufficient Momery"></a>Insufficient Momery</h2><p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/image-20200306102435696.png" alt="VM Option"></p>
-<h2 id="Interface-implement-of-class-‘class-java-lang-Object’-not-found"><a href="#Interface-implement-of-class-‘class-java-lang-Object’-not-found" class="headerlink" title="Interface implement of class ‘class java.lang.Object’ not found"></a>Interface implement of class ‘class java.lang.Object’ not found</h2><h3 id="报错原因-1"><a href="#报错原因-1" class="headerlink" title="报错原因"></a>报错原因</h3><p>在调试模式下就会报错，暂时无发现异常。</p>
-<h2 id="java-lang-OutOfMemoryError-PermGen-space"><a href="#java-lang-OutOfMemoryError-PermGen-space" class="headerlink" title="java.lang.OutOfMemoryError: PermGen space"></a>java.lang.OutOfMemoryError: PermGen space</h2><p>VM options 添加：<code>-XX:PermSize=256m -XX:MaxPermSize=1024m</code></p>
-<h2 id="无法从静态上下文中引用非静态变量、方法"><a href="#无法从静态上下文中引用非静态变量、方法" class="headerlink" title="无法从静态上下文中引用非静态变量、方法"></a>无法从静态上下文中引用非静态变量、方法</h2><h3 id="报错原因-2"><a href="#报错原因-2" class="headerlink" title="报错原因"></a>报错原因</h3><p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/risk%E4%BB%A3%E7%A0%81%E8%B0%83%E8%AF%95%E9%A1%BB%E7%9F%A5/2020/06/0920200609170308.png" alt="image-20200609170259693"></p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XmlParser</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//实例化</span></span><br><span class="line">        XmlParser xmlParser = <span class="keyword">new</span> XmlParser();</span><br><span class="line">        TradeInspectionResultBO result = xmlParser.parseXml();</span><br><span class="line">        System.out.println(result);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>Java</tag>
-        <tag>IDEA</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ExtJS-Java 前后台交互</title>
     <url>/posts/41187/</url>
     <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对， 请再试试。" data-whm="抱歉，这个文章不能被校验，不过您还是能看看解密后的内容。">
@@ -244,72 +198,6 @@
         <tag>Java</tag>
         <tag>Comstar</tag>
         <tag>ExtJS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>FIS-CMS-WMS下载安装配置(IDEA)</title>
-    <url>/posts/35227/</url>
-    <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对， 请再试试。" data-whm="抱歉，这个文章不能被校验，不过您还是能看看解密后的内容。">
-  <div class="hbe-input-container">
-  <input type="password" id="hbePass" placeholder="" />
-    <label for="hbePass">您好，这里需要密码。如果不能解密请刷新页面哦。</label>
-    <div class="bottom-line"></div>
-  </div>
-  <script id="hbeData" type="hbeData" data-hmacdigest="aefea2e8c2562b046e7a92a192c1f43089f4a8f86f719eacb39821676c01bee6">56503e17de7fd7fe81c69c7f255076a3c60ac387d80f95d23209fd96699fd69b8a1f53a4eaed2d75557d974ebc9f7a48487526f90786729ec488baea5a0295911d438e5d735d93a0986ba1d9b23ec7425ae66b88f4456a75cbbfe06de15f0804aa36f195bc420ac5ab21dad85f310ae7d4cac23ee22786dcd900b700e8c8f98bcec96a4f347caab27393f2e517d8a4824236498fbc663aeca9d4ea6061b50c99520a459da631aeb65b4f18d91aaf7c689d299bdcd2feba45b183bff4a99fdb4cad6eba5c1e8d440cf14c43f6f2e5c15ff7405512af0069d8eb379dcfb9f3794bd3c33b048836215832549c932ec493cc0803cddb775212c995fa7b3faf702ee260f2dee506e4426e375d03df62232b7d33cf7c264f748ab42acf7f12fe68f774d35159f7aa6edc05c6cc3e65a0efcc8dc6859e8763e420a0a4e1d432c98f30c0a690a35a7944bedb2585c8a5057521ba956839442511e2eb8e5065402adb046e3aa8ced5fc808f358ec0391f637f3f761899191a7b49a2f3dce8b5dd51848c018b8bad88b1f8faf62117970a9f428c81d1179cc3e47fd6573f11fdf4e710227f46119bb3ea95def53979c6f3fbaaea8f7b784f54fa5ea85eb304cda9c6ed296e4a3457e0660993470e7e9c772ed9fe3e284dc5afff1ba377f03bf6b51fe970205e22be1243195447979b08273051d5370415b324056753e07861091318f7c7f3b6f21ff3e8abad60ce847c2f61b61f3b1997e3c7b1c9759400f21e416bbc1cb655c8004d844504b02a81658cfc554f879256e3b30e55c5e64746015ad2d5969a8efba6bedac2d77ea52c3682dbad1555b1f89bd1b724b180fa4cf0663f89843be18faf05a91fd5a61828cfa31c8e19e25a2654b0043b3245ef5cd6af2e02d90880e8d8df1f248690766d7b84b0ed45d8af9b590be4128237b600eb32e458660959dafd44fff4260ec72fd8fd53e86a8f30fef0bdb3a1d4d2ba693040b4e37441b55e08e43c234f3dcd6bf2647bf4d24d7e6857eab87dd8f3b0cecabd2e44ad12a462a9a944d4942dc27021084d1eaf0b81fa133aba4c76d0607b49dee637caea2ed1ccd569212cc5f28153312cddce2c37cf1563dc848b1a34213c8767a51a928d4f66ccd1f7514bbbc4593e2da80c0338e543cf2074dba26923bb54d3272c2e6466335ea2461ed09f35d1b109422b6da59b4e3f079a7067fea3867fc6d53045b263967d95278beb101e0b557937ecfb0ed5c8d620d4cf992c6a134790fa5763a2fd1305457638fa11bfa3e6b0aaf2eb745888150c82f7dfc073641cb701e74bc929e444dcf890dcccde8c95bfa487fbaea22bc5a2704932e9d84539fd55823b63bd55c1c7f826f05efe91fef7edf20c4082fdce045bbf222435adf7c4f33c2da8d459c8d31bd9f9325b399576e66705b6a221d74d69bcc65bd0a3146ee51ab95536455323ad81ac48f82545afda666fb5c0bae946a791d856b4f59d207f6b4160504704374967c88487b2afd4b7a5cbd95485ed033b4648417b4d61cb5edad476156d02c561788061323e413aa62cb371ac0c8b02aca18593018abe1c1af56f6f2ee271722da06708c3e4fb49cfa436aa7a9fa02be614855430282b508617be17217e311b72b51d7c3fc99a681ef032257aa1289e3f69c9953f3fb08abe063e352eda069516a04e8605df5a75b24c4494a2546c3ddb7c06a95ae342c73f1027e1f64587cf405a7fe365aacde9efb591345e18b4ea30e8757efc3c9c0aafce1512e0ad304ee3f9baf8c4f3b21476d3bfe52d505a37abfc7f007a16a497a61a7f2245066728b32fe19e59c8b0b641a5068dbb6ac34fca2891a61914cbe13db611f6f697a3bd4f9fef59c511788084597254c2a0cf442d1fa57c40525634557869db26864d30d7ae6efcec4cd65d17c00dbaf92ba808a148097c080537acb8ac07083b140072a6422a4c76158117ca01bc08e7d93e5ff84100bafb133975609384fc50c7e3ee16c3ad16985c28a3af84f3e2ee60f2a2cd1160b8e31e4c57633f9377d7fdb38724ee2ece7eb5aba2871d0929fa600dc682a60ba3d5911c1c6bbc7b1ccaf944fa846bf0f0cc0e4e2701481632333da1a10c55be175466adc41687c4b25de843b822b202dd7ec8b765a30babf69202002b0621af536a2ac5702396a0fef4ec94af89870e794ec6e89b8d24b02cda767a3ce30d8f44f309896f0c2389319fbb40af9ee8029ac141833c4db296907f7868ae54d1ad30896fdfb3cc5d35b14635d8f2783269618a1f1d64d58f798d7dcd611ffad3d14a35871f298b74875e1cce3b21a9305a26a1e104dbb2a506cfd8d9267fb4a11753a7881578375161185eba17af26a3f8957d2cceb136896eb84e157009385a8a70ddc795f9649003359422719e9c18d94bf19402d493a4257b3689532b403837e09ddcb827c8c42c3187ac7183febfa431bb1f8255603e1ea97360048787dffbea30103351e2474e28fd5a755a440bc91cda5ec1744cdb3befe34faefdc221acd09844bda95281172b6df912fe1b3aee6710ac36045376f89321f23ba045cab3acf9fe51b95445b94000a6456c7b7f69437a6202b58ced92b92848a4821e6a49e4f6cdb34b3be7d8f7b18dfa93bd963d187b0967cb4d1ef5514e7c9856606532323079a925e7fef5936956c9f29f853544411abaaeea932d476e042457aed662ce9621be053af0369c06288814bbe3b462f1c816000d224976b2d9c076d6343f0a294c9090634860487b39c3bd882ce46f38c825ecae4097aa3e65f5eb4de0a5855f28e595174fc6b2f68fae73d9e45fcdcc05e2f81d267da51cb87fcc3a7c262e151104aedab90db3c703b6ddb4120046f7aa6900433af835da02969e25a624e64110434f35b81217528093375ee7fa9efa41200d8e65a2c7ac8f472817e1a4409802bdd3ae83c0e952b9bc59104b583049df7b932c5d40947c3f6ca9e598412b0ba1500ad3517409f15673ae8d491f0027e55d5218d5a58abb5017f308c72fd120b2599cc186fc4730d4aaf5de283bb0dd86e7ea8a7ccc54deff47ca89580863fa777b2165849a0d9837a293cc03b4d465f491a06408853361dd170944205909a2dca351c01790869c3f8bccd3efb744d2ff9af579a4ada9506ed1668f1f2b16ab303eb77ef17e63670dc3d5b1317633b419cab642bd89b33bf4a8d7e5beffadde33d7700bcbc5b2048bbfe139b1f19aaed6795326165b1ed027c4f81ac5e116d227394a98fde89caa4cdaeda6aa494b944aec4d4f2f81d910b729b96962960cfa661f6fa77ba958f75dc0ae34f54e342fd2635ff8da3ac8a33f1e1ccb40cf544e92043ba160b1f8fd62eaa2cf57107703ec4d4983aeb656b1af070c8691aba38bf372fe146dcca7fd55c8e878c8dd0cffcc2df0d695fd53eeccb8c631eae8132c8a11c4df09fa39b561c471f904ef5326ff2b7c0985efff7e0d547a57edb45845566880c153a40b84d3bfe3e23c8c66f54bcb81f84b4343facaf8c42971dc9c39aa9da274a8761bed3a2f088aeb3bb43509cc410140e84d8277e9d2eb280cf3fa871efb61266e99237ebcdd50474aa49e6176014afa8b2b1dbb436876175df5c03258e679078aede24a8bef03cb8578f482687cd6e0b89010b330f2e7f5bde65ff99dca670acc74c1538e82e8eb6ae8586a0e1cb2a763ccfc2d1faa0570e8cb2d268d82fc45afb9dfb69671f7d835df16bf06d12741cf0b2ada5ff099b3712225c418c6120fb2745e81e8f70cc928cb99e99a601af4db577773f62248197ca3179f543ccdecefbed8d145873326b4cc538c6be0a53d6185e28648b53ec5d60a91683c853087337f065098cb54c9496266fea35106705162d76923e8b360c48cc30ed289f9c747d9851d797ec6ba4a01d9709821b3e24af5974b0e7297cd5a81bcaae490eb313f49dcb55024ff734f8e1f403585d74141c1bb413382d5d843f43bb787a866a93ce92eef80bfad6ceb1eaabf560e9a5c2580e9b777fd201e6e150a8836ac36006bc79ae03673ab12c1330351be2c47e95678d2a7d32089c570b3081e3129ce0232301174286d3bd7fe927253257597b8ef00ad5402ff0dc331ee73be9411152c57e08f0d31df00ce12a5241c1efd28fde846714968aa0bfb46e8016e659663e196fdcab38642184b166254b7264dbafcfbed7180d63ec48d86f54d19b5389c613803556ff5b3e45010e6428af3c97fa19d6344ec3a33d4b615284b5ea4992abb64d413e0595a4045ae6d7ac91ae29b510680ab3fa82f7d4c3395dd6eef9f75cd0687168c23d2d34729f557e512bae766e069bcc4319da448adc9c7fd6e53bed40d63a222a9c2280e0c20a29afec30f9902e5e6d1069601c6aaab187c200285ae7a59419b8d8739c1748250fea4b7d9dd1e4bd11ade3c6ca4e8b320f9a59b277b2b519713b966156e8bc3ebdab44f7e2e2ec6d514fd1fea2527569a79ebbf9f8231e3404a2e8a14b731eae7fd9d6c133be74019ee910b9ea7e56d6274f57d262e4ecdadc786d86a2309d121f5330797036ffde2338f922175e249d782f6bb33c19deb2c80d8af744fc8d88e051bdbd13d71dedae5763f671b01cca24b98ecbef97a4b5cf063bcdde1cf47d968802737a4fa977b27ebeea85c7fe09d60523926e118cd4e2c8af451b0bca12e105943018a9c8b4caf20940ccf779f17b158cd7ac3fccd58a1d7bf6d153593dcf7d0e0469fd89b329f411e0e29986778e48730bc105b6eb2e0809cf343743b8b5581baa7a3177d0609b252800d4bf488c8b80e419d0f1cd689a13c72d9937213653234aa9ccdd70acd2a7ebbe5c03d35c8147ce5d2faf897a8f7b3e5a89178aff0d334576835994a9ee0c275259d183b150aba229e33661c01b2e4b05c8aa7f14e98485baec3425e303ba70023ab61576188ab7fb154416fd00fe987978bbf7e77e2e011e04add06f828a696c77262314abd48ce420764df18cec079c12a9e89d0554ed9ae3cdad99bf54b4267e2d1bd71ac50fb3376c231e678a4e05117ca139cc85fc4df682247b34519887dd79bfd6188468e5955e2d567b646e709542605f900676430153fd649012a807466c4319e353a070086e7d4b9807e5eb5eee524fc41a809c677e0937f47d7a10a460d0a4194295c0b835f79d00eaa2296c75825c8945edba87fd881447bccafaac80404b52aab87330aa2072198e3f9306f11808bcdd336cb28c5f55da4742a6874670d249b9da693e393b37696535945cda0938a794449bb98960675cfb5095587614fca97cf835a5d07aa532deb7d39ef24fc2c1c519739ca14af7c7906e94573d1067575c091df9a871ee22f0cdb85ba2a9d6545f09d3cd894cfe6b4ae509eda1521f504dbe7aad426b3cb75548c1a2c492b05dd74c70972bb3d4ea9c23d69328d8055515ea11bf676f99080014bbe4bbe1052fb2fb657c005b2dff23f41870c6154075e94ab84fa367f3b00c24da1316bdda2457be4db58a1006be6fb96cf26758e8b53da67c67c4e2b6d7a31a7597b7d3ddbc172050fa51782a84fd65d2f17547db80f0b076aedeecac213d9b1793f42181cb180fb49c247f7a064044322a40fe586c7530fc07f6b8f403e8aa4e0902bad6c068bdca3335f297908ca15e24902fed4b876acc4f230fae804be4a8bdc0306c5c15e31e4ca7295842ccf473d7ee5e66faf5f1f6cbd6308c013e05e618a45b7632c15a090e6c56b4d27569a98216c47e7cb043763bd54ebd739d315f8f5ae9a80398df9a440ae511bf20121dd3ee27fee39cff1d86c7dcae9fb576fe1e3f398bf2005bbae79c87acc4fa7315c7fac6881119d13562534c20ca0108f6a5f7d500e02badbf8a147544fa7cc57ac76f55b5475f623a4ffda91488beaa15c83bd5d01b998adbdf12cef605220d6519d3fbce78c79e6795b73e754b1507cf363592ada91239ecd0f2079f690e25de35cee7110e4b85a9c1fb395533c197eb790a1bf544f67af61f597ba6f22933d2e177928dcc5a05a67a50de3f95a6b08aeae1eb4ca6a51e3e5f8d3919ff1a1e66ae941efa20cc5a4c989a4c44a123abee5a3101eb5622c3cc42bacd852f49092707077cfc0007eb3a44632dea96c00179e778a58429ac1ee42d7f5047bbeb8f684ec06291880f33f17280052bef130707094390e6821ca1abb306e76c2e708290669e3ce3b54da9f9252655838f148042b88fd3c1994302ffd31ae87d830a5df6202ae8c3b356e79e479f090bb63cf6426e075a52c39ba820eeaa0bc0cd05ddf6a5d6dc3334b75096053</script>
-</div>
-<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
-      <tags>
-        <tag>Comstar</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Manjaro更换Deepin桌面环境</title>
-    <url>/posts/1977/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>Deepin 桌面环境（DDE）是真滴好看，然而似乎有些地方并不是很稳定。So what？盘它！</p>
-<a id="more"></a>
-
-<h2 id="下载-Deepin-桌面环境（DDE）"><a href="#下载-Deepin-桌面环境（DDE）" class="headerlink" title="下载 Deepin 桌面环境（DDE）"></a>下载 Deepin 桌面环境（DDE）</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Sy deepin deepin-extra</span><br></pre></td></tr></table></figure>
-
-<p>修改 <code>/etc/lightdm/lightdm.conf</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/lightdm/lightdm.conf</span><br><span class="line"></span><br><span class="line">greeter-session=lightdm-deepin-greeter</span><br></pre></td></tr></table></figure>
-
-<h2 id="禁用当前桌面环境"><a href="#禁用当前桌面环境" class="headerlink" title="禁用当前桌面环境"></a>禁用当前桌面环境</h2><h3 id="KDE-桌面"><a href="#KDE-桌面" class="headerlink" title="KDE 桌面"></a>KDE 桌面</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl disable sddm</span><br></pre></td></tr></table></figure>
-
-<h3 id="Xfce-桌面"><a href="#Xfce-桌面" class="headerlink" title="Xfce 桌面"></a>Xfce 桌面</h3><p>似乎不用？我也布吉岛-_-||</p>
-<h2 id="启用-LightDm"><a href="#启用-LightDm" class="headerlink" title="启用 LightDm"></a>启用 LightDm</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl enable lightdm</span><br></pre></td></tr></table></figure>
-
-<h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure>
-
-<h2 id="卸载原桌面环境的组件"><a href="#卸载原桌面环境的组件" class="headerlink" title="卸载原桌面环境的组件"></a>卸载原桌面环境的组件</h2><h3 id="KDE-环境-详见-ArchWiki-KDE"><a href="#KDE-环境-详见-ArchWiki-KDE" class="headerlink" title="KDE 环境 - 详见 ArchWiki-KDE"></a>KDE 环境 - 详见 <a href="https://wiki.archlinux.org/index.php/KDE_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">ArchWiki-KDE</a></h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Rsc plasma</span><br><span class="line">pacman -Rsc kde-applications</span><br></pre></td></tr></table></figure>
-
-<h3 id="Xfce-环境-详见-ArchWiki-Xfce"><a href="#Xfce-环境-详见-ArchWiki-Xfce" class="headerlink" title="Xfce 环境 - 详见 ArchWiki-Xfce"></a>Xfce 环境 - 详见 <a href="https://wiki.archlinux.org/index.php/Xfce_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">ArchWiki-Xfce</a></h3><p>Xfce 环境一定要卸载，不然不能切换到 DDE。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Rsc xfce4 # 别的不知道了</span><br><span class="line">reboot # 再重启一次</span><br></pre></td></tr></table></figure>
-
-<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>kde 对应的是 <a href="https://wiki.archlinux.org/index.php/SDDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">SDDM</a></p>
-<p>deepin 对应的是 <a href="https://wiki.archlinux.org/index.php/LightDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">LightDm</a></p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a href="https://www.jianshu.com/p/a1e31a9a50dc" target="_blank" rel="noopener">vygjyfjt</a></li>
-<li><a href="https://blog.csdn.net/weixin_30836759/article/details/96636929" target="_blank" rel="noopener">weixin_30836759</a></li>
-</ul>
-]]></content>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Manjaro</tag>
-        <tag>Deepin</tag>
-        <tag>Manjaro-Deepin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java中List的循环用法</title>
-    <url>/posts/54882/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>Java 中 List 的循环用法</p>
-          </div>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Liebiao</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span>[] numbers = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> x : numbers) &#123;</span><br><span class="line">   System.out.print(x);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  System.out.print(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">  String[] names = &#123;<span class="string">"James"</span>, <span class="string">"Larry"</span>, <span class="string">"Tom"</span>, <span class="string">"Lacy"</span>&#125;;</span><br><span class="line">  <span class="keyword">for</span> (String name : names) &#123;</span><br><span class="line">   System.out.print(name);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -363,27 +251,16 @@
       </tags>
   </entry>
   <entry>
-    <title>NexT-Pisces主题配置</title>
-    <url>/posts/14831/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
-<h2 id="背景半透明"><a href="#背景半透明" class="headerlink" title="背景半透明"></a>背景半透明</h2><h3 id="新建自定义格式文件"><a href="#新建自定义格式文件" class="headerlink" title="新建自定义格式文件"></a>新建自定义格式文件</h3><p>在 <code>theme/next/source/css/</code> 下新建 <code>_custom</code> 文件夹，进入文件夹并创建 <code>custom.styl</code> 。</p>
-<p>在 <code>themes/next/source/css/main.styl</code> 中加入：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@import</span> <span class="string">"/_custom/custom.styl"</span>;</span><br></pre></td></tr></table></figure>
+    <title>Java中List的循环用法</title>
+    <url>/posts/54882/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>Java 中 List 的循环用法</p>
+          </div>
 
-<h3 id="修改-custom-styl-文件"><a href="#修改-custom-styl-文件" class="headerlink" title="修改 custom.styl 文件"></a>修改 custom.styl 文件</h3><p>我的配置如下：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 文章背景半透明</span><br><span class="line"><span class="selector-class">.content-wrap</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 代码背景透明</span><br><span class="line"><span class="selector-class">.table-container</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.68</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span><span class="selector-pseudo">:nth-of-type(odd)</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span>,</span><br><span class="line"><span class="selector-class">.highlight</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight</span> <span class="selector-class">.gutter</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.68</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight</span> <span class="selector-class">.code</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 行内代码块的自定义样式</span><br><span class="line"><span class="selector-tag">code</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 去掉文章白色背景</span><br><span class="line"><span class="selector-class">.main-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 侧边栏上半部分设置为透明</span><br><span class="line"><span class="selector-class">.menu-item-active</span> <span class="selector-tag">a</span>,</span><br><span class="line"><span class="selector-class">.menu</span> <span class="selector-class">.menu-item</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>,</span><br><span class="line"><span class="selector-class">.menu</span> <span class="selector-class">.menu-item</span> <span class="selector-tag">span</span><span class="selector-class">.exturl</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="attribute">border-bottom-color</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 侧边栏下半部分设置为透明</span><br><span class="line"><span class="selector-class">.sidebar</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="文章结束标识"><a href="#文章结束标识" class="headerlink" title="文章结束标识"></a>文章结束标识</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>在博客根目录下新建 <code>source/_data/post-body-end.swig</code> ,即 <code>_data</code> 目录和 <code>_posts</code> 目录平级。</p>
-<p>在根目录的 <code>_config.yml</code> 取消 <code>custom_file_path</code> 下 <code>postBodyEnd</code> 的注释。</p>
-<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% if not is_index %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"text-align:center;color: #ccc;font-size:14px;"</span>&gt;</span></span><br><span class="line">    -------------本文结束 <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-paw"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span> 感谢您的阅读-------------</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="更换自定义字体"><a href="#更换自定义字体" class="headerlink" title="更换自定义字体"></a>更换自定义字体</h3><h4 id="首先修改-custom-styl"><a href="#首先修改-custom-styl" class="headerlink" title="首先修改 custom.styl"></a>首先修改 custom.styl</h4><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 更改字体</span><br><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"Sarasa Mono SC"</span>;</span><br><span class="line">  <span class="attribute">font-display</span>: swap;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">local</span>(<span class="string">"Sarasa Mono SC"</span>),</span><br><span class="line">    <span class="built_in">url</span>(https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/Fonts/sarasa-mono-sc-regular.ttf)</span><br><span class="line">      <span class="built_in">format</span>(<span class="string">"truetype"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="然后修改-base-styl"><a href="#然后修改-base-styl" class="headerlink" title="然后修改 base.styl"></a>然后修改 base.styl</h4><p>贴上我的配置</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">// Font families.</span><br><span class="line">$font-family-chinese      = "PingFang SC", "Sarasa Mono SC", "Microsoft YaHei";</span><br><span class="line"></span><br><span class="line">$font-family-base         = $font-family-chinese, sans-serif;</span><br><span class="line">$font-family-base         = "Sarasa Mono SC", get_font_family('global'), $font-family-chinese, sans-serif if get_font_family('global');</span><br><span class="line"></span><br><span class="line">$font-family-logo         = $font-family-base;</span><br><span class="line">$font-family-logo         = "Sarasa Mono SC", get_font_family('title'), $font-family-base if get_font_family('title');</span><br><span class="line"></span><br><span class="line">$font-family-headings     = $font-family-base;</span><br><span class="line">$font-family-headings     = get_font_family('headings'), $font-family-base if get_font_family('headings');</span><br><span class="line"></span><br><span class="line">$font-family-posts        = $font-family-base;</span><br><span class="line">$font-family-posts        = "Sarasa Mono SC", get_font_family('posts'), $font-family-base if get_font_family('posts');</span><br><span class="line"></span><br><span class="line">$font-family-monospace    = consolas, Menlo, monospace, $font-family-chinese;</span><br><span class="line">$font-family-monospace    = "Sarasa Mono SC", get_font_family('codes'), consolas, Menlo, monospace, $font-family-chinese if get_font_family('codes');</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Liebiao</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span>[] numbers = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> x : numbers) &#123;</span><br><span class="line">   System.out.print(x);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  System.out.print(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">  String[] names = &#123;<span class="string">"James"</span>, <span class="string">"Larry"</span>, <span class="string">"Tom"</span>, <span class="string">"Lacy"</span>&#125;;</span><br><span class="line">  <span class="keyword">for</span> (String name : names) &#123;</span><br><span class="line">   System.out.print(name);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <tags>
-        <tag>hexo-NexT</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -525,6 +402,72 @@
       </tags>
   </entry>
   <entry>
+    <title>FIS-CMS-WMS下载安装配置(IDEA)</title>
+    <url>/posts/35227/</url>
+    <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对， 请再试试。" data-whm="抱歉，这个文章不能被校验，不过您还是能看看解密后的内容。">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">您好，这里需要密码。如果不能解密请刷新页面哦。</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="aefea2e8c2562b046e7a92a192c1f43089f4a8f86f719eacb39821676c01bee6">56503e17de7fd7fe81c69c7f255076a3c60ac387d80f95d23209fd96699fd69b8a1f53a4eaed2d75557d974ebc9f7a48487526f90786729ec488baea5a0295911d438e5d735d93a0986ba1d9b23ec7425ae66b88f4456a75cbbfe06de15f0804aa36f195bc420ac5ab21dad85f310ae7d4cac23ee22786dcd900b700e8c8f98bcec96a4f347caab27393f2e517d8a4824236498fbc663aeca9d4ea6061b50c99520a459da631aeb65b4f18d91aaf7c689d299bdcd2feba45b183bff4a99fdb4cad6eba5c1e8d440cf14c43f6f2e5c15ff7405512af0069d8eb379dcfb9f3794bd3c33b048836215832549c932ec493cc0803cddb775212c995fa7b3faf702ee260f2dee506e4426e375d03df62232b7d33cf7c264f748ab42acf7f12fe68f774d35159f7aa6edc05c6cc3e65a0efcc8dc6859e8763e420a0a4e1d432c98f30c0a690a35a7944bedb2585c8a5057521ba956839442511e2eb8e5065402adb046e3aa8ced5fc808f358ec0391f637f3f761899191a7b49a2f3dce8b5dd51848c018b8bad88b1f8faf62117970a9f428c81d1179cc3e47fd6573f11fdf4e710227f46119bb3ea95def53979c6f3fbaaea8f7b784f54fa5ea85eb304cda9c6ed296e4a3457e0660993470e7e9c772ed9fe3e284dc5afff1ba377f03bf6b51fe970205e22be1243195447979b08273051d5370415b324056753e07861091318f7c7f3b6f21ff3e8abad60ce847c2f61b61f3b1997e3c7b1c9759400f21e416bbc1cb655c8004d844504b02a81658cfc554f879256e3b30e55c5e64746015ad2d5969a8efba6bedac2d77ea52c3682dbad1555b1f89bd1b724b180fa4cf0663f89843be18faf05a91fd5a61828cfa31c8e19e25a2654b0043b3245ef5cd6af2e02d90880e8d8df1f248690766d7b84b0ed45d8af9b590be4128237b600eb32e458660959dafd44fff4260ec72fd8fd53e86a8f30fef0bdb3a1d4d2ba693040b4e37441b55e08e43c234f3dcd6bf2647bf4d24d7e6857eab87dd8f3b0cecabd2e44ad12a462a9a944d4942dc27021084d1eaf0b81fa133aba4c76d0607b49dee637caea2ed1ccd569212cc5f28153312cddce2c37cf1563dc848b1a34213c8767a51a928d4f66ccd1f7514bbbc4593e2da80c0338e543cf2074dba26923bb54d3272c2e6466335ea2461ed09f35d1b109422b6da59b4e3f079a7067fea3867fc6d53045b263967d95278beb101e0b557937ecfb0ed5c8d620d4cf992c6a134790fa5763a2fd1305457638fa11bfa3e6b0aaf2eb745888150c82f7dfc073641cb701e74bc929e444dcf890dcccde8c95bfa487fbaea22bc5a2704932e9d84539fd55823b63bd55c1c7f826f05efe91fef7edf20c4082fdce045bbf222435adf7c4f33c2da8d459c8d31bd9f9325b399576e66705b6a221d74d69bcc65bd0a3146ee51ab95536455323ad81ac48f82545afda666fb5c0bae946a791d856b4f59d207f6b4160504704374967c88487b2afd4b7a5cbd95485ed033b4648417b4d61cb5edad476156d02c561788061323e413aa62cb371ac0c8b02aca18593018abe1c1af56f6f2ee271722da06708c3e4fb49cfa436aa7a9fa02be614855430282b508617be17217e311b72b51d7c3fc99a681ef032257aa1289e3f69c9953f3fb08abe063e352eda069516a04e8605df5a75b24c4494a2546c3ddb7c06a95ae342c73f1027e1f64587cf405a7fe365aacde9efb591345e18b4ea30e8757efc3c9c0aafce1512e0ad304ee3f9baf8c4f3b21476d3bfe52d505a37abfc7f007a16a497a61a7f2245066728b32fe19e59c8b0b641a5068dbb6ac34fca2891a61914cbe13db611f6f697a3bd4f9fef59c511788084597254c2a0cf442d1fa57c40525634557869db26864d30d7ae6efcec4cd65d17c00dbaf92ba808a148097c080537acb8ac07083b140072a6422a4c76158117ca01bc08e7d93e5ff84100bafb133975609384fc50c7e3ee16c3ad16985c28a3af84f3e2ee60f2a2cd1160b8e31e4c57633f9377d7fdb38724ee2ece7eb5aba2871d0929fa600dc682a60ba3d5911c1c6bbc7b1ccaf944fa846bf0f0cc0e4e2701481632333da1a10c55be175466adc41687c4b25de843b822b202dd7ec8b765a30babf69202002b0621af536a2ac5702396a0fef4ec94af89870e794ec6e89b8d24b02cda767a3ce30d8f44f309896f0c2389319fbb40af9ee8029ac141833c4db296907f7868ae54d1ad30896fdfb3cc5d35b14635d8f2783269618a1f1d64d58f798d7dcd611ffad3d14a35871f298b74875e1cce3b21a9305a26a1e104dbb2a506cfd8d9267fb4a11753a7881578375161185eba17af26a3f8957d2cceb136896eb84e157009385a8a70ddc795f9649003359422719e9c18d94bf19402d493a4257b3689532b403837e09ddcb827c8c42c3187ac7183febfa431bb1f8255603e1ea97360048787dffbea30103351e2474e28fd5a755a440bc91cda5ec1744cdb3befe34faefdc221acd09844bda95281172b6df912fe1b3aee6710ac36045376f89321f23ba045cab3acf9fe51b95445b94000a6456c7b7f69437a6202b58ced92b92848a4821e6a49e4f6cdb34b3be7d8f7b18dfa93bd963d187b0967cb4d1ef5514e7c9856606532323079a925e7fef5936956c9f29f853544411abaaeea932d476e042457aed662ce9621be053af0369c06288814bbe3b462f1c816000d224976b2d9c076d6343f0a294c9090634860487b39c3bd882ce46f38c825ecae4097aa3e65f5eb4de0a5855f28e595174fc6b2f68fae73d9e45fcdcc05e2f81d267da51cb87fcc3a7c262e151104aedab90db3c703b6ddb4120046f7aa6900433af835da02969e25a624e64110434f35b81217528093375ee7fa9efa41200d8e65a2c7ac8f472817e1a4409802bdd3ae83c0e952b9bc59104b583049df7b932c5d40947c3f6ca9e598412b0ba1500ad3517409f15673ae8d491f0027e55d5218d5a58abb5017f308c72fd120b2599cc186fc4730d4aaf5de283bb0dd86e7ea8a7ccc54deff47ca89580863fa777b2165849a0d9837a293cc03b4d465f491a06408853361dd170944205909a2dca351c01790869c3f8bccd3efb744d2ff9af579a4ada9506ed1668f1f2b16ab303eb77ef17e63670dc3d5b1317633b419cab642bd89b33bf4a8d7e5beffadde33d7700bcbc5b2048bbfe139b1f19aaed6795326165b1ed027c4f81ac5e116d227394a98fde89caa4cdaeda6aa494b944aec4d4f2f81d910b729b96962960cfa661f6fa77ba958f75dc0ae34f54e342fd2635ff8da3ac8a33f1e1ccb40cf544e92043ba160b1f8fd62eaa2cf57107703ec4d4983aeb656b1af070c8691aba38bf372fe146dcca7fd55c8e878c8dd0cffcc2df0d695fd53eeccb8c631eae8132c8a11c4df09fa39b561c471f904ef5326ff2b7c0985efff7e0d547a57edb45845566880c153a40b84d3bfe3e23c8c66f54bcb81f84b4343facaf8c42971dc9c39aa9da274a8761bed3a2f088aeb3bb43509cc410140e84d8277e9d2eb280cf3fa871efb61266e99237ebcdd50474aa49e6176014afa8b2b1dbb436876175df5c03258e679078aede24a8bef03cb8578f482687cd6e0b89010b330f2e7f5bde65ff99dca670acc74c1538e82e8eb6ae8586a0e1cb2a763ccfc2d1faa0570e8cb2d268d82fc45afb9dfb69671f7d835df16bf06d12741cf0b2ada5ff099b3712225c418c6120fb2745e81e8f70cc928cb99e99a601af4db577773f62248197ca3179f543ccdecefbed8d145873326b4cc538c6be0a53d6185e28648b53ec5d60a91683c853087337f065098cb54c9496266fea35106705162d76923e8b360c48cc30ed289f9c747d9851d797ec6ba4a01d9709821b3e24af5974b0e7297cd5a81bcaae490eb313f49dcb55024ff734f8e1f403585d74141c1bb413382d5d843f43bb787a866a93ce92eef80bfad6ceb1eaabf560e9a5c2580e9b777fd201e6e150a8836ac36006bc79ae03673ab12c1330351be2c47e95678d2a7d32089c570b3081e3129ce0232301174286d3bd7fe927253257597b8ef00ad5402ff0dc331ee73be9411152c57e08f0d31df00ce12a5241c1efd28fde846714968aa0bfb46e8016e659663e196fdcab38642184b166254b7264dbafcfbed7180d63ec48d86f54d19b5389c613803556ff5b3e45010e6428af3c97fa19d6344ec3a33d4b615284b5ea4992abb64d413e0595a4045ae6d7ac91ae29b510680ab3fa82f7d4c3395dd6eef9f75cd0687168c23d2d34729f557e512bae766e069bcc4319da448adc9c7fd6e53bed40d63a222a9c2280e0c20a29afec30f9902e5e6d1069601c6aaab187c200285ae7a59419b8d8739c1748250fea4b7d9dd1e4bd11ade3c6ca4e8b320f9a59b277b2b519713b966156e8bc3ebdab44f7e2e2ec6d514fd1fea2527569a79ebbf9f8231e3404a2e8a14b731eae7fd9d6c133be74019ee910b9ea7e56d6274f57d262e4ecdadc786d86a2309d121f5330797036ffde2338f922175e249d782f6bb33c19deb2c80d8af744fc8d88e051bdbd13d71dedae5763f671b01cca24b98ecbef97a4b5cf063bcdde1cf47d968802737a4fa977b27ebeea85c7fe09d60523926e118cd4e2c8af451b0bca12e105943018a9c8b4caf20940ccf779f17b158cd7ac3fccd58a1d7bf6d153593dcf7d0e0469fd89b329f411e0e29986778e48730bc105b6eb2e0809cf343743b8b5581baa7a3177d0609b252800d4bf488c8b80e419d0f1cd689a13c72d9937213653234aa9ccdd70acd2a7ebbe5c03d35c8147ce5d2faf897a8f7b3e5a89178aff0d334576835994a9ee0c275259d183b150aba229e33661c01b2e4b05c8aa7f14e98485baec3425e303ba70023ab61576188ab7fb154416fd00fe987978bbf7e77e2e011e04add06f828a696c77262314abd48ce420764df18cec079c12a9e89d0554ed9ae3cdad99bf54b4267e2d1bd71ac50fb3376c231e678a4e05117ca139cc85fc4df682247b34519887dd79bfd6188468e5955e2d567b646e709542605f900676430153fd649012a807466c4319e353a070086e7d4b9807e5eb5eee524fc41a809c677e0937f47d7a10a460d0a4194295c0b835f79d00eaa2296c75825c8945edba87fd881447bccafaac80404b52aab87330aa2072198e3f9306f11808bcdd336cb28c5f55da4742a6874670d249b9da693e393b37696535945cda0938a794449bb98960675cfb5095587614fca97cf835a5d07aa532deb7d39ef24fc2c1c519739ca14af7c7906e94573d1067575c091df9a871ee22f0cdb85ba2a9d6545f09d3cd894cfe6b4ae509eda1521f504dbe7aad426b3cb75548c1a2c492b05dd74c70972bb3d4ea9c23d69328d8055515ea11bf676f99080014bbe4bbe1052fb2fb657c005b2dff23f41870c6154075e94ab84fa367f3b00c24da1316bdda2457be4db58a1006be6fb96cf26758e8b53da67c67c4e2b6d7a31a7597b7d3ddbc172050fa51782a84fd65d2f17547db80f0b076aedeecac213d9b1793f42181cb180fb49c247f7a064044322a40fe586c7530fc07f6b8f403e8aa4e0902bad6c068bdca3335f297908ca15e24902fed4b876acc4f230fae804be4a8bdc0306c5c15e31e4ca7295842ccf473d7ee5e66faf5f1f6cbd6308c013e05e618a45b7632c15a090e6c56b4d27569a98216c47e7cb043763bd54ebd739d315f8f5ae9a80398df9a440ae511bf20121dd3ee27fee39cff1d86c7dcae9fb576fe1e3f398bf2005bbae79c87acc4fa7315c7fac6881119d13562534c20ca0108f6a5f7d500e02badbf8a147544fa7cc57ac76f55b5475f623a4ffda91488beaa15c83bd5d01b998adbdf12cef605220d6519d3fbce78c79e6795b73e754b1507cf363592ada91239ecd0f2079f690e25de35cee7110e4b85a9c1fb395533c197eb790a1bf544f67af61f597ba6f22933d2e177928dcc5a05a67a50de3f95a6b08aeae1eb4ca6a51e3e5f8d3919ff1a1e66ae941efa20cc5a4c989a4c44a123abee5a3101eb5622c3cc42bacd852f49092707077cfc0007eb3a44632dea96c00179e778a58429ac1ee42d7f5047bbeb8f684ec06291880f33f17280052bef130707094390e6821ca1abb306e76c2e708290669e3ce3b54da9f9252655838f148042b88fd3c1994302ffd31ae87d830a5df6202ae8c3b356e79e479f090bb63cf6426e075a52c39ba820eeaa0bc0cd05ddf6a5d6dc3334b75096053</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
+      <tags>
+        <tag>Comstar</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nginx 反代配置</title>
+    <url>/posts/13817/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>Nginx 反代配置</p>
+          </div>
+
+<ul>
+<li><p>不要用宝塔下载的 Nginx！！！！（不要问我怎么知道的）</p>
+</li>
+<li><p>进入 /etc/nginx/conf.d 目录</p>
+</li>
+<li><p>新建一个.conf 文件，名称任意，内容为</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">upstream ice &#123;</span><br><span class="line">        server 0.0.0.0:你的服务需要的端口;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name 你的服务器IP;</span><br><span class="line">        location / &#123;</span><br><span class="line">        # 后端的Web服务器可以通过X-Forwarded-For获取用户真实IP</span><br><span class="line">        proxy_next_upstream error timeout invalid_header http_500 http_502 http$</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_set_header X_Nginx_Proxy true;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>/etc/nginx/nginx.conf 下的 http 中添加</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">include /etc/nginx/conf.d/*.conf;</span><br><span class="line">include /etc/nginx/sites-enabled/*;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启 Nginx 服务</p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NexT-Pisces主题配置</title>
+    <url>/posts/14831/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
+<h2 id="背景半透明"><a href="#背景半透明" class="headerlink" title="背景半透明"></a>背景半透明</h2><h3 id="新建自定义格式文件"><a href="#新建自定义格式文件" class="headerlink" title="新建自定义格式文件"></a>新建自定义格式文件</h3><p>在 <code>theme/next/source/css/</code> 下新建 <code>_custom</code> 文件夹，进入文件夹并创建 <code>custom.styl</code> 。</p>
+<p>在 <code>themes/next/source/css/main.styl</code> 中加入：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@import</span> <span class="string">"/_custom/custom.styl"</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改-custom-styl-文件"><a href="#修改-custom-styl-文件" class="headerlink" title="修改 custom.styl 文件"></a>修改 custom.styl 文件</h3><p>我的配置如下：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 文章背景半透明</span><br><span class="line"><span class="selector-class">.content-wrap</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 代码背景透明</span><br><span class="line"><span class="selector-class">.table-container</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.68</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span><span class="selector-pseudo">:nth-of-type(odd)</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span>,</span><br><span class="line"><span class="selector-class">.highlight</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight</span> <span class="selector-class">.gutter</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.68</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight</span> <span class="selector-class">.code</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 行内代码块的自定义样式</span><br><span class="line"><span class="selector-tag">code</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 去掉文章白色背景</span><br><span class="line"><span class="selector-class">.main-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 侧边栏上半部分设置为透明</span><br><span class="line"><span class="selector-class">.menu-item-active</span> <span class="selector-tag">a</span>,</span><br><span class="line"><span class="selector-class">.menu</span> <span class="selector-class">.menu-item</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>,</span><br><span class="line"><span class="selector-class">.menu</span> <span class="selector-class">.menu-item</span> <span class="selector-tag">span</span><span class="selector-class">.exturl</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="attribute">border-bottom-color</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 侧边栏下半部分设置为透明</span><br><span class="line"><span class="selector-class">.sidebar</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文章结束标识"><a href="#文章结束标识" class="headerlink" title="文章结束标识"></a>文章结束标识</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>在博客根目录下新建 <code>source/_data/post-body-end.swig</code> ,即 <code>_data</code> 目录和 <code>_posts</code> 目录平级。</p>
+<p>在根目录的 <code>_config.yml</code> 取消 <code>custom_file_path</code> 下 <code>postBodyEnd</code> 的注释。</p>
+<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% if not is_index %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"text-align:center;color: #ccc;font-size:14px;"</span>&gt;</span></span><br><span class="line">    -------------本文结束 <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-paw"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span> 感谢您的阅读-------------</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="更换自定义字体"><a href="#更换自定义字体" class="headerlink" title="更换自定义字体"></a>更换自定义字体</h3><h4 id="首先修改-custom-styl"><a href="#首先修改-custom-styl" class="headerlink" title="首先修改 custom.styl"></a>首先修改 custom.styl</h4><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 更改字体</span><br><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"Sarasa Mono SC"</span>;</span><br><span class="line">  <span class="attribute">font-display</span>: swap;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">local</span>(<span class="string">"Sarasa Mono SC"</span>),</span><br><span class="line">    <span class="built_in">url</span>(https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/Fonts/sarasa-mono-sc-regular.ttf)</span><br><span class="line">      <span class="built_in">format</span>(<span class="string">"truetype"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="然后修改-base-styl"><a href="#然后修改-base-styl" class="headerlink" title="然后修改 base.styl"></a>然后修改 base.styl</h4><p>贴上我的配置</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">// Font families.</span><br><span class="line">$font-family-chinese      = "PingFang SC", "Sarasa Mono SC", "Microsoft YaHei";</span><br><span class="line"></span><br><span class="line">$font-family-base         = $font-family-chinese, sans-serif;</span><br><span class="line">$font-family-base         = "Sarasa Mono SC", get_font_family('global'), $font-family-chinese, sans-serif if get_font_family('global');</span><br><span class="line"></span><br><span class="line">$font-family-logo         = $font-family-base;</span><br><span class="line">$font-family-logo         = "Sarasa Mono SC", get_font_family('title'), $font-family-base if get_font_family('title');</span><br><span class="line"></span><br><span class="line">$font-family-headings     = $font-family-base;</span><br><span class="line">$font-family-headings     = get_font_family('headings'), $font-family-base if get_font_family('headings');</span><br><span class="line"></span><br><span class="line">$font-family-posts        = $font-family-base;</span><br><span class="line">$font-family-posts        = "Sarasa Mono SC", get_font_family('posts'), $font-family-base if get_font_family('posts');</span><br><span class="line"></span><br><span class="line">$font-family-monospace    = consolas, Menlo, monospace, $font-family-chinese;</span><br><span class="line">$font-family-monospace    = "Sarasa Mono SC", get_font_family('codes'), consolas, Menlo, monospace, $font-family-chinese if get_font_family('codes');</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>hexo-NexT</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Oracle数据库报错分析</title>
     <url>/posts/6794/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="ORA-00936-缺失表达式"><a href="#ORA-00936-缺失表达式" class="headerlink" title="ORA-00936: 缺失表达式"></a>ORA-00936: 缺失表达式</h2><h2 id="ORA-00911-无效字符"><a href="#ORA-00911-无效字符" class="headerlink" title="ORA-00911: 无效字符"></a>ORA-00911: 无效字符</h2><p>mybatis 的 Mapper.xml 中，sql 语句最后不需要“；”，去掉就 ok 了。</p>
@@ -553,29 +496,105 @@
       </tags>
   </entry>
   <entry>
-    <title>Nginx 反代配置</title>
-    <url>/posts/13817/</url>
+    <title>IDEA 遇到的问题</title>
+    <url>/posts/15956/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>Nginx 反代配置</p>
+            <p>本文收集了一些在 IDEA 中可能遇到的问题。<br>如：Project 的 SDK 设置，IDEA 的内存设置等。</p>
           </div>
 
+<a id="more"></a>
+
+<h2 id="Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6"><a href="#Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6" class="headerlink" title="Error:java: Compilation failed: internal java compiler error(JAVA 1.6)"></a>Error:java: Compilation failed: internal java compiler error(JAVA 1.6)</h2><h3 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h3><p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115427415.png" alt="报错信息"></p>
+<h3 id="报错原因"><a href="#报错原因" class="headerlink" title="报错原因"></a>报错原因</h3><ul>
+<li><p>项目中 Java 版本不一致，可以查看项目中的 jdk 配置</p>
 <ul>
-<li><p>不要用宝塔下载的 Nginx！！！！（不要问我怎么知道的）</p>
+<li><p>查看项目的 jdk（Ctrl+Alt+shift+S）<br>File -&gt;Project Structure-&gt;Project Settings -&gt;Project</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115842839.png" alt="SDK"></p>
 </li>
-<li><p>进入 /etc/nginx/conf.d 目录</p>
+<li><p>查看工程的 jdk（Ctrl+Alt+shift+S）<br>File -&gt;Project Structure-&gt;Project Settings -&gt; Modules -&gt; （需要修改的工程名称） -&gt; Sources -&gt;</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120000830.png" alt="Language Level"></p>
 </li>
-<li><p>新建一个.conf 文件，名称任意，内容为</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">upstream ice &#123;</span><br><span class="line">        server 0.0.0.0:你的服务需要的端口;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name 你的服务器IP;</span><br><span class="line">        location / &#123;</span><br><span class="line">        # 后端的Web服务器可以通过X-Forwarded-For获取用户真实IP</span><br><span class="line">        proxy_next_upstream error timeout invalid_header http_500 http_502 http$</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_set_header X_Nginx_Proxy true;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li><p>查看 idea 中 Java 配置</p>
+<p>File–&gt;Other Settings–&gt;Default Settings–&gt;Compiler–&gt;Java Compiler</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120302052.png" alt="Java Compiler"></p>
+<p>如果出现的 Choose Module 框中是空白，无法修改 Target bytecode version.则：</p>
+<p>选中项目，右击选择 Maven–&gt;Reimport, 然后再次编译，问题解决。</p>
 </li>
-<li><p>/etc/nginx/nginx.conf 下的 http 中添加</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">include /etc/nginx/conf.d/*.conf;</span><br><span class="line">include /etc/nginx/sites-enabled/*;</span><br></pre></td></tr></table></figure>
+</ul>
 </li>
-<li><p>重启 Nginx 服务</p>
+<li><p>内存设置过大</p>
+<ul>
+<li><p>heap size 过大，2048M 是不行的（6u21）。但是在 6u45 上又要设置到 2048M。。凸(艹皿艹 )</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/heapsize.png" alt="Heap Size"></p>
 </li>
+</ul>
+</li>
+</ul>
+<h2 id="Insufficient-Momery"><a href="#Insufficient-Momery" class="headerlink" title="Insufficient Momery"></a>Insufficient Momery</h2><p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/image-20200306102435696.png" alt="VM Option"></p>
+<h2 id="Interface-implement-of-class-‘class-java-lang-Object’-not-found"><a href="#Interface-implement-of-class-‘class-java-lang-Object’-not-found" class="headerlink" title="Interface implement of class ‘class java.lang.Object’ not found"></a>Interface implement of class ‘class java.lang.Object’ not found</h2><h3 id="报错原因-1"><a href="#报错原因-1" class="headerlink" title="报错原因"></a>报错原因</h3><p>在调试模式下就会报错，暂时无发现异常。</p>
+<h2 id="java-lang-OutOfMemoryError-PermGen-space"><a href="#java-lang-OutOfMemoryError-PermGen-space" class="headerlink" title="java.lang.OutOfMemoryError: PermGen space"></a>java.lang.OutOfMemoryError: PermGen space</h2><p>VM options 添加：<code>-XX:PermSize=256m -XX:MaxPermSize=1024m</code></p>
+<h2 id="无法从静态上下文中引用非静态变量、方法"><a href="#无法从静态上下文中引用非静态变量、方法" class="headerlink" title="无法从静态上下文中引用非静态变量、方法"></a>无法从静态上下文中引用非静态变量、方法</h2><h3 id="报错原因-2"><a href="#报错原因-2" class="headerlink" title="报错原因"></a>报错原因</h3><p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/risk%E4%BB%A3%E7%A0%81%E8%B0%83%E8%AF%95%E9%A1%BB%E7%9F%A5/2020/06/0920200609170308.png" alt="image-20200609170259693"></p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XmlParser</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//实例化</span></span><br><span class="line">        XmlParser xmlParser = <span class="keyword">new</span> XmlParser();</span><br><span class="line">        TradeInspectionResultBO result = xmlParser.parseXml();</span><br><span class="line">        System.out.println(result);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+        <tag>IDEA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Manjaro更换Deepin桌面环境</title>
+    <url>/posts/1977/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>Deepin 桌面环境（DDE）是真滴好看，然而似乎有些地方并不是很稳定。So what？盘它！</p>
+<a id="more"></a>
+
+<h2 id="下载-Deepin-桌面环境（DDE）"><a href="#下载-Deepin-桌面环境（DDE）" class="headerlink" title="下载 Deepin 桌面环境（DDE）"></a>下载 Deepin 桌面环境（DDE）</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Sy deepin deepin-extra</span><br></pre></td></tr></table></figure>
+
+<p>修改 <code>/etc/lightdm/lightdm.conf</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/lightdm/lightdm.conf</span><br><span class="line"></span><br><span class="line">greeter-session=lightdm-deepin-greeter</span><br></pre></td></tr></table></figure>
+
+<h2 id="禁用当前桌面环境"><a href="#禁用当前桌面环境" class="headerlink" title="禁用当前桌面环境"></a>禁用当前桌面环境</h2><h3 id="KDE-桌面"><a href="#KDE-桌面" class="headerlink" title="KDE 桌面"></a>KDE 桌面</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl disable sddm</span><br></pre></td></tr></table></figure>
+
+<h3 id="Xfce-桌面"><a href="#Xfce-桌面" class="headerlink" title="Xfce 桌面"></a>Xfce 桌面</h3><p>似乎不用？我也布吉岛-_-||</p>
+<h2 id="启用-LightDm"><a href="#启用-LightDm" class="headerlink" title="启用 LightDm"></a>启用 LightDm</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl enable lightdm</span><br></pre></td></tr></table></figure>
+
+<h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+<h2 id="卸载原桌面环境的组件"><a href="#卸载原桌面环境的组件" class="headerlink" title="卸载原桌面环境的组件"></a>卸载原桌面环境的组件</h2><h3 id="KDE-环境-详见-ArchWiki-KDE"><a href="#KDE-环境-详见-ArchWiki-KDE" class="headerlink" title="KDE 环境 - 详见 ArchWiki-KDE"></a>KDE 环境 - 详见 <a href="https://wiki.archlinux.org/index.php/KDE_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">ArchWiki-KDE</a></h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Rsc plasma</span><br><span class="line">pacman -Rsc kde-applications</span><br></pre></td></tr></table></figure>
+
+<h3 id="Xfce-环境-详见-ArchWiki-Xfce"><a href="#Xfce-环境-详见-ArchWiki-Xfce" class="headerlink" title="Xfce 环境 - 详见 ArchWiki-Xfce"></a>Xfce 环境 - 详见 <a href="https://wiki.archlinux.org/index.php/Xfce_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">ArchWiki-Xfce</a></h3><p>Xfce 环境一定要卸载，不然不能切换到 DDE。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Rsc xfce4 # 别的不知道了</span><br><span class="line">reboot # 再重启一次</span><br></pre></td></tr></table></figure>
+
+<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>kde 对应的是 <a href="https://wiki.archlinux.org/index.php/SDDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">SDDM</a></p>
+<p>deepin 对应的是 <a href="https://wiki.archlinux.org/index.php/LightDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">LightDm</a></p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://www.jianshu.com/p/a1e31a9a50dc" target="_blank" rel="noopener">vygjyfjt</a></li>
+<li><a href="https://blog.csdn.net/weixin_30836759/article/details/96636929" target="_blank" rel="noopener">weixin_30836759</a></li>
 </ul>
 ]]></content>
       <tags>
-        <tag>Nginx</tag>
+        <tag>Linux</tag>
+        <tag>Manjaro</tag>
+        <tag>Deepin</tag>
+        <tag>Manjaro-Deepin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>利用Gitee加速Github Clone</title>
+    <url>/posts/16041/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>大家都知道，要访问 Github 并 Clone 项目，如果没有什么特殊工具的话是真的很慢。<br>最近发现了可以使用 Gitee 来加速 Github Clone 的方法（属实骚操作），可以很好的解决这个问题（火星救援！）。</p>
+<a id="more"></a>
+
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="注册码云账号"><a href="#注册码云账号" class="headerlink" title="注册码云账号"></a>注册码云账号</h3><p><a href="https://gitee.com/" target="_blank" rel="noopener">传送门</a></p>
+<h3 id="注册完成后点击页面右上角的-“-”-号，选择新建项目"><a href="#注册完成后点击页面右上角的-“-”-号，选择新建项目" class="headerlink" title="注册完成后点击页面右上角的 “+”  号，选择新建项目"></a>注册完成后点击页面右上角的 “+”  号，选择新建项目</h3><p><img data-src="https://img-blog.csdn.net/20180810100406465?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="创建新项目"></p>
+<h3 id="在新页面中选择-“导入已有项目”"><a href="#在新页面中选择-“导入已有项目”" class="headerlink" title="在新页面中选择 “导入已有项目”"></a>在新页面中选择 “导入已有项目”</h3><p><img data-src="https://img-blog.csdn.net/20180810112056817?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="导入已有项目"></p>
+<h3 id="复制需要导入的-Github-项目地址"><a href="#复制需要导入的-Github-项目地址" class="headerlink" title="复制需要导入的 Github 项目地址"></a>复制需要导入的 Github 项目地址</h3><p><img data-src="https://img-blog.csdn.net/20180810112225555?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="复制项目地址"></p>
+<h3 id="填入地址之后点击-“创建按钮”"><a href="#填入地址之后点击-“创建按钮”" class="headerlink" title="填入地址之后点击 “创建按钮”"></a>填入地址之后点击 “创建按钮”</h3><p><img data-src="https://img-blog.csdn.net/20180810112444684?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="点击创建按钮"></p>
+<h3 id="等待-Gitee-拉取完成，这个过程的长短因拉取项目大小而异，1-10-分钟不等。"><a href="#等待-Gitee-拉取完成，这个过程的长短因拉取项目大小而异，1-10-分钟不等。" class="headerlink" title="等待 Gitee 拉取完成，这个过程的长短因拉取项目大小而异，1-10 分钟不等。"></a>等待 Gitee 拉取完成，这个过程的长短因拉取项目大小而异，1-10 分钟不等。</h3><h3 id="拉取完成后就可以愉快的-git-clone-了"><a href="#拉取完成后就可以愉快的-git-clone-了" class="headerlink" title="拉取完成后就可以愉快的 git clone  了"></a>拉取完成后就可以愉快的 git clone  了</h3><p><img data-src="https://img-blog.csdn.net/20180810112728982?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p><img data-src="https://img-blog.csdn.net/20180810112806880?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p>怎么样，是不是很简单呢？如果有效的话，请点赞哟</p>
+]]></content>
+      <tags>
+        <tag>Github</tag>
       </tags>
   </entry>
   <entry>
@@ -614,25 +633,6 @@
         <tag>Java</tag>
         <tag>Maven</tag>
         <tag>POM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>利用Gitee加速Github Clone</title>
-    <url>/posts/16041/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>大家都知道，要访问 Github 并 Clone 项目，如果没有什么特殊工具的话是真的很慢。<br>最近发现了可以使用 Gitee 来加速 Github Clone 的方法（属实骚操作），可以很好的解决这个问题（火星救援！）。</p>
-<a id="more"></a>
-
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="注册码云账号"><a href="#注册码云账号" class="headerlink" title="注册码云账号"></a>注册码云账号</h3><p><a href="https://gitee.com/" target="_blank" rel="noopener">传送门</a></p>
-<h3 id="注册完成后点击页面右上角的-“-”-号，选择新建项目"><a href="#注册完成后点击页面右上角的-“-”-号，选择新建项目" class="headerlink" title="注册完成后点击页面右上角的 “+”  号，选择新建项目"></a>注册完成后点击页面右上角的 “+”  号，选择新建项目</h3><p><img data-src="https://img-blog.csdn.net/20180810100406465?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="创建新项目"></p>
-<h3 id="在新页面中选择-“导入已有项目”"><a href="#在新页面中选择-“导入已有项目”" class="headerlink" title="在新页面中选择 “导入已有项目”"></a>在新页面中选择 “导入已有项目”</h3><p><img data-src="https://img-blog.csdn.net/20180810112056817?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="导入已有项目"></p>
-<h3 id="复制需要导入的-Github-项目地址"><a href="#复制需要导入的-Github-项目地址" class="headerlink" title="复制需要导入的 Github 项目地址"></a>复制需要导入的 Github 项目地址</h3><p><img data-src="https://img-blog.csdn.net/20180810112225555?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="复制项目地址"></p>
-<h3 id="填入地址之后点击-“创建按钮”"><a href="#填入地址之后点击-“创建按钮”" class="headerlink" title="填入地址之后点击 “创建按钮”"></a>填入地址之后点击 “创建按钮”</h3><p><img data-src="https://img-blog.csdn.net/20180810112444684?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="点击创建按钮"></p>
-<h3 id="等待-Gitee-拉取完成，这个过程的长短因拉取项目大小而异，1-10-分钟不等。"><a href="#等待-Gitee-拉取完成，这个过程的长短因拉取项目大小而异，1-10-分钟不等。" class="headerlink" title="等待 Gitee 拉取完成，这个过程的长短因拉取项目大小而异，1-10 分钟不等。"></a>等待 Gitee 拉取完成，这个过程的长短因拉取项目大小而异，1-10 分钟不等。</h3><h3 id="拉取完成后就可以愉快的-git-clone-了"><a href="#拉取完成后就可以愉快的-git-clone-了" class="headerlink" title="拉取完成后就可以愉快的 git clone  了"></a>拉取完成后就可以愉快的 git clone  了</h3><p><img data-src="https://img-blog.csdn.net/20180810112728982?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
-<p><img data-src="https://img-blog.csdn.net/20180810112806880?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
-<p>怎么样，是不是很简单呢？如果有效的话，请点赞哟</p>
-]]></content>
-      <tags>
-        <tag>Github</tag>
       </tags>
   </entry>
   <entry>
