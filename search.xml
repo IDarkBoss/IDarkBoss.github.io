@@ -1,6 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Chaos Monkey</title>
+    <url>/posts/29264/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>本文介绍了 Chaos Monkey </p>
+          </div>
+
+<a id="more"></a>
+
+<h2 id="开发背景"><a href="#开发背景" class="headerlink" title="开发背景"></a>开发背景</h2><p>2008 年 8 月， Netflix 主要数据库的故障导致了三天的停机， DVD 租赁业务中断，多个国家的大量用户受此影响。之后 Netflix 工程师着手寻找替代架构，并在 2011 年起，逐步将系统迁移到 AWS 上，运行基于微服务的新型分布式架构。这种架构消除了单点故障，但也引入了新的复杂性类型，需要更加可靠和容错的系统。为此， Netflix 工程师创建了 Chaos Monkey ，会随机终止在生产环境中运行的 EC2 实例。工程师可以快速了解他们正在构建的服务是否健壮，有足够的弹性，可以容忍计划外的故障。至此，混沌工程开始兴起。</p>
+<p>Chaos Monkey 是在 Netflix 整体微服务化的形势下开发的。为了增加微服务架构的弹性，需要确保当服务集群中有节点失败或者退出时不会影响整体服务。由于 Netflix 的内部文化，没有办法通过框架或者编码规范来形成一套能够满足弹性要求的框架。最终，Netflix 选择开发了 Chaos Monkey：一个在生产环境随机选择并关闭服务的工具。通过频繁的服务失败演练，使得开发团队对服务集群稳定性有了更高的重视，以确保不会因为这些演练对最终用户产生影响。Netflix 将 Chaos Monkey 定位为提升服务质量的高效工具。</p>
+<p>Spinnaker 是 Netflix 的持续交付平台，可以在 Spinnaker 上对 Chaos Monkey 进行配置。同时 Chaos Monkey 可以从 Spinnaker 获取服务部署的相关信息并通过 Spinnaker 关闭服务实例。由于集成了 Spinnaker，Chaos Monkey 增加了对多种后端的支持，包括：AWS、GCP、Azure、Kubernetes、Cloud Foundry。</p>
+<h2 id="技术原理"><a href="#技术原理" class="headerlink" title="技术原理"></a>技术原理</h2><p><a href="https://idarkboss.github.io/posts/16861">技术原理</a></p>
+<h2 id="使用场景（举例说明）"><a href="#使用场景（举例说明）" class="headerlink" title="使用场景（举例说明）"></a>使用场景（举例说明）</h2><p><a href="https://idarkboss.github.io/posts/35502">使用场景（举例说明）</a></p>
+<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p><a href="https://idarkboss.github.io/posts/35161">模型</a></p>
+<h2 id="Demo-搭建"><a href="#Demo-搭建" class="headerlink" title="Demo 搭建"></a>Demo 搭建</h2><p><a href="https://idarkboss.github.io/posts/51089">Demo 搭建</a></p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>我们可以手动调用 Chaos Monkey 终止实例。 例如：</p>
+<p><code>chaosmonkey terminate chaosguineapig test --cluster=chaosguineapig--region=**us**-east-1</code></p>
+<p>应用中启用 Chaos Monkey，在 Spring Boot 应用中开启 Chaos Monkey 支持仅需要两步，首先在项目依赖中添加在 chaos-monkey-spring-boot。再然后，我们在应用启动时激活 chaos-monkey 的 profile。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>de.codecentric<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>chaos-monkey-spring-boot<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">java -jar target/order-service-1.0-SNAPSHOT.jar --spring.profiles.active=chaos-monkey</span></span><br></pre></td></tr></table></figure>
+
+<p>在 Codecentric Chaos Monkey 库的 2.0 版本中有个新的特性：Spring Boot Actuator 访问端口，通过 management.endpoint.chaosmonkey.enabled 属性来设置是否开启，在应用启动后，就可以通过 HTTP 访问端口来访问了。</p>
+<h2 id="设计场景与应用"><a href="#设计场景与应用" class="headerlink" title="设计场景与应用"></a>设计场景与应用</h2><p><a href="https://idarkboss.github.io/posts/19759">设计场景与应用</a></p>
+<h2 id="补充内容"><a href="#补充内容" class="headerlink" title="补充内容"></a>补充内容</h2><h3 id="中断检查器"><a href="#中断检查器" class="headerlink" title="中断检查器"></a>中断检查器</h3><p>中断检查器用于在正在进行的中断期间自动禁用 Chaos Monkey。如果希望让 Chaos Monkey 检查是否有持续的中断并相应地禁用它，则需要：给你的中断检查人员起一个名字（例如，“聊天机器人”），在 Go 中编码一个实现<a href="https://godoc.org/github.com/netflix/chaosmonkey/#Outage" target="_blank" rel="noopener">中断</a>接口的类型。修改<a href="https://github.com/Netflix/chaosmonkey/blob/master/outage/outage.go" target="_blank" rel="noopener">outage.go</a>，以便它识别你的中断检查器。编辑你的<a href="https://netflix.github.io/chaosmonkey/Configuration-file-format/" target="_blank" rel="noopener">配置文件</a>以指定中断检查器。</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>运行这些测试的最简单方法是在本地计算机上安装 Docker。这些测试使用 mysql:5.6 容器（使用 5.6 版以确保与<a href="https://aws.amazon.com/rds/aurora" target="_blank" rel="noopener">Amazon Aurora</a>兼容）。</p>
+<p>请注意，如果使用的是 macOS，则必须使用<a href="https://docs.docker.com/engine/installation/mac/" target="_blank" rel="noopener">Docker for Mac</a>而不是 Docker Toolbox。否则，将无法通过 127.0.0.1 访问 Docker 容器。</p>
+<p>如果要运行这些测试，请确保已在本地安装 Docker，并抓住 mysql：5.6 容器：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull mysql:5.6</span><br></pre></td></tr></table></figure>
+
+<p>然后使用 docker 标记运行测试，如下所示：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">go test -tags docker ./...</span><br></pre></td></tr></table></figure>
+
+<p>测试将自动启动 mysql 容器，然后将其关闭。</p>
+<p>如果在不上下移动 Docker 容器的情况下进行测试。如果你不希望测试每次都启动和关闭 mysql Docker 容器（例如，你想更快地运行测试，或者想通过本地运行 mysql 实例进行测试），请使用“dockerup”标志以及“docker”标志。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">go test -tags "docker dockerup" ./...</span><br></pre></td></tr></table></figure>
+
+<h3 id="启用组"><a href="#启用组" class="headerlink" title="启用组"></a>启用组</h3><p>如果 Spinnaker 将服务器组标记为启用，那么 Chaos Monkey 将仅考虑有资格终止的服务器组。Spinnaker API 公开了 isDisabled 布尔标志，以指示是否禁用了组。Chaos Monkey 对此进行了过滤，以确保它仅从活动组中终止。</p>
+<h3 id="可能性"><a href="#可能性" class="headerlink" title="可能性"></a>可能性</h3><p>对于每个应用程序，Chaos Monkey 将实例分为实例组（分组取决于应用程序的配置方式）。每个工作日，对于每个实例组，Chaos Monkey 都会掷一枚加权硬币，以决定是否从该组中终止实例。如果硬币朝上，Chaos Monkey 会安排在当天的上午 9 点至下午 3 点之间的任意时间终止。</p>
+<p>在这种情况下，实例组终止之间的工作日数是一个具有<a href="https://en.wikipedia.org/wiki/Geometric_distribution" target="_blank" rel="noopener">几何分布</a>的随机变量。</p>
+<p>下面的等式描述了终止之间时间的概率分布。<em>X</em>是随机变量，<em>n</em>是终止之间的工作天数，<em>p</em>是硬币出现正面的概率。</p>
+<p>$$P(X=n) = (1-p)^(n-1) × p, n&gt;=1$$</p>
+<p>对<em>X</em>取期望得到平均值：</p>
+<p>$$E[X] = 1/p$$</p>
+<p>每个应用程序定义两个参数来控制 Chaos Monkey 应该为该应用程序实例执行的频率：</p>
+<p>工作日之间的平均终止时间（μ），上班时间之间的最短间隔时间（ɛ），混沌猴子使用 μ 来确定 p 应该是多少。如果我们忽略 the 的影响并求解 p：</p>
+<p>$$μ = E[X] = 1/p$$<br>$$p = 1/μ$$</p>
+<p>例如，对于给定的应用程序，假定 μ= 5。在每一天，终止的可能性是 1/5。请注意，如果 ɛ&gt; 1，混沌猴子的终止行为将不再是几何分布：</p>
+<p>$$P(X=n) = (1-p)^(n-1) × p, n&gt;=ɛ$$</p>
+<p>特别是，随着 larger 变大，$E[X]-μ$ 也变大。我们不对此进行校正，因为数学上的额外复杂度不值得让 $E[X]$ 完全等于 $μ$。还要注意，如果 $μ=1$，则 $p=1$，这保证了每天终止。</p>
+<h3 id="追踪器"><a href="#追踪器" class="headerlink" title="追踪器"></a>追踪器</h3><p>跟踪器用于记录某种外部系统中的终止事件。在 Netflix 内部，我们使用跟踪器记录到<a href="https://github.com/netflix/atlas/wiki" target="_blank" rel="noopener">Atlas</a>（我们的指标系统）和事件跟踪系统 1 Chronos 的终止 。</p>
+<p>如果你希望记录某些外部系统的终止，则需要：给你的跟踪器起一个名字，在 Go 中编码一个实现<a href="https://godoc.org/github.com/Netflix/chaosmonkey/#Tracker" target="_blank" rel="noopener">Tracker</a>界面的类型。修改<a href="https://github.com/Netflix/chaosmonkey/blob/master/tracker/tracker.go" target="_blank" rel="noopener">github.com/netflix/chaosmonkey/tracker/getTracker</a>，使其可以识别你的跟踪器。编辑你的<a href="https://netflix.github.io/chaosmonkey/Configuration-File-Format" target="_blank" rel="noopener">配置文件</a>以指定你的跟踪器。不幸的是，我们无法将这些跟踪器中的任何一个作为开源发布。我们的 Atlas 跟踪器与尚未发布为开源的<a href="https://github.com/Netflix/Prana" target="_blank" rel="noopener">Prana</a>版本进行通信 ，Chronos 也尚未发布为开源。</p>
+<h3 id="供应商依赖性"><a href="#供应商依赖性" class="headerlink" title="供应商依赖性"></a>供应商依赖性</h3><p>如果要向 Chaos Monkey 添加新的依赖项，使用<a href="https://github.com/kardianos/govendor" target="_blank" rel="noopener">govendor</a>进行添加。确保新依赖项的许可证与 Chaos Monkey 的许可证兼容：<a href="https://github.com/Netflix/chaosmonkey/blob/master/LICENSE" target="_blank" rel="noopener">Apache License Version 2.0</a>。</p>
+]]></content>
+      <tags>
+        <tag>Chaos Monkey</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CNP代码调试须知</title>
     <url>/posts/39120/</url>
     <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对， 请再试试。" data-whm="抱歉，这个文章不能被校验，不过您还是能看看解密后的内容。">
@@ -124,65 +183,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Chaos Monkey</title>
-    <url>/posts/29264/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>本文介绍了 Chaos Monkey </p>
-          </div>
-
-<a id="more"></a>
-
-<h2 id="开发背景"><a href="#开发背景" class="headerlink" title="开发背景"></a>开发背景</h2><p>2008 年 8 月， Netflix 主要数据库的故障导致了三天的停机， DVD 租赁业务中断，多个国家的大量用户受此影响。之后 Netflix 工程师着手寻找替代架构，并在 2011 年起，逐步将系统迁移到 AWS 上，运行基于微服务的新型分布式架构。这种架构消除了单点故障，但也引入了新的复杂性类型，需要更加可靠和容错的系统。为此， Netflix 工程师创建了 Chaos Monkey ，会随机终止在生产环境中运行的 EC2 实例。工程师可以快速了解他们正在构建的服务是否健壮，有足够的弹性，可以容忍计划外的故障。至此，混沌工程开始兴起。</p>
-<p>Chaos Monkey 是在 Netflix 整体微服务化的形势下开发的。为了增加微服务架构的弹性，需要确保当服务集群中有节点失败或者退出时不会影响整体服务。由于 Netflix 的内部文化，没有办法通过框架或者编码规范来形成一套能够满足弹性要求的框架。最终，Netflix 选择开发了 Chaos Monkey：一个在生产环境随机选择并关闭服务的工具。通过频繁的服务失败演练，使得开发团队对服务集群稳定性有了更高的重视，以确保不会因为这些演练对最终用户产生影响。Netflix 将 Chaos Monkey 定位为提升服务质量的高效工具。</p>
-<p>Spinnaker 是 Netflix 的持续交付平台，可以在 Spinnaker 上对 Chaos Monkey 进行配置。同时 Chaos Monkey 可以从 Spinnaker 获取服务部署的相关信息并通过 Spinnaker 关闭服务实例。由于集成了 Spinnaker，Chaos Monkey 增加了对多种后端的支持，包括：AWS、GCP、Azure、Kubernetes、Cloud Foundry。</p>
-<h2 id="技术原理"><a href="#技术原理" class="headerlink" title="技术原理"></a>技术原理</h2><p><a href="https://idarkboss.github.io/posts/16861">技术原理</a></p>
-<h2 id="使用场景（举例说明）"><a href="#使用场景（举例说明）" class="headerlink" title="使用场景（举例说明）"></a>使用场景（举例说明）</h2><p><a href="https://idarkboss.github.io/posts/35502">使用场景（举例说明）</a></p>
-<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p><a href="https://idarkboss.github.io/posts/35161">模型</a></p>
-<h2 id="Demo-搭建"><a href="#Demo-搭建" class="headerlink" title="Demo 搭建"></a>Demo 搭建</h2><p><a href="https://idarkboss.github.io/posts/51089">Demo 搭建</a></p>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>我们可以手动调用 Chaos Monkey 终止实例。 例如：</p>
-<p><code>chaosmonkey terminate chaosguineapig test --cluster=chaosguineapig--region=**us**-east-1</code></p>
-<p>应用中启用 Chaos Monkey，在 Spring Boot 应用中开启 Chaos Monkey 支持仅需要两步，首先在项目依赖中添加在 chaos-monkey-spring-boot。再然后，我们在应用启动时激活 chaos-monkey 的 profile。</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>de.codecentric<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>chaos-monkey-spring-boot<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">java -jar target/order-service-1.0-SNAPSHOT.jar --spring.profiles.active=chaos-monkey</span></span><br></pre></td></tr></table></figure>
-
-<p>在 Codecentric Chaos Monkey 库的 2.0 版本中有个新的特性：Spring Boot Actuator 访问端口，通过 management.endpoint.chaosmonkey.enabled 属性来设置是否开启，在应用启动后，就可以通过 HTTP 访问端口来访问了。</p>
-<h2 id="设计场景与应用"><a href="#设计场景与应用" class="headerlink" title="设计场景与应用"></a>设计场景与应用</h2><p><a href="https://idarkboss.github.io/posts/19759">设计场景与应用</a></p>
-<h2 id="补充内容"><a href="#补充内容" class="headerlink" title="补充内容"></a>补充内容</h2><h3 id="中断检查器"><a href="#中断检查器" class="headerlink" title="中断检查器"></a>中断检查器</h3><p>中断检查器用于在正在进行的中断期间自动禁用 Chaos Monkey。如果希望让 Chaos Monkey 检查是否有持续的中断并相应地禁用它，则需要：给你的中断检查人员起一个名字（例如，“聊天机器人”），在 Go 中编码一个实现<a href="https://godoc.org/github.com/netflix/chaosmonkey/#Outage" target="_blank" rel="noopener">中断</a>接口的类型。修改<a href="https://github.com/Netflix/chaosmonkey/blob/master/outage/outage.go" target="_blank" rel="noopener">outage.go</a>，以便它识别你的中断检查器。编辑你的<a href="https://netflix.github.io/chaosmonkey/Configuration-file-format/" target="_blank" rel="noopener">配置文件</a>以指定中断检查器。</p>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>运行这些测试的最简单方法是在本地计算机上安装 Docker。这些测试使用 mysql:5.6 容器（使用 5.6 版以确保与<a href="https://aws.amazon.com/rds/aurora" target="_blank" rel="noopener">Amazon Aurora</a>兼容）。</p>
-<p>请注意，如果使用的是 macOS，则必须使用<a href="https://docs.docker.com/engine/installation/mac/" target="_blank" rel="noopener">Docker for Mac</a>而不是 Docker Toolbox。否则，将无法通过 127.0.0.1 访问 Docker 容器。</p>
-<p>如果要运行这些测试，请确保已在本地安装 Docker，并抓住 mysql：5.6 容器：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull mysql:5.6</span><br></pre></td></tr></table></figure>
-
-<p>然后使用 docker 标记运行测试，如下所示：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">go test -tags docker ./...</span><br></pre></td></tr></table></figure>
-
-<p>测试将自动启动 mysql 容器，然后将其关闭。</p>
-<p>如果在不上下移动 Docker 容器的情况下进行测试。如果你不希望测试每次都启动和关闭 mysql Docker 容器（例如，你想更快地运行测试，或者想通过本地运行 mysql 实例进行测试），请使用“dockerup”标志以及“docker”标志。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">go test -tags "docker dockerup" ./...</span><br></pre></td></tr></table></figure>
-
-<h3 id="启用组"><a href="#启用组" class="headerlink" title="启用组"></a>启用组</h3><p>如果 Spinnaker 将服务器组标记为启用，那么 Chaos Monkey 将仅考虑有资格终止的服务器组。Spinnaker API 公开了 isDisabled 布尔标志，以指示是否禁用了组。Chaos Monkey 对此进行了过滤，以确保它仅从活动组中终止。</p>
-<h3 id="可能性"><a href="#可能性" class="headerlink" title="可能性"></a>可能性</h3><p>对于每个应用程序，Chaos Monkey 将实例分为实例组（分组取决于应用程序的配置方式）。每个工作日，对于每个实例组，Chaos Monkey 都会掷一枚加权硬币，以决定是否从该组中终止实例。如果硬币朝上，Chaos Monkey 会安排在当天的上午 9 点至下午 3 点之间的任意时间终止。</p>
-<p>在这种情况下，实例组终止之间的工作日数是一个具有<a href="https://en.wikipedia.org/wiki/Geometric_distribution" target="_blank" rel="noopener">几何分布</a>的随机变量。</p>
-<p>下面的等式描述了终止之间时间的概率分布。<em>X</em>是随机变量，<em>n</em>是终止之间的工作天数，<em>p</em>是硬币出现正面的概率。</p>
-<p>$$P(X=n) = (1-p)^(n-1) × p, n&gt;=1$$</p>
-<p>对<em>X</em>取期望得到平均值：</p>
-<p>$$E[X] = 1/p$$</p>
-<p>每个应用程序定义两个参数来控制 Chaos Monkey 应该为该应用程序实例执行的频率：</p>
-<p>工作日之间的平均终止时间（μ），上班时间之间的最短间隔时间（ɛ），混沌猴子使用 μ 来确定 p 应该是多少。如果我们忽略 the 的影响并求解 p：</p>
-<p>$$μ = E[X] = 1/p$$<br>$$p = 1/μ$$</p>
-<p>例如，对于给定的应用程序，假定 μ= 5。在每一天，终止的可能性是 1/5。请注意，如果 ɛ&gt; 1，混沌猴子的终止行为将不再是几何分布：</p>
-<p>$$P(X=n) = (1-p)^(n-1) × p, n&gt;=ɛ$$</p>
-<p>特别是，随着 larger 变大，$E[X]-μ$ 也变大。我们不对此进行校正，因为数学上的额外复杂度不值得让 $E[X]$ 完全等于 $μ$。还要注意，如果 $μ=1$，则 $p=1$，这保证了每天终止。</p>
-<h3 id="追踪器"><a href="#追踪器" class="headerlink" title="追踪器"></a>追踪器</h3><p>跟踪器用于记录某种外部系统中的终止事件。在 Netflix 内部，我们使用跟踪器记录到<a href="https://github.com/netflix/atlas/wiki" target="_blank" rel="noopener">Atlas</a>（我们的指标系统）和事件跟踪系统 1 Chronos 的终止 。</p>
-<p>如果你希望记录某些外部系统的终止，则需要：给你的跟踪器起一个名字，在 Go 中编码一个实现<a href="https://godoc.org/github.com/Netflix/chaosmonkey/#Tracker" target="_blank" rel="noopener">Tracker</a>界面的类型。修改<a href="https://github.com/Netflix/chaosmonkey/blob/master/tracker/tracker.go" target="_blank" rel="noopener">github.com/netflix/chaosmonkey/tracker/getTracker</a>，使其可以识别你的跟踪器。编辑你的<a href="https://netflix.github.io/chaosmonkey/Configuration-File-Format" target="_blank" rel="noopener">配置文件</a>以指定你的跟踪器。不幸的是，我们无法将这些跟踪器中的任何一个作为开源发布。我们的 Atlas 跟踪器与尚未发布为开源的<a href="https://github.com/Netflix/Prana" target="_blank" rel="noopener">Prana</a>版本进行通信 ，Chronos 也尚未发布为开源。</p>
-<h3 id="供应商依赖性"><a href="#供应商依赖性" class="headerlink" title="供应商依赖性"></a>供应商依赖性</h3><p>如果要向 Chaos Monkey 添加新的依赖项，使用<a href="https://github.com/kardianos/govendor" target="_blank" rel="noopener">govendor</a>进行添加。确保新依赖项的许可证与 Chaos Monkey 的许可证兼容：<a href="https://github.com/Netflix/chaosmonkey/blob/master/LICENSE" target="_blank" rel="noopener">Apache License Version 2.0</a>。</p>
-]]></content>
-      <tags>
-        <tag>Chaos Monkey</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ExtJS-Java 前后台交互</title>
     <url>/posts/41187/</url>
     <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对， 请再试试。" data-whm="抱歉，这个文章不能被校验，不过您还是能看看解密后的内容。">
@@ -198,6 +198,22 @@
         <tag>Comstar</tag>
         <tag>Java</tag>
         <tag>ExtJS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>FIS-CMS-WMS下载安装配置(IDEA)</title>
+    <url>/posts/35227/</url>
+    <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对， 请再试试。" data-whm="抱歉，这个文章不能被校验，不过您还是能看看解密后的内容。">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">您好，这里需要密码。如果不能解密请刷新页面哦。</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="aefea2e8c2562b046e7a92a192c1f43089f4a8f86f719eacb39821676c01bee6">56503e17de7fd7fe81c69c7f255076a3c60ac387d80f95d23209fd96699fd69b8a1f53a4eaed2d75557d974ebc9f7a48487526f90786729ec488baea5a0295911d438e5d735d93a0986ba1d9b23ec7425ae66b88f4456a75cbbfe06de15f0804aa36f195bc420ac5ab21dad85f310ae7d4cac23ee22786dcd900b700e8c8f98bcec96a4f347caab27393f2e517d8a4824236498fbc663aeca9d4ea6061b50c99520a459da631aeb65b4f18d91aaf7c689d299bdcd2feba45b183bff4a99fdb4cad6eba5c1e8d440cf14c43f6f2e5c15ff7405512af0069d8eb379dcfb9f3794bd3c33b048836215832549c932ec493cc0803cddb775212c995fa7b3faf702ee260f2dee506e4426e375d03df62232b7d33cf7c264f748ab42acf7f12fe68f774d35159f7aa6edc05c6cc3e65a0efcc8dc6859e8763e420a0a4e1d432c98f30c0a690a35a7944bedb2585c8a5057521ba956839442511e2eb8e5065402adb046e3aa8ced5fc808f358ec0391f637f3f761899191a7b49a2f3dce8b5dd51848c018b8bad88b1f8faf62117970a9f428c81d1179cc3e47fd6573f11fdf4e710227f46119bb3ea95def53979c6f3fbaaea8f7b784f54fa5ea85eb304cda9c6ed296e4a3457e0660993470e7e9c772ed9fe3e284dc5afff1ba377f03bf6b51fe970205e22be1243195447979b08273051d5370415b324056753e07861091318f7c7f3b6f21ff3e8abad60ce847c2f61b61f3b1997e3c7b1c9759400f21e416bbc1cb655c8004d844504b02a81658cfc554f879256e3b30e55c5e64746015ad2d5969a8efba6bedac2d77ea52c3682dbad1555b1f89bd1b724b180fa4cf0663f89843be18faf05a91fd5a61828cfa31c8e19e25a2654b0043b3245ef5cd6af2e02d90880e8d8df1f248690766d7b84b0ed45d8af9b590be4128237b600eb32e458660959dafd44fff4260ec72fd8fd53e86a8f30fef0bdb3a1d4d2ba693040b4e37441b55e08e43c234f3dcd6bf2647bf4d24d7e6857eab87dd8f3b0cecabd2e44ad12a462a9a944d4942dc27021084d1eaf0b81fa133aba4c76d0607b49dee637caea2ed1ccd569212cc5f28153312cddce2c37cf1563dc848b1a34213c8767a51a928d4f66ccd1f7514bbbc4593e2da80c0338e543cf2074dba26923bb54d3272c2e6466335ea2461ed09f35d1b109422b6da59b4e3f079a7067fea3867fc6d53045b263967d95278beb101e0b557937ecfb0ed5c8d620d4cf992c6a134790fa5763a2fd1305457638fa11bfa3e6b0aaf2eb745888150c82f7dfc073641cb701e74bc929e444dcf890dcccde8c95bfa487fbaea22bc5a2704932e9d84539fd55823b63bd55c1c7f826f05efe91fef7edf20c4082fdce045bbf222435adf7c4f33c2da8d459c8d31bd9f9325b399576e66705b6a221d74d69bcc65bd0a3146ee51ab95536455323ad81ac48f82545afda666fb5c0bae946a791d856b4f59d207f6b4160504704374967c88487b2afd4b7a5cbd95485ed033b4648417b4d61cb5edad476156d02c561788061323e413aa62cb371ac0c8b02aca18593018abe1c1af56f6f2ee271722da06708c3e4fb49cfa436aa7a9fa02be614855430282b508617be17217e311b72b51d7c3fc99a681ef032257aa1289e3f69c9953f3fb08abe063e352eda069516a04e8605df5a75b24c4494a2546c3ddb7c06a95ae342c73f1027e1f64587cf405a7fe365aacde9efb591345e18b4ea30e8757efc3c9c0aafce1512e0ad304ee3f9baf8c4f3b21476d3bfe52d505a37abfc7f007a16a497a61a7f2245066728b32fe19e59c8b0b641a5068dbb6ac34fca2891a61914cbe13db611f6f697a3bd4f9fef59c511788084597254c2a0cf442d1fa57c40525634557869db26864d30d7ae6efcec4cd65d17c00dbaf92ba808a148097c080537acb8ac07083b140072a6422a4c76158117ca01bc08e7d93e5ff84100bafb133975609384fc50c7e3ee16c3ad16985c28a3af84f3e2ee60f2a2cd1160b8e31e4c57633f9377d7fdb38724ee2ece7eb5aba2871d0929fa600dc682a60ba3d5911c1c6bbc7b1ccaf944fa846bf0f0cc0e4e2701481632333da1a10c55be175466adc41687c4b25de843b822b202dd7ec8b765a30babf69202002b0621af536a2ac5702396a0fef4ec94af89870e794ec6e89b8d24b02cda767a3ce30d8f44f309896f0c2389319fbb40af9ee8029ac141833c4db296907f7868ae54d1ad30896fdfb3cc5d35b14635d8f2783269618a1f1d64d58f798d7dcd611ffad3d14a35871f298b74875e1cce3b21a9305a26a1e104dbb2a506cfd8d9267fb4a11753a7881578375161185eba17af26a3f8957d2cceb136896eb84e157009385a8a70ddc795f9649003359422719e9c18d94bf19402d493a4257b3689532b403837e09ddcb827c8c42c3187ac7183febfa431bb1f8255603e1ea97360048787dffbea30103351e2474e28fd5a755a440bc91cda5ec1744cdb3befe34faefdc221acd09844bda95281172b6df912fe1b3aee6710ac36045376f89321f23ba045cab3acf9fe51b95445b94000a6456c7b7f69437a6202b58ced92b92848a4821e6a49e4f6cdb34b3be7d8f7b18dfa93bd963d187b0967cb4d1ef5514e7c9856606532323079a925e7fef5936956c9f29f853544411abaaeea932d476e042457aed662ce9621be053af0369c06288814bbe3b462f1c816000d224976b2d9c076d6343f0a294c9090634860487b39c3bd882ce46f38c825ecae4097aa3e65f5eb4de0a5855f28e595174fc6b2f68fae73d9e45fcdcc05e2f81d267da51cb87fcc3a7c262e151104aedab90db3c703b6ddb4120046f7aa6900433af835da02969e25a624e64110434f35b81217528093375ee7fa9efa41200d8e65a2c7ac8f472817e1a4409802bdd3ae83c0e952b9bc59104b583049df7b932c5d40947c3f6ca9e598412b0ba1500ad3517409f15673ae8d491f0027e55d5218d5a58abb5017f308c72fd120b2599cc186fc4730d4aaf5de283bb0dd86e7ea8a7ccc54deff47ca89580863fa777b2165849a0d9837a293cc03b4d465f491a06408853361dd170944205909a2dca351c01790869c3f8bccd3efb744d2ff9af579a4ada9506ed1668f1f2b16ab303eb77ef17e63670dc3d5b1317633b419cab642bd89b33bf4a8d7e5beffadde33d7700bcbc5b2048bbfe139b1f19aaed6795326165b1ed027c4f81ac5e116d227394a98fde89caa4cdaeda6aa494b944aec4d4f2f81d910b729b96962960cfa661f6fa77ba958f75dc0ae34f54e342fd2635ff8da3ac8a33f1e1ccb40cf544e92043ba160b1f8fd62eaa2cf57107703ec4d4983aeb656b1af070c8691aba38bf372fe146dcca7fd55c8e878c8dd0cffcc2df0d695fd53eeccb8c631eae8132c8a11c4df09fa39b561c471f904ef5326ff2b7c0985efff7e0d547a57edb45845566880c153a40b84d3bfe3e23c8c66f54bcb81f84b4343facaf8c42971dc9c39aa9da274a8761bed3a2f088aeb3bb43509cc410140e84d8277e9d2eb280cf3fa871efb61266e99237ebcdd50474aa49e6176014afa8b2b1dbb436876175df5c03258e679078aede24a8bef03cb8578f482687cd6e0b89010b330f2e7f5bde65ff99dca670acc74c1538e82e8eb6ae8586a0e1cb2a763ccfc2d1faa0570e8cb2d268d82fc45afb9dfb69671f7d835df16bf06d12741cf0b2ada5ff099b3712225c418c6120fb2745e81e8f70cc928cb99e99a601af4db577773f62248197ca3179f543ccdecefbed8d145873326b4cc538c6be0a53d6185e28648b53ec5d60a91683c853087337f065098cb54c9496266fea35106705162d76923e8b360c48cc30ed289f9c747d9851d797ec6ba4a01d9709821b3e24af5974b0e7297cd5a81bcaae490eb313f49dcb55024ff734f8e1f403585d74141c1bb413382d5d843f43bb787a866a93ce92eef80bfad6ceb1eaabf560e9a5c2580e9b777fd201e6e150a8836ac36006bc79ae03673ab12c1330351be2c47e95678d2a7d32089c570b3081e3129ce0232301174286d3bd7fe927253257597b8ef00ad5402ff0dc331ee73be9411152c57e08f0d31df00ce12a5241c1efd28fde846714968aa0bfb46e8016e659663e196fdcab38642184b166254b7264dbafcfbed7180d63ec48d86f54d19b5389c613803556ff5b3e45010e6428af3c97fa19d6344ec3a33d4b615284b5ea4992abb64d413e0595a4045ae6d7ac91ae29b510680ab3fa82f7d4c3395dd6eef9f75cd0687168c23d2d34729f557e512bae766e069bcc4319da448adc9c7fd6e53bed40d63a222a9c2280e0c20a29afec30f9902e5e6d1069601c6aaab187c200285ae7a59419b8d8739c1748250fea4b7d9dd1e4bd11ade3c6ca4e8b320f9a59b277b2b519713b966156e8bc3ebdab44f7e2e2ec6d514fd1fea2527569a79ebbf9f8231e3404a2e8a14b731eae7fd9d6c133be74019ee910b9ea7e56d6274f57d262e4ecdadc786d86a2309d121f5330797036ffde2338f922175e249d782f6bb33c19deb2c80d8af744fc8d88e051bdbd13d71dedae5763f671b01cca24b98ecbef97a4b5cf063bcdde1cf47d968802737a4fa977b27ebeea85c7fe09d60523926e118cd4e2c8af451b0bca12e105943018a9c8b4caf20940ccf779f17b158cd7ac3fccd58a1d7bf6d153593dcf7d0e0469fd89b329f411e0e29986778e48730bc105b6eb2e0809cf343743b8b5581baa7a3177d0609b252800d4bf488c8b80e419d0f1cd689a13c72d9937213653234aa9ccdd70acd2a7ebbe5c03d35c8147ce5d2faf897a8f7b3e5a89178aff0d334576835994a9ee0c275259d183b150aba229e33661c01b2e4b05c8aa7f14e98485baec3425e303ba70023ab61576188ab7fb154416fd00fe987978bbf7e77e2e011e04add06f828a696c77262314abd48ce420764df18cec079c12a9e89d0554ed9ae3cdad99bf54b4267e2d1bd71ac50fb3376c231e678a4e05117ca139cc85fc4df682247b34519887dd79bfd6188468e5955e2d567b646e709542605f900676430153fd649012a807466c4319e353a070086e7d4b9807e5eb5eee524fc41a809c677e0937f47d7a10a460d0a4194295c0b835f79d00eaa2296c75825c8945edba87fd881447bccafaac80404b52aab87330aa2072198e3f9306f11808bcdd336cb28c5f55da4742a6874670d249b9da693e393b37696535945cda0938a794449bb98960675cfb5095587614fca97cf835a5d07aa532deb7d39ef24fc2c1c519739ca14af7c7906e94573d1067575c091df9a871ee22f0cdb85ba2a9d6545f09d3cd894cfe6b4ae509eda1521f504dbe7aad426b3cb75548c1a2c492b05dd74c70972bb3d4ea9c23d69328d8055515ea11bf676f99080014bbe4bbe1052fb2fb657c005b2dff23f41870c6154075e94ab84fa367f3b00c24da1316bdda2457be4db58a1006be6fb96cf26758e8b53da67c67c4e2b6d7a31a7597b7d3ddbc172050fa51782a84fd65d2f17547db80f0b076aedeecac213d9b1793f42181cb180fb49c247f7a064044322a40fe586c7530fc07f6b8f403e8aa4e0902bad6c068bdca3335f297908ca15e24902fed4b876acc4f230fae804be4a8bdc0306c5c15e31e4ca7295842ccf473d7ee5e66faf5f1f6cbd6308c013e05e618a45b7632c15a090e6c56b4d27569a98216c47e7cb043763bd54ebd739d315f8f5ae9a80398df9a440ae511bf20121dd3ee27fee39cff1d86c7dcae9fb576fe1e3f398bf2005bbae79c87acc4fa7315c7fac6881119d13562534c20ca0108f6a5f7d500e02badbf8a147544fa7cc57ac76f55b5475f623a4ffda91488beaa15c83bd5d01b998adbdf12cef605220d6519d3fbce78c79e6795b73e754b1507cf363592ada91239ecd0f2079f690e25de35cee7110e4b85a9c1fb395533c197eb790a1bf544f67af61f597ba6f22933d2e177928dcc5a05a67a50de3f95a6b08aeae1eb4ca6a51e3e5f8d3919ff1a1e66ae941efa20cc5a4c989a4c44a123abee5a3101eb5622c3cc42bacd852f49092707077cfc0007eb3a44632dea96c00179e778a58429ac1ee42d7f5047bbeb8f684ec06291880f33f17280052bef130707094390e6821ca1abb306e76c2e708290669e3ce3b54da9f9252655838f148042b88fd3c1994302ffd31ae87d830a5df6202ae8c3b356e79e479f090bb63cf6426e075a52c39ba820eeaa0bc0cd05ddf6a5d6dc3334b75096053</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
+      <tags>
+        <tag>Comstar</tag>
       </tags>
   </entry>
   <entry>
@@ -251,22 +267,6 @@
       </tags>
   </entry>
   <entry>
-    <title>FIS-CMS-WMS下载安装配置(IDEA)</title>
-    <url>/posts/35227/</url>
-    <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对， 请再试试。" data-whm="抱歉，这个文章不能被校验，不过您还是能看看解密后的内容。">
-  <div class="hbe-input-container">
-  <input type="password" id="hbePass" placeholder="" />
-    <label for="hbePass">您好，这里需要密码。如果不能解密请刷新页面哦。</label>
-    <div class="bottom-line"></div>
-  </div>
-  <script id="hbeData" type="hbeData" data-hmacdigest="aefea2e8c2562b046e7a92a192c1f43089f4a8f86f719eacb39821676c01bee6">56503e17de7fd7fe81c69c7f255076a3c60ac387d80f95d23209fd96699fd69b8a1f53a4eaed2d75557d974ebc9f7a48487526f90786729ec488baea5a0295911d438e5d735d93a0986ba1d9b23ec7425ae66b88f4456a75cbbfe06de15f0804aa36f195bc420ac5ab21dad85f310ae7d4cac23ee22786dcd900b700e8c8f98bcec96a4f347caab27393f2e517d8a4824236498fbc663aeca9d4ea6061b50c99520a459da631aeb65b4f18d91aaf7c689d299bdcd2feba45b183bff4a99fdb4cad6eba5c1e8d440cf14c43f6f2e5c15ff7405512af0069d8eb379dcfb9f3794bd3c33b048836215832549c932ec493cc0803cddb775212c995fa7b3faf702ee260f2dee506e4426e375d03df62232b7d33cf7c264f748ab42acf7f12fe68f774d35159f7aa6edc05c6cc3e65a0efcc8dc6859e8763e420a0a4e1d432c98f30c0a690a35a7944bedb2585c8a5057521ba956839442511e2eb8e5065402adb046e3aa8ced5fc808f358ec0391f637f3f761899191a7b49a2f3dce8b5dd51848c018b8bad88b1f8faf62117970a9f428c81d1179cc3e47fd6573f11fdf4e710227f46119bb3ea95def53979c6f3fbaaea8f7b784f54fa5ea85eb304cda9c6ed296e4a3457e0660993470e7e9c772ed9fe3e284dc5afff1ba377f03bf6b51fe970205e22be1243195447979b08273051d5370415b324056753e07861091318f7c7f3b6f21ff3e8abad60ce847c2f61b61f3b1997e3c7b1c9759400f21e416bbc1cb655c8004d844504b02a81658cfc554f879256e3b30e55c5e64746015ad2d5969a8efba6bedac2d77ea52c3682dbad1555b1f89bd1b724b180fa4cf0663f89843be18faf05a91fd5a61828cfa31c8e19e25a2654b0043b3245ef5cd6af2e02d90880e8d8df1f248690766d7b84b0ed45d8af9b590be4128237b600eb32e458660959dafd44fff4260ec72fd8fd53e86a8f30fef0bdb3a1d4d2ba693040b4e37441b55e08e43c234f3dcd6bf2647bf4d24d7e6857eab87dd8f3b0cecabd2e44ad12a462a9a944d4942dc27021084d1eaf0b81fa133aba4c76d0607b49dee637caea2ed1ccd569212cc5f28153312cddce2c37cf1563dc848b1a34213c8767a51a928d4f66ccd1f7514bbbc4593e2da80c0338e543cf2074dba26923bb54d3272c2e6466335ea2461ed09f35d1b109422b6da59b4e3f079a7067fea3867fc6d53045b263967d95278beb101e0b557937ecfb0ed5c8d620d4cf992c6a134790fa5763a2fd1305457638fa11bfa3e6b0aaf2eb745888150c82f7dfc073641cb701e74bc929e444dcf890dcccde8c95bfa487fbaea22bc5a2704932e9d84539fd55823b63bd55c1c7f826f05efe91fef7edf20c4082fdce045bbf222435adf7c4f33c2da8d459c8d31bd9f9325b399576e66705b6a221d74d69bcc65bd0a3146ee51ab95536455323ad81ac48f82545afda666fb5c0bae946a791d856b4f59d207f6b4160504704374967c88487b2afd4b7a5cbd95485ed033b4648417b4d61cb5edad476156d02c561788061323e413aa62cb371ac0c8b02aca18593018abe1c1af56f6f2ee271722da06708c3e4fb49cfa436aa7a9fa02be614855430282b508617be17217e311b72b51d7c3fc99a681ef032257aa1289e3f69c9953f3fb08abe063e352eda069516a04e8605df5a75b24c4494a2546c3ddb7c06a95ae342c73f1027e1f64587cf405a7fe365aacde9efb591345e18b4ea30e8757efc3c9c0aafce1512e0ad304ee3f9baf8c4f3b21476d3bfe52d505a37abfc7f007a16a497a61a7f2245066728b32fe19e59c8b0b641a5068dbb6ac34fca2891a61914cbe13db611f6f697a3bd4f9fef59c511788084597254c2a0cf442d1fa57c40525634557869db26864d30d7ae6efcec4cd65d17c00dbaf92ba808a148097c080537acb8ac07083b140072a6422a4c76158117ca01bc08e7d93e5ff84100bafb133975609384fc50c7e3ee16c3ad16985c28a3af84f3e2ee60f2a2cd1160b8e31e4c57633f9377d7fdb38724ee2ece7eb5aba2871d0929fa600dc682a60ba3d5911c1c6bbc7b1ccaf944fa846bf0f0cc0e4e2701481632333da1a10c55be175466adc41687c4b25de843b822b202dd7ec8b765a30babf69202002b0621af536a2ac5702396a0fef4ec94af89870e794ec6e89b8d24b02cda767a3ce30d8f44f309896f0c2389319fbb40af9ee8029ac141833c4db296907f7868ae54d1ad30896fdfb3cc5d35b14635d8f2783269618a1f1d64d58f798d7dcd611ffad3d14a35871f298b74875e1cce3b21a9305a26a1e104dbb2a506cfd8d9267fb4a11753a7881578375161185eba17af26a3f8957d2cceb136896eb84e157009385a8a70ddc795f9649003359422719e9c18d94bf19402d493a4257b3689532b403837e09ddcb827c8c42c3187ac7183febfa431bb1f8255603e1ea97360048787dffbea30103351e2474e28fd5a755a440bc91cda5ec1744cdb3befe34faefdc221acd09844bda95281172b6df912fe1b3aee6710ac36045376f89321f23ba045cab3acf9fe51b95445b94000a6456c7b7f69437a6202b58ced92b92848a4821e6a49e4f6cdb34b3be7d8f7b18dfa93bd963d187b0967cb4d1ef5514e7c9856606532323079a925e7fef5936956c9f29f853544411abaaeea932d476e042457aed662ce9621be053af0369c06288814bbe3b462f1c816000d224976b2d9c076d6343f0a294c9090634860487b39c3bd882ce46f38c825ecae4097aa3e65f5eb4de0a5855f28e595174fc6b2f68fae73d9e45fcdcc05e2f81d267da51cb87fcc3a7c262e151104aedab90db3c703b6ddb4120046f7aa6900433af835da02969e25a624e64110434f35b81217528093375ee7fa9efa41200d8e65a2c7ac8f472817e1a4409802bdd3ae83c0e952b9bc59104b583049df7b932c5d40947c3f6ca9e598412b0ba1500ad3517409f15673ae8d491f0027e55d5218d5a58abb5017f308c72fd120b2599cc186fc4730d4aaf5de283bb0dd86e7ea8a7ccc54deff47ca89580863fa777b2165849a0d9837a293cc03b4d465f491a06408853361dd170944205909a2dca351c01790869c3f8bccd3efb744d2ff9af579a4ada9506ed1668f1f2b16ab303eb77ef17e63670dc3d5b1317633b419cab642bd89b33bf4a8d7e5beffadde33d7700bcbc5b2048bbfe139b1f19aaed6795326165b1ed027c4f81ac5e116d227394a98fde89caa4cdaeda6aa494b944aec4d4f2f81d910b729b96962960cfa661f6fa77ba958f75dc0ae34f54e342fd2635ff8da3ac8a33f1e1ccb40cf544e92043ba160b1f8fd62eaa2cf57107703ec4d4983aeb656b1af070c8691aba38bf372fe146dcca7fd55c8e878c8dd0cffcc2df0d695fd53eeccb8c631eae8132c8a11c4df09fa39b561c471f904ef5326ff2b7c0985efff7e0d547a57edb45845566880c153a40b84d3bfe3e23c8c66f54bcb81f84b4343facaf8c42971dc9c39aa9da274a8761bed3a2f088aeb3bb43509cc410140e84d8277e9d2eb280cf3fa871efb61266e99237ebcdd50474aa49e6176014afa8b2b1dbb436876175df5c03258e679078aede24a8bef03cb8578f482687cd6e0b89010b330f2e7f5bde65ff99dca670acc74c1538e82e8eb6ae8586a0e1cb2a763ccfc2d1faa0570e8cb2d268d82fc45afb9dfb69671f7d835df16bf06d12741cf0b2ada5ff099b3712225c418c6120fb2745e81e8f70cc928cb99e99a601af4db577773f62248197ca3179f543ccdecefbed8d145873326b4cc538c6be0a53d6185e28648b53ec5d60a91683c853087337f065098cb54c9496266fea35106705162d76923e8b360c48cc30ed289f9c747d9851d797ec6ba4a01d9709821b3e24af5974b0e7297cd5a81bcaae490eb313f49dcb55024ff734f8e1f403585d74141c1bb413382d5d843f43bb787a866a93ce92eef80bfad6ceb1eaabf560e9a5c2580e9b777fd201e6e150a8836ac36006bc79ae03673ab12c1330351be2c47e95678d2a7d32089c570b3081e3129ce0232301174286d3bd7fe927253257597b8ef00ad5402ff0dc331ee73be9411152c57e08f0d31df00ce12a5241c1efd28fde846714968aa0bfb46e8016e659663e196fdcab38642184b166254b7264dbafcfbed7180d63ec48d86f54d19b5389c613803556ff5b3e45010e6428af3c97fa19d6344ec3a33d4b615284b5ea4992abb64d413e0595a4045ae6d7ac91ae29b510680ab3fa82f7d4c3395dd6eef9f75cd0687168c23d2d34729f557e512bae766e069bcc4319da448adc9c7fd6e53bed40d63a222a9c2280e0c20a29afec30f9902e5e6d1069601c6aaab187c200285ae7a59419b8d8739c1748250fea4b7d9dd1e4bd11ade3c6ca4e8b320f9a59b277b2b519713b966156e8bc3ebdab44f7e2e2ec6d514fd1fea2527569a79ebbf9f8231e3404a2e8a14b731eae7fd9d6c133be74019ee910b9ea7e56d6274f57d262e4ecdadc786d86a2309d121f5330797036ffde2338f922175e249d782f6bb33c19deb2c80d8af744fc8d88e051bdbd13d71dedae5763f671b01cca24b98ecbef97a4b5cf063bcdde1cf47d968802737a4fa977b27ebeea85c7fe09d60523926e118cd4e2c8af451b0bca12e105943018a9c8b4caf20940ccf779f17b158cd7ac3fccd58a1d7bf6d153593dcf7d0e0469fd89b329f411e0e29986778e48730bc105b6eb2e0809cf343743b8b5581baa7a3177d0609b252800d4bf488c8b80e419d0f1cd689a13c72d9937213653234aa9ccdd70acd2a7ebbe5c03d35c8147ce5d2faf897a8f7b3e5a89178aff0d334576835994a9ee0c275259d183b150aba229e33661c01b2e4b05c8aa7f14e98485baec3425e303ba70023ab61576188ab7fb154416fd00fe987978bbf7e77e2e011e04add06f828a696c77262314abd48ce420764df18cec079c12a9e89d0554ed9ae3cdad99bf54b4267e2d1bd71ac50fb3376c231e678a4e05117ca139cc85fc4df682247b34519887dd79bfd6188468e5955e2d567b646e709542605f900676430153fd649012a807466c4319e353a070086e7d4b9807e5eb5eee524fc41a809c677e0937f47d7a10a460d0a4194295c0b835f79d00eaa2296c75825c8945edba87fd881447bccafaac80404b52aab87330aa2072198e3f9306f11808bcdd336cb28c5f55da4742a6874670d249b9da693e393b37696535945cda0938a794449bb98960675cfb5095587614fca97cf835a5d07aa532deb7d39ef24fc2c1c519739ca14af7c7906e94573d1067575c091df9a871ee22f0cdb85ba2a9d6545f09d3cd894cfe6b4ae509eda1521f504dbe7aad426b3cb75548c1a2c492b05dd74c70972bb3d4ea9c23d69328d8055515ea11bf676f99080014bbe4bbe1052fb2fb657c005b2dff23f41870c6154075e94ab84fa367f3b00c24da1316bdda2457be4db58a1006be6fb96cf26758e8b53da67c67c4e2b6d7a31a7597b7d3ddbc172050fa51782a84fd65d2f17547db80f0b076aedeecac213d9b1793f42181cb180fb49c247f7a064044322a40fe586c7530fc07f6b8f403e8aa4e0902bad6c068bdca3335f297908ca15e24902fed4b876acc4f230fae804be4a8bdc0306c5c15e31e4ca7295842ccf473d7ee5e66faf5f1f6cbd6308c013e05e618a45b7632c15a090e6c56b4d27569a98216c47e7cb043763bd54ebd739d315f8f5ae9a80398df9a440ae511bf20121dd3ee27fee39cff1d86c7dcae9fb576fe1e3f398bf2005bbae79c87acc4fa7315c7fac6881119d13562534c20ca0108f6a5f7d500e02badbf8a147544fa7cc57ac76f55b5475f623a4ffda91488beaa15c83bd5d01b998adbdf12cef605220d6519d3fbce78c79e6795b73e754b1507cf363592ada91239ecd0f2079f690e25de35cee7110e4b85a9c1fb395533c197eb790a1bf544f67af61f597ba6f22933d2e177928dcc5a05a67a50de3f95a6b08aeae1eb4ca6a51e3e5f8d3919ff1a1e66ae941efa20cc5a4c989a4c44a123abee5a3101eb5622c3cc42bacd852f49092707077cfc0007eb3a44632dea96c00179e778a58429ac1ee42d7f5047bbeb8f684ec06291880f33f17280052bef130707094390e6821ca1abb306e76c2e708290669e3ce3b54da9f9252655838f148042b88fd3c1994302ffd31ae87d830a5df6202ae8c3b356e79e479f090bb63cf6426e075a52c39ba820eeaa0bc0cd05ddf6a5d6dc3334b75096053</script>
-</div>
-<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
-      <tags>
-        <tag>Comstar</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>IDEA 遇到的问题</title>
     <url>/posts/15956/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
@@ -313,6 +313,19 @@
       </tags>
   </entry>
   <entry>
+    <title>Java中List的循环用法</title>
+    <url>/posts/54882/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>Java 中 List 的循环用法</p>
+          </div>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Liebiao</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span>[] numbers = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> x : numbers) &#123;</span><br><span class="line">   System.out.print(x);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  System.out.print(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">  String[] names = &#123;<span class="string">"James"</span>, <span class="string">"Larry"</span>, <span class="string">"Tom"</span>, <span class="string">"Lacy"</span>&#125;;</span><br><span class="line">  <span class="keyword">for</span> (String name : names) &#123;</span><br><span class="line">   System.out.print(name);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Manjaro更换Deepin桌面环境</title>
     <url>/posts/1977/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>Deepin 桌面环境（DDE）是真滴好看，然而似乎有些地方并不是很稳定。So what？盘它！</p>
@@ -347,6 +360,30 @@
         <tag>Manjaro</tag>
         <tag>Deepin</tag>
         <tag>Manjaro-Deepin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NexT-Pisces主题配置</title>
+    <url>/posts/14831/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
+<h2 id="背景半透明"><a href="#背景半透明" class="headerlink" title="背景半透明"></a>背景半透明</h2><h3 id="新建自定义格式文件"><a href="#新建自定义格式文件" class="headerlink" title="新建自定义格式文件"></a>新建自定义格式文件</h3><p>在 <code>theme/next/source/css/</code> 下新建 <code>_custom</code> 文件夹，进入文件夹并创建 <code>custom.styl</code> 。</p>
+<p>在 <code>themes/next/source/css/main.styl</code> 中加入：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@import</span> <span class="string">"/_custom/custom.styl"</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改-custom-styl-文件"><a href="#修改-custom-styl-文件" class="headerlink" title="修改 custom.styl 文件"></a>修改 custom.styl 文件</h3><p>我的配置如下：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 文章背景半透明</span><br><span class="line"><span class="selector-class">.content-wrap</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 代码背景透明</span><br><span class="line"><span class="selector-class">.table-container</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.68</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span><span class="selector-pseudo">:nth-of-type(odd)</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span>,</span><br><span class="line"><span class="selector-class">.highlight</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight</span> <span class="selector-class">.gutter</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.68</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight</span> <span class="selector-class">.code</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 行内代码块的自定义样式</span><br><span class="line"><span class="selector-tag">code</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 去掉文章白色背景</span><br><span class="line"><span class="selector-class">.main-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 侧边栏上半部分设置为透明</span><br><span class="line"><span class="selector-class">.menu-item-active</span> <span class="selector-tag">a</span>,</span><br><span class="line"><span class="selector-class">.menu</span> <span class="selector-class">.menu-item</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>,</span><br><span class="line"><span class="selector-class">.menu</span> <span class="selector-class">.menu-item</span> <span class="selector-tag">span</span><span class="selector-class">.exturl</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="attribute">border-bottom-color</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 侧边栏下半部分设置为透明</span><br><span class="line"><span class="selector-class">.sidebar</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文章结束标识"><a href="#文章结束标识" class="headerlink" title="文章结束标识"></a>文章结束标识</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>在博客根目录下新建 <code>source/_data/post-body-end.swig</code> ,即 <code>_data</code> 目录和 <code>_posts</code> 目录平级。</p>
+<p>在根目录的 <code>_config.yml</code> 取消 <code>custom_file_path</code> 下 <code>postBodyEnd</code> 的注释。</p>
+<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% if not is_index %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"text-align:center;color: #ccc;font-size:14px;"</span>&gt;</span></span><br><span class="line">    -------------本文结束 <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-paw"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span> 感谢您的阅读-------------</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="更换自定义字体"><a href="#更换自定义字体" class="headerlink" title="更换自定义字体"></a>更换自定义字体</h3><h4 id="首先修改-custom-styl"><a href="#首先修改-custom-styl" class="headerlink" title="首先修改 custom.styl"></a>首先修改 custom.styl</h4><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 更改字体</span><br><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"Sarasa Mono SC"</span>;</span><br><span class="line">  <span class="attribute">font-display</span>: swap;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">local</span>(<span class="string">"Sarasa Mono SC"</span>),</span><br><span class="line">    <span class="built_in">url</span>(https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/Fonts/sarasa-mono-sc-regular.ttf)</span><br><span class="line">      <span class="built_in">format</span>(<span class="string">"truetype"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="然后修改-base-styl"><a href="#然后修改-base-styl" class="headerlink" title="然后修改 base.styl"></a>然后修改 base.styl</h4><p>贴上我的配置</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">// Font families.</span><br><span class="line">$font-family-chinese      = "PingFang SC", "Sarasa Mono SC", "Microsoft YaHei";</span><br><span class="line"></span><br><span class="line">$font-family-base         = $font-family-chinese, sans-serif;</span><br><span class="line">$font-family-base         = "Sarasa Mono SC", get_font_family('global'), $font-family-chinese, sans-serif if get_font_family('global');</span><br><span class="line"></span><br><span class="line">$font-family-logo         = $font-family-base;</span><br><span class="line">$font-family-logo         = "Sarasa Mono SC", get_font_family('title'), $font-family-base if get_font_family('title');</span><br><span class="line"></span><br><span class="line">$font-family-headings     = $font-family-base;</span><br><span class="line">$font-family-headings     = get_font_family('headings'), $font-family-base if get_font_family('headings');</span><br><span class="line"></span><br><span class="line">$font-family-posts        = $font-family-base;</span><br><span class="line">$font-family-posts        = "Sarasa Mono SC", get_font_family('posts'), $font-family-base if get_font_family('posts');</span><br><span class="line"></span><br><span class="line">$font-family-monospace    = consolas, Menlo, monospace, $font-family-chinese;</span><br><span class="line">$font-family-monospace    = "Sarasa Mono SC", get_font_family('codes'), consolas, Menlo, monospace, $font-family-chinese if get_font_family('codes');</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>hexo-NexT</tag>
       </tags>
   </entry>
   <entry>
@@ -488,32 +525,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Nginx 反代配置</title>
-    <url>/posts/13817/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>Nginx 反代配置</p>
-          </div>
-
-<ul>
-<li><p>不要用宝塔下载的 Nginx！！！！（不要问我怎么知道的）</p>
-</li>
-<li><p>进入 /etc/nginx/conf.d 目录</p>
-</li>
-<li><p>新建一个.conf 文件，名称任意，内容为</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">upstream ice &#123;</span><br><span class="line">        server 0.0.0.0:你的服务需要的端口;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name 你的服务器IP;</span><br><span class="line">        location / &#123;</span><br><span class="line">        # 后端的Web服务器可以通过X-Forwarded-For获取用户真实IP</span><br><span class="line">        proxy_next_upstream error timeout invalid_header http_500 http_502 http$</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_set_header X_Nginx_Proxy true;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>/etc/nginx/nginx.conf 下的 http 中添加</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">include /etc/nginx/conf.d/*.conf;</span><br><span class="line">include /etc/nginx/sites-enabled/*;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重启 Nginx 服务</p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>Nginx</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>pom参数详解</title>
     <url>/posts/39421/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>pom 中有很多成对的参数，是不是大家跟我一样，很多都在用，但不知道参数的定义，下面来整理下这些参数，也方便日后想不起来的时候，可以很快的进行查阅，大家在看的时候尽量对比着自己的项目看，这样可以加深理解。</p>
@@ -552,43 +563,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java中List的循环用法</title>
-    <url>/posts/54882/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>Java 中 List 的循环用法</p>
-          </div>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Liebiao</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span>[] numbers = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> x : numbers) &#123;</span><br><span class="line">   System.out.print(x);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  System.out.print(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">  String[] names = &#123;<span class="string">"James"</span>, <span class="string">"Larry"</span>, <span class="string">"Tom"</span>, <span class="string">"Lacy"</span>&#125;;</span><br><span class="line">  <span class="keyword">for</span> (String name : names) &#123;</span><br><span class="line">   System.out.print(name);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NexT-Pisces主题配置</title>
-    <url>/posts/14831/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
-<h2 id="背景半透明"><a href="#背景半透明" class="headerlink" title="背景半透明"></a>背景半透明</h2><h3 id="新建自定义格式文件"><a href="#新建自定义格式文件" class="headerlink" title="新建自定义格式文件"></a>新建自定义格式文件</h3><p>在 <code>theme/next/source/css/</code> 下新建 <code>_custom</code> 文件夹，进入文件夹并创建 <code>custom.styl</code> 。</p>
-<p>在 <code>themes/next/source/css/main.styl</code> 中加入：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@import</span> <span class="string">"/_custom/custom.styl"</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改-custom-styl-文件"><a href="#修改-custom-styl-文件" class="headerlink" title="修改 custom.styl 文件"></a>修改 custom.styl 文件</h3><p>我的配置如下：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 文章背景半透明</span><br><span class="line"><span class="selector-class">.content-wrap</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 代码背景透明</span><br><span class="line"><span class="selector-class">.table-container</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.68</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span><span class="selector-pseudo">:nth-of-type(odd)</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span>,</span><br><span class="line"><span class="selector-class">.highlight</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight</span> <span class="selector-class">.gutter</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.68</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight</span> <span class="selector-class">.code</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 行内代码块的自定义样式</span><br><span class="line"><span class="selector-tag">code</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 去掉文章白色背景</span><br><span class="line"><span class="selector-class">.main-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 侧边栏上半部分设置为透明</span><br><span class="line"><span class="selector-class">.menu-item-active</span> <span class="selector-tag">a</span>,</span><br><span class="line"><span class="selector-class">.menu</span> <span class="selector-class">.menu-item</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>,</span><br><span class="line"><span class="selector-class">.menu</span> <span class="selector-class">.menu-item</span> <span class="selector-tag">span</span><span class="selector-class">.exturl</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="attribute">border-bottom-color</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 侧边栏下半部分设置为透明</span><br><span class="line"><span class="selector-class">.sidebar</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="文章结束标识"><a href="#文章结束标识" class="headerlink" title="文章结束标识"></a>文章结束标识</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>在博客根目录下新建 <code>source/_data/post-body-end.swig</code> ,即 <code>_data</code> 目录和 <code>_posts</code> 目录平级。</p>
-<p>在根目录的 <code>_config.yml</code> 取消 <code>custom_file_path</code> 下 <code>postBodyEnd</code> 的注释。</p>
-<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% if not is_index %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"text-align:center;color: #ccc;font-size:14px;"</span>&gt;</span></span><br><span class="line">    -------------本文结束 <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-paw"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span> 感谢您的阅读-------------</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="更换自定义字体"><a href="#更换自定义字体" class="headerlink" title="更换自定义字体"></a>更换自定义字体</h3><h4 id="首先修改-custom-styl"><a href="#首先修改-custom-styl" class="headerlink" title="首先修改 custom.styl"></a>首先修改 custom.styl</h4><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 更改字体</span><br><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"Sarasa Mono SC"</span>;</span><br><span class="line">  <span class="attribute">font-display</span>: swap;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">local</span>(<span class="string">"Sarasa Mono SC"</span>),</span><br><span class="line">    <span class="built_in">url</span>(https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/Fonts/sarasa-mono-sc-regular.ttf)</span><br><span class="line">      <span class="built_in">format</span>(<span class="string">"truetype"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="然后修改-base-styl"><a href="#然后修改-base-styl" class="headerlink" title="然后修改 base.styl"></a>然后修改 base.styl</h4><p>贴上我的配置</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">// Font families.</span><br><span class="line">$font-family-chinese      = "PingFang SC", "Sarasa Mono SC", "Microsoft YaHei";</span><br><span class="line"></span><br><span class="line">$font-family-base         = $font-family-chinese, sans-serif;</span><br><span class="line">$font-family-base         = "Sarasa Mono SC", get_font_family('global'), $font-family-chinese, sans-serif if get_font_family('global');</span><br><span class="line"></span><br><span class="line">$font-family-logo         = $font-family-base;</span><br><span class="line">$font-family-logo         = "Sarasa Mono SC", get_font_family('title'), $font-family-base if get_font_family('title');</span><br><span class="line"></span><br><span class="line">$font-family-headings     = $font-family-base;</span><br><span class="line">$font-family-headings     = get_font_family('headings'), $font-family-base if get_font_family('headings');</span><br><span class="line"></span><br><span class="line">$font-family-posts        = $font-family-base;</span><br><span class="line">$font-family-posts        = "Sarasa Mono SC", get_font_family('posts'), $font-family-base if get_font_family('posts');</span><br><span class="line"></span><br><span class="line">$font-family-monospace    = consolas, Menlo, monospace, $font-family-chinese;</span><br><span class="line">$font-family-monospace    = "Sarasa Mono SC", get_font_family('codes'), consolas, Menlo, monospace, $font-family-chinese if get_font_family('codes');</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>hexo-NexT</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Oracle数据库报错分析</title>
     <url>/posts/6794/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="ORA-00936-缺失表达式"><a href="#ORA-00936-缺失表达式" class="headerlink" title="ORA-00936: 缺失表达式"></a>ORA-00936: 缺失表达式</h2><h2 id="ORA-00911-无效字符"><a href="#ORA-00911-无效字符" class="headerlink" title="ORA-00911: 无效字符"></a>ORA-00911: 无效字符</h2><p>mybatis 的 Mapper.xml 中，sql 语句最后不需要“；”，去掉就 ok 了。</p>
@@ -597,6 +571,32 @@
       <tags>
         <tag>Oracle</tag>
         <tag>PL/SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nginx 反代配置</title>
+    <url>/posts/13817/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>Nginx 反代配置</p>
+          </div>
+
+<ul>
+<li><p>不要用宝塔下载的 Nginx！！！！（不要问我怎么知道的）</p>
+</li>
+<li><p>进入 /etc/nginx/conf.d 目录</p>
+</li>
+<li><p>新建一个.conf 文件，名称任意，内容为</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">upstream ice &#123;</span><br><span class="line">        server 0.0.0.0:你的服务需要的端口;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name 你的服务器IP;</span><br><span class="line">        location / &#123;</span><br><span class="line">        # 后端的Web服务器可以通过X-Forwarded-For获取用户真实IP</span><br><span class="line">        proxy_next_upstream error timeout invalid_header http_500 http_502 http$</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_set_header X_Nginx_Proxy true;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>/etc/nginx/nginx.conf 下的 http 中添加</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">include /etc/nginx/conf.d/*.conf;</span><br><span class="line">include /etc/nginx/sites-enabled/*;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启 Nginx 服务</p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -617,27 +617,7 @@
       </tags>
   </entry>
   <entry>
-    <title>利用Gitee加速Github Clone</title>
-    <url>/posts/16041/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>大家都知道，要访问 Github 并 Clone 项目，如果没有什么特殊工具的话是真的很慢。<br>最近发现了可以使用 Gitee 来加速 Github Clone 的方法（属实骚操作），可以很好的解决这个问题（火星救援！）。</p>
-<a id="more"></a>
-
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="注册码云账号"><a href="#注册码云账号" class="headerlink" title="注册码云账号"></a>注册码云账号</h3><p><a href="https://gitee.com/" target="_blank" rel="noopener">传送门</a></p>
-<h3 id="注册完成后点击页面右上角的-“-”-号，选择新建项目"><a href="#注册完成后点击页面右上角的-“-”-号，选择新建项目" class="headerlink" title="注册完成后点击页面右上角的 “+”  号，选择新建项目"></a>注册完成后点击页面右上角的 “+”  号，选择新建项目</h3><p><img data-src="C:/Users/lenovo/Desktop/1/1.png" alt="创建新项目"></p>
-<h3 id="在新页面中选择-“导入已有项目”"><a href="#在新页面中选择-“导入已有项目”" class="headerlink" title="在新页面中选择 “导入已有项目”"></a>在新页面中选择 “导入已有项目”</h3><p><img data-src="C:/Users/lenovo/Desktop/1/2.png" alt="导入已有项目"></p>
-<h3 id="复制需要导入的-Github-项目地址"><a href="#复制需要导入的-Github-项目地址" class="headerlink" title="复制需要导入的 Github 项目地址"></a>复制需要导入的 Github 项目地址</h3><p><img data-src="https://img-blog.csdn.net/20180810112225555?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="复制项目地址"></p>
-<h3 id="填入地址之后点击-“创建按钮”"><a href="#填入地址之后点击-“创建按钮”" class="headerlink" title="填入地址之后点击 “创建按钮”"></a>填入地址之后点击 “创建按钮”</h3><p><img data-src="https://img-blog.csdn.net/20180810112444684?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="点击创建按钮"></p>
-<h3 id="等待-Gitee-拉取完成，这个过程的长短因拉取项目大小而异，1-10-分钟不等。"><a href="#等待-Gitee-拉取完成，这个过程的长短因拉取项目大小而异，1-10-分钟不等。" class="headerlink" title="等待 Gitee 拉取完成，这个过程的长短因拉取项目大小而异，1-10 分钟不等。"></a>等待 Gitee 拉取完成，这个过程的长短因拉取项目大小而异，1-10 分钟不等。</h3><h3 id="拉取完成后就可以愉快的-git-clone-了"><a href="#拉取完成后就可以愉快的-git-clone-了" class="headerlink" title="拉取完成后就可以愉快的 git clone  了"></a>拉取完成后就可以愉快的 git clone  了</h3><p><img data-src="https://img-blog.csdn.net/20180810112728982?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
-<p><img data-src="https://img-blog.csdn.net/20180810112806880?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
-<p>怎么样，是不是很简单呢？如果有效的话，请点赞哟</p>
-]]></content>
-      <tags>
-        <tag>Github</tag>
-        <tag>Gitee</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>仓库同时推送GIthub和Gitee</title>
+    <title>仓库同时推送Github和Gitee</title>
     <url>/posts/24802/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="本地仓库目录添加-Github"><a href="#本地仓库目录添加-Github" class="headerlink" title="本地仓库目录添加 Github"></a>本地仓库目录添加 Github</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add Github Github项仓库Clone地址</span><br></pre></td></tr></table></figure>
 
@@ -652,6 +632,24 @@
 
 <p>或者强制推送</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push Github master -f</span><br><span class="line">或者</span><br><span class="line">git push Gitee master -f</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Github</tag>
+        <tag>Gitee</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>利用Gitee加速Github Clone</title>
+    <url>/posts/16041/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>大家都知道，要访问 Github 并 Clone 项目，如果没有什么特殊工具的话是真的很慢。<br>最近发现了可以使用 Gitee 来加速 Github Clone 的方法（属实骚操作），可以很好的解决这个问题（火星救援！）。</p>
+<a id="more"></a>
+
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="注册码云账号"><a href="#注册码云账号" class="headerlink" title="注册码云账号"></a>注册码云账号</h3><p><a href="https://gitee.com/" target="_blank" rel="noopener">传送门</a></p>
+<h3 id="注册完成后点击页面右上角的-“-”-号，选择新建项目"><a href="#注册完成后点击页面右上角的-“-”-号，选择新建项目" class="headerlink" title="注册完成后点击页面右上角的 “+”  号，选择新建项目"></a>注册完成后点击页面右上角的 “+”  号，选择新建项目</h3><p><img data-src="C:/Users/lenovo/Desktop/1/1.png" alt="创建新项目"></p>
+<h3 id="在新页面中选择-“导入已有项目”"><a href="#在新页面中选择-“导入已有项目”" class="headerlink" title="在新页面中选择 “导入已有项目”"></a>在新页面中选择 “导入已有项目”</h3><p><img data-src="C:/Users/lenovo/Desktop/1/2.png" alt="导入已有项目"></p>
+<h3 id="复制需要导入的-Github-项目地址"><a href="#复制需要导入的-Github-项目地址" class="headerlink" title="复制需要导入的 Github 项目地址"></a>复制需要导入的 Github 项目地址</h3><p><img data-src="https://img-blog.csdn.net/20180810112225555?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="复制项目地址"></p>
+<h3 id="填入地址之后点击-“创建按钮”"><a href="#填入地址之后点击-“创建按钮”" class="headerlink" title="填入地址之后点击 “创建按钮”"></a>填入地址之后点击 “创建按钮”</h3><p><img data-src="https://img-blog.csdn.net/20180810112444684?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="点击创建按钮"></p>
+<p>等待 Gitee 拉取完成，这个过程的长短因拉取项目大小而异，1-10 分钟不等。<br>拉取完成后就可以愉快的 git clone 了。</p>
 ]]></content>
       <tags>
         <tag>Github</tag>
