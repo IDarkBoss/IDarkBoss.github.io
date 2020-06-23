@@ -201,19 +201,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java中List的循环用法</title>
-    <url>/posts/54882/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>Java 中 List 的循环用法</p>
-          </div>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Liebiao</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span>[] numbers = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> x : numbers) &#123;</span><br><span class="line">   System.out.print(x);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  System.out.print(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">  String[] names = &#123;<span class="string">"James"</span>, <span class="string">"Larry"</span>, <span class="string">"Tom"</span>, <span class="string">"Lacy"</span>&#125;;</span><br><span class="line">  <span class="keyword">for</span> (String name : names) &#123;</span><br><span class="line">   System.out.print(name);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>IDEA VMOptions设置</title>
     <url>/posts/7328/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>IntelliJ IDEA 运行在 JVM 上，JVM 有很多的选项和开关配置可以用来调整性能，也就是说，可以通过手动的调整这些 JVM 参数来优化 IntelliJ IDEA 的性能。这篇文章主要总结了 VMOptions 的用法。</p>
@@ -323,6 +310,43 @@
       <tags>
         <tag>Java</tag>
         <tag>IDEA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Manjaro更换Deepin桌面环境</title>
+    <url>/posts/1977/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>Deepin 桌面环境（DDE）是真滴好看，然而似乎有些地方并不是很稳定。So what？盘它！</p>
+<a id="more"></a>
+
+<h2 id="下载-Deepin-桌面环境（DDE）"><a href="#下载-Deepin-桌面环境（DDE）" class="headerlink" title="下载 Deepin 桌面环境（DDE）"></a>下载 Deepin 桌面环境（DDE）</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Sy deepin deepin-extra</span><br></pre></td></tr></table></figure>
+
+<p>修改 <code>/etc/lightdm/lightdm.conf</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/lightdm/lightdm.conf</span><br><span class="line"></span><br><span class="line">greeter-session=lightdm-deepin-greeter</span><br></pre></td></tr></table></figure>
+
+<h2 id="禁用当前桌面环境"><a href="#禁用当前桌面环境" class="headerlink" title="禁用当前桌面环境"></a>禁用当前桌面环境</h2><h3 id="KDE-桌面"><a href="#KDE-桌面" class="headerlink" title="KDE 桌面"></a>KDE 桌面</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl disable sddm</span><br></pre></td></tr></table></figure>
+
+<h3 id="Xfce-桌面"><a href="#Xfce-桌面" class="headerlink" title="Xfce 桌面"></a>Xfce 桌面</h3><p>似乎不用？我也布吉岛-_-||</p>
+<h2 id="启用-LightDm"><a href="#启用-LightDm" class="headerlink" title="启用 LightDm"></a>启用 LightDm</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl enable lightdm</span><br></pre></td></tr></table></figure>
+
+<h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+<h2 id="卸载原桌面环境的组件"><a href="#卸载原桌面环境的组件" class="headerlink" title="卸载原桌面环境的组件"></a>卸载原桌面环境的组件</h2><h3 id="KDE-环境-详见-ArchWiki-KDE"><a href="#KDE-环境-详见-ArchWiki-KDE" class="headerlink" title="KDE 环境 - 详见 ArchWiki-KDE"></a>KDE 环境 - 详见 <a href="https://wiki.archlinux.org/index.php/KDE_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">ArchWiki-KDE</a></h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Rsc plasma</span><br><span class="line">pacman -Rsc kde-applications</span><br></pre></td></tr></table></figure>
+
+<h3 id="Xfce-环境-详见-ArchWiki-Xfce"><a href="#Xfce-环境-详见-ArchWiki-Xfce" class="headerlink" title="Xfce 环境 - 详见 ArchWiki-Xfce"></a>Xfce 环境 - 详见 <a href="https://wiki.archlinux.org/index.php/Xfce_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">ArchWiki-Xfce</a></h3><p>Xfce 环境一定要卸载，不然不能切换到 DDE。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Rsc xfce4 # 别的不知道了</span><br><span class="line">reboot # 再重启一次</span><br></pre></td></tr></table></figure>
+
+<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>kde 对应的是 <a href="https://wiki.archlinux.org/index.php/SDDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">SDDM</a></p>
+<p>deepin 对应的是 <a href="https://wiki.archlinux.org/index.php/LightDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">LightDm</a></p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://www.jianshu.com/p/a1e31a9a50dc" target="_blank" rel="noopener">vygjyfjt</a></li>
+<li><a href="https://blog.csdn.net/weixin_30836759/article/details/96636929" target="_blank" rel="noopener">weixin_30836759</a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Manjaro</tag>
+        <tag>Deepin</tag>
+        <tag>Manjaro-Deepin</tag>
       </tags>
   </entry>
   <entry>
@@ -464,78 +488,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Manjaro更换Deepin桌面环境</title>
-    <url>/posts/1977/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>Deepin 桌面环境（DDE）是真滴好看，然而似乎有些地方并不是很稳定。So what？盘它！</p>
-<a id="more"></a>
-
-<h2 id="下载-Deepin-桌面环境（DDE）"><a href="#下载-Deepin-桌面环境（DDE）" class="headerlink" title="下载 Deepin 桌面环境（DDE）"></a>下载 Deepin 桌面环境（DDE）</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Sy deepin deepin-extra</span><br></pre></td></tr></table></figure>
-
-<p>修改 <code>/etc/lightdm/lightdm.conf</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/lightdm/lightdm.conf</span><br><span class="line"></span><br><span class="line">greeter-session=lightdm-deepin-greeter</span><br></pre></td></tr></table></figure>
-
-<h2 id="禁用当前桌面环境"><a href="#禁用当前桌面环境" class="headerlink" title="禁用当前桌面环境"></a>禁用当前桌面环境</h2><h3 id="KDE-桌面"><a href="#KDE-桌面" class="headerlink" title="KDE 桌面"></a>KDE 桌面</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl disable sddm</span><br></pre></td></tr></table></figure>
-
-<h3 id="Xfce-桌面"><a href="#Xfce-桌面" class="headerlink" title="Xfce 桌面"></a>Xfce 桌面</h3><p>似乎不用？我也布吉岛-_-||</p>
-<h2 id="启用-LightDm"><a href="#启用-LightDm" class="headerlink" title="启用 LightDm"></a>启用 LightDm</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl enable lightdm</span><br></pre></td></tr></table></figure>
-
-<h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure>
-
-<h2 id="卸载原桌面环境的组件"><a href="#卸载原桌面环境的组件" class="headerlink" title="卸载原桌面环境的组件"></a>卸载原桌面环境的组件</h2><h3 id="KDE-环境-详见-ArchWiki-KDE"><a href="#KDE-环境-详见-ArchWiki-KDE" class="headerlink" title="KDE 环境 - 详见 ArchWiki-KDE"></a>KDE 环境 - 详见 <a href="https://wiki.archlinux.org/index.php/KDE_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">ArchWiki-KDE</a></h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Rsc plasma</span><br><span class="line">pacman -Rsc kde-applications</span><br></pre></td></tr></table></figure>
-
-<h3 id="Xfce-环境-详见-ArchWiki-Xfce"><a href="#Xfce-环境-详见-ArchWiki-Xfce" class="headerlink" title="Xfce 环境 - 详见 ArchWiki-Xfce"></a>Xfce 环境 - 详见 <a href="https://wiki.archlinux.org/index.php/Xfce_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">ArchWiki-Xfce</a></h3><p>Xfce 环境一定要卸载，不然不能切换到 DDE。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pacman -Rsc xfce4 # 别的不知道了</span><br><span class="line">reboot # 再重启一次</span><br></pre></td></tr></table></figure>
-
-<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>kde 对应的是 <a href="https://wiki.archlinux.org/index.php/SDDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">SDDM</a></p>
-<p>deepin 对应的是 <a href="https://wiki.archlinux.org/index.php/LightDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">LightDm</a></p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a href="https://www.jianshu.com/p/a1e31a9a50dc" target="_blank" rel="noopener">vygjyfjt</a></li>
-<li><a href="https://blog.csdn.net/weixin_30836759/article/details/96636929" target="_blank" rel="noopener">weixin_30836759</a></li>
-</ul>
-]]></content>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Manjaro</tag>
-        <tag>Deepin</tag>
-        <tag>Manjaro-Deepin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Oracle数据库报错分析</title>
-    <url>/posts/6794/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="ORA-00936-缺失表达式"><a href="#ORA-00936-缺失表达式" class="headerlink" title="ORA-00936: 缺失表达式"></a>ORA-00936: 缺失表达式</h2><h2 id="ORA-00911-无效字符"><a href="#ORA-00911-无效字符" class="headerlink" title="ORA-00911: 无效字符"></a>ORA-00911: 无效字符</h2><p>mybatis 的 Mapper.xml 中，sql 语句最后不需要“；”，去掉就 ok 了。</p>
-<h2 id="ORA-01745-无效的主机-绑定变量名"><a href="#ORA-01745-无效的主机-绑定变量名" class="headerlink" title="ORA-01745: 无效的主机/绑定变量名"></a>ORA-01745: 无效的主机/绑定变量名</h2><p><code>Cause: java.sql.SQLSyntaxErrorException: ORA-01745: 无效的主机/绑定变量名.</code><br>是由于在插入数据的时候，两个填充变量之间没有逗号分隔。</p>
-]]></content>
-      <tags>
-        <tag>Oracle</tag>
-        <tag>PL/SQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NexT-Pisces主题配置</title>
-    <url>/posts/14831/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
-<h2 id="背景半透明"><a href="#背景半透明" class="headerlink" title="背景半透明"></a>背景半透明</h2><h3 id="新建自定义格式文件"><a href="#新建自定义格式文件" class="headerlink" title="新建自定义格式文件"></a>新建自定义格式文件</h3><p>在 <code>theme/next/source/css/</code> 下新建 <code>_custom</code> 文件夹，进入文件夹并创建 <code>custom.styl</code> 。</p>
-<p>在 <code>themes/next/source/css/main.styl</code> 中加入：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@import</span> <span class="string">"/_custom/custom.styl"</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改-custom-styl-文件"><a href="#修改-custom-styl-文件" class="headerlink" title="修改 custom.styl 文件"></a>修改 custom.styl 文件</h3><p>我的配置如下：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 文章背景半透明</span><br><span class="line"><span class="selector-class">.content-wrap</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 代码背景透明</span><br><span class="line"><span class="selector-class">.table-container</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.68</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span><span class="selector-pseudo">:nth-of-type(odd)</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span>,</span><br><span class="line"><span class="selector-class">.highlight</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight</span> <span class="selector-class">.gutter</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.68</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight</span> <span class="selector-class">.code</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 行内代码块的自定义样式</span><br><span class="line"><span class="selector-tag">code</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 去掉文章白色背景</span><br><span class="line"><span class="selector-class">.main-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 侧边栏上半部分设置为透明</span><br><span class="line"><span class="selector-class">.menu-item-active</span> <span class="selector-tag">a</span>,</span><br><span class="line"><span class="selector-class">.menu</span> <span class="selector-class">.menu-item</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>,</span><br><span class="line"><span class="selector-class">.menu</span> <span class="selector-class">.menu-item</span> <span class="selector-tag">span</span><span class="selector-class">.exturl</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="attribute">border-bottom-color</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 侧边栏下半部分设置为透明</span><br><span class="line"><span class="selector-class">.sidebar</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="文章结束标识"><a href="#文章结束标识" class="headerlink" title="文章结束标识"></a>文章结束标识</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>在博客根目录下新建 <code>source/_data/post-body-end.swig</code> ,即 <code>_data</code> 目录和 <code>_posts</code> 目录平级。</p>
-<p>在根目录的 <code>_config.yml</code> 取消 <code>custom_file_path</code> 下 <code>postBodyEnd</code> 的注释。</p>
-<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% if not is_index %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"text-align:center;color: #ccc;font-size:14px;"</span>&gt;</span></span><br><span class="line">    -------------本文结束 <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-paw"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span> 感谢您的阅读-------------</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="更换自定义字体"><a href="#更换自定义字体" class="headerlink" title="更换自定义字体"></a>更换自定义字体</h3><h4 id="首先修改-custom-styl"><a href="#首先修改-custom-styl" class="headerlink" title="首先修改 custom.styl"></a>首先修改 custom.styl</h4><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 更改字体</span><br><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"Sarasa Mono SC"</span>;</span><br><span class="line">  <span class="attribute">font-display</span>: swap;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">local</span>(<span class="string">"Sarasa Mono SC"</span>),</span><br><span class="line">    <span class="built_in">url</span>(https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/Fonts/sarasa-mono-sc-regular.ttf)</span><br><span class="line">      <span class="built_in">format</span>(<span class="string">"truetype"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="然后修改-base-styl"><a href="#然后修改-base-styl" class="headerlink" title="然后修改 base.styl"></a>然后修改 base.styl</h4><p>贴上我的配置</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">// Font families.</span><br><span class="line">$font-family-chinese      = "PingFang SC", "Sarasa Mono SC", "Microsoft YaHei";</span><br><span class="line"></span><br><span class="line">$font-family-base         = $font-family-chinese, sans-serif;</span><br><span class="line">$font-family-base         = "Sarasa Mono SC", get_font_family('global'), $font-family-chinese, sans-serif if get_font_family('global');</span><br><span class="line"></span><br><span class="line">$font-family-logo         = $font-family-base;</span><br><span class="line">$font-family-logo         = "Sarasa Mono SC", get_font_family('title'), $font-family-base if get_font_family('title');</span><br><span class="line"></span><br><span class="line">$font-family-headings     = $font-family-base;</span><br><span class="line">$font-family-headings     = get_font_family('headings'), $font-family-base if get_font_family('headings');</span><br><span class="line"></span><br><span class="line">$font-family-posts        = $font-family-base;</span><br><span class="line">$font-family-posts        = "Sarasa Mono SC", get_font_family('posts'), $font-family-base if get_font_family('posts');</span><br><span class="line"></span><br><span class="line">$font-family-monospace    = consolas, Menlo, monospace, $font-family-chinese;</span><br><span class="line">$font-family-monospace    = "Sarasa Mono SC", get_font_family('codes'), consolas, Menlo, monospace, $font-family-chinese if get_font_family('codes');</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>hexo-NexT</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Nginx 反代配置</title>
     <url>/posts/13817/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
@@ -559,23 +511,6 @@
 ]]></content>
       <tags>
         <tag>Nginx</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Oracle数据库操作</title>
-    <url>/posts/50348/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>Oracle 数据库</p>
-          </div>
-
-<h2 id="Oracle-用读写模式查询记录"><a href="#Oracle-用读写模式查询记录" class="headerlink" title="Oracle 用读写模式查询记录"></a>Oracle 用读写模式查询记录</h2><ul>
-<li><code>select \* from user_func_role a where USER_NUMBER=&#39;258&#39; for update</code></li>
-<li><code>select a.rowid,a* from user_func_role a where USER_NUMBER=&#39;258&#39;</code></li>
-</ul>
-]]></content>
-      <tags>
-        <tag>Oracle</tag>
-        <tag>PL/SQL</tag>
       </tags>
   </entry>
   <entry>
@@ -617,14 +552,79 @@
       </tags>
   </entry>
   <entry>
+    <title>Java中List的循环用法</title>
+    <url>/posts/54882/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>Java 中 List 的循环用法</p>
+          </div>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Liebiao</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span>[] numbers = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> x : numbers) &#123;</span><br><span class="line">   System.out.print(x);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  System.out.print(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">  String[] names = &#123;<span class="string">"James"</span>, <span class="string">"Larry"</span>, <span class="string">"Tom"</span>, <span class="string">"Lacy"</span>&#125;;</span><br><span class="line">  <span class="keyword">for</span> (String name : names) &#123;</span><br><span class="line">   System.out.print(name);</span><br><span class="line">   System.out.print(<span class="string">","</span>);</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NexT-Pisces主题配置</title>
+    <url>/posts/14831/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
+<h2 id="背景半透明"><a href="#背景半透明" class="headerlink" title="背景半透明"></a>背景半透明</h2><h3 id="新建自定义格式文件"><a href="#新建自定义格式文件" class="headerlink" title="新建自定义格式文件"></a>新建自定义格式文件</h3><p>在 <code>theme/next/source/css/</code> 下新建 <code>_custom</code> 文件夹，进入文件夹并创建 <code>custom.styl</code> 。</p>
+<p>在 <code>themes/next/source/css/main.styl</code> 中加入：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@import</span> <span class="string">"/_custom/custom.styl"</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改-custom-styl-文件"><a href="#修改-custom-styl-文件" class="headerlink" title="修改 custom.styl 文件"></a>修改 custom.styl 文件</h3><p>我的配置如下：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 文章背景半透明</span><br><span class="line"><span class="selector-class">.content-wrap</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 代码背景透明</span><br><span class="line"><span class="selector-class">.table-container</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.68</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span><span class="selector-pseudo">:nth-of-type(odd)</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span>,</span><br><span class="line"><span class="selector-class">.highlight</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight</span> <span class="selector-class">.gutter</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.68</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight</span> <span class="selector-class">.code</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 行内代码块的自定义样式</span><br><span class="line"><span class="selector-tag">code</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 去掉文章白色背景</span><br><span class="line"><span class="selector-class">.main-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 侧边栏上半部分设置为透明</span><br><span class="line"><span class="selector-class">.menu-item-active</span> <span class="selector-tag">a</span>,</span><br><span class="line"><span class="selector-class">.menu</span> <span class="selector-class">.menu-item</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>,</span><br><span class="line"><span class="selector-class">.menu</span> <span class="selector-class">.menu-item</span> <span class="selector-tag">span</span><span class="selector-class">.exturl</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="attribute">border-bottom-color</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 侧边栏下半部分设置为透明</span><br><span class="line"><span class="selector-class">.sidebar</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文章结束标识"><a href="#文章结束标识" class="headerlink" title="文章结束标识"></a>文章结束标识</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>在博客根目录下新建 <code>source/_data/post-body-end.swig</code> ,即 <code>_data</code> 目录和 <code>_posts</code> 目录平级。</p>
+<p>在根目录的 <code>_config.yml</code> 取消 <code>custom_file_path</code> 下 <code>postBodyEnd</code> 的注释。</p>
+<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% if not is_index %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"text-align:center;color: #ccc;font-size:14px;"</span>&gt;</span></span><br><span class="line">    -------------本文结束 <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-paw"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span> 感谢您的阅读-------------</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="更换自定义字体"><a href="#更换自定义字体" class="headerlink" title="更换自定义字体"></a>更换自定义字体</h3><h4 id="首先修改-custom-styl"><a href="#首先修改-custom-styl" class="headerlink" title="首先修改 custom.styl"></a>首先修改 custom.styl</h4><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 更改字体</span><br><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"Sarasa Mono SC"</span>;</span><br><span class="line">  <span class="attribute">font-display</span>: swap;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">local</span>(<span class="string">"Sarasa Mono SC"</span>),</span><br><span class="line">    <span class="built_in">url</span>(https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/Fonts/sarasa-mono-sc-regular.ttf)</span><br><span class="line">      <span class="built_in">format</span>(<span class="string">"truetype"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="然后修改-base-styl"><a href="#然后修改-base-styl" class="headerlink" title="然后修改 base.styl"></a>然后修改 base.styl</h4><p>贴上我的配置</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">// Font families.</span><br><span class="line">$font-family-chinese      = "PingFang SC", "Sarasa Mono SC", "Microsoft YaHei";</span><br><span class="line"></span><br><span class="line">$font-family-base         = $font-family-chinese, sans-serif;</span><br><span class="line">$font-family-base         = "Sarasa Mono SC", get_font_family('global'), $font-family-chinese, sans-serif if get_font_family('global');</span><br><span class="line"></span><br><span class="line">$font-family-logo         = $font-family-base;</span><br><span class="line">$font-family-logo         = "Sarasa Mono SC", get_font_family('title'), $font-family-base if get_font_family('title');</span><br><span class="line"></span><br><span class="line">$font-family-headings     = $font-family-base;</span><br><span class="line">$font-family-headings     = get_font_family('headings'), $font-family-base if get_font_family('headings');</span><br><span class="line"></span><br><span class="line">$font-family-posts        = $font-family-base;</span><br><span class="line">$font-family-posts        = "Sarasa Mono SC", get_font_family('posts'), $font-family-base if get_font_family('posts');</span><br><span class="line"></span><br><span class="line">$font-family-monospace    = consolas, Menlo, monospace, $font-family-chinese;</span><br><span class="line">$font-family-monospace    = "Sarasa Mono SC", get_font_family('codes'), consolas, Menlo, monospace, $font-family-chinese if get_font_family('codes');</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>hexo-NexT</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Oracle数据库报错分析</title>
+    <url>/posts/6794/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="ORA-00936-缺失表达式"><a href="#ORA-00936-缺失表达式" class="headerlink" title="ORA-00936: 缺失表达式"></a>ORA-00936: 缺失表达式</h2><h2 id="ORA-00911-无效字符"><a href="#ORA-00911-无效字符" class="headerlink" title="ORA-00911: 无效字符"></a>ORA-00911: 无效字符</h2><p>mybatis 的 Mapper.xml 中，sql 语句最后不需要“；”，去掉就 ok 了。</p>
+<h2 id="ORA-01745-无效的主机-绑定变量名"><a href="#ORA-01745-无效的主机-绑定变量名" class="headerlink" title="ORA-01745: 无效的主机/绑定变量名"></a>ORA-01745: 无效的主机/绑定变量名</h2><p><code>Cause: java.sql.SQLSyntaxErrorException: ORA-01745: 无效的主机/绑定变量名.</code><br>是由于在插入数据的时候，两个填充变量之间没有逗号分隔。</p>
+]]></content>
+      <tags>
+        <tag>Oracle</tag>
+        <tag>PL/SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Oracle数据库操作</title>
+    <url>/posts/50348/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>Oracle 数据库</p>
+          </div>
+
+<h2 id="Oracle-用读写模式查询记录"><a href="#Oracle-用读写模式查询记录" class="headerlink" title="Oracle 用读写模式查询记录"></a>Oracle 用读写模式查询记录</h2><ul>
+<li><code>select \* from user_func_role a where USER_NUMBER=&#39;258&#39; for update</code></li>
+<li><code>select a.rowid,a* from user_func_role a where USER_NUMBER=&#39;258&#39;</code></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Oracle</tag>
+        <tag>PL/SQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>利用Gitee加速Github Clone</title>
     <url>/posts/16041/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>大家都知道，要访问 Github 并 Clone 项目，如果没有什么特殊工具的话是真的很慢。<br>最近发现了可以使用 Gitee 来加速 Github Clone 的方法（属实骚操作），可以很好的解决这个问题（火星救援！）。</p>
 <a id="more"></a>
 
 <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="注册码云账号"><a href="#注册码云账号" class="headerlink" title="注册码云账号"></a>注册码云账号</h3><p><a href="https://gitee.com/" target="_blank" rel="noopener">传送门</a></p>
-<h3 id="注册完成后点击页面右上角的-“-”-号，选择新建项目"><a href="#注册完成后点击页面右上角的-“-”-号，选择新建项目" class="headerlink" title="注册完成后点击页面右上角的 “+”  号，选择新建项目"></a>注册完成后点击页面右上角的 “+”  号，选择新建项目</h3><p><img data-src="https://img-blog.csdn.net/20180810100406465?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="创建新项目"></p>
-<h3 id="在新页面中选择-“导入已有项目”"><a href="#在新页面中选择-“导入已有项目”" class="headerlink" title="在新页面中选择 “导入已有项目”"></a>在新页面中选择 “导入已有项目”</h3><p><img data-src="https://img-blog.csdn.net/20180810112056817?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="导入已有项目"></p>
+<h3 id="注册完成后点击页面右上角的-“-”-号，选择新建项目"><a href="#注册完成后点击页面右上角的-“-”-号，选择新建项目" class="headerlink" title="注册完成后点击页面右上角的 “+”  号，选择新建项目"></a>注册完成后点击页面右上角的 “+”  号，选择新建项目</h3><p><img data-src="C:/Users/lenovo/Desktop/1/1.png" alt="创建新项目"></p>
+<h3 id="在新页面中选择-“导入已有项目”"><a href="#在新页面中选择-“导入已有项目”" class="headerlink" title="在新页面中选择 “导入已有项目”"></a>在新页面中选择 “导入已有项目”</h3><p><img data-src="C:/Users/lenovo/Desktop/1/2.png" alt="导入已有项目"></p>
 <h3 id="复制需要导入的-Github-项目地址"><a href="#复制需要导入的-Github-项目地址" class="headerlink" title="复制需要导入的 Github 项目地址"></a>复制需要导入的 Github 项目地址</h3><p><img data-src="https://img-blog.csdn.net/20180810112225555?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="复制项目地址"></p>
 <h3 id="填入地址之后点击-“创建按钮”"><a href="#填入地址之后点击-“创建按钮”" class="headerlink" title="填入地址之后点击 “创建按钮”"></a>填入地址之后点击 “创建按钮”</h3><p><img data-src="https://img-blog.csdn.net/20180810112444684?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="点击创建按钮"></p>
 <h3 id="等待-Gitee-拉取完成，这个过程的长短因拉取项目大小而异，1-10-分钟不等。"><a href="#等待-Gitee-拉取完成，这个过程的长短因拉取项目大小而异，1-10-分钟不等。" class="headerlink" title="等待 Gitee 拉取完成，这个过程的长短因拉取项目大小而异，1-10 分钟不等。"></a>等待 Gitee 拉取完成，这个过程的长短因拉取项目大小而异，1-10 分钟不等。</h3><h3 id="拉取完成后就可以愉快的-git-clone-了"><a href="#拉取完成后就可以愉快的-git-clone-了" class="headerlink" title="拉取完成后就可以愉快的 git clone  了"></a>拉取完成后就可以愉快的 git clone  了</h3><p><img data-src="https://img-blog.csdn.net/20180810112728982?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5X3poYW5nY2hu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
@@ -633,6 +633,29 @@
 ]]></content>
       <tags>
         <tag>Github</tag>
+        <tag>Gitee</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>仓库同时推送GIthub和Gitee</title>
+    <url>/posts/24802/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="本地仓库目录添加-Github"><a href="#本地仓库目录添加-Github" class="headerlink" title="本地仓库目录添加 Github"></a>本地仓库目录添加 Github</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add Github Github项仓库Clone地址</span><br></pre></td></tr></table></figure>
+
+<h2 id="本地仓库目录添加-Gitee"><a href="#本地仓库目录添加-Gitee" class="headerlink" title="本地仓库目录添加 Gitee"></a>本地仓库目录添加 Gitee</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add Gitee Gitee仓库Clone地址</span><br></pre></td></tr></table></figure>
+
+<h2 id="推送到-Github"><a href="#推送到-Github" class="headerlink" title="推送到 Github"></a>推送到 Github</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push Github master</span><br></pre></td></tr></table></figure>
+
+<h2 id="推送到-Gitee"><a href="#推送到-Gitee" class="headerlink" title="推送到 Gitee"></a>推送到 Gitee</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push Gitee master</span><br></pre></td></tr></table></figure>
+
+<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>如果推送到远端时报错，可以先从远端 pull 项目</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git pull Github master</span><br><span class="line">或者</span><br><span class="line">git pull Gitee master</span><br></pre></td></tr></table></figure>
+
+<p>或者强制推送</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push Github master -f</span><br><span class="line">或者</span><br><span class="line">git push Gitee master -f</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Github</tag>
+        <tag>Gitee</tag>
       </tags>
   </entry>
   <entry>
