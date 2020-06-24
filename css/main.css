@@ -1212,7 +1212,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #fff0ff;
+  background: #ff3bff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2762,5 +2762,5 @@ code {
 @font-face {
   font-family: 'Sarasa Mono SC';
   font-display: swap;
-  src: local('Sarasa Mono SC'), url("https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/Fonts/sarasa-mono-sc-regular.ttf") format('truetype');
+  src: url("https://gitee.com/SKALionel/Blog_Resources/raw/master/Fonts/sarasa-mono-sc-regular.ttf") format('truetype');
 }
