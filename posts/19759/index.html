@@ -29,13 +29,13 @@
 <meta property="og:site_name" content="大老黑的豆腐渣集散地">
 <meta property="og:description" content="设计场景与应用下面例子是 Spring Boot 微服务中 Chaos Monkey 的应用，展示如何在 Spring Boot 应用程序中包含 Codecentric 的 Chaos Monkey，然后在一些微服务示例系统中实现混沌工程。Chaos Monkey 库可以与 Spring Boot 2.0 一起使用，它的当前发行版本是 1.0.1。但是，这里将使用 2.0.0-SNAPSHOT 版">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/Chaos-Monkey/2020/05/1320200513092642.png">
+<meta property="og:image" content="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/Chaos-Monkey/2020/05/1320200513092642.png">
 <meta property="article:published_time" content="2020-05-12T09:24:41.000Z">
-<meta property="article:modified_time" content="2020-06-23T06:34:27.255Z">
+<meta property="article:modified_time" content="2020-06-24T05:55:57.920Z">
 <meta property="article:author" content="DarkBoss">
 <meta property="article:tag" content="Chaos Monkey">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/Chaos-Monkey/2020/05/1320200513092642.png">
+<meta name="twitter:image" content="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/Chaos-Monkey/2020/05/1320200513092642.png">
 
 <link rel="canonical" href="https://idarkboss.github.io/posts/19759/">
 
@@ -216,7 +216,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-23 14:34:27" itemprop="dateModified" datetime="2020-06-23T14:34:27+08:00">2020-06-23</time>
+                <time title="修改时间：2020-06-24 13:55:57" itemprop="dateModified" datetime="2020-06-24T13:55:57+08:00">2020-06-24</time>
               </span>
 
           
@@ -309,7 +309,7 @@
 
 <p>在运行所有示例应用程序之后，所有微服务都在两个实例中使用不同端口。我们可以通过调用流行的性能测试库：<strong>Gatling</strong>。</p>
 <p>我们这里使用性能测试库 Gatling 来进行测试，将创建 20 个并发线程，将通过 API 网关服务来调用 <strong>order-service</strong>，每个线程调用 500 次。测试的 POST 请求访问端口是 <strong>OrderController</strong> 的 <code>add(…)</code> 方法，这个方法将通过 OpenFeign 客户端来调用 <strong>customer-service</strong> 和 <strong>product-service</strong>。如果顾客用足够的资金并且相应商品有库存的情况下，就接受订单通过 <strong>PUT</strong> 方法对顾客和商品服务进行修改。运行 Gatling 性能测试，到 <strong>performance-test</strong> 目录中运行 <code>gradle loadTest</code> 命令，测试结果跟 Chaos Monkey 袭击设置以及 Ribbon、Feign 客户端的超时设置都相关。这是针对设置延迟攻击生成的结果。当然，可以通过设置 Chaos Monkey 的延迟值或 Ribbon 和 Feign 超时值来更改此结果。</p>
-<p><img data-src="https://cdn.jsdelivr.net/gh/IDarkBoss/Blog_Resources@master/Chaos-Monkey/2020/05/1320200513092642.png" alt="img"></p>
+<p><img data-src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/Chaos-Monkey/2020/05/1320200513092642.png" alt="img"></p>
 <!-- flag of hidden posts -->
     </div>
 
