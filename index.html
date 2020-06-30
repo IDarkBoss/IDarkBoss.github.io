@@ -178,6 +178,109 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://idarkboss.github.io/posts/2734/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.svg">
+      <meta itemprop="name" content="DarkBoss">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大老黑的豆腐渣集散地">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/posts/2734/" class="post-title-link" itemprop="url">CSS @font-face属性详解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-30 15:35:00 / 修改时间：16:09:02" itemprop="dateCreated datePublished" datetime="2020-06-30T15:35:00+08:00">2020-06-30</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p><code>@font-face</code>是 CSS3 中的一个模块，他主要是把自己定义的 Web 字体嵌入到你的网页中。</p>
+<h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><p>首先我们一起来看看@font-face 的语法规则：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">      <span class="attribute">font-family</span>: &lt;YourWebFontName&gt;;</span><br><span class="line">      <span class="attribute">src</span>: &lt;source&gt; [&lt;format&gt;][,&lt;source&gt; [&lt;format&gt;]]*;</span><br><span class="line">      [font-weight: &lt;weight&gt;];</span><br><span class="line">      <span class="selector-attr">[font-style: &lt;style&gt;]</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>font-family: &lt;YourWebFontName&gt;</code> ：自定义字库名称（一般设置为所引入的字库名），后续样式规则中则通过该名称来引用该字库。</li>
+<li><code>src</code> ：设置字体的加载路径和格式，通过逗号分隔多个加载路径和格式</li>
+<li><code>srouce</code> ：字体的加载路径，可以是绝对或相对 URL。</li>
+<li><code>format</code> ：字体的格式，主要用于浏览器识别，一般有以下几种——truetype, opentype, truetype-aat, embedded-opentype, avg 等。</li>
+<li><code>font-weight</code> 和 <code>font-style</code> 和之前使用的是一致的。</li>
+<li><code>src</code>属性后还有一个 <code>local(font name)</code> 字段，表示从用户系统中加载字体，失败后才加载<code>webfont</code>。<code>src: local(font name), url(&quot;font_name.ttf&quot;)</code></li>
+</ul>
+<h3 id="兼容浏览器"><a href="#兼容浏览器" class="headerlink" title="兼容浏览器"></a>兼容浏览器</h3><p><img data-src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/CSS-font-face%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/2020/06/3020200630155007.jpg" alt="兼容浏览器"></p>
+<h2 id="字体格式"><a href="#字体格式" class="headerlink" title="字体格式"></a>字体格式</h2><p>对于@font-face 而言，兼容性问题就是各浏览器所能识别的字体格式不尽相同。</p>
+<ul>
+<li><p><strong>TrueType 格式(.ttf)</strong><br>Windows 和 Mac 上常见的字体格式，是一种原始格式，因此它并没有为网页进行优化处理。<br>浏览器支持：IE9+, FireFox3.5+, Chrome4.0+, Safari3+, Opera10+, IOS Mobile Safari4.2+</p>
+</li>
+<li><p><strong>OpenType 格式(.otf)</strong><br>以 TrueType 为基础，也是一种原始格式，但提供更多的功能。<br>浏览器支持：FireFox3.5+, Chrome4.0+, Safari3.1+, Opera10.0+, IOS Mobile Safari4.2+</p>
+</li>
+<li><p><strong>Web Open Font 格式(.woff)</strong><br>针对网页进行特殊优化，因此是 Web 字体中最佳格式，它是一个开放的 TrueType/OpenType 的压缩版，同时支持元数据包的分离。<br>浏览器支持：IE9+, FireFox3.5+, Chrome6+, Safari3.6+, Opera11.1+</p>
+</li>
+<li><p><strong>Embedded Open Type 格式(.eot)</strong><br>IE 专用字体格式，可以从 TrueType 格式创建此格式字体。<br>浏览器支持：IE4+</p>
+</li>
+<li><p><strong>SVG 格式(.svg)</strong><br>基于 SVG 字体渲染的格式。<br>浏览器支持：Chrome4+, Safari3.1+, Opera10.0+, IOS Mobile Safari3.2+</p>
+</li>
+</ul>
+<p>这就意味着在@font-face 中我们至少需要.woff, .eot 两种格式字体，甚至还需要.svg 等字体达到更多种浏览版本的支持。</p>
+<p>为了使@font-face 达到更多的浏览器支持，Paul Irish 写了一个独特的@font-face 语法叫 Bulletproof @font-face:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"YourWebFontName"</span>;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">"YourWebFontName.eot"</span>); <span class="comment">/* IE9 Compat Modes */</span></span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">"YourWebFontName.eot?#iefix"</span>) <span class="built_in">format</span>(<span class="string">"embedded-opentype"</span>), <span class="comment">/* IE6-IE8 */</span></span><br><span class="line">      <span class="built_in">url</span>(<span class="string">"YourWebFontName.woff"</span>) <span class="built_in">format</span>(<span class="string">"woff"</span>),</span><br><span class="line">    <span class="comment">/* Modern Browsers */</span> <span class="built_in">url</span>(<span class="string">"YourWebFontName.ttf"</span>) <span class="built_in">format</span>(<span class="string">"truetype"</span>), <span class="comment">/* Safari, Android, iOS */</span></span><br><span class="line">      <span class="built_in">url</span>(<span class="string">"YourWebFontName.svg#YourWebFontName"</span>) <span class="built_in">format</span>(<span class="string">"svg"</span>); <span class="comment">/* Legacy iOS */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="字体转换"><a href="#字体转换" class="headerlink" title="字体转换"></a>字体转换</h2><p><a href="https://onlinefontconverter.com/" target="_blank" rel="noopener">Online Font Converter</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://idarkboss.github.io/posts/24802/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -951,97 +1054,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://idarkboss.github.io/posts/45537/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.svg">
-      <meta itemprop="name" content="DarkBoss">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="大老黑的豆腐渣集散地">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/45537/" class="post-title-link" itemprop="url">BigDecimal详解</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-25 14:36:30" itemprop="dateCreated datePublished" datetime="2020-03-25T14:36:30+08:00">2020-03-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-23 14:34:27" itemprop="dateModified" datetime="2020-06-23T14:34:27+08:00">2020-06-23</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>10k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>10 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <div class="note default">
-            <p> 本文介绍 BigDecimal 的使用方法 <sup id="fnref:1"><a href="#fn:1" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="转载自: [LanceToBigData](https://www.cnblogs.com/zhangyinhua/p/11545305.html)">[1]</span></a></sup> </p>
-          </div>
-
-<h2 id="BigDecimal-概述"><a href="#BigDecimal-概述" class="headerlink" title="BigDecimal 概述"></a>BigDecimal 概述</h2><p>Java 在 java.math 包中提供的 API 类 BigDecimal，用来对超过 16 位有效位的数进行精确的运算。双精度浮点型变量 double 可以处理 16 位有效数，但在实际应用中，可能需要对更大或者更小的数进行运算和处理。一般情况下，对于那些不需要准确计算精度的数字，我们可以直接使用 Float 和 Double 处理，但是 <code>Double.valueOf(String)</code> 和 <code>Float.valueOf(String)</code> 会丢失精度。所以开发中，如果我们需要精确计算的结果，则必须使用 BigDecimal 类来操作。</p>
-<p>BigDecimal 所创建的是对象，故我们不能使用传统的 “+”、“-”、“*”、“/” 等算术运算符直接对其对象进行数学运算，而必须调用其相对应的方法。方法中的参数也必须是 BigDecimal 的对象。构造器是类的特殊方法，专门用来创建对象，特别是带有参数的对象。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/45537/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1113,7 +1125,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1173,13 +1185,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">41k</span>
+    <span title="站点总字数">43k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">38 分钟</span>
+    <span title="站点阅读时长">39 分钟</span>
 </div>
 
         

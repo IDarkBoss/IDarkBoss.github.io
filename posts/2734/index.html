@@ -22,20 +22,21 @@
     var CONFIG = {"hostname":"idarkboss.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","width":300,"display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":false,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="有东西被加密了，请输入密码查看。">
+  <meta name="description" content="@font-face是 CSS3 中的一个模块，他主要是把自己定义的 Web 字体嵌入到你的网页中。 语法规则首先我们一起来看看@font-face 的语法规则： 123456@font-face &amp;#123;      font-family: &lt;YourWebFontName&gt;;      src: &lt;source&gt; [&lt;format&gt;][,&lt;sour">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CNP代码调试须知">
-<meta property="og:url" content="https://idarkboss.github.io/posts/39120/index.html">
+<meta property="og:title" content="CSS @font-face属性详解">
+<meta property="og:url" content="https://idarkboss.github.io/posts/2734/index.html">
 <meta property="og:site_name" content="大老黑的豆腐渣集散地">
-<meta property="og:description" content="有东西被加密了，请输入密码查看。">
+<meta property="og:description" content="@font-face是 CSS3 中的一个模块，他主要是把自己定义的 Web 字体嵌入到你的网页中。 语法规则首先我们一起来看看@font-face 的语法规则： 123456@font-face &amp;#123;      font-family: &lt;YourWebFontName&gt;;      src: &lt;source&gt; [&lt;format&gt;][,&lt;sour">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-05-13T05:55:33.000Z">
-<meta property="article:modified_time" content="2020-06-24T05:55:57.920Z">
+<meta property="og:image" content="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/CSS-font-face%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/2020/06/3020200630155007.jpg">
+<meta property="article:published_time" content="2020-06-30T07:35:00.000Z">
+<meta property="article:modified_time" content="2020-06-30T08:09:02.033Z">
 <meta property="article:author" content="DarkBoss">
-<meta property="article:tag" content="Comstar">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/CSS-font-face%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/2020/06/3020200630155007.jpg">
 
-<link rel="canonical" href="https://idarkboss.github.io/posts/39120/">
+<link rel="canonical" href="https://idarkboss.github.io/posts/2734/">
 
 
 <script id="page-configurations">
@@ -48,7 +49,7 @@
   };
 </script>
 
-  <title>CNP代码调试须知 | 大老黑的豆腐渣集散地</title>
+  <title>CSS @font-face属性详解 | 大老黑的豆腐渣集散地</title>
   
 
 
@@ -184,7 +185,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://idarkboss.github.io/posts/39120/">
+    <link itemprop="mainEntityOfPage" href="https://idarkboss.github.io/posts/2734/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.svg">
@@ -197,7 +198,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          CNP代码调试须知
+          CSS @font-face属性详解
         </h1>
 
         <div class="post-meta">
@@ -206,16 +207,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-05-13 13:55:33" itemprop="dateCreated datePublished" datetime="2020-05-13T13:55:33+08:00">2020-05-13</time>
+              <time title="创建时间：2020-06-30 15:35:00 / 修改时间：16:09:02" itemprop="dateCreated datePublished" datetime="2020-06-30T15:35:00+08:00">2020-06-30</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-24 13:55:57" itemprop="dateModified" datetime="2020-06-24T13:55:57+08:00">2020-06-24</time>
-              </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -230,14 +225,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>597</span>
+              <span>1.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -249,15 +244,38 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对， 请再试试。" data-whm="抱歉，这个文章不能被校验，不过您还是能看看解密后的内容。">
-  <div class="hbe-input-container">
-  <input type="password" id="hbePass" placeholder="" />
-    <label for="hbePass">您好，这里需要密码。如果不能解密请刷新页面哦。</label>
-    <div class="bottom-line"></div>
-  </div>
-  <script id="hbeData" type="hbeData" data-hmacdigest="44f52e735a500deb2ee623309b356b5388f9fc2339599f18d3be6f3489b538c3">56503e17de7fd7fe81c69c7f255076a3c60ac387d80f95d23209fd96699fd69b8a1f53a4eaed2d75557d974ebc9f7a48487526f90786729ec488baea5a0295911d438e5d735d93a0986ba1d9b23ec7425ae66b88f4456a75cbbfe06de15f0804238ddabbae110533ef27dd2143dfd0a99b4561c1a60594f6a70fc0944891421ee6a0e78597a3b09903e2d4b10effd5edd9e1649e4916d1ba25eb885eb32d4d26c5efa1c37d100b7be5b56356ef09f9d06ef180465c32dc2109020e74d84249b88dcd31e833496699a37efcb8e7d7404a90cb23327a6a135b2f68987e0155ace2eb53dab3e40ef2294e09295e29344a76dc4d2cc95de710d3bc0c56df69415c91d6fc660ea5de3d7d1d81e093c6450df3b039bdb65cf3c9a8aed33b268bc0fb32aac970d3920a69c331372c6248a2f76e684fee227bb6d9bb64cf3a1e294da6501a5f99deeeff37b880b74b8d80bc6795979b2131b63aae9ba141f9c216cbbf417b395b480a68f42f6050f0a0c17f8b833c77a2bb82cdbaf025d63c346e206264ff545f316948659dbc0ec92098f3f61b010bad7b1f94d4924d5c891698dd0d6fa9d8eaec2bce853baf2db794a24a191c262f3066e1d6146f353781733118b15ec81d9d7a27071152761eb74cff50c17f87fc215bdf01f776318c56cc93509ce511ad4b42ef30debfdb9c0209197a94167c0b7c040c87fd6fed1ebe0210a9a86f6a0ce059ea47f85c2e1868c79f56f203cd8c567104daa0e96a84c33e12273cacd039096821e5259eced61dceb0bf1cad4fb53f4c36bf807b11efb82feacf6328954049ae07cf9fb28bc8f66e9185b3f53fc7c5481f9e707453c5f77b828081203922663bd442672d538b3e613458f2910e572c7525868dfc746fa769d18b05ef21886dcae2315bdb34891b539fe3f9994be31659372c940418415023977063170ff22d1c82dc952943c1739f6dfc6ad7d6d4fde5f90e470d44bd6b9062e6a36324e5a44e94aa03336ab2525aeffa9f8dbcbc760438ae9a09d9b0620781da9d33e61957048825e9274662ba5f67b3f8669fab52da8f2c6ed8e9f3474da354f77c8b37715480776586986ce0933bb41c1c0e1f159b6022265aed6a747ab926301269a0b09dd698754814ce3004b456cc32114191f8ac3bee293c3e15322b9d5bebb759023cab53a6e82d6db848ee428a6dcd2e04f1c9d57bc4947a0da91c37cec410a39745c663388511846d279426d987c3bebca2c9e4895016a9318bc70aeaddd006a9b30b5436f1e3dfc373b4c6ccb045fa4636858bc3ebf754abc132dcb55709546452bec9daf38987c67005340367940682ee442c7195a759180ebcf4ffb459c6b499520215a9dbf4613a873b75b203501f597ee0298945bf5bfa600dac8a053544ec75532569e0242af3525ba8474fddeda67636dc1b22a0c5242b4dc169b63c635521c661dcc50b1ce9e9ca7eab33b2527a02026f4f87ba412ad25c1eb24c257e3599c0432d77335c1ac740122876dd095694292ebe2a941bb94091ac3b5d409255a42ca75402082708c34916cf76f3d96fe532da9ee3134844b643239ffce53cba06245bb74f5756e476b59244b4ef547f8b9b67481ff5e7dc31dcde6065dabbeda166e36c98d9d2bdbe6ac239834255e0d583b8a5c7e515b0004c819a137825411df31c72936356efa69885850d1b5e9f3728c5d594bfb44f90da22ec5c493ed39b5f8d6ec31e70522f2161b76cdfd216e69c60179500b9e53599121573119c771fbe01f9fb3dc9e82e2e05ca16a00017b0b90e2d9e08494841cea5ad2682565ec24728df19e7eb605e14f216e6ed7ed8ad16f0b50c97b7b66899cfe1cee9e2211e1f50839a00c7998293818e3ffc31cffddfade8f6694d18cefa309bab9cb757ce214498acc26d87d3ef750b62b3148d808dcf96680742a77092dce0e4881429cbe6afd1ffd61379692185331f59e0985376f6189bbbf68d4f54bde9dca6061011a0191f43a7035325c9b0d623f629c5aeb011e00c73b19ff682e55236ec93eeb6614d97512408fa56fac8faa0a7c738b0fd34c53dce6735a90e85d869e239e83cdfdf510397c11273591262fbe1e81422fe1f4d97124f4121b0694d7ebf00ef6b03d19d3d36e710dee3ab44ea25aa6b50a08e828ec1e4b3c83b511ac52429fafe841ff916bc2a8ccad8d78e09355c813adb5a62a88e864dd3e8a86c1e776062883434aed7903be5cce8ec26bad13ab6b570aba771da8ec2da743565f99d568e2264b8523674eb5c128d33388e9253cadd9e38ede533e962efe400aad916a2e6d85a937cbc32afb39e00358a079fbd46432a6ec410c1682b72921d23ae7fa102370cd13cd744005d877ad7cffbb3698eb935250075dc3c8aa1e74331d274a16465779dc68ea561f47c85deb50a31aeed433680abf08591b0e22d9f027af1f883ed2561b59ca955850d5f1ba373db558cf1a278598139ccc944d30fa1bf640db733995881a338bbf25fd539cd97919123a400982a46e3896fc1d126fedb3a9ffe4436fb0f3e4b71855fd97869abc8218aacbd3b0b21aa1067f2e259aca8af672aec0a355ef80f826c5ef8abaadbdba32b21d2240ea48e470459b151348957a420146fc91cdff06783954f2659c2f37b6689c6d1a1e60851a0144543c9cd0af5abf01058e0953620d6a706d00ef08bdb5c6834d4507382ea993ca189a3ebbb8864297767cc74e640886b7c1524121d2631921de3b9ecc6497424a98141cd739b4a11098e9ac190aa33118bbcd11a0b867210b94848780ff395a55372710974f3708c718344f3131b81e686f419d176abfec7fc7eac7d2cd5b85fe8879f2fa12a31729403848ba7f5936f2680c13e89c6695f0b4161e771510bc8d8109de208c9d04ce9dcc15be7281724277c264d0cb73c7599e3dadf955da6a0e9eedd36b045f11ccaf0c460d113edfd2fe1f36d5e00cb451845f47f856c5589867b94906581dad4b36fc617f98db099548852fe4395141fdef1e443531a0a82256b8c9897bfc6c33264d2de6ea7f91e6ddef47c2abdbe8c32e1b90a95a007e6d475566829877f71e1b215b0084737a6139a84eca72e42e7c1f84cf0bbb5157b1cb2ede1408efca3e2afd968716ab97fb94c8f1c4e254ea8de5e57fd23a3403fc2ffcbe4d5994b8c807ee7f00848d8037740713dbe15bd10e9ba5509544705f68e58e9ab130a481d6467ba2117c1f8e65d2b10650da6cc9e95a4450783bc20735419125f60ff75d7104dcc265f39196feef07dd6e418fcd08aa0e2a41e7458779ff6d06839d4c1b8278bce4994d729f3c1a0fd9c9432ae1e735f76864185ba3cda49ab12e64e62e03546ae8d79ff54cd423fc3e2960ef6514b41f3f44b7a59bf22edb5037b7ef6ac2b8586754dee071328b9cd0d28015b112df267ad874534358231008575c108417688d511374801648075a2cba1ad8deb0ce77738462ada387bc43a41c1a65d5f6920224a2e7b296121059d901217b7d798b75fcd2fb62fd1d1f85604a68ee74ae454073fda3991bc858b4469bcc4ef3a40801708eff1478ed0aa28d8f94f44f071d2d5fbd303851fc7e2e52f92573968ffbbe1188aa3b09dad263d36de5ba456eca1e10e3cdd8d42f30f7cc3c1190746b159e9bb5922319f60abaccaa189f80731fea79833e8070d14fd795f85858f19db59f6bd0379c2b7198d63f645bad3dd5f77c7be952f84950391a613d2ff75dfd132b1a8d3e48bf0afab39389b21036ed08664dbfff4aeab686161adc5b4aecb89e4acc01d81468ee0ddaf5fd33f40dadfa9dab5d089ed28f6db587021b701d2817160093af1855fb6d70e4655523d4b18f6e08014203936a6008b2b82cf22c75ccc1428f4530e4a0d076a2f2ff8a6ec32ca6f2f004328deee3d1c4da8136a246f25563b309d8a69b47437e07658c61abf41ccbb5bb9c04b71639819530af4c8232a39868358825620733a483c5c2ad0aea9a1b039066850cfffae06304b3e2b815512b8dbcd15d23e57534eeccc0d26a0a1c27b5a955a0f422912cc54b9afd9718888c20f8965818b2388cac03871fbb88a1dff29a5814420d60618aa870563097038d0ba3deafd48e9e4f19006d6b046f0f82b8111d2c36aa08d3a81bc0f2984784eb15aff4ed6b3155992768e14fff8e8c16d1eedb7a2e4deb86b97ad9979a5aad61a7b3764b24806dd02b62d8850dd34773e77a60f726d2a359fd153746556a894f2a7d38b2b1c0683d52b7733f9c64dd9aeab747e4e7b9887ef99d75c0630661732b82844cc9c9971d55d5dc26de2327850513ecb17854f241c30c166643a85042e49c8042b710bd0769f7ba826ff808fad3957c1c33c6a81bfe51502aa23462b4828f69c2c1e4224fd78fad367c0dd7f62b9fe9d526af56ac243bcdb7d5464bb773453f88612c37905321ae5173f1e671dfb9657189025a7afb617cfe1cac7c13d47b9dab04653022d5adad69d2a94055b58715c4d1b37e47965c8842611b5d7c10ad35daf191df9c3153f6c52f0aa33f5762c33bf606166d60ee9b902c48c67dd5aae1e3f83e34a21b1b687dc56ac3069e08ab117684d958e8f3a4f6ca5e49def9943a051acec6240cb53edc15ece3dcb9d02d307e946a57a5be3469ca3530c827c88b415b111b441cd8580c758428f8df8a31d84d27313b1cdc4f1086f248cc260392f1baee1374cc33ab9093d32093c01d6c37e7425854db342f048bc55efc904e389dfeb951c6ea887e007b8cbc2602c8aefaefd1830dc350aedc51f9b6d596f3880b0f0ef53a8eee751782a449114cf2a9cc11e4a361adf58ada64016d9b17a505556339b98a5a05a65dbf57a8ea8c8ebe51d3c58e221a60082f23f3edd9eb937bf2ebffeca6121dd7d1a8a3fdb08790b82a92da5d4ffb74a1f5f5425a8d056a49d3b02f83300b3af9a4581fe20dbd7f58674ae68c4d0eeeac7421e82b2a4334043332a008fc7f3328767a5755cbd54993c94e1263fe5268c069eae5a07cedf41571d29ddef15e1c5a1b0d84c3a0d74f38fea5a4313e5ba47493d95c903cad42b5de9a29cb49587c26d28e11f0986c44a291e5b298f191decfbbd43fd40dd870f5aba403c442bbf520d9e241a4ef909adb6951edb01b33d87fc023b3ad7785aed560cfe86c008f556f065a89422cb7794aad940a358715a23f6a6782cab5a680cfee425425ccaed41c12091d7e06a36e679d9aee9bc23def219980884844bc57664a86ff1639430e13d86731c586620c1d1f76d373e</script>
-</div>
-<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p><code>@font-face</code>是 CSS3 中的一个模块，他主要是把自己定义的 Web 字体嵌入到你的网页中。</p>
+<h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><p>首先我们一起来看看@font-face 的语法规则：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">      <span class="attribute">font-family</span>: &lt;YourWebFontName&gt;;</span><br><span class="line">      <span class="attribute">src</span>: &lt;source&gt; [&lt;format&gt;][,&lt;source&gt; [&lt;format&gt;]]*;</span><br><span class="line">      [font-weight: &lt;weight&gt;];</span><br><span class="line">      <span class="selector-attr">[font-style: &lt;style&gt;]</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>font-family: &lt;YourWebFontName&gt;</code> ：自定义字库名称（一般设置为所引入的字库名），后续样式规则中则通过该名称来引用该字库。</li>
+<li><code>src</code> ：设置字体的加载路径和格式，通过逗号分隔多个加载路径和格式</li>
+<li><code>srouce</code> ：字体的加载路径，可以是绝对或相对 URL。</li>
+<li><code>format</code> ：字体的格式，主要用于浏览器识别，一般有以下几种——truetype, opentype, truetype-aat, embedded-opentype, avg 等。</li>
+<li><code>font-weight</code> 和 <code>font-style</code> 和之前使用的是一致的。</li>
+<li><code>src</code>属性后还有一个 <code>local(font name)</code> 字段，表示从用户系统中加载字体，失败后才加载<code>webfont</code>。<code>src: local(font name), url(&quot;font_name.ttf&quot;)</code></li>
+</ul>
+<h3 id="兼容浏览器"><a href="#兼容浏览器" class="headerlink" title="兼容浏览器"></a>兼容浏览器</h3><p><img data-src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/CSS-font-face%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/2020/06/3020200630155007.jpg" alt="兼容浏览器"></p>
+<h2 id="字体格式"><a href="#字体格式" class="headerlink" title="字体格式"></a>字体格式</h2><p>对于@font-face 而言，兼容性问题就是各浏览器所能识别的字体格式不尽相同。</p>
+<ul>
+<li><p><strong>TrueType 格式(.ttf)</strong><br>Windows 和 Mac 上常见的字体格式，是一种原始格式，因此它并没有为网页进行优化处理。<br>浏览器支持：IE9+, FireFox3.5+, Chrome4.0+, Safari3+, Opera10+, IOS Mobile Safari4.2+</p>
+</li>
+<li><p><strong>OpenType 格式(.otf)</strong><br>以 TrueType 为基础，也是一种原始格式，但提供更多的功能。<br>浏览器支持：FireFox3.5+, Chrome4.0+, Safari3.1+, Opera10.0+, IOS Mobile Safari4.2+</p>
+</li>
+<li><p><strong>Web Open Font 格式(.woff)</strong><br>针对网页进行特殊优化，因此是 Web 字体中最佳格式，它是一个开放的 TrueType/OpenType 的压缩版，同时支持元数据包的分离。<br>浏览器支持：IE9+, FireFox3.5+, Chrome6+, Safari3.6+, Opera11.1+</p>
+</li>
+<li><p><strong>Embedded Open Type 格式(.eot)</strong><br>IE 专用字体格式，可以从 TrueType 格式创建此格式字体。<br>浏览器支持：IE4+</p>
+</li>
+<li><p><strong>SVG 格式(.svg)</strong><br>基于 SVG 字体渲染的格式。<br>浏览器支持：Chrome4+, Safari3.1+, Opera10.0+, IOS Mobile Safari3.2+</p>
+</li>
+</ul>
+<p>这就意味着在@font-face 中我们至少需要.woff, .eot 两种格式字体，甚至还需要.svg 等字体达到更多种浏览版本的支持。</p>
+<p>为了使@font-face 达到更多的浏览器支持，Paul Irish 写了一个独特的@font-face 语法叫 Bulletproof @font-face:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"YourWebFontName"</span>;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">"YourWebFontName.eot"</span>); <span class="comment">/* IE9 Compat Modes */</span></span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">"YourWebFontName.eot?#iefix"</span>) <span class="built_in">format</span>(<span class="string">"embedded-opentype"</span>), <span class="comment">/* IE6-IE8 */</span></span><br><span class="line">      <span class="built_in">url</span>(<span class="string">"YourWebFontName.woff"</span>) <span class="built_in">format</span>(<span class="string">"woff"</span>),</span><br><span class="line">    <span class="comment">/* Modern Browsers */</span> <span class="built_in">url</span>(<span class="string">"YourWebFontName.ttf"</span>) <span class="built_in">format</span>(<span class="string">"truetype"</span>), <span class="comment">/* Safari, Android, iOS */</span></span><br><span class="line">      <span class="built_in">url</span>(<span class="string">"YourWebFontName.svg#YourWebFontName"</span>) <span class="built_in">format</span>(<span class="string">"svg"</span>); <span class="comment">/* Legacy iOS */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="字体转换"><a href="#字体转换" class="headerlink" title="字体转换"></a>字体转换</h2><p><a href="https://onlinefontconverter.com/" target="_blank" rel="noopener">Online Font Converter</a></p>
+
     </div>
 
     
@@ -271,9 +289,6 @@
 </div>
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/Comstar/" rel="tag"># Comstar</a>
-          </div>
 
         
 
@@ -281,13 +296,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/posts/29264/" rel="prev" title="Chaos Monkey">
-      <i class="fa fa-chevron-left"></i> Chaos Monkey
+    <a href="/posts/24802/" rel="prev" title="仓库同时推送Github和Gitee">
+      <i class="fa fa-chevron-left"></i> 仓库同时推送Github和Gitee
     </a></div>
-      <div class="post-nav-item">
-    <a href="/posts/1977/" rel="next" title="Manjaro更换Deepin桌面环境">
-      Manjaro更换Deepin桌面环境 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -347,6 +359,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#语法规则"><span class="nav-number">1.</span> <span class="nav-text">语法规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#兼容浏览器"><span class="nav-number">1.1.</span> <span class="nav-text">兼容浏览器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字体格式"><span class="nav-number">2.</span> <span class="nav-text">字体格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字体转换"><span class="nav-number">3.</span> <span class="nav-text">字体转换</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -580,7 +593,7 @@ window.addEventListener('pjax:success', () => {
       quicklink({
         timeout : 3000,
         priority: true,
-        ignores : [uri => uri.includes('#'),uri => uri === 'https://idarkboss.github.io/posts/39120/',]
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://idarkboss.github.io/posts/2734/',]
       });
       });
   </script>
@@ -596,7 +609,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'gitalk',
       owner       : 'IDarkBoss',
       admin       : ['IDarkBoss'],
-      id          : '2119b5468fcceea08821c7ca2baca424',
+      id          : '985b6622903e24d894ee242c6d79ab80',
         language: '',
       distractionFreeMode: true
     });

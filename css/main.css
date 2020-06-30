@@ -1212,7 +1212,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #9f5cdd;
+  background: #de4057;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2655,6 +2655,58 @@ ul.breadcrumb li + li:last-child {
 .icon-gitee:before {
   content: "\e503";
 }
+.content-wrap {
+  background: rgba(255,255,255,0.5);
+}
+.header-inner {
+  background: rgba(255,255,255,0.5);
+}
+.sidebar-inner {
+  background: rgba(255,255,255,0.5);
+}
+.table-container {
+  background: rgba(0,0,0,0.68);
+}
+table > tbody > tr:nth-of-type(odd) {
+  background-color: rgba(0,0,0,0);
+}
+table > tbody > tr:hover {
+  background-color: rgba(0,0,0,0);
+}
+pre,
+.highlight {
+  background: rgba(0,0,0,0);
+}
+.highlight .gutter pre {
+  background: rgba(0,0,0,0.68);
+}
+.highlight .code pre {
+  background: rgba(0,0,0,0);
+}
+code {
+  margin: 2px;
+}
+.main-inner {
+  background: rgba(255,255,255,0);
+}
+.menu-item-active a,
+.menu .menu-item a:hover,
+.menu .menu-item span.exturl:hover {
+  background: rgba(255,255,255,0);
+  border-bottom-color: rgba(255,255,255,0);
+}
+.sidebar {
+  background: rgba(255,255,255,0);
+}
+.sidebar-inner {
+  background: rgba(255,255,255,0.8);
+}
+@font-face {
+  font-family: 'Sarasa Mono SC';
+  font-display: swap;
+  src: url("Sarasa-Mono-SC-Regular.eot");
+  src: url("Sarasa-Mono-SC-Regular.eot?#iefix") format('embedded-opentype'), url("Sarasa-Mono-SC-Regular.svg#Sarasa-Mono-SC-Regular") format('svg'), url("Sarasa-Mono-SC-Regular.ttf") format('truetype'), url("Sarasa-Mono-SC-Regular.woff") format('woff'), url("Sarasa-Mono-SC-Regular.woff2") format('woff2');
+}
 .moon-menu,
 .moon-menu-bg,
 .moon-menu-content {
@@ -2720,55 +2772,4 @@ ul.breadcrumb li + li:last-child {
   line-height: 2.5em;
   color: var(--color, #fff);
   cursor: pointer;
-}
-.content-wrap {
-  background: rgba(255,255,255,0.5);
-}
-.header-inner {
-  background: rgba(255,255,255,0.5);
-}
-.sidebar-inner {
-  background: rgba(255,255,255,0.5);
-}
-.table-container {
-  background: rgba(0,0,0,0.68);
-}
-table > tbody > tr:nth-of-type(odd) {
-  background-color: rgba(0,0,0,0);
-}
-table > tbody > tr:hover {
-  background-color: rgba(0,0,0,0);
-}
-pre,
-.highlight {
-  background: rgba(0,0,0,0);
-}
-.highlight .gutter pre {
-  background: rgba(0,0,0,0.68);
-}
-.highlight .code pre {
-  background: rgba(0,0,0,0);
-}
-code {
-  margin: 2px;
-}
-.main-inner {
-  background: rgba(255,255,255,0);
-}
-.menu-item-active a,
-.menu .menu-item a:hover,
-.menu .menu-item span.exturl:hover {
-  background: rgba(255,255,255,0);
-  border-bottom-color: rgba(255,255,255,0);
-}
-.sidebar {
-  background: rgba(255,255,255,0);
-}
-.sidebar-inner {
-  background: rgba(255,255,255,0.8);
-}
-@font-face {
-  font-family: 'Sarasa Mono SC';
-  font-display: swap;
-  src: local('Sarasa Mono Sc'), url("/fonts/sarasa-mono-sc-regular.ttf") format('truetype');
 }
