@@ -17,6 +17,42 @@
       </tags>
   </entry>
   <entry>
+    <title>CSS @font-face属性详解</title>
+    <url>/posts/2734/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p><code>@font-face</code>是 CSS3 中的一个模块，他主要是把自己定义的 Web 字体嵌入到你的网页中。</p>
+<h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><p>首先我们一起来看看@font-face 的语法规则：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">      <span class="attribute">font-family</span>: &lt;YourWebFontName&gt;;</span><br><span class="line">      <span class="attribute">src</span>: &lt;source&gt; [&lt;format&gt;][,&lt;source&gt; [&lt;format&gt;]]*;</span><br><span class="line">      [font-weight: &lt;weight&gt;];</span><br><span class="line">      <span class="selector-attr">[font-style: &lt;style&gt;]</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>font-family: &lt;YourWebFontName&gt;</code> ：自定义字库名称（一般设置为所引入的字库名），后续样式规则中则通过该名称来引用该字库。</li>
+<li><code>src</code> ：设置字体的加载路径和格式，通过逗号分隔多个加载路径和格式</li>
+<li><code>srouce</code> ：字体的加载路径，可以是绝对或相对 URL。</li>
+<li><code>format</code> ：字体的格式，主要用于浏览器识别，一般有以下几种——truetype, opentype, truetype-aat, embedded-opentype, avg 等。</li>
+<li><code>font-weight</code> 和 <code>font-style</code> 和之前使用的是一致的。</li>
+<li><code>src</code>属性后还有一个 <code>local(font name)</code> 字段，表示从用户系统中加载字体，失败后才加载<code>webfont</code>。<code>src: local(font name), url(&quot;font_name.ttf&quot;)</code></li>
+</ul>
+<h3 id="兼容浏览器"><a href="#兼容浏览器" class="headerlink" title="兼容浏览器"></a>兼容浏览器</h3><p><img data-src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/CSS-font-face%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/2020/06/3020200630155007.jpg" alt="兼容浏览器"></p>
+<h2 id="字体格式"><a href="#字体格式" class="headerlink" title="字体格式"></a>字体格式</h2><p>对于@font-face 而言，兼容性问题就是各浏览器所能识别的字体格式不尽相同。</p>
+<ul>
+<li><p><strong>TrueType 格式(.ttf)</strong><br>Windows 和 Mac 上常见的字体格式，是一种原始格式，因此它并没有为网页进行优化处理。<br>浏览器支持：IE9+, FireFox3.5+, Chrome4.0+, Safari3+, Opera10+, IOS Mobile Safari4.2+</p>
+</li>
+<li><p><strong>OpenType 格式(.otf)</strong><br>以 TrueType 为基础，也是一种原始格式，但提供更多的功能。<br>浏览器支持：FireFox3.5+, Chrome4.0+, Safari3.1+, Opera10.0+, IOS Mobile Safari4.2+</p>
+</li>
+<li><p><strong>Web Open Font 格式(.woff)</strong><br>针对网页进行特殊优化，因此是 Web 字体中最佳格式，它是一个开放的 TrueType/OpenType 的压缩版，同时支持元数据包的分离。<br>浏览器支持：IE9+, FireFox3.5+, Chrome6+, Safari3.6+, Opera11.1+</p>
+</li>
+<li><p><strong>Embedded Open Type 格式(.eot)</strong><br>IE 专用字体格式，可以从 TrueType 格式创建此格式字体。<br>浏览器支持：IE4+</p>
+</li>
+<li><p><strong>SVG 格式(.svg)</strong><br>基于 SVG 字体渲染的格式。<br>浏览器支持：Chrome4+, Safari3.1+, Opera10.0+, IOS Mobile Safari3.2+</p>
+</li>
+</ul>
+<p>这就意味着在@font-face 中我们至少需要.woff, .eot 两种格式字体，甚至还需要.svg 等字体达到更多种浏览版本的支持。</p>
+<p>为了使@font-face 达到更多的浏览器支持，Paul Irish 写了一个独特的@font-face 语法叫 Bulletproof @font-face:</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"YourWebFontName"</span>;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">"YourWebFontName.eot"</span>); <span class="comment">/* IE9 Compat Modes */</span></span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">"YourWebFontName.eot?#iefix"</span>) <span class="built_in">format</span>(<span class="string">"embedded-opentype"</span>), <span class="comment">/* IE6-IE8 */</span></span><br><span class="line">      <span class="built_in">url</span>(<span class="string">"YourWebFontName.woff"</span>) <span class="built_in">format</span>(<span class="string">"woff"</span>),</span><br><span class="line">    <span class="comment">/* Modern Browsers */</span> <span class="built_in">url</span>(<span class="string">"YourWebFontName.ttf"</span>) <span class="built_in">format</span>(<span class="string">"truetype"</span>), <span class="comment">/* Safari, Android, iOS */</span></span><br><span class="line">      <span class="built_in">url</span>(<span class="string">"YourWebFontName.svg#YourWebFontName"</span>) <span class="built_in">format</span>(<span class="string">"svg"</span>); <span class="comment">/* Legacy iOS */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="字体转换"><a href="#字体转换" class="headerlink" title="字体转换"></a>字体转换</h2><p><a href="https://onlinefontconverter.com/" target="_blank" rel="noopener">Online Font Converter</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>BigDecimal详解</title>
     <url>/posts/45537/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
@@ -122,42 +158,6 @@
       <tags>
         <tag>Java</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>CSS @font-face属性详解</title>
-    <url>/posts/2734/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p><code>@font-face</code>是 CSS3 中的一个模块，他主要是把自己定义的 Web 字体嵌入到你的网页中。</p>
-<h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><p>首先我们一起来看看@font-face 的语法规则：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">      <span class="attribute">font-family</span>: &lt;YourWebFontName&gt;;</span><br><span class="line">      <span class="attribute">src</span>: &lt;source&gt; [&lt;format&gt;][,&lt;source&gt; [&lt;format&gt;]]*;</span><br><span class="line">      [font-weight: &lt;weight&gt;];</span><br><span class="line">      <span class="selector-attr">[font-style: &lt;style&gt;]</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>font-family: &lt;YourWebFontName&gt;</code> ：自定义字库名称（一般设置为所引入的字库名），后续样式规则中则通过该名称来引用该字库。</li>
-<li><code>src</code> ：设置字体的加载路径和格式，通过逗号分隔多个加载路径和格式</li>
-<li><code>srouce</code> ：字体的加载路径，可以是绝对或相对 URL。</li>
-<li><code>format</code> ：字体的格式，主要用于浏览器识别，一般有以下几种——truetype, opentype, truetype-aat, embedded-opentype, avg 等。</li>
-<li><code>font-weight</code> 和 <code>font-style</code> 和之前使用的是一致的。</li>
-<li><code>src</code>属性后还有一个 <code>local(font name)</code> 字段，表示从用户系统中加载字体，失败后才加载<code>webfont</code>。<code>src: local(font name), url(&quot;font_name.ttf&quot;)</code></li>
-</ul>
-<h3 id="兼容浏览器"><a href="#兼容浏览器" class="headerlink" title="兼容浏览器"></a>兼容浏览器</h3><p><img data-src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/CSS-font-face%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/2020/06/3020200630155007.jpg" alt="兼容浏览器"></p>
-<h2 id="字体格式"><a href="#字体格式" class="headerlink" title="字体格式"></a>字体格式</h2><p>对于@font-face 而言，兼容性问题就是各浏览器所能识别的字体格式不尽相同。</p>
-<ul>
-<li><p><strong>TrueType 格式(.ttf)</strong><br>Windows 和 Mac 上常见的字体格式，是一种原始格式，因此它并没有为网页进行优化处理。<br>浏览器支持：IE9+, FireFox3.5+, Chrome4.0+, Safari3+, Opera10+, IOS Mobile Safari4.2+</p>
-</li>
-<li><p><strong>OpenType 格式(.otf)</strong><br>以 TrueType 为基础，也是一种原始格式，但提供更多的功能。<br>浏览器支持：FireFox3.5+, Chrome4.0+, Safari3.1+, Opera10.0+, IOS Mobile Safari4.2+</p>
-</li>
-<li><p><strong>Web Open Font 格式(.woff)</strong><br>针对网页进行特殊优化，因此是 Web 字体中最佳格式，它是一个开放的 TrueType/OpenType 的压缩版，同时支持元数据包的分离。<br>浏览器支持：IE9+, FireFox3.5+, Chrome6+, Safari3.6+, Opera11.1+</p>
-</li>
-<li><p><strong>Embedded Open Type 格式(.eot)</strong><br>IE 专用字体格式，可以从 TrueType 格式创建此格式字体。<br>浏览器支持：IE4+</p>
-</li>
-<li><p><strong>SVG 格式(.svg)</strong><br>基于 SVG 字体渲染的格式。<br>浏览器支持：Chrome4+, Safari3.1+, Opera10.0+, IOS Mobile Safari3.2+</p>
-</li>
-</ul>
-<p>这就意味着在@font-face 中我们至少需要.woff, .eot 两种格式字体，甚至还需要.svg 等字体达到更多种浏览版本的支持。</p>
-<p>为了使@font-face 达到更多的浏览器支持，Paul Irish 写了一个独特的@font-face 语法叫 Bulletproof @font-face:</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"YourWebFontName"</span>;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">"YourWebFontName.eot"</span>); <span class="comment">/* IE9 Compat Modes */</span></span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">"YourWebFontName.eot?#iefix"</span>) <span class="built_in">format</span>(<span class="string">"embedded-opentype"</span>), <span class="comment">/* IE6-IE8 */</span></span><br><span class="line">      <span class="built_in">url</span>(<span class="string">"YourWebFontName.woff"</span>) <span class="built_in">format</span>(<span class="string">"woff"</span>),</span><br><span class="line">    <span class="comment">/* Modern Browsers */</span> <span class="built_in">url</span>(<span class="string">"YourWebFontName.ttf"</span>) <span class="built_in">format</span>(<span class="string">"truetype"</span>), <span class="comment">/* Safari, Android, iOS */</span></span><br><span class="line">      <span class="built_in">url</span>(<span class="string">"YourWebFontName.svg#YourWebFontName"</span>) <span class="built_in">format</span>(<span class="string">"svg"</span>); <span class="comment">/* Legacy iOS */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="字体转换"><a href="#字体转换" class="headerlink" title="字体转换"></a>字体转换</h2><p><a href="https://onlinefontconverter.com/" target="_blank" rel="noopener">Online Font Converter</a></p>
-]]></content>
   </entry>
   <entry>
     <title>Chaos Monkey</title>
@@ -502,57 +502,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Nginx 反代配置</title>
-    <url>/posts/13817/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
-            <p>Nginx 反代配置</p>
-          </div>
-
-<ul>
-<li><p>不要用宝塔下载的 Nginx！！！！（不要问我怎么知道的）</p>
-</li>
-<li><p>进入 /etc/nginx/conf.d 目录</p>
-</li>
-<li><p>新建一个.conf 文件，名称任意，内容为</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">upstream ice &#123;</span><br><span class="line">        server 0.0.0.0:你的服务需要的端口;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name 你的服务器IP;</span><br><span class="line">        location / &#123;</span><br><span class="line">        # 后端的Web服务器可以通过X-Forwarded-For获取用户真实IP</span><br><span class="line">        proxy_next_upstream error timeout invalid_header http_500 http_502 http$</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_set_header X_Nginx_Proxy true;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>/etc/nginx/nginx.conf 下的 http 中添加</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">include /etc/nginx/conf.d/*.conf;</span><br><span class="line">include /etc/nginx/sites-enabled/*;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重启 Nginx 服务</p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>Nginx</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NexT-Pisces主题配置</title>
-    <url>/posts/14831/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
-<a id="more"></a>
-
-<h2 id="背景半透明"><a href="#背景半透明" class="headerlink" title="背景半透明"></a>背景半透明</h2><h3 id="新建自定义格式文件"><a href="#新建自定义格式文件" class="headerlink" title="新建自定义格式文件"></a>新建自定义格式文件</h3><p>在<strong>主题的</strong> <code>_config.yml</code> 中取消 <code>custom_file_path</code> 下 <strong>style</strong> 的注释，进入根目录 <code>source/_data</code> 文件夹并创建 <strong>styles.styl</strong>。</p>
-<h3 id="修改-custom-styl-文件"><a href="#修改-custom-styl-文件" class="headerlink" title="修改 custom.styl 文件"></a>修改 custom.styl 文件</h3><p>我的配置如下：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 文章背景半透明</span><br><span class="line"><span class="selector-class">.content-wrap</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 代码背景透明</span><br><span class="line"><span class="selector-class">.table-container</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.68</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span><span class="selector-pseudo">:nth-of-type(odd)</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span>,</span><br><span class="line"><span class="selector-class">.highlight</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight</span> <span class="selector-class">.gutter</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.68</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight</span> <span class="selector-class">.code</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 行内代码块的自定义样式</span><br><span class="line"><span class="selector-tag">code</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 去掉文章白色背景</span><br><span class="line"><span class="selector-class">.main-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 侧边栏上半部分设置为透明</span><br><span class="line"><span class="selector-class">.menu-item-active</span> <span class="selector-tag">a</span>,</span><br><span class="line"><span class="selector-class">.menu</span> <span class="selector-class">.menu-item</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>,</span><br><span class="line"><span class="selector-class">.menu</span> <span class="selector-class">.menu-item</span> <span class="selector-tag">span</span><span class="selector-class">.exturl</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="attribute">border-bottom-color</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 侧边栏下半部分设置为透明</span><br><span class="line"><span class="selector-class">.sidebar</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="文章结束标识"><a href="#文章结束标识" class="headerlink" title="文章结束标识"></a>文章结束标识</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>在博客根目录下新建 <code>source/_data/post-body-end.swig</code> ,即 <code>_data</code> 目录和 <code>_posts</code> 目录平级。</p>
-<p>在根目录的 <code>_config.yml</code> 取消 <code>custom_file_path</code> 下 <code>postBodyEnd</code> 的注释。</p>
-<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% if not is_index %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"text-align:center;color: #ccc;font-size:14px;"</span>&gt;</span></span><br><span class="line">    -------------本文结束 <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-paw"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span> 感谢您的阅读-------------</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="更换自定义字体"><a href="#更换自定义字体" class="headerlink" title="更换自定义字体"></a>更换自定义字体</h3><h4 id="新建-fonts-文件夹"><a href="#新建-fonts-文件夹" class="headerlink" title="新建 fonts 文件夹"></a>新建 fonts 文件夹</h4><p>在根目录的<code>source</code>文件夹新建<code>fonts</code>文件夹，把字体文件放进去。</p>
-<h4 id="修改-styles-styl"><a href="#修改-styles-styl" class="headerlink" title="修改 styles.styl"></a>修改 styles.styl</h4><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 更改字体</span><br><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"Sarasa Mono SC"</span>;</span><br><span class="line">  <span class="attribute">font-display</span>: swap;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">"Sarasa-Mono-SC-Regular.eot"</span>);</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">"Sarasa-Mono-SC-Regular.eot?#iefix"</span>) <span class="built_in">format</span>(<span class="string">"embedded-opentype"</span>), <span class="built_in">url</span>(<span class="string">"Sarasa-Mono-SC-Regular.svg#Sarasa-Mono-SC-Regular"</span>)</span><br><span class="line">      <span class="built_in">format</span>(<span class="string">"svg"</span>), <span class="built_in">url</span>(<span class="string">"Sarasa-Mono-SC-Regular.ttf"</span>) <span class="built_in">format</span>(<span class="string">"truetype"</span>), <span class="built_in">url</span>(<span class="string">"Sarasa-Mono-SC-Regular.woff"</span>)</span><br><span class="line">      <span class="built_in">format</span>(<span class="string">"woff"</span>), <span class="built_in">url</span>(<span class="string">"Sarasa-Mono-SC-Regular.woff2"</span>) <span class="built_in">format</span>(<span class="string">"woff2"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://idarkboss.gitee.io/posts/2734" target="_blank" rel="noopener">@font-face 属性详解</a></p>
-<h4 id="修改-base-styl"><a href="#修改-base-styl" class="headerlink" title="修改 base.styl"></a>修改 base.styl</h4><p>贴上我的配置</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">// Font families.</span><br><span class="line">$font-family-chinese      = "PingFang SC", "Sarasa Mono SC", "Microsoft YaHei";</span><br><span class="line"></span><br><span class="line">$font-family-base         = $font-family-chinese, sans-serif;</span><br><span class="line">$font-family-base         = "Sarasa Mono SC", get_font_family('global'), $font-family-chinese, sans-serif if get_font_family('global');</span><br><span class="line"></span><br><span class="line">$font-family-logo         = $font-family-base;</span><br><span class="line">$font-family-logo         = "Sarasa Mono SC", get_font_family('title'), $font-family-base if get_font_family('title');</span><br><span class="line"></span><br><span class="line">$font-family-headings     = $font-family-base;</span><br><span class="line">$font-family-headings     = get_font_family('headings'), $font-family-base if get_font_family('headings');</span><br><span class="line"></span><br><span class="line">$font-family-posts        = $font-family-base;</span><br><span class="line">$font-family-posts        = "Sarasa Mono SC", get_font_family('posts'), $font-family-base if get_font_family('posts');</span><br><span class="line"></span><br><span class="line">$font-family-monospace    = consolas, Menlo, monospace, $font-family-chinese;</span><br><span class="line">$font-family-monospace    = "Sarasa Mono SC", get_font_family('codes'), consolas, Menlo, monospace, $font-family-chinese if get_font_family('codes');</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>hexo-NexT</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Manjaro更换Deepin桌面环境</title>
     <url>/posts/1977/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>Deepin 桌面环境（DDE）是真滴好看，然而似乎有些地方并不是很稳定。So what？盘它！</p>
@@ -590,25 +539,54 @@
       </tags>
   </entry>
   <entry>
-    <title>仓库同时推送Github和Gitee</title>
-    <url>/posts/24802/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="本地仓库目录添加-Github"><a href="#本地仓库目录添加-Github" class="headerlink" title="本地仓库目录添加 Github"></a>本地仓库目录添加 Github</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add Github Github项仓库Clone地址</span><br></pre></td></tr></table></figure>
+    <title>NexT-Pisces主题配置</title>
+    <url>/posts/14831/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
+<a id="more"></a>
 
-<h2 id="本地仓库目录添加-Gitee"><a href="#本地仓库目录添加-Gitee" class="headerlink" title="本地仓库目录添加 Gitee"></a>本地仓库目录添加 Gitee</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add Gitee Gitee仓库Clone地址</span><br></pre></td></tr></table></figure>
+<h2 id="背景半透明"><a href="#背景半透明" class="headerlink" title="背景半透明"></a>背景半透明</h2><h3 id="新建自定义格式文件"><a href="#新建自定义格式文件" class="headerlink" title="新建自定义格式文件"></a>新建自定义格式文件</h3><p>在<strong>主题的</strong> <code>_config.yml</code> 中取消 <code>custom_file_path</code> 下 <strong>style</strong> 的注释，进入根目录 <code>source/_data</code> 文件夹并创建 <strong>styles.styl</strong>。</p>
+<h3 id="修改-custom-styl-文件"><a href="#修改-custom-styl-文件" class="headerlink" title="修改 custom.styl 文件"></a>修改 custom.styl 文件</h3><p>我的配置如下：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 文章背景半透明</span><br><span class="line"><span class="selector-class">.content-wrap</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 代码背景透明</span><br><span class="line"><span class="selector-class">.table-container</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.68</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span><span class="selector-pseudo">:nth-of-type(odd)</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span>,</span><br><span class="line"><span class="selector-class">.highlight</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight</span> <span class="selector-class">.gutter</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.68</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight</span> <span class="selector-class">.code</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 行内代码块的自定义样式</span><br><span class="line"><span class="selector-tag">code</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 去掉文章白色背景</span><br><span class="line"><span class="selector-class">.main-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 侧边栏上半部分设置为透明</span><br><span class="line"><span class="selector-class">.menu-item-active</span> <span class="selector-tag">a</span>,</span><br><span class="line"><span class="selector-class">.menu</span> <span class="selector-class">.menu-item</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>,</span><br><span class="line"><span class="selector-class">.menu</span> <span class="selector-class">.menu-item</span> <span class="selector-tag">span</span><span class="selector-class">.exturl</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="attribute">border-bottom-color</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 侧边栏下半部分设置为透明</span><br><span class="line"><span class="selector-class">.sidebar</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.sidebar-inner</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="推送到-Github"><a href="#推送到-Github" class="headerlink" title="推送到 Github"></a>推送到 Github</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push Github master</span><br></pre></td></tr></table></figure>
+<h2 id="文章结束标识"><a href="#文章结束标识" class="headerlink" title="文章结束标识"></a>文章结束标识</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>在博客根目录下新建 <code>source/_data/post-body-end.swig</code> ,即 <code>_data</code> 目录和 <code>_posts</code> 目录平级。</p>
+<p>在根目录的 <code>_config.yml</code> 取消 <code>custom_file_path</code> 下 <code>postBodyEnd</code> 的注释。</p>
+<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% if not is_index %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"text-align:center;color: #ccc;font-size:14px;"</span>&gt;</span></span><br><span class="line">    -------------本文结束 <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-paw"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span> 感谢您的阅读-------------</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="推送到-Gitee"><a href="#推送到-Gitee" class="headerlink" title="推送到 Gitee"></a>推送到 Gitee</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push Gitee master</span><br></pre></td></tr></table></figure>
+<h3 id="更换自定义字体"><a href="#更换自定义字体" class="headerlink" title="更换自定义字体"></a>更换自定义字体</h3><h4 id="新建-fonts-文件夹"><a href="#新建-fonts-文件夹" class="headerlink" title="新建 fonts 文件夹"></a>新建 fonts 文件夹</h4><p>在根目录的<code>source</code>文件夹新建<code>fonts</code>文件夹，把字体文件放进去。</p>
+<h4 id="修改-styles-styl"><a href="#修改-styles-styl" class="headerlink" title="修改 styles.styl"></a>修改 styles.styl</h4><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 更改字体</span><br><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"Sarasa Mono SC"</span>;</span><br><span class="line">  <span class="attribute">font-display</span>: swap;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">"Sarasa-Mono-SC-Regular.eot"</span>);</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">"Sarasa-Mono-SC-Regular.eot?#iefix"</span>) <span class="built_in">format</span>(<span class="string">"embedded-opentype"</span>), <span class="built_in">url</span>(<span class="string">"Sarasa-Mono-SC-Regular.svg#Sarasa-Mono-SC-Regular"</span>)</span><br><span class="line">      <span class="built_in">format</span>(<span class="string">"svg"</span>), <span class="built_in">url</span>(<span class="string">"Sarasa-Mono-SC-Regular.ttf"</span>) <span class="built_in">format</span>(<span class="string">"truetype"</span>), <span class="built_in">url</span>(<span class="string">"Sarasa-Mono-SC-Regular.woff"</span>)</span><br><span class="line">      <span class="built_in">format</span>(<span class="string">"woff"</span>), <span class="built_in">url</span>(<span class="string">"Sarasa-Mono-SC-Regular.woff2"</span>) <span class="built_in">format</span>(<span class="string">"woff2"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>如果推送到远端时报错，可以先从远端 pull 项目</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git pull Github master</span><br><span class="line">或者</span><br><span class="line">git pull Gitee master</span><br></pre></td></tr></table></figure>
-
-<p>或者强制推送</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push Github master -f</span><br><span class="line">或者</span><br><span class="line">git push Gitee master -f</span><br></pre></td></tr></table></figure>
+<p><a href="https://idarkboss.gitee.io/posts/2734" target="_blank" rel="noopener">@font-face 属性详解</a></p>
+<h4 id="修改-base-styl"><a href="#修改-base-styl" class="headerlink" title="修改 base.styl"></a>修改 base.styl</h4><p>贴上我的配置</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">// Font families.</span><br><span class="line">$font-family-chinese      = "PingFang SC", "Sarasa Mono SC", "Microsoft YaHei";</span><br><span class="line"></span><br><span class="line">$font-family-base         = $font-family-chinese, sans-serif;</span><br><span class="line">$font-family-base         = "Sarasa Mono SC", get_font_family('global'), $font-family-chinese, sans-serif if get_font_family('global');</span><br><span class="line"></span><br><span class="line">$font-family-logo         = $font-family-base;</span><br><span class="line">$font-family-logo         = "Sarasa Mono SC", get_font_family('title'), $font-family-base if get_font_family('title');</span><br><span class="line"></span><br><span class="line">$font-family-headings     = $font-family-base;</span><br><span class="line">$font-family-headings     = get_font_family('headings'), $font-family-base if get_font_family('headings');</span><br><span class="line"></span><br><span class="line">$font-family-posts        = $font-family-base;</span><br><span class="line">$font-family-posts        = "Sarasa Mono SC", get_font_family('posts'), $font-family-base if get_font_family('posts');</span><br><span class="line"></span><br><span class="line">$font-family-monospace    = consolas, Menlo, monospace, $font-family-chinese;</span><br><span class="line">$font-family-monospace    = "Sarasa Mono SC", get_font_family('codes'), consolas, Menlo, monospace, $font-family-chinese if get_font_family('codes');</span><br></pre></td></tr></table></figure>
 ]]></content>
       <tags>
-        <tag>Github</tag>
-        <tag>Gitee</tag>
+        <tag>hexo-NexT</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nginx 反代配置</title>
+    <url>/posts/13817/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default">
+            <p>Nginx 反代配置</p>
+          </div>
+
+<ul>
+<li><p>不要用宝塔下载的 Nginx！！！！（不要问我怎么知道的）</p>
+</li>
+<li><p>进入 /etc/nginx/conf.d 目录</p>
+</li>
+<li><p>新建一个.conf 文件，名称任意，内容为</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">upstream ice &#123;</span><br><span class="line">        server 0.0.0.0:你的服务需要的端口;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name 你的服务器IP;</span><br><span class="line">        location / &#123;</span><br><span class="line">        # 后端的Web服务器可以通过X-Forwarded-For获取用户真实IP</span><br><span class="line">        proxy_next_upstream error timeout invalid_header http_500 http_502 http$</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_set_header X_Nginx_Proxy true;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>/etc/nginx/nginx.conf 下的 http 中添加</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">include /etc/nginx/conf.d/*.conf;</span><br><span class="line">include /etc/nginx/sites-enabled/*;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启 Nginx 服务</p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -683,6 +661,28 @@
       <tags>
         <tag>Oracle</tag>
         <tag>PL/SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>仓库同时推送Github和Gitee</title>
+    <url>/posts/24802/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="本地仓库目录添加-Github"><a href="#本地仓库目录添加-Github" class="headerlink" title="本地仓库目录添加 Github"></a>本地仓库目录添加 Github</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add Github Github项仓库Clone地址</span><br></pre></td></tr></table></figure>
+
+<h2 id="本地仓库目录添加-Gitee"><a href="#本地仓库目录添加-Gitee" class="headerlink" title="本地仓库目录添加 Gitee"></a>本地仓库目录添加 Gitee</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add Gitee Gitee仓库Clone地址</span><br></pre></td></tr></table></figure>
+
+<h2 id="推送到-Github"><a href="#推送到-Github" class="headerlink" title="推送到 Github"></a>推送到 Github</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push Github master</span><br></pre></td></tr></table></figure>
+
+<h2 id="推送到-Gitee"><a href="#推送到-Gitee" class="headerlink" title="推送到 Gitee"></a>推送到 Gitee</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push Gitee master</span><br></pre></td></tr></table></figure>
+
+<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>如果推送到远端时报错，可以先从远端 pull 项目</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git pull Github master</span><br><span class="line">或者</span><br><span class="line">git pull Gitee master</span><br></pre></td></tr></table></figure>
+
+<p>或者强制推送</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git push Github master -f</span><br><span class="line">或者</span><br><span class="line">git push Gitee master -f</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Github</tag>
+        <tag>Gitee</tag>
       </tags>
   </entry>
   <entry>
