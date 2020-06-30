@@ -1212,7 +1212,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #4dff9f;
+  background: #73df8b;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2704,8 +2704,8 @@ code {
 @font-face {
   font-family: 'Sarasa Mono SC';
   font-display: swap;
-  src: url("/fonts/Sarasa-Mono-SC-Regular.eot");
-  src: url("/fonts/Sarasa-Mono-SC-Regular.eot?#iefix") format('embedded-opentype'), url("/fonts/Sarasa-Mono-SC-Regular.svg#Sarasa-Mono-SC-Regular") format('svg'), url("/fonts/Sarasa-Mono-SC-Regular.ttf") format('truetype'), url("/fonts/Sarasa-Mono-SC-Regular.woff") format('woff'), url("/fonts/Sarasa-Mono-SC-Regular.woff2") format('woff2');
+  src: local('Sarasa Mono SC'), url("/fonts/Sarasa-Mono-SC-Regular.eot");
+  src: local('Sarasa Mono SC'), url("/fonts/Sarasa-Mono-SC-Regular.eot?#iefix") format('embedded-opentype'), local('Sarasa Mono SC'), url("/fonts/Sarasa-Mono-SC-Regular.svg#Sarasa-Mono-SC-Regular") format('svg'), local('Sarasa Mono SC'), url("/fonts/Sarasa-Mono-SC-Regular.ttf") format('truetype'), local('Sarasa Mono SC'), url("/fonts/Sarasa-Mono-SC-Regular.woff") format('woff'), local('Sarasa Mono SC'), url("/fonts/Sarasa-Mono-SC-Regular.woff2") format('woff2');
 }
 .moon-menu,
 .moon-menu-bg,
