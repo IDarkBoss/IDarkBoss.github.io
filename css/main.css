@@ -1212,7 +1212,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #de4057;
+  background: #fff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2704,8 +2704,8 @@ code {
 @font-face {
   font-family: 'Sarasa Mono SC';
   font-display: swap;
-  src: url("Sarasa-Mono-SC-Regular.eot");
-  src: url("Sarasa-Mono-SC-Regular.eot?#iefix") format('embedded-opentype'), url("Sarasa-Mono-SC-Regular.svg#Sarasa-Mono-SC-Regular") format('svg'), url("Sarasa-Mono-SC-Regular.ttf") format('truetype'), url("Sarasa-Mono-SC-Regular.woff") format('woff'), url("Sarasa-Mono-SC-Regular.woff2") format('woff2');
+  src: url("/fonts/Sarasa-Mono-SC-Regular.eot");
+  src: url("/fonts/Sarasa-Mono-SC-Regular.eot?#iefix") format('embedded-opentype'), url("/fonts/Sarasa-Mono-SC-Regular.svg#Sarasa-Mono-SC-Regular") format('svg'), url("/fonts/Sarasa-Mono-SC-Regular.ttf") format('truetype'), url("/fonts/Sarasa-Mono-SC-Regular.woff") format('woff'), url("/fonts/Sarasa-Mono-SC-Regular.woff2") format('woff2');
 }
 .moon-menu,
 .moon-menu-bg,
