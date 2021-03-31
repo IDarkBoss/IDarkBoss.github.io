@@ -1,6 +1,6 @@
 /* global CONFIG */
 
-window.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   // Popup Window
   let isfetched = false;
   let datas;
@@ -31,10 +31,7 @@ window.addEventListener('DOMContentLoaded', () => {
       word = word.toLowerCase();
     }
     while ((position = text.indexOf(word, startPosition)) > -1) {
-      index.push({
-        position,
-        word
-      });
+      index.push({ position, word });
       startPosition = position + wordLen;
     }
     return index;
@@ -43,10 +40,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // Merge hits into slices
   const mergeIntoSlice = (start, end, index, searchText) => {
     let item = index[index.length - 1];
-    let {
-      position,
-      word
-    } = item;
+    let { position, word } = item;
     let hits = [];
     let searchTextCountInSlice = 0;
     while (position + word.length <= end && index.length !== 0) {
@@ -104,11 +98,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let resultItems = [];
     if (searchText.length > 0) {
       // Perform local searching
-      datas.forEach(({
-        title,
-        content,
-        url
-      }) => {
+      datas.forEach(({ title, content, url }) => {
         let titleInLowerCase = title.toLowerCase();
         let contentInLowerCase = content.toLowerCase();
         let indexOfTitle = [];
@@ -142,10 +132,7 @@ window.addEventListener('DOMContentLoaded', () => {
           let slicesOfContent = [];
           while (indexOfContent.length !== 0) {
             let item = indexOfContent[indexOfContent.length - 1];
-            let {
-              position,
-              word
-            } = item;
+            let { position, word } = item;
             // Cut out 100 characters
             let start = position - 20;
             let end = position + 80;
@@ -194,7 +181,7 @@ window.addEventListener('DOMContentLoaded', () => {
           resultItem += '</li>';
           resultItems.push({
             item: resultItem,
-            id: resultItems.length,
+            id  : resultItems.length,
             hitCount,
             searchTextCount
           });
@@ -227,9 +214,9 @@ window.addEventListener('DOMContentLoaded', () => {
         isfetched = true;
         datas = isXml ? [...new DOMParser().parseFromString(res, 'text/xml').querySelectorAll('entry')].map(element => {
           return {
-            title: element.querySelector('title').textContent,
+            title  : element.querySelector('title').textContent,
             content: element.querySelector('content').textContent,
-            url: element.querySelector('url').textContent
+            url    : element.querySelector('url').textContent
           };
         }) : JSON.parse(res);
         // Only match articles with not empty titles
