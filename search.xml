@@ -1,0 +1,1558 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>BigDecimal详解</title>
+    <url>/posts/45537/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p> 本文介绍 BigDecimal 的使用方法 <sup id="fnref:1"><a href="#fn:1" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="转载自: [LanceToBigData](https://www.cnblogs.com/zhangyinhua/p/11545305.html)
+">[1]</span></a></sup> </p>
+</div>
+
+<h2 id="BigDecimal-概述"><a href="#BigDecimal-概述" class="headerlink" title="BigDecimal 概述"></a>BigDecimal 概述</h2><p>Java 在 java.math 包中提供的 API 类 BigDecimal，用来对超过 16 位有效位的数进行精确的运算。双精度浮点型变量 double 可以处理 16 位有效数，但在实际应用中，可能需要对更大或者更小的数进行运算和处理。一般情况下，对于那些不需要准确计算精度的数字，我们可以直接使用 Float 和 Double 处理，但是 <code>Double.valueOf(String)</code> 和 <code>Float.valueOf(String)</code> 会丢失精度。所以开发中，如果我们需要精确计算的结果，则必须使用 BigDecimal 类来操作。</p>
+<p>BigDecimal 所创建的是对象，故我们不能使用传统的 “+”、“-”、“*”、“&#x2F;” 等算术运算符直接对其对象进行数学运算，而必须调用其相对应的方法。方法中的参数也必须是 BigDecimal 的对象。构造器是类的特殊方法，专门用来创建对象，特别是带有参数的对象。</p>
+<span id="more"></span>
+
+<h2 id="BigDecimal-常用构造函数"><a href="#BigDecimal-常用构造函数" class="headerlink" title="BigDecimal 常用构造函数"></a>BigDecimal 常用构造函数</h2><h3 id="常用构造函数"><a href="#常用构造函数" class="headerlink" title="常用构造函数"></a>常用构造函数</h3><ul>
+<li><p><strong>BigDecimal(int)</strong></p>
+<p>创建一个具有参数所指定整数值的对象</p>
+</li>
+<li><p><strong>BigDecimal(double)</strong></p>
+<p>创建一个具有参数所指定双精度值的对象</p>
+</li>
+<li><p><strong>BigDecimal(long)</strong></p>
+<p>创建一个具有参数所指定长整数值的对象</p>
+</li>
+<li><p><strong>BigDecimal(String)</strong></p>
+<p>创建一个具有参数所指定以字符串表示的数值的对象</p>
+</li>
+</ul>
+<h3 id="使用问题分析"><a href="#使用问题分析" class="headerlink" title="使用问题分析"></a>使用问题分析</h3><p>使用示例：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">BigDecimal a &#x3D;new BigDecimal(0.1);
+System.out.println(&quot;a values is:&quot;+a);
+System.out.println(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;);
+BigDecimal b &#x3D;new BigDecimal(&quot;0.1&quot;);
+System.out.println(&quot;b values is:&quot;+b);</code></pre>
+
+<p>结果示例：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">a values is:0.1000000000000000055511151231257827021181583404541015625
+
+b values is:0.1</code></pre>
+
+<p>原因分析：</p>
+<ul>
+<li><p>参数类型为 double 的构造方法的结果有一定的不可预知性。有人可能认为在 Java 中写入 <code>newBigDecimal(0.1)</code>所创建的 BigDecimal 正好等于 0.1（非标度值 1，其标度为 1），但是它实际上等于 <code>0.1000000000000000055511151231257827021181583404541015625</code>。这是因为 0.1 无法准确地表示为 double（或者说对于该情况，不能表示为任何有限长度的二进制小数）。这样，传入到构造方法的值不会正好等于 0.1（虽然表面上等于该值）。</p>
+</li>
+<li><p>String 构造方法是完全可预知的：写入 <code>newBigDecimal(“0.1”)</code> 将创建一个 BigDecimal，它正好等于预期的 0.1。因此，比较而言， 通常建议优先使用 String 构造方法。</p>
+</li>
+<li><p>当 double 必须用作 BigDecimal 的源时，请注意，此构造方法提供了一个准确转换；它不提供与以下操作相同的结果：先使用 <code>Double.toString(double)</code> 方法，然后使用 <code>BigDecimal(String)</code> 构造方法，将 double 转换为 String。要获取该结果，请使用 <code>static valueOf(double)</code> 方法。</p>
+</li>
+</ul>
+<h2 id="BigDecimal-常用方法详解"><a href="#BigDecimal-常用方法详解" class="headerlink" title="BigDecimal 常用方法详解"></a>BigDecimal 常用方法详解</h2><h3 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h3><ul>
+<li><p><strong>add(BigDecimal)</strong></p>
+<p>BigDecimal 对象中的值相加，返回 BigDecimal 对象</p>
+</li>
+<li><p><strong>subtract(BigDecimal)</strong></p>
+<p>BigDecimal 对象中的值相减，返回 BigDecimal 对象</p>
+</li>
+<li><p><strong>multiply(BigDecimal)</strong></p>
+<p>BigDecimal 对象中的值相乘，返回 BigDecimal 对象</p>
+</li>
+<li><p><strong>divide(BigDecimal)</strong></p>
+<p>BigDecimal 对象中的值相除，返回 BigDecimal 对象</p>
+</li>
+<li><p><strong>toString()</strong></p>
+<p>将 BigDecimal 对象中的值转换成字符串</p>
+</li>
+<li><p><strong>doubleValue()</strong></p>
+<p>将 BigDecimal 对象中的值转换成双精度数</p>
+</li>
+<li><p><strong>floatValue()</strong></p>
+<p>将 BigDecimal 对象中的值转换成单精度数</p>
+</li>
+<li><p><strong>longValue()</strong></p>
+<p>将 BigDecimal 对象中的值转换成长整数</p>
+</li>
+<li><p><strong>intValue()</strong></p>
+<p>将 BigDecimal 对象中的值转换成整数</p>
+</li>
+</ul>
+<h3 id="BigDecimal-大小比较"><a href="#BigDecimal-大小比较" class="headerlink" title="BigDecimal 大小比较"></a>BigDecimal 大小比较</h3><p>java 中对 BigDecimal 比较大小一般用的是 bigdemical 的 compareTo 方法</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">int a &#x3D; bigdemical.compareTo(bigdemical2);</code></pre>
+
+<p>返回结果分析：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">a &#x3D; -1，表示 bigdemical 小于 bigdemical2;
+a &#x3D; 0，表示 bigdemical 等于 bigdemical2;
+a &#x3D; 1，表示 bigdemical 大于 bigdemical2;</code></pre>
+
+<p>举例：a 大于等于 b</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">new bigdemica(a).compareTo(new bigdemical(b)) &gt;&#x3D; 0;</code></pre>
+
+<h2 id="BigDecimal-格式化"><a href="#BigDecimal-格式化" class="headerlink" title="BigDecimal 格式化"></a>BigDecimal 格式化</h2><p>由于 NumberFormat 类的 format()方法可以使用 BigDecimal 对象作为其参数，可以利用 BigDecimal 对超出 16 位有效数字的货币值，百分值，以及一般数值进行格式化控制。</p>
+<p>以利用 BigDecimal 对货币和百分比格式化为例。首先，创建 BigDecimal 对象，进行 BigDecimal 的算术运算后，分别建立对货币和百分比格式化的引用，最后利用 BigDecimal 对象作为 format()方法的参数，输出其格式化的货币值和百分比。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">NumberFormat currency &#x3D; NumberFormat.getCurrencyInstance(); &#x2F;&#x2F;建立货币格式化引用
+NumberFormat percent &#x3D; NumberFormat.getPercentInstance();  &#x2F;&#x2F;建立百分比格式化引用
+percent.setMaximumFractionDigits(3); &#x2F;&#x2F;百分比小数点最多3位
+
+BigDecimal loanAmount &#x3D; new BigDecimal(&quot;15000.48&quot;); &#x2F;&#x2F;贷款金额
+BigDecimal interestRate &#x3D; new BigDecimal(&quot;0.008&quot;); &#x2F;&#x2F;利率
+BigDecimal interest &#x3D; loanAmount.multiply(interestRate); &#x2F;&#x2F;相乘
+
+System.out.println(&quot;贷款金额:\t&quot; + currency.format(loanAmount));
+System.out.println(&quot;利率:\t&quot; + percent.format(interestRate));
+System.out.println(&quot;利息:\t&quot; + currency.format(interest));</code></pre>
+
+<p>结果：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">贷款金额: ￥ 15,000.48
+利率: 0.8%
+利息: ￥ 120.00</code></pre>
+
+<p>BigDecimal 格式化保留 2 为小数，不足则补 0：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public class NumberFormat &#123;
+    public static void main(String[] s) &#123;
+        System.out.println(formatToNumber(new BigDecimal(&quot;3.435&quot;)));
+        System.out.println(formatToNumber(new BigDecimal(0)));
+        System.out.println(formatToNumber(new BigDecimal(&quot;0.00&quot;)));
+        System.out.println(formatToNumber(new BigDecimal(&quot;0.001&quot;)));
+        System.out.println(formatToNumber(new BigDecimal(&quot;0.006&quot;)));
+        System.out.println(formatToNumber(new BigDecimal(&quot;0.206&quot;)));
+    &#125;
+
+    &#x2F;**
+     * @desc 1.0~1之间的BigDecimal小数，格式化后失去前面的0,则前面直接加上0。 2.传入的参数等于0，则直接返回字符串&quot;0.00&quot;
+     *       3.大于1的小数，直接格式化返回字符串
+     * @param obj传入的小数
+     * @return
+     *&#x2F;
+    public static String formatToNumber(BigDecimal obj) &#123;
+        DecimalFormat df &#x3D; new DecimalFormat(&quot;#.00&quot;);
+        if (obj.compareTo(BigDecimal.ZERO) &#x3D;&#x3D; 0) &#123;
+            return &quot;0.00&quot;;
+        &#125; else if (obj.compareTo(BigDecimal.ZERO) &gt; 0 &amp;&amp; obj.compareTo(new BigDecimal(1)) &lt; 0) &#123;
+            return &quot;0&quot; + df.format(obj).toString();
+        &#125; else &#123;
+            return df.format(obj).toString();
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<p>结果为：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">3.44
+0.00
+0.00
+0.00
+0.01
+0.21</code></pre>
+
+<h2 id="BigDecimal-常见异常"><a href="#BigDecimal-常见异常" class="headerlink" title="BigDecimal 常见异常"></a>BigDecimal 常见异常</h2><h3 id="除法的时候出现异常"><a href="#除法的时候出现异常" class="headerlink" title="除法的时候出现异常"></a>除法的时候出现异常</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">java.lang.ArithmeticException: Non-terminating decimal expansion; no exact representable decimal result</code></pre>
+
+<h4 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h4><p>通过 BigDecimal 的 divide 方法进行除法时当不整除，出现无限循环小数时，就会抛异常：<br><code>java.lang.ArithmeticException: Non-terminating decimal expansion; no exact representable decimal result.</code></p>
+<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><p>divide 方法设置精确的小数点，如：<code>divide(xxxxx,2)</code></p>
+<h2 id="BigDecimal-总结"><a href="#BigDecimal-总结" class="headerlink" title="BigDecimal 总结"></a>BigDecimal 总结</h2><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>在需要精确的小数计算时再使用 BigDecimal，BigDecimal 的性能比 double 和 float 差，在处理庞大，复杂的运算时尤为明显。故一般精度的计算没必要使用 BigDecimal。</li>
+<li>尽量使用参数类型为 String 的构造函数。</li>
+<li>BigDecimal 都是不可变的（immutable）的， 在进行每一次四则运算时，都会产生一个新的对象 ，所以在做加减乘除运算时要记得要保存操作后的值。</li>
+</ul>
+<h3 id="工具类推荐"><a href="#工具类推荐" class="headerlink" title="工具类推荐"></a>工具类推荐</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">import java.math.BigDecimal;
+
+&#x2F;**
+ * 用于高精确处理常用的数学运算
+ *&#x2F;
+public class ArithmeticUtils &#123;
+    &#x2F;&#x2F; 默认除法运算精度
+    private static final int DEF_DIV_SCALE &#x3D; 10;
+
+    &#x2F;**
+     * 提供精确的加法运算
+     *
+     * @param v1 被加数
+     * @param v2 加数
+     * @return 两个参数的和
+     *&#x2F;
+
+    public static double add(double v1, double v2) &#123;
+        BigDecimal b1 &#x3D; new BigDecimal(Double.toString(v1));
+        BigDecimal b2 &#x3D; new BigDecimal(Double.toString(v2));
+        return b1.add(b2).doubleValue();
+    &#125;
+
+    &#x2F;**
+     * 提供精确的加法运算
+     *
+     * @param v1 被加数
+     * @param v2 加数
+     * @return 两个参数的和
+     *&#x2F;
+    public static BigDecimal add(String v1, String v2) &#123;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v2);
+        return b1.add(b2);
+    &#125;
+
+    &#x2F;**
+     * 提供精确的加法运算
+     *
+     * @param v1    被加数
+     * @param v2    加数
+     * @param scale 保留scale 位小数
+     * @return 两个参数的和
+     *&#x2F;
+    public static String add(String v1, String v2, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v2);
+        return b1.add(b2).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+    &#125;
+
+    &#x2F;**
+     * 提供精确的减法运算
+     *
+     * @param v1 被减数
+     * @param v2 减数
+     * @return 两个参数的差
+     *&#x2F;
+    public static double sub(double v1, double v2) &#123;
+        BigDecimal b1 &#x3D; new BigDecimal(Double.toString(v1));
+        BigDecimal b2 &#x3D; new BigDecimal(Double.toString(v2));
+        return b1.subtract(b2).doubleValue();
+    &#125;
+
+    &#x2F;**
+     * 提供精确的减法运算。
+     *
+     * @param v1 被减数
+     * @param v2 减数
+     * @return 两个参数的差
+     *&#x2F;
+    public static BigDecimal sub(String v1, String v2) &#123;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v2);
+        return b1.subtract(b2);
+    &#125;
+
+    &#x2F;**
+     * 提供精确的减法运算
+     *
+     * @param v1    被减数
+     * @param v2    减数
+     * @param scale 保留scale 位小数
+     * @return 两个参数的差
+     *&#x2F;
+    public static String sub(String v1, String v2, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v2);
+        return b1.subtract(b2).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+    &#125;
+
+    &#x2F;**
+     * 提供精确的乘法运算
+     *
+     * @param v1 被乘数
+     * @param v2 乘数
+     * @return 两个参数的积
+     *&#x2F;
+    public static double mul(double v1, double v2) &#123;
+        BigDecimal b1 &#x3D; new BigDecimal(Double.toString(v1));
+        BigDecimal b2 &#x3D; new BigDecimal(Double.toString(v2));
+        return b1.multiply(b2).doubleValue();
+    &#125;
+
+    &#x2F;**
+     * 提供精确的乘法运算
+     *
+     * @param v1 被乘数
+     * @param v2 乘数
+     * @return 两个参数的积
+     *&#x2F;
+    public static BigDecimal mul(String v1, String v2) &#123;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v2);
+        return b1.multiply(b2);
+    &#125;
+
+    &#x2F;**
+     * 提供精确的乘法运算
+     *
+     * @param v1    被乘数
+     * @param v2    乘数
+     * @param scale 保留scale 位小数
+     * @return 两个参数的积
+     *&#x2F;
+    public static double mul(double v1, double v2, int scale) &#123;
+        BigDecimal b1 &#x3D; new BigDecimal(Double.toString(v1));
+        BigDecimal b2 &#x3D; new BigDecimal(Double.toString(v2));
+        return round(b1.multiply(b2).doubleValue(), scale);
+    &#125;
+
+    &#x2F;**
+     * 提供精确的乘法运算
+     *
+     * @param v1    被乘数
+     * @param v2    乘数
+     * @param scale 保留scale 位小数
+     * @return 两个参数的积
+     *&#x2F;
+    public static String mul(String v1, String v2, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v2);
+        return b1.multiply(b2).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+    &#125;
+
+    &#x2F;**
+     * 提供（相对）精确的除法运算，当发生除不尽的情况时，精确到 小数点以后10位，以后的数字四舍五入
+     *
+     * @param v1 被除数
+     * @param v2 除数
+     * @return 两个参数的商
+     *&#x2F;
+
+    public static double div(double v1, double v2) &#123;
+        return div(v1, v2, DEF_DIV_SCALE);
+    &#125;
+
+    &#x2F;**
+     * 提供（相对）精确的除法运算。当发生除不尽的情况时，由scale参数指 定精度，以后的数字四舍五入
+     *
+     * @param v1    被除数
+     * @param v2    除数
+     * @param scale 表示表示需要精确到小数点以后几位。
+     * @return 两个参数的商
+     *&#x2F;
+    public static double div(double v1, double v2, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        BigDecimal b1 &#x3D; new BigDecimal(Double.toString(v1));
+        BigDecimal b2 &#x3D; new BigDecimal(Double.toString(v2));
+        return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+    &#125;
+
+    &#x2F;**
+     * 提供（相对）精确的除法运算。当发生除不尽的情况时，由scale参数指 定精度，以后的数字四舍五入
+     *
+     * @param v1    被除数
+     * @param v2    除数
+     * @param scale 表示需要精确到小数点以后几位
+     * @return 两个参数的商
+     *&#x2F;
+    public static String div(String v1, String v2, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v1);
+        return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).toString();
+    &#125;
+
+    &#x2F;**
+     * 提供精确的小数位四舍五入处理
+     *
+     * @param v     需要四舍五入的数字
+     * @param scale 小数点后保留几位
+     * @return 四舍五入后的结果
+     *&#x2F;
+    public static double round(double v, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        BigDecimal b &#x3D; new BigDecimal(Double.toString(v));
+        return b.setScale(scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+    &#125;
+
+    &#x2F;**
+     * 提供精确的小数位四舍五入处理
+     *
+     * @param v     需要四舍五入的数字
+     * @param scale 小数点后保留几位
+     * @return 四舍五入后的结果
+     *&#x2F;
+    public static String round(String v, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        BigDecimal b &#x3D; new BigDecimal(v);
+        return b.setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+    &#125;
+
+    &#x2F;**
+     * 取余数
+     *
+     * @param v1    被除数
+     * @param v2    除数
+     * @param scale 小数点后保留几位
+     * @return 余数
+     *&#x2F;
+    public static String remainder(String v1, String v2, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v2);
+        return b1.remainder(b2).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+    &#125;
+
+    &#x2F;**
+     * 取余数 BigDecimal
+     *
+     * @param v1    被除数
+     * @param v2    除数
+     * @param scale 小数点后保留几位
+     * @return 余数
+     *&#x2F;
+    public static BigDecimal remainder(BigDecimal v1, BigDecimal v2, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        return v1.remainder(v2).setScale(scale, BigDecimal.ROUND_HALF_UP);
+    &#125;
+
+    &#x2F;**
+     * 比较大小
+     *
+     * @param v1 被比较数
+     * @param v2 比较数
+     * @return 如果v1 大于v2 则 返回true 否则false
+     *&#x2F;
+    public static boolean compare(String v1, String v2) &#123;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v2);
+        int bj &#x3D; b1.compareTo(b2);
+        boolean res;
+        if (bj &gt; 0)
+            res &#x3D; true;
+        else
+            res &#x3D; false;
+        return res;
+    &#125;
+&#125;</code></pre>
+
+<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style: none; padding-left: 0; margin-left: 40px"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px; margin-left: -40px">1.</span><span style="display: inline-block; vertical-align: top; margin-left: 10px;">转载自: <a href="https://www.cnblogs.com/zhangyinhua/p/11545305.html">LanceToBigData</a><a href="#fnref:1" rev="footnote"> ↩</a></span></li></ol></div></div>]]></content>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSS @font-face属性详解</title>
+    <url>/posts/2734/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p><code>@font-face</code>是 CSS3 中的一个模块，他主要是把自己定义的 Web 字体嵌入到你的网页中。<br>本文介绍了该模块的一些使用方法。</p>
+</div>
+
+<span id="more"></span>
+
+<h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><p>首先我们一起来看看@font-face 的语法规则：</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css">@font-face &#123;
+      font-family: &lt;YourWebFontName&gt;;
+      src: &lt;source&gt; [&lt;format&gt;][,&lt;source&gt; [&lt;format&gt;]]*;
+      [font-weight: &lt;weight&gt;];
+      [font-style: &lt;style&gt;];
+    &#125;</code></pre>
+
+<ul>
+<li><code>font-family: &lt;YourWebFontName&gt;</code> ：自定义字库名称（一般设置为所引入的字库名），后续样式规则中则通过该名称来引用该字库。</li>
+<li><code>src</code> ：设置字体的加载路径和格式，通过逗号分隔多个加载路径和格式</li>
+<li><code>srouce</code> ：字体的加载路径，可以是绝对或相对 URL。</li>
+<li><code>format</code> ：字体的格式，主要用于浏览器识别，一般有以下几种——truetype, opentype, truetype-aat, embedded-opentype, avg 等。</li>
+<li><code>font-weight</code> 和 <code>font-style</code> 和之前使用的是一致的。</li>
+<li><code>src</code>属性后还有一个 <code>local(font name)</code> 字段，表示从用户系统中加载字体，失败后才加载<code>webfont</code>。<code>src: local(font name), url(&quot;font_name.ttf&quot;)</code></li>
+</ul>
+<h3 id="兼容浏览器"><a href="#兼容浏览器" class="headerlink" title="兼容浏览器"></a>兼容浏览器</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/CSS-font-face%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/2020/06/3020200630155007.jpg" alt="兼容浏览器"></p>
+<h2 id="字体格式"><a href="#字体格式" class="headerlink" title="字体格式"></a>字体格式</h2><p>对于@font-face 而言，兼容性问题就是各浏览器所能识别的字体格式不尽相同。</p>
+<ul>
+<li><p><strong>TrueType 格式(.ttf)</strong><br>Windows 和 Mac 上常见的字体格式，是一种原始格式，因此它并没有为网页进行优化处理。<br>浏览器支持：IE9+, FireFox3.5+, Chrome4.0+, Safari3+, Opera10+, IOS Mobile Safari4.2+</p>
+</li>
+<li><p><strong>OpenType 格式(.otf)</strong><br>以 TrueType 为基础，也是一种原始格式，但提供更多的功能。<br>浏览器支持：FireFox3.5+, Chrome4.0+, Safari3.1+, Opera10.0+, IOS Mobile Safari4.2+</p>
+</li>
+<li><p><strong>Web Open Font 格式(.woff)</strong><br>针对网页进行特殊优化，因此是 Web 字体中最佳格式，它是一个开放的 TrueType&#x2F;OpenType 的压缩版，同时支持元数据包的分离。<br>浏览器支持：IE9+, FireFox3.5+, Chrome6+, Safari3.6+, Opera11.1+</p>
+</li>
+<li><p><strong>Embedded Open Type 格式(.eot)</strong><br>IE 专用字体格式，可以从 TrueType 格式创建此格式字体。<br>浏览器支持：IE4+</p>
+</li>
+<li><p><strong>SVG 格式(.svg)</strong><br>基于 SVG 字体渲染的格式。<br>浏览器支持：Chrome4+, Safari3.1+, Opera10.0+, IOS Mobile Safari3.2+</p>
+</li>
+</ul>
+<p>这就意味着在@font-face 中我们至少需要.woff, .eot 两种格式字体，甚至还需要.svg 等字体达到更多种浏览版本的支持。</p>
+<p>为了使@font-face 达到更多的浏览器支持，Paul Irish 写了一个独特的@font-face 语法叫 Bulletproof @font-face:</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css">@font-face &#123;
+  font-family: &quot;YourWebFontName&quot;;
+  src: url(&quot;YourWebFontName.eot&quot;); &#x2F;* IE9 Compat Modes *&#x2F;
+  src: url(&quot;YourWebFontName.eot?#iefix&quot;) format(&quot;embedded-opentype&quot;), &#x2F;* IE6-IE8 *&#x2F;
+      url(&quot;YourWebFontName.woff&quot;) format(&quot;woff&quot;),
+    &#x2F;* Modern Browsers *&#x2F; url(&quot;YourWebFontName.ttf&quot;) format(&quot;truetype&quot;), &#x2F;* Safari, Android, iOS *&#x2F;
+      url(&quot;YourWebFontName.svg#YourWebFontName&quot;) format(&quot;svg&quot;); &#x2F;* Legacy iOS *&#x2F;
+&#125;</code></pre>
+
+<h2 id="字体转换"><a href="#字体转换" class="headerlink" title="字体转换"></a>字体转换</h2><p><a href="https://onlinefontconverter.com/">Online Font Converter</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Chaos Monkey</title>
+    <url>/posts/29264/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>本文介绍了 Chaos Monkey </p>
+</div>
+
+<span id="more"></span>
+
+<h2 id="开发背景"><a href="#开发背景" class="headerlink" title="开发背景"></a>开发背景</h2><p>2008 年 8 月， Netflix 主要数据库的故障导致了三天的停机， DVD 租赁业务中断，多个国家的大量用户受此影响。之后 Netflix 工程师着手寻找替代架构，并在 2011 年起，逐步将系统迁移到 AWS 上，运行基于微服务的新型分布式架构。这种架构消除了单点故障，但也引入了新的复杂性类型，需要更加可靠和容错的系统。为此， Netflix 工程师创建了 Chaos Monkey ，会随机终止在生产环境中运行的 EC2 实例。工程师可以快速了解他们正在构建的服务是否健壮，有足够的弹性，可以容忍计划外的故障。至此，混沌工程开始兴起。</p>
+<p>Chaos Monkey 是在 Netflix 整体微服务化的形势下开发的。为了增加微服务架构的弹性，需要确保当服务集群中有节点失败或者退出时不会影响整体服务。由于 Netflix 的内部文化，没有办法通过框架或者编码规范来形成一套能够满足弹性要求的框架。最终，Netflix 选择开发了 Chaos Monkey：一个在生产环境随机选择并关闭服务的工具。通过频繁的服务失败演练，使得开发团队对服务集群稳定性有了更高的重视，以确保不会因为这些演练对最终用户产生影响。Netflix 将 Chaos Monkey 定位为提升服务质量的高效工具。</p>
+<p>Spinnaker 是 Netflix 的持续交付平台，可以在 Spinnaker 上对 Chaos Monkey 进行配置。同时 Chaos Monkey 可以从 Spinnaker 获取服务部署的相关信息并通过 Spinnaker 关闭服务实例。由于集成了 Spinnaker，Chaos Monkey 增加了对多种后端的支持，包括：AWS、GCP、Azure、Kubernetes、Cloud Foundry。</p>
+<h2 id="技术原理"><a href="#技术原理" class="headerlink" title="技术原理"></a>技术原理</h2><p><a href="https://idarkboss.github.io/posts/16861">技术原理</a></p>
+<h2 id="使用场景（举例说明）"><a href="#使用场景（举例说明）" class="headerlink" title="使用场景（举例说明）"></a>使用场景（举例说明）</h2><p><a href="https://idarkboss.github.io/posts/35502">使用场景（举例说明）</a></p>
+<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p><a href="https://idarkboss.github.io/posts/35161">模型</a></p>
+<h2 id="Demo-搭建"><a href="#Demo-搭建" class="headerlink" title="Demo 搭建"></a>Demo 搭建</h2><p><a href="https://idarkboss.github.io/posts/51089">Demo 搭建</a></p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>我们可以手动调用 Chaos Monkey 终止实例。 例如：</p>
+<p><code>chaosmonkey terminate chaosguineapig test --cluster=chaosguineapig--region=**us**-east-1</code></p>
+<p>应用中启用 Chaos Monkey，在 Spring Boot 应用中开启 Chaos Monkey 支持仅需要两步，首先在项目依赖中添加在 chaos-monkey-spring-boot。再然后，我们在应用启动时激活 chaos-monkey 的 profile。</p>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;de.codecentric&lt;&#x2F;groupId&gt;
+    &lt;artifactId&gt;chaos-monkey-spring-boot&lt;&#x2F;artifactId&gt;
+    &lt;version&gt;2.0.0-SNAPSHOT&lt;&#x2F;version&gt;
+&lt;&#x2F;dependency&gt;</code></pre>
+
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$java -jar target&#x2F;order-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
+
+<p>在 Codecentric Chaos Monkey 库的 2.0 版本中有个新的特性：Spring Boot Actuator 访问端口，通过 management.endpoint.chaosmonkey.enabled 属性来设置是否开启，在应用启动后，就可以通过 HTTP 访问端口来访问了。</p>
+<h2 id="设计场景与应用"><a href="#设计场景与应用" class="headerlink" title="设计场景与应用"></a>设计场景与应用</h2><p><a href="https://idarkboss.github.io/posts/19759">设计场景与应用</a></p>
+<h2 id="补充内容"><a href="#补充内容" class="headerlink" title="补充内容"></a>补充内容</h2><h3 id="中断检查器"><a href="#中断检查器" class="headerlink" title="中断检查器"></a>中断检查器</h3><p>中断检查器用于在正在进行的中断期间自动禁用 Chaos Monkey。如果希望让 Chaos Monkey 检查是否有持续的中断并相应地禁用它，则需要：给你的中断检查人员起一个名字（例如，“聊天机器人”），在 Go 中编码一个实现<a href="https://godoc.org/github.com/netflix/chaosmonkey/#Outage">中断</a>接口的类型。修改<a href="https://github.com/Netflix/chaosmonkey/blob/master/outage/outage.go">outage.go</a>，以便它识别你的中断检查器。编辑你的<a href="https://netflix.github.io/chaosmonkey/Configuration-file-format/">配置文件</a>以指定中断检查器。</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>运行这些测试的最简单方法是在本地计算机上安装 Docker。这些测试使用 mysql:5.6 容器（使用 5.6 版以确保与<a href="https://aws.amazon.com/rds/aurora">Amazon Aurora</a>兼容）。</p>
+<p>请注意，如果使用的是 macOS，则必须使用<a href="https://docs.docker.com/engine/installation/mac/">Docker for Mac</a>而不是 Docker Toolbox。否则，将无法通过 127.0.0.1 访问 Docker 容器。</p>
+<p>如果要运行这些测试，请确保已在本地安装 Docker，并抓住 mysql：5.6 容器：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">docker pull mysql:5.6</code></pre>
+
+<p>然后使用 docker 标记运行测试，如下所示：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">go test -tags docker .&#x2F;...</code></pre>
+
+<p>测试将自动启动 mysql 容器，然后将其关闭。</p>
+<p>如果在不上下移动 Docker 容器的情况下进行测试。如果你不希望测试每次都启动和关闭 mysql Docker 容器（例如，你想更快地运行测试，或者想通过本地运行 mysql 实例进行测试），请使用“dockerup”标志以及“docker”标志。</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">go test -tags &quot;docker dockerup&quot; .&#x2F;...</code></pre>
+
+<h3 id="启用组"><a href="#启用组" class="headerlink" title="启用组"></a>启用组</h3><p>如果 Spinnaker 将服务器组标记为启用，那么 Chaos Monkey 将仅考虑有资格终止的服务器组。Spinnaker API 公开了 isDisabled 布尔标志，以指示是否禁用了组。Chaos Monkey 对此进行了过滤，以确保它仅从活动组中终止。</p>
+<h3 id="可能性"><a href="#可能性" class="headerlink" title="可能性"></a>可能性</h3><p>对于每个应用程序，Chaos Monkey 将实例分为实例组（分组取决于应用程序的配置方式）。每个工作日，对于每个实例组，Chaos Monkey 都会掷一枚加权硬币，以决定是否从该组中终止实例。如果硬币朝上，Chaos Monkey 会安排在当天的上午 9 点至下午 3 点之间的任意时间终止。</p>
+<p>在这种情况下，实例组终止之间的工作日数是一个具有<a href="https://en.wikipedia.org/wiki/Geometric_distribution">几何分布</a>的随机变量。</p>
+<p>下面的等式描述了终止之间时间的概率分布。<em>X</em>是随机变量，<em>n</em>是终止之间的工作天数，<em>p</em>是硬币出现正面的概率。</p>
+<p>$$P(X&#x3D;n) &#x3D; (1-p)^(n-1) × p, n&gt;&#x3D;1$$</p>
+<p>对<em>X</em>取期望得到平均值：</p>
+<p>$$E[X] &#x3D; 1&#x2F;p$$</p>
+<p>每个应用程序定义两个参数来控制 Chaos Monkey 应该为该应用程序实例执行的频率：</p>
+<p>工作日之间的平均终止时间（μ），上班时间之间的最短间隔时间（ɛ），混沌猴子使用 μ 来确定 p 应该是多少。如果我们忽略 the 的影响并求解 p：</p>
+<p>$$μ &#x3D; E[X] &#x3D; 1&#x2F;p$$<br>$$p &#x3D; 1&#x2F;μ$$</p>
+<p>例如，对于给定的应用程序，假定 μ&#x3D; 5。在每一天，终止的可能性是 1&#x2F;5。请注意，如果 ɛ&gt; 1，混沌猴子的终止行为将不再是几何分布：</p>
+<p>$$P(X&#x3D;n) &#x3D; (1-p)^(n-1) × p, n&gt;&#x3D;ɛ$$</p>
+<p>特别是，随着 larger 变大，$E[X]-μ$ 也变大。我们不对此进行校正，因为数学上的额外复杂度不值得让 $E[X]$ 完全等于 $μ$。还要注意，如果 $μ&#x3D;1$，则 $p&#x3D;1$，这保证了每天终止。</p>
+<h3 id="追踪器"><a href="#追踪器" class="headerlink" title="追踪器"></a>追踪器</h3><p>跟踪器用于记录某种外部系统中的终止事件。在 Netflix 内部，我们使用跟踪器记录到<a href="https://github.com/netflix/atlas/wiki">Atlas</a>（我们的指标系统）和事件跟踪系统 1 Chronos 的终止 。</p>
+<p>如果你希望记录某些外部系统的终止，则需要：给你的跟踪器起一个名字，在 Go 中编码一个实现<a href="https://godoc.org/github.com/Netflix/chaosmonkey/#Tracker">Tracker</a>界面的类型。修改<a href="https://github.com/Netflix/chaosmonkey/blob/master/tracker/tracker.go">github.com&#x2F;netflix&#x2F;chaosmonkey&#x2F;tracker&#x2F;getTracker</a>，使其可以识别你的跟踪器。编辑你的<a href="https://netflix.github.io/chaosmonkey/Configuration-File-Format">配置文件</a>以指定你的跟踪器。不幸的是，我们无法将这些跟踪器中的任何一个作为开源发布。我们的 Atlas 跟踪器与尚未发布为开源的<a href="https://github.com/Netflix/Prana">Prana</a>版本进行通信 ，Chronos 也尚未发布为开源。</p>
+<h3 id="供应商依赖性"><a href="#供应商依赖性" class="headerlink" title="供应商依赖性"></a>供应商依赖性</h3><p>如果要向 Chaos Monkey 添加新的依赖项，使用<a href="https://github.com/kardianos/govendor">govendor</a>进行添加。确保新依赖项的许可证与 Chaos Monkey 的许可证兼容：<a href="https://github.com/Netflix/chaosmonkey/blob/master/LICENSE">Apache License Version 2.0</a>。</p>
+]]></content>
+      <tags>
+        <tag>Chaos Monkey</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IDEA VMOptions设置</title>
+    <url>/posts/7328/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>IntelliJ IDEA 运行在 JVM 上，JVM 有很多的选项和开关配置可以用来调整性能，也就是说，可以通过手动的调整这些 JVM 参数来优化 IntelliJ IDEA 的性能。这篇文章主要总结了 VMOptions 的用法。</p>
+<span id="more"></span>
+
+<h2 id="打开-Memory-Indicator"><a href="#打开-Memory-Indicator" class="headerlink" title="打开 Memory Indicator"></a>打开 Memory Indicator</h2><ul>
+<li>首先打开 Memory Indicator</li>
+</ul>
+<p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/IDEA-VMOptions%E8%AE%BE%E7%BD%AE/20200509105017.png" alt="Memory Indicator"></p>
+<p>可以看到普通使用 IntelliJ IDEA 大概就使用了 500M 左右的内存。</p>
+<ul>
+<li>开启方法可以在工具栏-View 中设定：</li>
+</ul>
+<p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/IDEA-VMOptions%E8%AE%BE%E7%BD%AE/image-20200509105214158.png" alt="Memory Indicator"></p>
+<!-- ![Memory Indicator](https://gitee.com/IDarkBoss/Blog_Resources/raw/master/IDEA-VMOptions设置/image-20200509105214158.png) -->
+
+<h2 id="Edit-VM-Options"><a href="#Edit-VM-Options" class="headerlink" title="Edit VM Options"></a>Edit VM Options</h2><p>在菜单 <code>Help | Edit Custom VM Options</code> 中可以设置。</p>
+<h2 id="VM-options"><a href="#VM-options" class="headerlink" title="VM options"></a>VM options</h2><p>下载安装包后一定要把压缩包下的 README 读完，里面有详细的路径及配置说明。这里先给一个全部内容的预览，下面再一一解释。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">-ea
+-Xms2g
+-Xmx2g
+-XX:ReservedCodeCacheSize&#x3D;240m
+-XX:+UseConcMarkSweepGC
+-XX:SoftRefLRUPolicyMSPerMB&#x3D;50
+-XX:CICompilerCount&#x3D;2
+-Dsun.io.useCanonPrefixCache&#x3D;false
+-Djava.net.preferIPv4Stack&#x3D;true
+-Djdk.http.auth.tunneling.disabledSchemes&#x3D;&quot;&quot;
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:-OmitStackTraceInFastThrow
+-Djdk.attach.allowAttachSelf&#x3D;true
+-Dkotlinx.coroutines.debug&#x3D;off
+-Djdk.module.illegalAccess.silent&#x3D;true</code></pre>
+
+<h3 id="Heap-Size"><a href="#Heap-Size" class="headerlink" title="Heap Size"></a>Heap Size</h3><p><code>-Xms</code> 和 <code>-Xmx</code> 配置堆内存，也就是 IntelliJ 可以使用的内存。</p>
+<ul>
+<li><code>-Xms</code> 初始堆内存，调大该内存可以让启动速度更快，以省去分配内存的时间</li>
+<li><code>-Xmx</code> 最大堆内存，如果遇到 <code>OutOfMemoryError</code> 可以调大该数值，最大不要超过系统 1&#x2F;4.</li>
+</ul>
+<h3 id="GC-Algorithm"><a href="#GC-Algorithm" class="headerlink" title="GC Algorithm"></a>GC Algorithm</h3><p><code>-XX:+UseConcMarkSweepGC</code> 参数用来调整 GC 算法。使用该算法利用多个线程在后台进行 GC，以避免应用程序停止。</p>
+<p>当分配超过 4GB 的堆内存时，可以尝试使用 <code>-XX:+UseG1GC</code>.</p>
+<h3 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h3><p><code>-ea</code> 选项开启 assertions。如果调试 IntelliJ 或者开发插件时可能用到，对 IntelliJ 性能并没有影响。</p>
+<p><code>-server</code> 虚拟机的解释执行模式。</p>
+<p><code>-XX:SoftRefLRUPolicyMSPerMB=[value]</code> 参数用来控制每 M 空间中 soft reference 保证存活的毫秒数。默认的时间是 1000，JetBrains 推荐 50。</p>
+<p><code>-XX:ReservedCodeCacheSize=510m</code> 设置编译器最大的 code cache，另外一个相关的 JVM 参数是 <code>-XX:InitialCodeCacheSize</code> JetBrains 推荐这里使用 240m. <a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:codecache">1</a></p>
+<p><code>-Dsun.io.useCanonCaches=[boolean]</code> 该参数是否开启文件名及路径缓存，默认 java 会缓存文件名 30 秒 <a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:c">2</a>，JetBrains 建议关闭。</p>
+<p><code>-XX:+OmitStackTraceInFastThrow</code> JetBrains 官方推荐的参数。</p>
+<p><code>-XX:MaxJavaStackTraceDepth=-1</code> JVM 在实现 <code>java.lang.Throwable.fillInStackTrace()</code> 时把整个调用栈上的所有 Java 栈帧消息记录下来</p>
+<p><code>-XX:+HeapDumpOnOutOfMemoryError</code> 当发生 <code>OutOfMemoryError</code> 时 dump 堆内容。<a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html#fn:dump">3</a></p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html">https://blog.einverne.info/post/2020/04/idea-vmoptions-setup.html</a></li>
+<li><a href="https://intellij-support.jetbrains.com/hc/en-us/articles/206544869-Configuring-JVM-options-and-platform-properties">https://intellij-support.jetbrains.com/hc/en-us/articles/206544869-Configuring-JVM-options-and-platform-properties</a></li>
+<li><a href="https://github.com/FoxxMD/intellij-jvm-options-explained">https://github.com/FoxxMD/intellij-jvm-options-explained</a></li>
+</ul>
+<ol>
+<li><a href="https://blog.codecentric.de/en/2012/07/useful-jvm-flags-part-4-heap-tuning">https://blog.codecentric.de/en/2012/07/useful-jvm-flags-part-4-heap-tuning</a></li>
+<li><a href="https://stackoverflow.com/a/7479642">https://stackoverflow.com/a/7479642</a></li>
+<li><a href="http://www.oracle.com/technetwork/java/javase/clopts-139448.html#gbzrr">http://www.oracle.com/technetwork/java/javase/clopts-139448.html#gbzrr</a></li>
+</ol>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+        <tag>IDEA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IDEA 遇到的问题</title>
+    <url>/posts/15956/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>本文收集了一些在 IDEA 中可能遇到的问题。<br>如：Project 的 SDK 设置，IDEA 的内存设置等。</p>
+</div>
+
+<span id="more"></span>
+
+<h2 id="Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6"><a href="#Error-java-Compilation-failed-internal-java-compiler-error-JAVA-1-6" class="headerlink" title="Error:java: Compilation failed: internal java compiler error(JAVA 1.6)"></a>Error:java: Compilation failed: internal java compiler error(JAVA 1.6)</h2><h3 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115427415.png" alt="报错信息"></p>
+<h3 id="报错原因"><a href="#报错原因" class="headerlink" title="报错原因"></a>报错原因</h3><ul>
+<li><p>项目中 Java 版本不一致，可以查看项目中的 jdk 配置</p>
+<ul>
+<li><p>查看项目的 jdk（Ctrl+Alt+shift+S）<br>File -&gt;Project Structure-&gt;Project Settings -&gt;Project</p>
+<p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420115842839.png" alt="SDK"></p>
+</li>
+<li><p>查看工程的 jdk（Ctrl+Alt+shift+S）<br>File -&gt;Project Structure-&gt;Project Settings -&gt; Modules -&gt; （需要修改的工程名称） -&gt; Sources -&gt;</p>
+<p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120000830.png" alt="Language Level"></p>
+</li>
+<li><p>查看 idea 中 Java 配置</p>
+<p>File–&gt;Other Settings–&gt;Default Settings–&gt;Compiler–&gt;Java Compiler</p>
+<p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/20170420120302052.png" alt="Java Compiler"></p>
+<p>如果出现的 Choose Module 框中是空白，无法修改 Target bytecode version.则：</p>
+<p>选中项目，右击选择 Maven–&gt;Reimport, 然后再次编译，问题解决。</p>
+</li>
+</ul>
+</li>
+<li><p>内存设置过大</p>
+<ul>
+<li><p>heap size 过大，2048M 是不行的（6u21）。但是在 6u45 上又要设置到 2048M。。凸(艹皿艹 )</p>
+<p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/heapsize.png" alt="Heap Size"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Insufficient-Momery"><a href="#Insufficient-Momery" class="headerlink" title="Insufficient Momery"></a>Insufficient Momery</h2><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/IDEA%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/image-20200306102435696.png" alt="VM Option"></p>
+<h2 id="Interface-implement-of-class-‘class-java-lang-Object’-not-found"><a href="#Interface-implement-of-class-‘class-java-lang-Object’-not-found" class="headerlink" title="Interface implement of class ‘class java.lang.Object’ not found"></a>Interface implement of class ‘class java.lang.Object’ not found</h2><h3 id="报错原因-1"><a href="#报错原因-1" class="headerlink" title="报错原因"></a>报错原因</h3><p>在调试模式下就会报错，暂时无发现异常。</p>
+<h2 id="java-lang-OutOfMemoryError-PermGen-space"><a href="#java-lang-OutOfMemoryError-PermGen-space" class="headerlink" title="java.lang.OutOfMemoryError: PermGen space"></a>java.lang.OutOfMemoryError: PermGen space</h2><p>VM options 添加：<code>-XX:PermSize=256m -XX:MaxPermSize=1024m</code></p>
+<h2 id="无法从静态上下文中引用非静态变量、方法"><a href="#无法从静态上下文中引用非静态变量、方法" class="headerlink" title="无法从静态上下文中引用非静态变量、方法"></a>无法从静态上下文中引用非静态变量、方法</h2><h3 id="报错原因-2"><a href="#报错原因-2" class="headerlink" title="报错原因"></a>报错原因</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/risk%E4%BB%A3%E7%A0%81%E8%B0%83%E8%AF%95%E9%A1%BB%E7%9F%A5/2020/06/0920200609170308.png" alt="image-20200609170259693"></p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class XmlParser &#123;
+    public static void main(String[] args) &#123;
+        &#x2F;&#x2F;实例化
+        XmlParser xmlParser &#x3D; new XmlParser();
+        TradeInspectionResultBO result &#x3D; xmlParser.parseXml();
+        System.out.println(result);
+    &#125;</code></pre>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+        <tag>IDEA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java中List的循环用法</title>
+    <url>/posts/54882/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>Java 中 List 的循环用法</p>
+</div>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public class Liebiao &#123;
+    public static void main(String args[]) &#123;
+        int[] numbers &#x3D; &#123;10, 20, 30, 40, 50&#125;;
+
+        for (int x : numbers) &#123;
+            System.out.print(x);
+            System.out.print(&quot;,&quot;);
+        &#125;
+        System.out.print(&quot;\n&quot;);
+
+        String[] names &#x3D; &#123;&quot;James&quot;, &quot;Larry&quot;, &quot;Tom&quot;, &quot;Lacy&quot;&#125;;
+        for (String name : names) &#123;
+            System.out.print(name);
+            System.out.print(&quot;,&quot;);
+        &#125;
+    &#125;
+&#125;</code></pre>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java数组使用方法</title>
+    <url>/posts/41103/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p> 本文介绍 Java 数组使用方法 <sup id="fnref:1"><a href="#fn:1" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="转载自: [菜鸟教程](https://www.runoob.com/java/java-array.html)
+">[1]</span></a></sup> </p>
+</div>
+
+<p>数组对于每一门编程语言来说都是重要的数据结构之一，当然不同语言对数组的实现及处理也不尽相同。</p>
+<p>Java 语言中提供的数组是用来存储固定大小的同类型元素。</p>
+<p>你可以声明一个数组变量，如 numbers[100] 来代替直接声明 100 个独立变量 number0，number1，….，number99。</p>
+<p>本教程将为大家介绍 Java 数组的声明、创建和初始化，并给出其对应的代码。</p>
+<span id="more"></span>
+
+<h2 id="声明数组变量"><a href="#声明数组变量" class="headerlink" title="声明数组变量"></a>声明数组变量</h2><p>首先必须声明数组变量，才能在程序中使用数组。下面是声明数组变量的语法：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">dataType[] arrayRefVar; &#x2F;&#x2F; 首选的方法
+
+或
+
+dataType arrayRefVar[]; &#x2F;&#x2F; 效果相同，但不是首选方法</code></pre>
+
+<p><strong>注意:</strong> 建议使用 <strong>dataType[] arrayRefVar</strong> 的声明风格声明数组变量。 dataType arrayRefVar[] 风格是来自 C&#x2F;C++ 语言 ，在 Java 中采用是为了让 C&#x2F;C++ 程序员能够快速理解 java 语言。</p>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>下面是这两种语法的代码示例：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">double[] myList;         &#x2F;&#x2F; 首选的方法
+
+或
+
+double myList[];         &#x2F;&#x2F;  效果相同，但不是首选方法</code></pre>
+
+<hr>
+<h2 id="创建数组"><a href="#创建数组" class="headerlink" title="创建数组"></a>创建数组</h2><p>Java 语言使用 new 操作符来创建数组，语法如下：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">arrayRefVar &#x3D; new dataType[arraySize];</code></pre>
+
+<p>上面的语法语句做了两件事：</p>
+<ul>
+<li>一、使用 dataType[arraySize] 创建了一个数组。</li>
+<li>二、把新创建的数组的引用赋值给变量 arrayRefVar。</li>
+</ul>
+<p>数组变量的声明，和创建数组可以用一条语句完成，如下所示：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">dataType[] arrayRefVar &#x3D; new dataType[arraySize];</code></pre>
+
+<p>另外，你还可以使用如下的方式创建数组。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">dataType[] arrayRefVar &#x3D; &#123;value0, value1, ..., valuek&#125;;</code></pre>
+
+<p>数组的元素是通过索引访问的。数组索引从 0 开始，所以索引值从 0 到 arrayRefVar.length-1。</p>
+<h3 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h3><p>下面的语句首先声明了一个数组变量 myList，接着创建了一个包含 10 个 double 类型元素的数组，并且把它的引用赋值给 myList 变量。</p>
+<h4 id="TestArray-java-文件代码"><a href="#TestArray-java-文件代码" class="headerlink" title="TestArray.java 文件代码"></a>TestArray.java 文件代码</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class TestArray &#123;
+   public static void main(String[] args) &#123;
+      &#x2F;&#x2F; 数组大小
+      int size &#x3D; 10;
+      &#x2F;&#x2F; 定义数组
+      double[] myList &#x3D; new double[size];
+      myList[0] &#x3D; 5.6;
+      myList[1] &#x3D; 4.5;
+      myList[2] &#x3D; 3.3;
+      myList[3] &#x3D; 13.2;
+      myList[4] &#x3D; 4.0;
+      myList[5] &#x3D; 34.33;
+      myList[6] &#x3D; 34.0;
+      myList[7] &#x3D; 45.45;
+      myList[8] &#x3D; 99.993;
+      myList[9] &#x3D; 11123;
+      &#x2F;&#x2F; 计算所有元素的总和
+      double total &#x3D; 0;
+      for (int i &#x3D; 0; i &lt; size; i++) &#123;
+         total +&#x3D; myList[i];
+      &#125;
+      System.out.println(&quot;总和为： &quot; + total);
+   &#125;
+&#125;</code></pre>
+
+<p>以上实例输出结果为：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">总和为： 11367.373</code></pre>
+
+<p>下面的图片描绘了数组 myList。这里 myList 数组里有 10 个 double 元素，它的下标从 0 到 9。</p>
+<p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/Java%E6%95%B0%E7%BB%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/12-130Q0221Q5602[1].jpg" alt="java数组结构说明"></p>
+<hr>
+<h2 id="处理数组"><a href="#处理数组" class="headerlink" title="处理数组"></a>处理数组</h2><p>数组的元素类型和数组的大小都是确定的，所以当处理数组元素时候，我们通常使用基本循环或者 For-Each 循环。</p>
+<h3 id="实例-2"><a href="#实例-2" class="headerlink" title="实例"></a>实例</h3><p>该实例完整地展示了如何创建、初始化和操纵数组：</p>
+<h4 id="TestArray-java-文件代码-1"><a href="#TestArray-java-文件代码-1" class="headerlink" title="TestArray.java 文件代码"></a>TestArray.java 文件代码</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class TestArray &#123;
+   public static void main(String[] args) &#123;
+      double[] myList &#x3D; &#123;1.9, 2.9, 3.4, 3.5&#125;;
+
+      &#x2F;&#x2F; 打印所有数组元素
+      for (int i &#x3D; 0; i &lt; myList.length; i++) &#123;
+         System.out.println(myList[i] + &quot; &quot;);
+      &#125;
+      &#x2F;&#x2F; 计算所有元素的总和
+      double total &#x3D; 0;
+      for (int i &#x3D; 0; i &lt; myList.length; i++) &#123;
+         total +&#x3D; myList[i];
+      &#125;
+      System.out.println(&quot;Total is &quot; + total);
+      &#x2F;&#x2F; 查找最大元素
+      double max &#x3D; myList[0];
+      for (int i &#x3D; 1; i &lt; myList.length; i++) &#123;
+         if (myList[i] &gt; max) max &#x3D; myList[i];
+      &#125;
+      System.out.println(&quot;Max is &quot; + max);
+   &#125;
+&#125;</code></pre>
+
+<p>以上实例编译运行结果如下：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">1.9
+2.9
+3.4
+3.5
+Total is 11.7
+Max is 3.5</code></pre>
+
+<h2 id="For-Each-循环"><a href="#For-Each-循环" class="headerlink" title="For-Each 循环"></a>For-Each 循环</h2><p>JDK 1.5 引进了一种新的循环类型，被称为 For-Each 循环或者加强型循环，它能在不使用下标的情况下遍历数组。</p>
+<p>语法格式如下：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">for(type element: array)
+&#123;
+    System.out.println(element);
+&#125;</code></pre>
+
+<h3 id="实例-2"><a href="#实例-2" class="headerlink" title="实例 2"></a>实例 2</h3><p>该实例用来显示数组 myList 中的所有元素：</p>
+<h4 id="TestArray-java-文件代码-2"><a href="#TestArray-java-文件代码-2" class="headerlink" title="TestArray.java 文件代码 2"></a>TestArray.java 文件代码 2</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class TestArray &#123;
+   public static void main(String[] args) &#123;
+      double[] myList &#x3D; &#123;1.9, 2.9, 3.4, 3.5&#125;;
+
+      &#x2F;&#x2F; 打印所有数组元素
+      for (double element: myList) &#123;
+         System.out.println(element);
+      &#125;
+   &#125;
+&#125;</code></pre>
+
+<p>以上实例编译运行结果如下：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">1.9
+2.9
+3.4
+3.5</code></pre>
+
+<hr>
+<h2 id="数组作为函数的参数"><a href="#数组作为函数的参数" class="headerlink" title="数组作为函数的参数"></a>数组作为函数的参数</h2><p>数组可以作为参数传递给方法。</p>
+<p>例如，下面的例子就是一个打印 int 数组中元素的方法:</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public static void printArray(int[] array) &#123;
+  for (int i &#x3D; 0; i &lt; array.length; i++) &#123;
+    System.out.print(array[i] + &quot; &quot;);
+  &#125;
+&#125;</code></pre>
+
+<p>下面例子调用 printArray 方法打印出 3，1，2，6，4 和 2：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">printArray(new int[]&#123;3, 1, 2, 6, 4, 2&#125;);</code></pre>
+
+<hr>
+<h2 id="数组作为函数的返回值"><a href="#数组作为函数的返回值" class="headerlink" title="数组作为函数的返回值"></a>数组作为函数的返回值</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java">public static int[] reverse(int[] list) &#123;
+  int[] result &#x3D; new int[list.length];
+
+  for (int i &#x3D; 0, j &#x3D; result.length - 1; i &lt; list.length; i++, j--) &#123;
+    result[j] &#x3D; list[i];
+  &#125;
+  return result;
+&#125;</code></pre>
+
+<p>以上实例中 result 数组作为函数的返回值。</p>
+<hr>
+<h2 id="多维数组"><a href="#多维数组" class="headerlink" title="多维数组"></a>多维数组</h2><p>多维数组可以看成是数组的数组，比如二维数组就是一个特殊的一维数组，其每一个元素都是一个一维数组，例如：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">String str[][] &#x3D; new String[3][4];</code></pre>
+
+<h3 id="多维数组的动态初始化（以二维数组为例）"><a href="#多维数组的动态初始化（以二维数组为例）" class="headerlink" title="多维数组的动态初始化（以二维数组为例）"></a>多维数组的动态初始化（以二维数组为例）</h3><ol>
+<li><p>直接为每一维分配空间，格式如下：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">type[][] typeName &#x3D; new type[typeLength1][typelength2];</code></pre>
+
+<p>type 可以为基本数据类型和复合数据类型，arraylength1 和 arraylength2 必须为正整数，arraylength1 为行数，arraylength2 为列数。</p>
+<p>例如：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">int a[][] &#x3D; new int[2][3];</code></pre>
+
+<p>解析：</p>
+<p>二维数组 a 可以看成一个两行三列的数组。</p>
+</li>
+<li><p>从最高维开始，分别为每一维分配空间，例如：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">String s[][] &#x3D; new String[2][];
+s[0] &#x3D; new String[2];
+s[1] &#x3D; new String[3];
+s[0][0] &#x3D; new String(&quot;Good&quot;);
+s[0][1] &#x3D; new String(&quot;Luck&quot;);
+s[1][0] &#x3D; new String(&quot;to&quot;);
+s[1][1] &#x3D; new String(&quot;you&quot;);
+s[1][2] &#x3D; new String(&quot;!&quot;);</code></pre>
+
+<p>解析：</p>
+<p><strong>s[0]&#x3D;new String[2]</strong> 和 <strong>s[1]&#x3D;new String[3]</strong> 是为最高维分配引用空间，也就是为最高维限制其能保存数据的最长的长度，然后再为其每个数组元素单独分配空间 <strong>s0&#x3D;new String(“Good”)</strong> 等操作。</p>
+</li>
+</ol>
+<h3 id="多维数组的引用（以二维数组为例）"><a href="#多维数组的引用（以二维数组为例）" class="headerlink" title="多维数组的引用（以二维数组为例）"></a>多维数组的引用（以二维数组为例）</h3><p>对二维数组中的每个元素，引用方式为 **arrayName[index1][index2]**，例如：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">num[1][0];</code></pre>
+
+<hr>
+<h2 id="Arrays-类"><a href="#Arrays-类" class="headerlink" title="Arrays 类"></a>Arrays 类</h2><p>java.util.Arrays 类能方便地操作数组，它提供的所有方法都是静态的。</p>
+<p>具有以下功能：</p>
+<ul>
+<li>给数组赋值：通过 fill 方法。</li>
+<li>对数组排序：通过 sort 方法,按升序。</li>
+<li>比较数组：通过 equals 方法比较数组中元素值是否相等。</li>
+<li>查找数组元素：通过 binarySearch 方法能对排序好的数组进行二分查找法操作。</li>
+</ul>
+<p>具体说明请查看下表：</p>
+<table>
+<thead>
+<tr>
+<th align="left">序号</th>
+<th align="left">方法和说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left"><strong>public static int binarySearch(Object[] a, Object key)</strong> <br />用二分查找算法在给定数组中搜索给定值的对象(Byte,Int,double 等)。数组在调用前必须排序好的。如果查找值包含在数组中，则返回搜索键的索引；否则返回 (-(<em>插入点</em>) - 1)。</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left"><strong>public static boolean equals(long[] a, long[] a2)</strong> <br />如果两个指定的 long 型数组彼此<em>相等</em>，则返回 true。如果两个数组包含相同数量的元素，并且两个数组中的所有相应元素对都是相等的，则认为这两个数组是相等的。换句话说，如果两个数组以相同顺序包含相同的元素，则两个数组是相等的。同样的方法适用于所有的其他基本数据类型（Byte，short，Int 等）。</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left"><strong>public static void fill(int[] a, int val)</strong> <br />将指定的 int 值分配给指定 int 型数组指定范围中的每个元素。同样的方法适用于所有的其他基本数据类型（Byte，short，Int 等）。</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left"><strong>public static void sort(Object[] a)</strong> <br />对指定对象数组根据其元素的自然顺序进行升序排列。同样的方法适用于所有的其他基本数据类型（Byte，short，Int 等）。</td>
+</tr>
+</tbody></table>
+<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style: none; padding-left: 0; margin-left: 40px"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px; margin-left: -40px">1.</span><span style="display: inline-block; vertical-align: top; margin-left: 10px;">转载自: <a href="https://www.runoob.com/java/java-array.html">菜鸟教程</a><a href="#fnref:1" rev="footnote"> ↩</a></span></li></ol></div></div>]]></content>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Manjaro更换Deepin桌面环境</title>
+    <url>/posts/1977/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>Deepin 桌面环境（DDE）是真滴好看，然而似乎有些地方并不是很稳定。So what？盘它！</p>
+<span id="more"></span>
+
+<h2 id="下载-Deepin-桌面环境（DDE）"><a href="#下载-Deepin-桌面环境（DDE）" class="headerlink" title="下载 Deepin 桌面环境（DDE）"></a>下载 Deepin 桌面环境（DDE）</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pacman -Sy deepin deepin-extra</code></pre>
+
+<p>修改 <code>/etc/lightdm/lightdm.conf</code></p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">sudo nano &#x2F;etc&#x2F;lightdm&#x2F;lightdm.conf
+
+greeter-session&#x3D;lightdm-deepin-greeter</code></pre>
+
+<h2 id="禁用当前桌面环境"><a href="#禁用当前桌面环境" class="headerlink" title="禁用当前桌面环境"></a>禁用当前桌面环境</h2><h3 id="KDE-桌面"><a href="#KDE-桌面" class="headerlink" title="KDE 桌面"></a>KDE 桌面</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">systemctl disable sddm</code></pre>
+
+<h3 id="Xfce-桌面"><a href="#Xfce-桌面" class="headerlink" title="Xfce 桌面"></a>Xfce 桌面</h3><p>似乎不用？我也布吉岛-_-||</p>
+<h2 id="启用-LightDm"><a href="#启用-LightDm" class="headerlink" title="启用 LightDm"></a>启用 LightDm</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">systemctl enable lightdm</code></pre>
+
+<h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">reboot</code></pre>
+
+<h2 id="卸载原桌面环境的组件"><a href="#卸载原桌面环境的组件" class="headerlink" title="卸载原桌面环境的组件"></a>卸载原桌面环境的组件</h2><h3 id="KDE-环境-详见-ArchWiki-KDE"><a href="#KDE-环境-详见-ArchWiki-KDE" class="headerlink" title="KDE 环境 - 详见 ArchWiki-KDE"></a>KDE 环境 - 详见 <a href="https://wiki.archlinux.org/index.php/KDE_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">ArchWiki-KDE</a></h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pacman -Rsc plasma
+pacman -Rsc kde-applications</code></pre>
+
+<h3 id="Xfce-环境-详见-ArchWiki-Xfce"><a href="#Xfce-环境-详见-ArchWiki-Xfce" class="headerlink" title="Xfce 环境 - 详见 ArchWiki-Xfce"></a>Xfce 环境 - 详见 <a href="https://wiki.archlinux.org/index.php/Xfce_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">ArchWiki-Xfce</a></h3><p>Xfce 环境一定要卸载，不然不能切换到 DDE。</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pacman -Rsc xfce4 # 别的不知道了
+reboot # 再重启一次</code></pre>
+
+<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>kde 对应的是 <a href="https://wiki.archlinux.org/index.php/SDDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">SDDM</a></p>
+<p>deepin 对应的是 <a href="https://wiki.archlinux.org/index.php/LightDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">LightDm</a></p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://www.jianshu.com/p/a1e31a9a50dc">vygjyfjt</a></li>
+<li><a href="https://blog.csdn.net/weixin_30836759/article/details/96636929">weixin_30836759</a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Manjaro</tag>
+        <tag>Deepin</tag>
+        <tag>Manjaro-Deepin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NexT-Pisces主题配置</title>
+    <url>/posts/14831/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
+<span id="more"></span>
+
+<h2 id="背景半透明"><a href="#背景半透明" class="headerlink" title="背景半透明"></a>背景半透明</h2><h3 id="新建自定义格式文件"><a href="#新建自定义格式文件" class="headerlink" title="新建自定义格式文件"></a>新建自定义格式文件</h3><p>在<strong>主题的</strong> <code>_config.yml</code> 中取消 <code>custom_file_path</code> 下 <strong>style</strong> 的注释，进入根目录 <code>source/_data</code> 文件夹并创建 <strong>styles.styl</strong>。</p>
+<h3 id="修改-custom-styl-文件"><a href="#修改-custom-styl-文件" class="headerlink" title="修改 custom.styl 文件"></a>修改 custom.styl 文件</h3><p>我的配置如下：</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css">&#x2F;&#x2F; 文章背景半透明
+.content-wrap &#123;
+  background: rgba(255, 255, 255, 0.5);
+&#125;
+.header-inner &#123;
+  background: rgba(255, 255, 255, 0.5);
+&#125;
+.sidebar-inner &#123;
+  background: rgba(255, 255, 255, 0.5);
+&#125;
+
+&#x2F;&#x2F; 代码背景透明
+.table-container &#123;
+  background: rgba(0, 0, 0, 0.68);
+&#125;
+table &gt; tbody &gt; tr:nth-of-type(odd) &#123;
+  background-color: rgba(0, 0, 0, 0);
+&#125;
+table &gt; tbody &gt; tr:hover &#123;
+  background-color: rgba(0, 0, 0, 0);
+&#125;
+pre,
+.highlight &#123;
+  background: rgba(0, 0, 0, 0);
+&#125;
+.highlight .gutter pre &#123;
+  background: rgba(0, 0, 0, 0.68);
+&#125;
+.highlight .code pre &#123;
+  background: rgba(0, 0, 0, 0);
+&#125;
+
+&#x2F;&#x2F; 行内代码块的自定义样式
+code &#123;
+  margin: 2px;
+&#125;
+
+&#x2F;&#x2F; 去掉文章白色背景
+.main-inner &#123;
+  background: rgba(255, 255, 255, 0);
+&#125;
+
+&#x2F;&#x2F; 侧边栏上半部分设置为透明
+.menu-item-active a,
+.menu .menu-item a:hover,
+.menu .menu-item span.exturl:hover &#123;
+  background: rgba(255, 255, 255, 0);
+  border-bottom-color: rgba(255, 255, 255, 0);
+&#125;
+
+&#x2F;&#x2F; 侧边栏下半部分设置为透明
+.sidebar &#123;
+  background: rgba(255, 255, 255, 0);
+&#125;
+.sidebar-inner &#123;
+  background: rgba(255, 255, 255, 0.8);
+&#125;</code></pre>
+
+<h2 id="文章结束标识"><a href="#文章结束标识" class="headerlink" title="文章结束标识"></a>文章结束标识</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>在博客根目录下新建 <code>source/_data/post-body-end.swig</code> ,即 <code>_data</code> 目录和 <code>_posts</code> 目录平级。</p>
+<p>在根目录的 <code>_config.yml</code> 取消 <code>custom_file_path</code> 下 <code>postBodyEnd</code> 的注释。</p>
+<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><pre class="line-numbers language-html" data-language="html"><code class="language-html">&lt;div&gt;
+  &#123;% if not is_index %&#125;
+  &lt;div style&#x3D;&quot;text-align:center;color: #ccc;font-size:14px;&quot;&gt;
+    -------------本文结束 &lt;i class&#x3D;&quot;fa fa-paw&quot;&gt;&lt;&#x2F;i&gt; 感谢您的阅读-------------
+  &lt;&#x2F;div&gt;
+  &#123;% endif %&#125;
+&lt;&#x2F;div&gt;</code></pre>
+
+<h3 id="更换自定义字体"><a href="#更换自定义字体" class="headerlink" title="更换自定义字体"></a>更换自定义字体</h3><h4 id="新建-fonts-文件夹"><a href="#新建-fonts-文件夹" class="headerlink" title="新建 fonts 文件夹"></a>新建 fonts 文件夹</h4><p>在根目录的<code>source</code>文件夹新建<code>fonts</code>文件夹，把字体文件放进去。</p>
+<h4 id="修改-styles-styl"><a href="#修改-styles-styl" class="headerlink" title="修改 styles.styl"></a>修改 styles.styl</h4><pre class="line-numbers language-css" data-language="css"><code class="language-css">&#x2F;&#x2F; 更改字体
+@font-face &#123;
+  font-family: &quot;Sarasa Mono SC&quot;;
+  font-display: swap;
+  src: url(&quot;Sarasa-Mono-SC-Regular.eot&quot;);
+  src: url(&quot;Sarasa-Mono-SC-Regular.eot?#iefix&quot;) format(&quot;embedded-opentype&quot;), url(&quot;Sarasa-Mono-SC-Regular.svg#Sarasa-Mono-SC-Regular&quot;)
+      format(&quot;svg&quot;), url(&quot;Sarasa-Mono-SC-Regular.ttf&quot;) format(&quot;truetype&quot;), url(&quot;Sarasa-Mono-SC-Regular.woff&quot;)
+      format(&quot;woff&quot;), url(&quot;Sarasa-Mono-SC-Regular.woff2&quot;) format(&quot;woff2&quot;);
+&#125;</code></pre>
+
+<p><a href="https://idarkboss.gitee.io/posts/2734">@font-face 属性详解</a></p>
+<h4 id="修改-base-styl"><a href="#修改-base-styl" class="headerlink" title="修改 base.styl"></a>修改 base.styl</h4><p>贴上我的配置</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css">&#x2F;&#x2F; Font families.
+$font-family-chinese      &#x3D; &quot;PingFang SC&quot;, &quot;Sarasa Mono SC&quot;, &quot;Microsoft YaHei&quot;;
+
+$font-family-base         &#x3D; $font-family-chinese, sans-serif;
+$font-family-base         &#x3D; &quot;Sarasa Mono SC&quot;, get_font_family(&#39;global&#39;), $font-family-chinese, sans-serif if get_font_family(&#39;global&#39;);
+
+$font-family-logo         &#x3D; $font-family-base;
+$font-family-logo         &#x3D; &quot;Sarasa Mono SC&quot;, get_font_family(&#39;title&#39;), $font-family-base if get_font_family(&#39;title&#39;);
+
+$font-family-headings     &#x3D; $font-family-base;
+$font-family-headings     &#x3D; get_font_family(&#39;headings&#39;), $font-family-base if get_font_family(&#39;headings&#39;);
+
+$font-family-posts        &#x3D; $font-family-base;
+$font-family-posts        &#x3D; &quot;Sarasa Mono SC&quot;, get_font_family(&#39;posts&#39;), $font-family-base if get_font_family(&#39;posts&#39;);
+
+$font-family-monospace    &#x3D; consolas, Menlo, monospace, $font-family-chinese;
+$font-family-monospace    &#x3D; &quot;Sarasa Mono SC&quot;, get_font_family(&#39;codes&#39;), consolas, Menlo, monospace, $font-family-chinese if get_font_family(&#39;codes&#39;);</code></pre>
+]]></content>
+      <tags>
+        <tag>hexo-NexT</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nginx 反代配置</title>
+    <url>/posts/13817/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>Nginx 反代配置</p>
+</div>
+
+<ul>
+<li><p>不要用宝塔下载的 Nginx！！！！（不要问我怎么知道的）</p>
+</li>
+<li><p>进入 &#x2F;etc&#x2F;nginx&#x2F;conf.d 目录</p>
+</li>
+<li><p>新建一个.conf 文件，名称任意，内容为</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">upstream ice &#123;
+        server 0.0.0.0:你的服务需要的端口;
+
+&#125;
+server &#123;
+        listen 80;
+        server_name 你的服务器IP;
+        location &#x2F; &#123;
+        # 后端的Web服务器可以通过X-Forwarded-For获取用户真实IP
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http$
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X_Nginx_Proxy true;
+        proxy_redirect off;
+        &#125;
+&#125;</code></pre>
+</li>
+<li><p>&#x2F;etc&#x2F;nginx&#x2F;nginx.conf 下的 http 中添加</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">include &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;*.conf;
+include &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;*;</code></pre>
+</li>
+<li><p>重启 Nginx 服务</p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Oracle数据库报错分析</title>
+    <url>/posts/6794/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>本文介绍了使用 Oracle 数据库时会遇到的一些问题。 </p>
+</div>
+
+<h2 id="ORA-00936-缺失表达式"><a href="#ORA-00936-缺失表达式" class="headerlink" title="ORA-00936: 缺失表达式"></a>ORA-00936: 缺失表达式</h2><p>SQL 语句写错啦！</p>
+<h2 id="ORA-00911-无效字符"><a href="#ORA-00911-无效字符" class="headerlink" title="ORA-00911: 无效字符"></a>ORA-00911: 无效字符</h2><p>mybatis 的 Mapper.xml 中，sql 语句最后不需要“；”，去掉就 ok 了。</p>
+<h2 id="ORA-01745-无效的主机-x2F-绑定变量名"><a href="#ORA-01745-无效的主机-x2F-绑定变量名" class="headerlink" title="ORA-01745: 无效的主机&#x2F;绑定变量名"></a>ORA-01745: 无效的主机&#x2F;绑定变量名</h2><p><code>Cause: java.sql.SQLSyntaxErrorException: ORA-01745: 无效的主机/绑定变量名.</code><br>是由于在插入数据的时候，两个填充变量之间没有逗号分隔。</p>
+<h2 id="ORA-01791-不是-SELECTED-表达式"><a href="#ORA-01791-不是-SELECTED-表达式" class="headerlink" title="ORA-01791: 不是 SELECTED 表达式"></a>ORA-01791: 不是 SELECTED 表达式</h2><p>通常 <strong>ORA-01791</strong> 的错误，都是在使用<strong>distinct</strong>后出现的。通常是因为<strong>distinct</strong>和<strong>order by</strong> 一起使用，因为字段名称冲突报错。</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql">select distinct a.USER_NAME
+from XXX a
+order by a.id asc;</code></pre>
+
+<p>上面的 SQL 报错是因为<strong>order by</strong>后使用的字段名称，使用的是原始名称，不是使用别名所导致的。也就是说，如果有 <strong>distinct</strong> 时，<strong>order by</strong> 后面跟的字段名称，必须是最新的别名（若没有别名，就使用原来的名称，若有多层子查询，则使用最新的那个别名）。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql">select distinct a.USER_NAME
+from XXX a
+order by &#39;a.id&#39; asc; &#x2F;&#x2F;排序使用别名&#39;a.id&#39;</code></pre>
+
+<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql">select distinct a.USER_NAME, a.id &#x2F;&#x2F;查询结果添加a.id
+from INS_INSPECTION_APP_OLD a
+where a.CUSTOMER_NUMBER &#x3D; 740
+order by a.id asc;</code></pre>
+]]></content>
+      <tags>
+        <tag>Oracle</tag>
+        <tag>PL/SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Oracle数据库操作</title>
+    <url>/posts/50348/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>Oracle 数据库</p>
+</div>
+
+<h2 id="Oracle-用读写模式查询记录"><a href="#Oracle-用读写模式查询记录" class="headerlink" title="Oracle 用读写模式查询记录"></a>Oracle 用读写模式查询记录</h2><ul>
+<li><code>select * from XXX a where AAA=&#39;258&#39; for update</code></li>
+<li><code>select a.rowid,a* from XXX a where AAA=&#39;258&#39;</code></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Oracle</tag>
+        <tag>PL/SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PyTorch Tensor的数学运算</title>
+    <url>/posts/52950/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="转载自"><a href="#转载自" class="headerlink" title="转载自"></a>转载自</h2><p>转载自：<a href="https://blog.csdn.net/s294878304/article/details/102945910">嘻哈吼嘿呵</a></p>
+<div class="note default"><p>本文介绍了 PyTorch 的一些数学运算方法。 </p>
+</div>
+
+<span id="more"></span>
+
+<h2 id="基础运算"><a href="#基础运算" class="headerlink" title="基础运算"></a>基础运算</h2><ul>
+<li><p>可以使用 + - * &#x2F; 四则运算符号（推荐）</p>
+</li>
+<li><p>也可以使用 torch.add, torch.mul, torch.sub, torch.div</p>
+</li>
+</ul>
+<h3 id="加法运算"><a href="#加法运算" class="headerlink" title="加法运算"></a>加法运算</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">def add():
+    # add +
+    # 这两个Tensor加减乘除会对b自动进行Broadcasting
+    a &#x3D; torch.rand(3,4)
+    b &#x3D; torch.rand(4)
+    print(&quot;a &#x3D; &#123;&#125;&quot;.format(a))
+    print(&quot;b &#x3D; &#123;&#125;&quot;.format(b))
+    # a、b列数相同，行数不同，将a的每行与b对应位置相加
+    c1 &#x3D; a + b
+    c2 &#x3D; torch.add(a,b)
+    c3 &#x3D; torch.eq(c1,c2)
+    # torch.all()判断每个位置的元素是否相同
+    c4 &#x3D; torch.all(c3)
+    print(&quot;a + b &#x3D; &#123;&#125;&quot;.format(c1))
+    print(&quot;a + b &#x3D; &#123;&#125;&quot;.format(c2))
+    print(&quot;torch.eq &#x3D; &#123;&#125;&quot;.format(c3))
+    print(&quot;torch all &#x3D; &#123;&#125;&quot;.format(c4))
+    # a &#x3D; tensor([[0.8514, 0.5017, 0.3924, 0.7817],
+    #             [0.0219, 0.7352, 0.5634, 0.7285],
+    #             [0.9187, 0.1628, 0.9236, 0.3603]])
+    # b &#x3D; tensor([0.0809, 0.0295, 0.6065, 0.8024])
+    # a + b &#x3D; tensor([[0.9322, 0.5312, 0.9989, 1.5841],
+    #                 [0.1028, 0.7647, 1.1700, 1.5309],
+    #                 [0.9996, 0.1923, 1.5301, 1.1627]])
+    # a + b &#x3D; tensor([[0.9322, 0.5312, 0.9989, 1.5841],
+    #                 [0.1028, 0.7647, 1.1700, 1.5309],
+    #                 [0.9996, 0.1923, 1.5301, 1.1627]])
+    # torch.eq &#x3D; tensor([[True, True, True, True],
+    #                    [True, True, True, True],
+    #                    [True, True, True, True]])
+    # torch
+    # all &#x3D; True</code></pre>
+
+<h3 id="减法运算"><a href="#减法运算" class="headerlink" title="减法运算"></a>减法运算</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">def minus():
+    # 这两个Tensor加减乘除会对b自动进行Broadcasting
+    a &#x3D; torch.rand(3,4)
+    b &#x3D; torch.rand(4)
+    print(&quot;a &#x3D; &#123;&#125;&quot;.format(a))
+    print(&quot;b &#x3D; &#123;&#125;&quot;.format(b))
+    # a、b列数相同，行数不同，将a的每行与b对应位置相加
+    c1 &#x3D; a - b
+    c2 &#x3D; torch.sub(a,b)
+    # torch.all()判断每个位置的元素是否相同
+    c3 &#x3D; torch.eq(c1,c2)
+    c4 &#x3D; torch.all(c3)
+    print(&quot;a - b &#x3D; &#123;&#125;&quot;.format(c1))
+    print(&quot;a - b &#x3D; &#123;&#125;&quot;.format(c2))
+    print(&quot;torch.eq &#x3D; &#123;&#125;&quot;.format(c3))
+    print(&quot;torch all &#x3D; &#123;&#125;&quot;.format(c4))
+    # a &#x3D; tensor([[0.8499, 0.1003, 0.3179, 0.1217],
+    #             [0.2119, 0.7742, 0.3973, 0.7241],
+    #             [0.8559, 0.3558, 0.1549, 0.4583]])
+    # b &#x3D; tensor([0.4750, 0.9261, 0.7107, 0.1397])
+    # a - b &#x3D; tensor([[0.3749, -0.8258, -0.3928, -0.0180],
+    #                 [-0.2631, -0.1519, -0.3135, 0.5844],
+    #                 [0.3809, -0.5703, -0.5558, 0.3186]])
+    # a - b &#x3D; tensor([[0.3749, -0.8258, -0.3928, -0.0180],
+    #                 [-0.2631, -0.1519, -0.3135, 0.5844],
+    #                 [0.3809, -0.5703, -0.5558, 0.3186]])
+    # torch.eq &#x3D; tensor([[True, True, True, True],
+    #                    [True, True, True, True],
+    #                    [True, True, True, True]])
+    # torch
+    # all &#x3D; True</code></pre>
+
+<h3 id="哈达玛积-element-wise，对应元素相乘"><a href="#哈达玛积-element-wise，对应元素相乘" class="headerlink" title="哈达玛积 (element wise，对应元素相乘)"></a>哈达玛积 (element wise，对应元素相乘)</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">def mul_element():
+    # 这两个Tensor加减乘除会对b自动进行Broadcasting
+    a &#x3D; torch.rand(3,4)
+    b &#x3D; torch.rand(4)
+    print(&quot;a &#x3D; &#123;&#125;&quot;.format(a))
+    print(&quot;b &#x3D; &#123;&#125;&quot;.format(b))
+    # a、b列数相同，行数不同，将a的每行与b对应位置相加
+    c1 &#x3D; a * b
+    c2 &#x3D; torch.mul(a,b)
+    # torch.all()判断每个位置的元素是否相同
+    c3 &#x3D; torch.eq(c1,c2)
+    c4 &#x3D; torch.all(c3)
+    print(&quot;a * b &#x3D; &#123;&#125;&quot;.format(c1))
+    print(&quot;a * b &#x3D; &#123;&#125;&quot;.format(c2))
+    print(&quot;torch.eq &#x3D; &#123;&#125;&quot;.format(c3))
+    print(&quot;torch all &#x3D; &#123;&#125;&quot;.format(c4))
+    # a &#x3D; tensor([[0.9678, 0.8896, 0.5657, 0.7644],
+    #             [0.0581, 0.3479, 0.2008, 0.1259],
+    #             [0.4169, 0.9426, 0.1330, 0.5813]])
+    # b &#x3D; tensor([0.3827, 0.7139, 0.4547, 0.6798])
+    # a * b &#x3D; tensor([[0.3704, 0.6351, 0.2572, 0.5197],
+    #                 [0.0222, 0.2484, 0.0913, 0.0856],
+    #                 [0.1595, 0.6729, 0.0605, 0.3952]])
+    # a * b &#x3D; tensor([[0.3704, 0.6351, 0.2572, 0.5197],
+    #                 [0.0222, 0.2484, 0.0913, 0.0856],
+    #                 [0.1595, 0.6729, 0.0605, 0.3952]])
+    # torch.eq &#x3D; tensor([[True, True, True, True],
+    #                    [True, True, True, True],
+    #                    [True, True, True, True]])
+    # torch all &#x3D; True</code></pre>
+
+<h3 id="除法运算"><a href="#除法运算" class="headerlink" title="除法运算"></a>除法运算</h3><p>对应元素相除</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    # 这两个Tensor加减乘除会对b自动进行Broadcasting
+    a &#x3D; torch.rand(3,4)
+    b &#x3D; torch.rand(4)
+    print(&quot;a &#x3D; &#123;&#125;&quot;.format(a))
+    print(&quot;b &#x3D; &#123;&#125;&quot;.format(b))
+    # a、b列数相同，行数不同，将a的每行与b对应位置相加
+    c1 &#x3D; a &#x2F; b
+    c2 &#x3D; torch.div(a,b)
+    # torch.all()判断每个位置的元素是否相同
+    c3 &#x3D; torch.eq(c1,c2)
+    c4 &#x3D; torch.all(c3)
+    print(&quot;a &#x2F; b &#x3D; &#123;&#125;&quot;.format(c1))
+    print(&quot;a &#x2F; b &#x3D; &#123;&#125;&quot;.format(c2))
+    print(&quot;torch.eq &#x3D; &#123;&#125;&quot;.format(c3))
+    print(&quot;torch all &#x3D; &#123;&#125;&quot;.format(c4))
+    #a &#x3D; tensor([[0.6079, 0.2791, 0.0034, 0.6169],
+        # [0.5279, 0.7804, 0.5960, 0.0359],
+        # [0.3385, 0.2300, 0.2021, 0.7161]])
+    # b &#x3D; tensor([0.5951, 0.8573, 0.7276, 0.8717])
+    # a * b &#x3D; tensor([[1.0214, 0.3256, 0.0047, 0.7077],
+    #         [0.8870, 0.9103, 0.8190, 0.0412],
+    #         [0.5687, 0.2682, 0.2778, 0.8215]])
+    # a * b &#x3D; tensor([[1.0214, 0.3256, 0.0047, 0.7077],
+    #         [0.8870, 0.9103, 0.8190, 0.0412],
+    #         [0.5687, 0.2682, 0.2778, 0.8215]])
+    # torch.eq &#x3D; tensor([[True, True, True, True],
+    #         [True, True, True, True],
+    #         [True, True, True, True]])
+    # torch all &#x3D; True</code></pre>
+
+<h2 id="矩阵运算"><a href="#矩阵运算" class="headerlink" title="矩阵运算"></a>矩阵运算</h2><ul>
+<li>matmul 表示 matrix mul</li>
+<li><code>*</code> 表示的是 element-wise, 对应元素相乘</li>
+<li><code>torch.mm(a,b)</code> 只能计算 2D 不推荐，矩阵相乘</li>
+<li><code>torch.matmul(a,b)</code> 可以计算更高维度，落脚点依旧在行与列。 推荐</li>
+<li><code>@</code> 是 matmul 的重载形式</li>
+</ul>
+<h3 id="二维矩阵相乘"><a href="#二维矩阵相乘" class="headerlink" title="二维矩阵相乘"></a>二维矩阵相乘</h3><p>二维矩阵乘法运算操作包括 torch.mm()、torch.matmul()、@</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    a &#x3D; torch.ones(2,1)
+    b &#x3D; torch.ones(1,2)
+    print(&quot;a &#x3D; &#123;&#125;&quot;.format(a))
+    print(&quot;b &#x3D; &#123;&#125;&quot;.format(b))
+    c1 &#x3D; torch.mm(a,b)
+    c2 &#x3D; torch.matmul(a,b)
+    c3 &#x3D; a @ b
+    print(&quot;c1 &#x3D; &#123;&#125;&quot;.format(c1))
+    print(&quot;c2 &#x3D; &#123;&#125;&quot;.format(c2))
+    print(&quot;c3 &#x3D; &#123;&#125;&quot;.format(c3))
+    # a &#x3D; tensor([[1.],
+    #             [1.]])
+    # b &#x3D; tensor([[1., 1.]])
+    # c1 &#x3D; tensor([[1., 1.],
+    #              [1., 1.]])
+    # c2 &#x3D; tensor([[1., 1.],
+    #              [1., 1.]])
+    # c3 &#x3D; tensor([[1., 1.],
+    #              [1., 1.]])</code></pre>
+
+<h3 id="多维矩阵相乘"><a href="#多维矩阵相乘" class="headerlink" title="多维矩阵相乘"></a>多维矩阵相乘</h3><p>对于高维的 Tensor（dim&gt;2），<strong>定义其矩阵乘法仅在最后的两个维度上</strong>，要求前面的维度必须保持一致，就像矩阵的索引一样<strong>并且运算操只有 torch.matmul()。</strong></p>
+<ul>
+<li>对于 2 维以上的 matrix multiply ， <code>torch.mm(a,b)</code>就不行了。</li>
+<li>运算规则：只取最后的两维做矩阵乘法</li>
+<li>对于 [b, c, h, w] 来说，b,c 是不变的，图片的大小在改变；并且也并行的计算出了 b，c。也就是支持<strong>多个矩阵并行相乘</strong>。</li>
+<li>对于不同的 size，如果符合 broadcast，先执行 broadcast，在进行矩阵相乘。</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    # 多维矩阵计算，前两个维度必须一致
+    c &#x3D; torch.rand(4, 3, 28, 64)
+    d &#x3D; torch.rand(4, 3, 64, 32)
+    print(torch.matmul(c,d).shape)
+    # torch.Size([4, 3, 28, 32])</code></pre>
+
+<p>注意，在这种情形下的矩阵相乘，前面的 “矩阵索引维度” 如果符合 Broadcasting 机制，也会自动做广播，然后相乘。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    # 多维矩阵计算，前两个维度必须一致
+    c &#x3D; torch.rand(4, 3, 28, 64)
+    d &#x3D; torch.rand(4, 1, 64, 32)
+    print(torch.matmul(c,d).shape)
+    # torch.Size([4, 3, 28, 32])</code></pre>
+
+<h2 id="幂运算"><a href="#幂运算" class="headerlink" title="幂运算"></a>幂运算</h2><pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    # troch.full(size, fill_value)
+    # 参数：
+    # size： 生成张量的大小，list， tuple， torch.size
+    # fill_value: 填充张量的数
+    a &#x3D; torch.full([2, 2], 3)
+    print(&quot;a &#x3D; &#123;&#125;&quot;.format(a))
+    b1 &#x3D; a.pow(2)  # 也可以a**2
+    b2 &#x3D; a**2
+    print(&quot;b1 &#x3D; &#123;&#125;&quot;.format(b1))
+    print(&quot;b2 &#x3D; &#123;&#125;&quot;.format(b2))
+    # a &#x3D; tensor([[3., 3.],
+    #             [3., 3.]])
+    # b1 &#x3D; tensor([[9., 9.],
+    #              [9., 9.]])
+    # b2 &#x3D; tensor([[9., 9.],
+    #              [9., 9.]])
+    #</code></pre>
+
+<h2 id="开方运算"><a href="#开方运算" class="headerlink" title="开方运算"></a>开方运算</h2><ul>
+<li>pow(a, n) a 的 n 次方</li>
+<li><code>**</code> 也表示次方（可以是 2，0.5，0.25，3） 推荐</li>
+<li>sqrt() 表示 square root 平方根</li>
+<li>rsqrt() 表示平方根的倒数</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    a &#x3D; torch.full([2, 2], 9)
+    print(&quot;a &#x3D; &#123;&#125;&quot;.format(a))
+    b1 &#x3D; a.sqrt() # 也可以a**(0.5)
+    # 平方根的倒数
+    b2 &#x3D; a.rsqrt()
+    print(&quot;b1 &#x3D; &#123;&#125;&quot;.format(b1))
+    print(&quot;b2 &#x3D; &#123;&#125;&quot;.format(b2))
+    # a &#x3D; tensor([[9., 9.],
+    #             [9., 9.]])
+    # b1 &#x3D; tensor([[3., 3.],
+    #              [3., 3.]])
+    # b2 &#x3D; tensor([[0.3333, 0.3333],
+    #              [0.3333, 0.3333]])</code></pre>
+
+<h2 id="指数与对数运算"><a href="#指数与对数运算" class="headerlink" title="指数与对数运算"></a>指数与对数运算</h2><p>注意<code>log</code>是以自然对数为底数的，以 2 为底的用<code>log2</code>，以 10 为底的用<code>log10</code></p>
+<ul>
+<li>exp(n) 表示：e 的 n 次方</li>
+<li>log(a) 表示：ln(a)</li>
+<li>log2() 、 log10()</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    a &#x3D; torch.ones(2,2)
+    print(&quot;a &#x3D; &#123;&#125;&quot;.format(a))
+    # 得到 2*2 矩阵的全是 e 的Tensor，相当于a的所有元素乘以e
+    b &#x3D; torch.exp(a)
+    c &#x3D; torch.log(a)
+    print(&quot;b &#x3D; &#123;&#125;&quot;.format(b))
+    print(&quot;c &#x3D; &#123;&#125;&quot;.format(c))
+    # a &#x3D; tensor([[1., 1.],
+    #             [1., 1.]])
+    # b &#x3D; tensor([[2.7183, 2.7183],
+    #             [2.7183, 2.7183]])
+    # c &#x3D; tensor([[0., 0.],
+    #             [0., 0.]])</code></pre>
+
+<h2 id="近似值运算"><a href="#近似值运算" class="headerlink" title="近似值运算"></a>近似值运算</h2><p>近似相关 1</p>
+<ul>
+<li>floor、ceil 向下取整、向上取整</li>
+<li>round 4 舍 5 入</li>
+<li>trunc、frac 裁剪</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    a &#x3D; torch.tensor(3.14)
+    b &#x3D; torch.tensor(3.49)
+    c &#x3D; torch.tensor(3.5)
+    # 取下,取上,取整数,取小数
+    print(&quot;a.floor &#x3D; &#123;&#125;,a.ceil &#x3D; &#123;&#125;,a.trunc &#x3D; &#123;&#125;,a.frac &#x3D; &#123;&#125;&quot;
+          .format(a.floor(),a.ceil(),a.trunc(),a.frac()))
+    # 四舍五入
+    print(&quot;b.rounc &#x3D; &#123;&#125;, c.round &#x3D; &#123;&#125;&quot;.format(b.round(),c.round()))
+    # a.floor &#x3D; 3.0, a.ceil &#x3D; 4.0, a.trunc &#x3D; 3.0, a.frac &#x3D; 0.1400001049041748
+    # b.rounc &#x3D; 3.0, c.round &#x3D; 4.0</code></pre>
+
+<h2 id="裁剪运算"><a href="#裁剪运算" class="headerlink" title="裁剪运算"></a>裁剪运算</h2><p>即对 Tensor 中的元素进行范围过滤，<strong>不符合条件的可以把它变换到范围内部（边界）上</strong>，常用于<strong>梯度裁剪</strong>（gradient clipping），即<strong>在发生梯度离散或者梯度爆炸时对梯度的处理</strong>，实际使用时<strong>可以查看梯度的（L2 范数）模来看看需不需要做处理：<code>w.grad.norm(2)</code>。</strong></p>
+<p>近似相关 2 （用的更多一些）</p>
+<ul>
+<li>gradient clipping 梯度裁剪</li>
+<li>(min) 小于 min 的都变为某某值</li>
+<li>(min, max) 不在这个区间的都变为某某值</li>
+<li>梯度爆炸：一般来说，当梯度达到 100 左右的时候，就已经很大了，正常在 10 左右，通过打印梯度的模来查看 <code>w.grad.norm(2)</code></li>
+<li>对于 w 的限制叫做 weight clipping，对于 weight gradient clipping 称为 gradient clipping。</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    # 两行三列，切元素在0-15之间随机生成
+    grad &#x3D; torch.rand(2, 3) * 15  # 0~15随机生成
+    print(&quot;grad &#x3D; &#123;&#125;&quot;.format(grad))
+    # 最大值最小值平均值
+    print(&quot;grad.max &#x3D; &#123;&#125;, grad.min &#x3D; &#123;&#125;, grad.median &#x3D; &#123;&#125;&quot;
+          .format(grad.max(), grad.min(), grad.median()))
+    # 最小是10,小于10的都变成10
+    print(&quot;grad.clamp(10) &#x3D; &#123;&#125;&quot;.format(grad.clamp(10)))
+    # 最小是3, 小于3的都变成3;    最大是10, 大于10的都变成10
+    print(&quot;grad.clamp(3, 10) &#x3D; &#123;&#125;&quot;.format(grad.clamp(3, 10)))  #
+    # grad &#x3D; tensor([[7.2015, 13.5902, 3.7276],
+    #                [3.9825, 2.9701, 11.7545]])
+    # grad.max &#x3D; 13.590229034423828, grad.min &#x3D; 2.9700870513916016, grad.median &#x3D; 3.982494831085205
+    # grad.clamp(10) &#x3D; tensor([[10.0000, 13.5902, 10.0000],
+    #                          [10.0000, 10.0000, 11.7545]])
+    # grad.clamp(3, 10) &#x3D; tensor([[7.2015, 10.0000, 3.7276],
+    #                             [3.9825, 3.0000, 10.0000]])</code></pre>
+]]></content>
+      <tags>
+        <tag>PyTorch</tag>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>pom参数详解</title>
+    <url>/posts/39421/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>pom 中有很多成对的参数，是不是大家跟我一样，很多都在用，但不知道参数的定义，下面来整理下这些参数，也方便日后想不起来的时候，可以很快的进行查阅，大家在看的时候尽量对比着自己的项目看，这样可以加深理解。 </p>
+</div>
+
+<span id="more"></span>
+
+<h2 id="groupId"><a href="#groupId" class="headerlink" title="groupId"></a>groupId</h2><p>项目或者组织的唯一标识，相当于是公司标识，并且配置时，默认 package 路径也是由此生成。</p>
+<h2 id="artifactId"><a href="#artifactId" class="headerlink" title="artifactId"></a>artifactId</h2><p>项目的通用名称。</p>
+<h2 id="version"><a href="#version" class="headerlink" title="version"></a>version</h2><p>项目的版本。</p>
+<h2 id="packaging"><a href="#packaging" class="headerlink" title="packaging"></a>packaging</h2><p>打包机制，项目的打包类型，常用的类型有 jar（默认）、pom、war 等（不常用的就不罗列了）。</p>
+<h2 id="name"><a href="#name" class="headerlink" title="name"></a>name</h2><p>用户描述项目的名称（可选）。</p>
+<h2 id="url"><a href="#url" class="headerlink" title="url"></a>url</h2><p>开发团队的网站（可选）。</p>
+<h2 id="dependency-（外部包的引用）"><a href="#dependency-（外部包的引用）" class="headerlink" title="dependency （外部包的引用）"></a>dependency （外部包的引用）</h2><h3 id="type"><a href="#type" class="headerlink" title="type"></a>type</h3><p>默认为 jar 类型，常用的类型有：jar、ejb-client、test-jar……，可设置 plugins 中的 extensions 值为 true 后再增加新的类型。</p>
+<h3 id="scope"><a href="#scope" class="headerlink" title="scope"></a>scope</h3><p>指定当前包的依赖范围。</p>
+<p>共有 6 种 scope 参数可选：</p>
+<h4 id="编译（compile）"><a href="#编译（compile）" class="headerlink" title="编译（compile）"></a>编译（compile）</h4><p>这是默认范围，如果未指定则使用。<strong>编译</strong>依赖项在项目的所有类路径中均可用。此外，这些依赖项会传播到相关项目。</p>
+<h4 id="提供（provided）"><a href="#提供（provided）" class="headerlink" title="提供（provided）"></a>提供（provided）</h4><p>这很像编译，但是表明您希望 JDK 或容器在运行时提供依赖项。例如，在为 Java Enterprise Edition 构建 Web 应用程序时，您将对 Servlet API 和相关 Java EE API 的依赖关系设置为提供的范围，因为 Web 容器提供了这些类。该作用域仅在编译和测试类路径上可用，并且不可传递。</p>
+<h4 id="运行（runtime）"><a href="#运行（runtime）" class="headerlink" title="运行（runtime）"></a>运行（runtime）</h4><p>此作用域表明依赖关系不是编译所必需的，而是执行所必需的。它在运行时和测试类路径中，但不在编译类路径中。</p>
+<h4 id="测试（test）"><a href="#测试（test）" class="headerlink" title="测试（test）"></a>测试（test）</h4><p>此范围表明该依赖关系对于正常使用该应用程序不是必需的，并且仅在测试编译和执行阶段可用。</p>
+<h4 id="系统（system）"><a href="#系统（system）" class="headerlink" title="系统（system）"></a>系统（system）</h4><p>该范围类似于提供的范围，除了必须提供显式包含它的 JAR 之外。该工件始终可用，并且不会在存储库中查找。</p>
+<h4 id="导入（import）（仅在-Maven-2-0-9-或更高版本中可用）"><a href="#导入（import）（仅在-Maven-2-0-9-或更高版本中可用）" class="headerlink" title="导入（import）（仅在 Maven 2.0.9 或更高版本中可用）"></a>导入（import）（仅在 Maven 2.0.9 或更高版本中可用）</h4><p>此作用域仅在 <code>&lt;dependencyManagement&gt;</code> 部分中的 pom 类型的依赖项上使用。它指示应使用该 POM 的 <code>&lt;dependencyManagement&gt;</code> 部分中的依赖项替换指定的 POM。由于已替换它们，因此具有导入范围的依赖项实际上并不参与限制依赖项的可传递性。</p>
+<h3 id="optional"><a href="#optional" class="headerlink" title="optional"></a>optional</h3><p>设置依赖是否可选，默认为 false，即子项目默认都继承；为 true，则子项目必须显示的引入，与 <code>&lt;dependencyManagement&gt;</code> 里定义的依赖类似。</p>
+<h2 id="exclusions"><a href="#exclusions" class="headerlink" title="exclusions"></a>exclusions</h2><p>假如 A 依赖 B，B 依赖 C，那么 A 可以声明不要依赖 C，只要在 exclusions 中声明 exclusion（常用的地方是日志框架的选择）。</p>
+<h2 id="relativePath"><a href="#relativePath" class="headerlink" title="relativePath"></a>relativePath</h2><p>可选，maven 会首先搜索这个地址，再搜索本地远程 repositories。</p>
+<h2 id="dependencyManagement"><a href="#dependencyManagement" class="headerlink" title="dependencyManagement"></a>dependencyManagement</h2><p>用于管理 <strong>children</strong> 的 <strong>dependencies</strong> 的，例如如果 parent 使用 dependencyManagement 定义了 dependency 是 junit4.0，那么它的 children 就可以只引用 <strong>groupId</strong> 和 <strong>artifactId</strong>,而 <strong>version</strong> 就可以通过 <strong>parent</strong> 来设置，这样的好处就是可以集中管理依赖的详情。</p>
+<h2 id="modules"><a href="#modules" class="headerlink" title="modules"></a>modules</h2><p>设置包含的子模块。</p>
+<h2 id="properties"><a href="#properties" class="headerlink" title="properties"></a>properties</h2><p>为 pom 上下文定义一些常量，在 pom 中的其它地方可以直接引用，引用方式**$(参数名)**。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://www.jianshu.com/p/38673b6400fc">十二摩羯</a></li>
+<li><a href="https://blog.csdn.net/ningbohezhijunbl/article/details/25818069">ningbohezhijun</a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+        <tag>Maven</tag>
+        <tag>POM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>仓库同时推送Github和Gitee</title>
+    <url>/posts/24802/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="本地仓库目录添加-Github"><a href="#本地仓库目录添加-Github" class="headerlink" title="本地仓库目录添加 Github"></a>本地仓库目录添加 Github</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">git remote add Github Github项仓库Clone地址</code></pre>
+
+<h2 id="本地仓库目录添加-Gitee"><a href="#本地仓库目录添加-Gitee" class="headerlink" title="本地仓库目录添加 Gitee"></a>本地仓库目录添加 Gitee</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">git remote add Gitee Gitee仓库Clone地址</code></pre>
+
+<h2 id="推送到-Github"><a href="#推送到-Github" class="headerlink" title="推送到 Github"></a>推送到 Github</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">git push Github master</code></pre>
+
+<h2 id="推送到-Gitee"><a href="#推送到-Gitee" class="headerlink" title="推送到 Gitee"></a>推送到 Gitee</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">git push Gitee master</code></pre>
+
+<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>如果推送到远端时报错，可以先从远端 pull 项目</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">git pull Github master
+或者
+git pull Gitee master</code></pre>
+
+<p>或者强制推送</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">git push Github master -f
+或者
+git push Gitee master -f</code></pre>
+]]></content>
+      <tags>
+        <tag>Github</tag>
+        <tag>Gitee</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>利用Gitee加速Github Clone</title>
+    <url>/posts/16041/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>大家都知道，要访问 Github 并 Clone 项目，如果没有什么特殊工具的话是真的很慢。<br>最近发现了可以使用 Gitee 来加速 Github Clone 的方法（属实骚操作），可以很好的解决这个问题（火星救援！）。</p>
+</div>
+
+<span id="more"></span>
+
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="注册码云账号"><a href="#注册码云账号" class="headerlink" title="注册码云账号"></a>注册码云账号</h3><p><a href="https://gitee.com/">传送门</a></p>
+<h3 id="注册完成后点击页面右上角的-“-”-号，选择新建项目"><a href="#注册完成后点击页面右上角的-“-”-号，选择新建项目" class="headerlink" title="注册完成后点击页面右上角的 “+”  号，选择新建项目"></a>注册完成后点击页面右上角的 “+”  号，选择新建项目</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/%E5%88%A9%E7%94%A8Gitee%E5%8A%A0%E9%80%9FGithub-Clone/1.png" alt="创建新项目"></p>
+<h3 id="在新页面中选择-“导入已有项目”"><a href="#在新页面中选择-“导入已有项目”" class="headerlink" title="在新页面中选择 “导入已有项目”"></a>在新页面中选择 “导入已有项目”</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/%E5%88%A9%E7%94%A8Gitee%E5%8A%A0%E9%80%9FGithub-Clone/2.png" alt="导入已有项目"></p>
+<h3 id="复制需要导入的-Github-项目地址"><a href="#复制需要导入的-Github-项目地址" class="headerlink" title="复制需要导入的 Github 项目地址"></a>复制需要导入的 Github 项目地址</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/%E5%88%A9%E7%94%A8Gitee%E5%8A%A0%E9%80%9FGithub-Clone/3.png" alt="复制项目地址"></p>
+<h3 id="填入地址之后点击-“创建按钮”"><a href="#填入地址之后点击-“创建按钮”" class="headerlink" title="填入地址之后点击 “创建按钮”"></a>填入地址之后点击 “创建按钮”</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/%E5%88%A9%E7%94%A8Gitee%E5%8A%A0%E9%80%9FGithub-Clone/4.png" alt="点击创建按钮"></p>
+<p>等待 Gitee 拉取完成，这个过程的长短因拉取项目大小而异，1-10 分钟不等。<br>拉取完成后就可以愉快的 git clone 了。</p>
+]]></content>
+      <tags>
+        <tag>Github</tag>
+        <tag>Gitee</tag>
+      </tags>
+  </entry>
+</search>

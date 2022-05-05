@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/32x32.webp">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.webp">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.webp">
+  <link rel="mask-icon" href="/images/32x32.webp" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/themes/blue/pace-theme-center-atom.css">
+  <script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"idarkboss.gitee.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":300,"onmobile":true},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本文介绍 BigDecimal 的使用方法 [1]    BigDecimal 概述Java 在 java.math 包中提供的 API 类 BigDecimal，用来对超过 16 位有效位的数进行精确的运算。双精度浮点型变量 double 可以处理 16 位有效数，但在实际应用中，可能需要对更大或者更小的数进行运算和处理。一般情况下，对于那些不需要准确计算精度的数字，我们可以直接使用 Floa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BigDecimal详解">
+<meta property="og:url" content="https://idarkboss.gitee.io/posts/45537/index.html">
+<meta property="og:site_name" content="大老黑的豆腐渣集散地">
+<meta property="og:description" content="本文介绍 BigDecimal 的使用方法 [1]    BigDecimal 概述Java 在 java.math 包中提供的 API 类 BigDecimal，用来对超过 16 位有效位的数进行精确的运算。双精度浮点型变量 double 可以处理 16 位有效数，但在实际应用中，可能需要对更大或者更小的数进行运算和处理。一般情况下，对于那些不需要准确计算精度的数字，我们可以直接使用 Floa">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-25T06:36:30.000Z">
+<meta property="article:modified_time" content="2022-04-14T03:55:55.799Z">
+<meta property="article:author" content="IDarkBoss">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://idarkboss.gitee.io/posts/45537/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://idarkboss.gitee.io/posts/45537/","path":"posts/45537/","title":"BigDecimal详解"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>BigDecimal详解 | 大老黑的豆腐渣集散地</title>
+  
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">大老黑的豆腐渣集散地</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录日常遇到的头秃问题</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#BigDecimal-%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">BigDecimal 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BigDecimal-%E5%B8%B8%E7%94%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">BigDecimal 常用构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">2.1.</span> <span class="nav-text">常用构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.2.</span> <span class="nav-text">使用问题分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BigDecimal-%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3"><span class="nav-number">3.</span> <span class="nav-text">BigDecimal 常用方法详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">3.1.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BigDecimal-%E5%A4%A7%E5%B0%8F%E6%AF%94%E8%BE%83"><span class="nav-number">3.2.</span> <span class="nav-text">BigDecimal 大小比较</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BigDecimal-%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">BigDecimal 格式化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BigDecimal-%E5%B8%B8%E8%A7%81%E5%BC%82%E5%B8%B8"><span class="nav-number">5.</span> <span class="nav-text">BigDecimal 常见异常</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%A4%E6%B3%95%E7%9A%84%E6%97%B6%E5%80%99%E5%87%BA%E7%8E%B0%E5%BC%82%E5%B8%B8"><span class="nav-number">5.1.</span> <span class="nav-text">除法的时候出现异常</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90"><span class="nav-number">5.1.1.</span> <span class="nav-text">原因分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">5.1.2.</span> <span class="nav-text">解决方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BigDecimal-%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">BigDecimal 总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.1.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E7%B1%BB%E6%8E%A8%E8%8D%90"><span class="nav-number">6.2.</span> <span class="nav-text">工具类推荐</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="IDarkBoss"
+      src="/images/avatar.svg">
+  <p class="site-author-name" itemprop="name">IDarkBoss</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/IDarkBoss" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;IDarkBoss" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/a472714747" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;a472714747" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/IDarkBoss" title="Gitee → https:&#x2F;&#x2F;gitee.com&#x2F;IDarkBoss" rel="noopener" target="_blank"><i class="iconfont icon-gitee fa-fw"></i>Gitee</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/SKArthur" title="Zhihu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;SKArthur" rel="noopener" target="_blank"><i class="iconfont icon-zhihu fa-fw"></i>Zhihu</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://idarkboss.gitee.io/posts/45537/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.svg">
+      <meta itemprop="name" content="IDarkBoss">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大老黑的豆腐渣集散地">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="BigDecimal详解 | 大老黑的豆腐渣集散地">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          BigDecimal详解
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-03-25 14:36:30" itemprop="dateCreated datePublished" datetime="2020-03-25T14:36:30+08:00">2020-03-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-04-14 11:55:55" itemprop="dateModified" datetime="2022-04-14T11:55:55+08:00">2022-04-14</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>11k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p> 本文介绍 BigDecimal 的使用方法 <sup id="fnref:1"><a href="#fn:1" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="转载自: [LanceToBigData](https://www.cnblogs.com/zhangyinhua/p/11545305.html)
+">[1]</span></a></sup> </p>
+</div>
+
+<h2 id="BigDecimal-概述"><a href="#BigDecimal-概述" class="headerlink" title="BigDecimal 概述"></a>BigDecimal 概述</h2><p>Java 在 java.math 包中提供的 API 类 BigDecimal，用来对超过 16 位有效位的数进行精确的运算。双精度浮点型变量 double 可以处理 16 位有效数，但在实际应用中，可能需要对更大或者更小的数进行运算和处理。一般情况下，对于那些不需要准确计算精度的数字，我们可以直接使用 Float 和 Double 处理，但是 <code>Double.valueOf(String)</code> 和 <code>Float.valueOf(String)</code> 会丢失精度。所以开发中，如果我们需要精确计算的结果，则必须使用 BigDecimal 类来操作。</p>
+<p>BigDecimal 所创建的是对象，故我们不能使用传统的 “+”、“-”、“*”、“&#x2F;” 等算术运算符直接对其对象进行数学运算，而必须调用其相对应的方法。方法中的参数也必须是 BigDecimal 的对象。构造器是类的特殊方法，专门用来创建对象，特别是带有参数的对象。</p>
+<span id="more"></span>
+
+<h2 id="BigDecimal-常用构造函数"><a href="#BigDecimal-常用构造函数" class="headerlink" title="BigDecimal 常用构造函数"></a>BigDecimal 常用构造函数</h2><h3 id="常用构造函数"><a href="#常用构造函数" class="headerlink" title="常用构造函数"></a>常用构造函数</h3><ul>
+<li><p><strong>BigDecimal(int)</strong></p>
+<p>创建一个具有参数所指定整数值的对象</p>
+</li>
+<li><p><strong>BigDecimal(double)</strong></p>
+<p>创建一个具有参数所指定双精度值的对象</p>
+</li>
+<li><p><strong>BigDecimal(long)</strong></p>
+<p>创建一个具有参数所指定长整数值的对象</p>
+</li>
+<li><p><strong>BigDecimal(String)</strong></p>
+<p>创建一个具有参数所指定以字符串表示的数值的对象</p>
+</li>
+</ul>
+<h3 id="使用问题分析"><a href="#使用问题分析" class="headerlink" title="使用问题分析"></a>使用问题分析</h3><p>使用示例：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">BigDecimal a &#x3D;new BigDecimal(0.1);
+System.out.println(&quot;a values is:&quot;+a);
+System.out.println(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;);
+BigDecimal b &#x3D;new BigDecimal(&quot;0.1&quot;);
+System.out.println(&quot;b values is:&quot;+b);</code></pre>
+
+<p>结果示例：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">a values is:0.1000000000000000055511151231257827021181583404541015625
+
+b values is:0.1</code></pre>
+
+<p>原因分析：</p>
+<ul>
+<li><p>参数类型为 double 的构造方法的结果有一定的不可预知性。有人可能认为在 Java 中写入 <code>newBigDecimal(0.1)</code>所创建的 BigDecimal 正好等于 0.1（非标度值 1，其标度为 1），但是它实际上等于 <code>0.1000000000000000055511151231257827021181583404541015625</code>。这是因为 0.1 无法准确地表示为 double（或者说对于该情况，不能表示为任何有限长度的二进制小数）。这样，传入到构造方法的值不会正好等于 0.1（虽然表面上等于该值）。</p>
+</li>
+<li><p>String 构造方法是完全可预知的：写入 <code>newBigDecimal(“0.1”)</code> 将创建一个 BigDecimal，它正好等于预期的 0.1。因此，比较而言， 通常建议优先使用 String 构造方法。</p>
+</li>
+<li><p>当 double 必须用作 BigDecimal 的源时，请注意，此构造方法提供了一个准确转换；它不提供与以下操作相同的结果：先使用 <code>Double.toString(double)</code> 方法，然后使用 <code>BigDecimal(String)</code> 构造方法，将 double 转换为 String。要获取该结果，请使用 <code>static valueOf(double)</code> 方法。</p>
+</li>
+</ul>
+<h2 id="BigDecimal-常用方法详解"><a href="#BigDecimal-常用方法详解" class="headerlink" title="BigDecimal 常用方法详解"></a>BigDecimal 常用方法详解</h2><h3 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h3><ul>
+<li><p><strong>add(BigDecimal)</strong></p>
+<p>BigDecimal 对象中的值相加，返回 BigDecimal 对象</p>
+</li>
+<li><p><strong>subtract(BigDecimal)</strong></p>
+<p>BigDecimal 对象中的值相减，返回 BigDecimal 对象</p>
+</li>
+<li><p><strong>multiply(BigDecimal)</strong></p>
+<p>BigDecimal 对象中的值相乘，返回 BigDecimal 对象</p>
+</li>
+<li><p><strong>divide(BigDecimal)</strong></p>
+<p>BigDecimal 对象中的值相除，返回 BigDecimal 对象</p>
+</li>
+<li><p><strong>toString()</strong></p>
+<p>将 BigDecimal 对象中的值转换成字符串</p>
+</li>
+<li><p><strong>doubleValue()</strong></p>
+<p>将 BigDecimal 对象中的值转换成双精度数</p>
+</li>
+<li><p><strong>floatValue()</strong></p>
+<p>将 BigDecimal 对象中的值转换成单精度数</p>
+</li>
+<li><p><strong>longValue()</strong></p>
+<p>将 BigDecimal 对象中的值转换成长整数</p>
+</li>
+<li><p><strong>intValue()</strong></p>
+<p>将 BigDecimal 对象中的值转换成整数</p>
+</li>
+</ul>
+<h3 id="BigDecimal-大小比较"><a href="#BigDecimal-大小比较" class="headerlink" title="BigDecimal 大小比较"></a>BigDecimal 大小比较</h3><p>java 中对 BigDecimal 比较大小一般用的是 bigdemical 的 compareTo 方法</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">int a &#x3D; bigdemical.compareTo(bigdemical2);</code></pre>
+
+<p>返回结果分析：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">a &#x3D; -1，表示 bigdemical 小于 bigdemical2;
+a &#x3D; 0，表示 bigdemical 等于 bigdemical2;
+a &#x3D; 1，表示 bigdemical 大于 bigdemical2;</code></pre>
+
+<p>举例：a 大于等于 b</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">new bigdemica(a).compareTo(new bigdemical(b)) &gt;&#x3D; 0;</code></pre>
+
+<h2 id="BigDecimal-格式化"><a href="#BigDecimal-格式化" class="headerlink" title="BigDecimal 格式化"></a>BigDecimal 格式化</h2><p>由于 NumberFormat 类的 format()方法可以使用 BigDecimal 对象作为其参数，可以利用 BigDecimal 对超出 16 位有效数字的货币值，百分值，以及一般数值进行格式化控制。</p>
+<p>以利用 BigDecimal 对货币和百分比格式化为例。首先，创建 BigDecimal 对象，进行 BigDecimal 的算术运算后，分别建立对货币和百分比格式化的引用，最后利用 BigDecimal 对象作为 format()方法的参数，输出其格式化的货币值和百分比。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">NumberFormat currency &#x3D; NumberFormat.getCurrencyInstance(); &#x2F;&#x2F;建立货币格式化引用
+NumberFormat percent &#x3D; NumberFormat.getPercentInstance();  &#x2F;&#x2F;建立百分比格式化引用
+percent.setMaximumFractionDigits(3); &#x2F;&#x2F;百分比小数点最多3位
+
+BigDecimal loanAmount &#x3D; new BigDecimal(&quot;15000.48&quot;); &#x2F;&#x2F;贷款金额
+BigDecimal interestRate &#x3D; new BigDecimal(&quot;0.008&quot;); &#x2F;&#x2F;利率
+BigDecimal interest &#x3D; loanAmount.multiply(interestRate); &#x2F;&#x2F;相乘
+
+System.out.println(&quot;贷款金额:\t&quot; + currency.format(loanAmount));
+System.out.println(&quot;利率:\t&quot; + percent.format(interestRate));
+System.out.println(&quot;利息:\t&quot; + currency.format(interest));</code></pre>
+
+<p>结果：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">贷款金额: ￥ 15,000.48
+利率: 0.8%
+利息: ￥ 120.00</code></pre>
+
+<p>BigDecimal 格式化保留 2 为小数，不足则补 0：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public class NumberFormat &#123;
+    public static void main(String[] s) &#123;
+        System.out.println(formatToNumber(new BigDecimal(&quot;3.435&quot;)));
+        System.out.println(formatToNumber(new BigDecimal(0)));
+        System.out.println(formatToNumber(new BigDecimal(&quot;0.00&quot;)));
+        System.out.println(formatToNumber(new BigDecimal(&quot;0.001&quot;)));
+        System.out.println(formatToNumber(new BigDecimal(&quot;0.006&quot;)));
+        System.out.println(formatToNumber(new BigDecimal(&quot;0.206&quot;)));
+    &#125;
+
+    &#x2F;**
+     * @desc 1.0~1之间的BigDecimal小数，格式化后失去前面的0,则前面直接加上0。 2.传入的参数等于0，则直接返回字符串&quot;0.00&quot;
+     *       3.大于1的小数，直接格式化返回字符串
+     * @param obj传入的小数
+     * @return
+     *&#x2F;
+    public static String formatToNumber(BigDecimal obj) &#123;
+        DecimalFormat df &#x3D; new DecimalFormat(&quot;#.00&quot;);
+        if (obj.compareTo(BigDecimal.ZERO) &#x3D;&#x3D; 0) &#123;
+            return &quot;0.00&quot;;
+        &#125; else if (obj.compareTo(BigDecimal.ZERO) &gt; 0 &amp;&amp; obj.compareTo(new BigDecimal(1)) &lt; 0) &#123;
+            return &quot;0&quot; + df.format(obj).toString();
+        &#125; else &#123;
+            return df.format(obj).toString();
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<p>结果为：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">3.44
+0.00
+0.00
+0.00
+0.01
+0.21</code></pre>
+
+<h2 id="BigDecimal-常见异常"><a href="#BigDecimal-常见异常" class="headerlink" title="BigDecimal 常见异常"></a>BigDecimal 常见异常</h2><h3 id="除法的时候出现异常"><a href="#除法的时候出现异常" class="headerlink" title="除法的时候出现异常"></a>除法的时候出现异常</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">java.lang.ArithmeticException: Non-terminating decimal expansion; no exact representable decimal result</code></pre>
+
+<h4 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h4><p>通过 BigDecimal 的 divide 方法进行除法时当不整除，出现无限循环小数时，就会抛异常：<br><code>java.lang.ArithmeticException: Non-terminating decimal expansion; no exact representable decimal result.</code></p>
+<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><p>divide 方法设置精确的小数点，如：<code>divide(xxxxx,2)</code></p>
+<h2 id="BigDecimal-总结"><a href="#BigDecimal-总结" class="headerlink" title="BigDecimal 总结"></a>BigDecimal 总结</h2><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>在需要精确的小数计算时再使用 BigDecimal，BigDecimal 的性能比 double 和 float 差，在处理庞大，复杂的运算时尤为明显。故一般精度的计算没必要使用 BigDecimal。</li>
+<li>尽量使用参数类型为 String 的构造函数。</li>
+<li>BigDecimal 都是不可变的（immutable）的， 在进行每一次四则运算时，都会产生一个新的对象 ，所以在做加减乘除运算时要记得要保存操作后的值。</li>
+</ul>
+<h3 id="工具类推荐"><a href="#工具类推荐" class="headerlink" title="工具类推荐"></a>工具类推荐</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">import java.math.BigDecimal;
+
+&#x2F;**
+ * 用于高精确处理常用的数学运算
+ *&#x2F;
+public class ArithmeticUtils &#123;
+    &#x2F;&#x2F; 默认除法运算精度
+    private static final int DEF_DIV_SCALE &#x3D; 10;
+
+    &#x2F;**
+     * 提供精确的加法运算
+     *
+     * @param v1 被加数
+     * @param v2 加数
+     * @return 两个参数的和
+     *&#x2F;
+
+    public static double add(double v1, double v2) &#123;
+        BigDecimal b1 &#x3D; new BigDecimal(Double.toString(v1));
+        BigDecimal b2 &#x3D; new BigDecimal(Double.toString(v2));
+        return b1.add(b2).doubleValue();
+    &#125;
+
+    &#x2F;**
+     * 提供精确的加法运算
+     *
+     * @param v1 被加数
+     * @param v2 加数
+     * @return 两个参数的和
+     *&#x2F;
+    public static BigDecimal add(String v1, String v2) &#123;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v2);
+        return b1.add(b2);
+    &#125;
+
+    &#x2F;**
+     * 提供精确的加法运算
+     *
+     * @param v1    被加数
+     * @param v2    加数
+     * @param scale 保留scale 位小数
+     * @return 两个参数的和
+     *&#x2F;
+    public static String add(String v1, String v2, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v2);
+        return b1.add(b2).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+    &#125;
+
+    &#x2F;**
+     * 提供精确的减法运算
+     *
+     * @param v1 被减数
+     * @param v2 减数
+     * @return 两个参数的差
+     *&#x2F;
+    public static double sub(double v1, double v2) &#123;
+        BigDecimal b1 &#x3D; new BigDecimal(Double.toString(v1));
+        BigDecimal b2 &#x3D; new BigDecimal(Double.toString(v2));
+        return b1.subtract(b2).doubleValue();
+    &#125;
+
+    &#x2F;**
+     * 提供精确的减法运算。
+     *
+     * @param v1 被减数
+     * @param v2 减数
+     * @return 两个参数的差
+     *&#x2F;
+    public static BigDecimal sub(String v1, String v2) &#123;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v2);
+        return b1.subtract(b2);
+    &#125;
+
+    &#x2F;**
+     * 提供精确的减法运算
+     *
+     * @param v1    被减数
+     * @param v2    减数
+     * @param scale 保留scale 位小数
+     * @return 两个参数的差
+     *&#x2F;
+    public static String sub(String v1, String v2, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v2);
+        return b1.subtract(b2).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+    &#125;
+
+    &#x2F;**
+     * 提供精确的乘法运算
+     *
+     * @param v1 被乘数
+     * @param v2 乘数
+     * @return 两个参数的积
+     *&#x2F;
+    public static double mul(double v1, double v2) &#123;
+        BigDecimal b1 &#x3D; new BigDecimal(Double.toString(v1));
+        BigDecimal b2 &#x3D; new BigDecimal(Double.toString(v2));
+        return b1.multiply(b2).doubleValue();
+    &#125;
+
+    &#x2F;**
+     * 提供精确的乘法运算
+     *
+     * @param v1 被乘数
+     * @param v2 乘数
+     * @return 两个参数的积
+     *&#x2F;
+    public static BigDecimal mul(String v1, String v2) &#123;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v2);
+        return b1.multiply(b2);
+    &#125;
+
+    &#x2F;**
+     * 提供精确的乘法运算
+     *
+     * @param v1    被乘数
+     * @param v2    乘数
+     * @param scale 保留scale 位小数
+     * @return 两个参数的积
+     *&#x2F;
+    public static double mul(double v1, double v2, int scale) &#123;
+        BigDecimal b1 &#x3D; new BigDecimal(Double.toString(v1));
+        BigDecimal b2 &#x3D; new BigDecimal(Double.toString(v2));
+        return round(b1.multiply(b2).doubleValue(), scale);
+    &#125;
+
+    &#x2F;**
+     * 提供精确的乘法运算
+     *
+     * @param v1    被乘数
+     * @param v2    乘数
+     * @param scale 保留scale 位小数
+     * @return 两个参数的积
+     *&#x2F;
+    public static String mul(String v1, String v2, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v2);
+        return b1.multiply(b2).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+    &#125;
+
+    &#x2F;**
+     * 提供（相对）精确的除法运算，当发生除不尽的情况时，精确到 小数点以后10位，以后的数字四舍五入
+     *
+     * @param v1 被除数
+     * @param v2 除数
+     * @return 两个参数的商
+     *&#x2F;
+
+    public static double div(double v1, double v2) &#123;
+        return div(v1, v2, DEF_DIV_SCALE);
+    &#125;
+
+    &#x2F;**
+     * 提供（相对）精确的除法运算。当发生除不尽的情况时，由scale参数指 定精度，以后的数字四舍五入
+     *
+     * @param v1    被除数
+     * @param v2    除数
+     * @param scale 表示表示需要精确到小数点以后几位。
+     * @return 两个参数的商
+     *&#x2F;
+    public static double div(double v1, double v2, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        BigDecimal b1 &#x3D; new BigDecimal(Double.toString(v1));
+        BigDecimal b2 &#x3D; new BigDecimal(Double.toString(v2));
+        return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+    &#125;
+
+    &#x2F;**
+     * 提供（相对）精确的除法运算。当发生除不尽的情况时，由scale参数指 定精度，以后的数字四舍五入
+     *
+     * @param v1    被除数
+     * @param v2    除数
+     * @param scale 表示需要精确到小数点以后几位
+     * @return 两个参数的商
+     *&#x2F;
+    public static String div(String v1, String v2, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v1);
+        return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).toString();
+    &#125;
+
+    &#x2F;**
+     * 提供精确的小数位四舍五入处理
+     *
+     * @param v     需要四舍五入的数字
+     * @param scale 小数点后保留几位
+     * @return 四舍五入后的结果
+     *&#x2F;
+    public static double round(double v, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        BigDecimal b &#x3D; new BigDecimal(Double.toString(v));
+        return b.setScale(scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+    &#125;
+
+    &#x2F;**
+     * 提供精确的小数位四舍五入处理
+     *
+     * @param v     需要四舍五入的数字
+     * @param scale 小数点后保留几位
+     * @return 四舍五入后的结果
+     *&#x2F;
+    public static String round(String v, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        BigDecimal b &#x3D; new BigDecimal(v);
+        return b.setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+    &#125;
+
+    &#x2F;**
+     * 取余数
+     *
+     * @param v1    被除数
+     * @param v2    除数
+     * @param scale 小数点后保留几位
+     * @return 余数
+     *&#x2F;
+    public static String remainder(String v1, String v2, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v2);
+        return b1.remainder(b2).setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
+    &#125;
+
+    &#x2F;**
+     * 取余数 BigDecimal
+     *
+     * @param v1    被除数
+     * @param v2    除数
+     * @param scale 小数点后保留几位
+     * @return 余数
+     *&#x2F;
+    public static BigDecimal remainder(BigDecimal v1, BigDecimal v2, int scale) &#123;
+        if (scale &lt; 0) &#123;
+            throw new IllegalArgumentException(&quot;The scale must be a positive integer or zero&quot;);
+        &#125;
+        return v1.remainder(v2).setScale(scale, BigDecimal.ROUND_HALF_UP);
+    &#125;
+
+    &#x2F;**
+     * 比较大小
+     *
+     * @param v1 被比较数
+     * @param v2 比较数
+     * @return 如果v1 大于v2 则 返回true 否则false
+     *&#x2F;
+    public static boolean compare(String v1, String v2) &#123;
+        BigDecimal b1 &#x3D; new BigDecimal(v1);
+        BigDecimal b2 &#x3D; new BigDecimal(v2);
+        int bj &#x3D; b1.compareTo(b2);
+        boolean res;
+        if (bj &gt; 0)
+            res &#x3D; true;
+        else
+            res &#x3D; false;
+        return res;
+    &#125;
+&#125;</code></pre>
+
+<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style: none; padding-left: 0; margin-left: 40px"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px; margin-left: -40px">1.</span><span style="display: inline-block; vertical-align: top; margin-left: 10px;">转载自: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhangyinhua/p/11545305.html">LanceToBigData</a><a href="#fnref:1" rev="footnote"> ↩</a></span></li></ol></div></div>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer"><div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+            -------------本文结束 <i class="fa fa-paw"></i> 感谢您的阅读-------------
+        </div>
+    
+</div>
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/50348/" rel="prev" title="Oracle数据库操作">
+                  <i class="fa fa-chevron-left"></i> Oracle数据库操作
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/7328/" rel="next" title="IDEA VMOptions设置">
+                  IDEA VMOptions设置 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">IDarkBoss</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">40k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">36 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.bootcdn.net/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/prism/1.28.0/components/prism-core.min.js" integrity="sha256-4mJNT2bMXxcc1GCJaxBmMPdmah5ji0Ldnd79DKd1hoM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/prism/1.28.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha256-dL6vkUiCn30lPTN9cVrmQHo5UQmEwDMrx2ppAk4IhVk=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/prism/1.28.0/plugins/line-numbers/prism-line-numbers.min.js" integrity="sha256-9cmf7tcLdXpKsPi/2AWE93PbZpTp4M4tqzFk+lWomjU=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/next-theme-pjax/0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/hexo-generator-searchdb/1.4.0/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/quicklink/2.2.0/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://idarkboss.gitee.io/posts/45537/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"IDarkBoss","repo":"gitalk","client_id":"75b52ae366a9e59a5193","client_secret":"1bb3f02e37e8bbdb822edc4bc313d6fd4a284f0a","admin_user":"IDarkBoss","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"0ca7b347035395345e9a3834838f5bc2"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div id="moon-menu-item-back2bottom" class="moon-menu-item">
+      <i class='fas fa-chevron-down'></i>    </div>
+    
+    <div id="moon-menu-item-back2top" class="moon-menu-item">
+      <i class='fas fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button">
+    <svg class="moon-menu-bg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+    </svg>
+    <div class="moon-menu-content">
+      <div class="moon-menu-icon"><i class='fas fa-ellipsis-v'></i></div>
+      <div class="moon-menu-text"></div>
+    </div>
+  </div>
+</div><script src="/js/injector.js"></script>
+
+  <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas>
+<script src="//cdn.bootcdn.net/ajax/libs/animejs/3.2.1/anime.js"></script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;  
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<script src="/live2d-widget/autoload.js"></script>
+
+
+<script src="/js/crash_cheat.js"></script>
+</body>
+</html>

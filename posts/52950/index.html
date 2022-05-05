@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/32x32.webp">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.webp">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.webp">
+  <link rel="mask-icon" href="/images/32x32.webp" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/themes/blue/pace-theme-center-atom.css">
+  <script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"idarkboss.gitee.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":300,"onmobile":true},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="转载自转载自：嘻哈吼嘿呵 本文介绍了 PyTorch 的一些数学运算方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PyTorch Tensor的数学运算">
+<meta property="og:url" content="https://idarkboss.gitee.io/posts/52950/index.html">
+<meta property="og:site_name" content="大老黑的豆腐渣集散地">
+<meta property="og:description" content="转载自转载自：嘻哈吼嘿呵 本文介绍了 PyTorch 的一些数学运算方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-02T11:52:03.000Z">
+<meta property="article:modified_time" content="2022-04-14T03:55:55.813Z">
+<meta property="article:author" content="IDarkBoss">
+<meta property="article:tag" content="PyTorch">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://idarkboss.gitee.io/posts/52950/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://idarkboss.gitee.io/posts/52950/","path":"posts/52950/","title":"PyTorch Tensor的数学运算"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PyTorch Tensor的数学运算 | 大老黑的豆腐渣集散地</title>
+  
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">大老黑的豆腐渣集散地</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录日常遇到的头秃问题</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AC%E8%BD%BD%E8%87%AA"><span class="nav-number">1.</span> <span class="nav-text">转载自</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E8%BF%90%E7%AE%97"><span class="nav-number">2.</span> <span class="nav-text">基础运算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E6%B3%95%E8%BF%90%E7%AE%97"><span class="nav-number">2.1.</span> <span class="nav-text">加法运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%8F%E6%B3%95%E8%BF%90%E7%AE%97"><span class="nav-number">2.2.</span> <span class="nav-text">减法运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%88%E8%BE%BE%E7%8E%9B%E7%A7%AF-element-wise%EF%BC%8C%E5%AF%B9%E5%BA%94%E5%85%83%E7%B4%A0%E7%9B%B8%E4%B9%98"><span class="nav-number">2.3.</span> <span class="nav-text">哈达玛积 (element wise，对应元素相乘)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%A4%E6%B3%95%E8%BF%90%E7%AE%97"><span class="nav-number">2.4.</span> <span class="nav-text">除法运算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E8%BF%90%E7%AE%97"><span class="nav-number">3.</span> <span class="nav-text">矩阵运算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E7%9F%A9%E9%98%B5%E7%9B%B8%E4%B9%98"><span class="nav-number">3.1.</span> <span class="nav-text">二维矩阵相乘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%BB%B4%E7%9F%A9%E9%98%B5%E7%9B%B8%E4%B9%98"><span class="nav-number">3.2.</span> <span class="nav-text">多维矩阵相乘</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%82%E8%BF%90%E7%AE%97"><span class="nav-number">4.</span> <span class="nav-text">幂运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E6%96%B9%E8%BF%90%E7%AE%97"><span class="nav-number">5.</span> <span class="nav-text">开方运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E4%B8%8E%E5%AF%B9%E6%95%B0%E8%BF%90%E7%AE%97"><span class="nav-number">6.</span> <span class="nav-text">指数与对数运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%91%E4%BC%BC%E5%80%BC%E8%BF%90%E7%AE%97"><span class="nav-number">7.</span> <span class="nav-text">近似值运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%81%E5%89%AA%E8%BF%90%E7%AE%97"><span class="nav-number">8.</span> <span class="nav-text">裁剪运算</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="IDarkBoss"
+      src="/images/avatar.svg">
+  <p class="site-author-name" itemprop="name">IDarkBoss</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/IDarkBoss" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;IDarkBoss" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/a472714747" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;a472714747" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/IDarkBoss" title="Gitee → https:&#x2F;&#x2F;gitee.com&#x2F;IDarkBoss" rel="noopener" target="_blank"><i class="iconfont icon-gitee fa-fw"></i>Gitee</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/SKArthur" title="Zhihu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;SKArthur" rel="noopener" target="_blank"><i class="iconfont icon-zhihu fa-fw"></i>Zhihu</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://idarkboss.gitee.io/posts/52950/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.svg">
+      <meta itemprop="name" content="IDarkBoss">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大老黑的豆腐渣集散地">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="PyTorch Tensor的数学运算 | 大老黑的豆腐渣集散地">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PyTorch Tensor的数学运算
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-07-02 19:52:03" itemprop="dateCreated datePublished" datetime="2020-07-02T19:52:03+08:00">2020-07-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-04-14 11:55:55" itemprop="dateModified" datetime="2022-04-14T11:55:55+08:00">2022-04-14</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>8.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="转载自"><a href="#转载自" class="headerlink" title="转载自"></a>转载自</h2><p>转载自：<a target="_blank" rel="noopener" href="https://blog.csdn.net/s294878304/article/details/102945910">嘻哈吼嘿呵</a></p>
+<div class="note default"><p>本文介绍了 PyTorch 的一些数学运算方法。 </p>
+</div>
+
+<span id="more"></span>
+
+<h2 id="基础运算"><a href="#基础运算" class="headerlink" title="基础运算"></a>基础运算</h2><ul>
+<li><p>可以使用 + - * &#x2F; 四则运算符号（推荐）</p>
+</li>
+<li><p>也可以使用 torch.add, torch.mul, torch.sub, torch.div</p>
+</li>
+</ul>
+<h3 id="加法运算"><a href="#加法运算" class="headerlink" title="加法运算"></a>加法运算</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">def add():
+    # add +
+    # 这两个Tensor加减乘除会对b自动进行Broadcasting
+    a &#x3D; torch.rand(3,4)
+    b &#x3D; torch.rand(4)
+    print(&quot;a &#x3D; &#123;&#125;&quot;.format(a))
+    print(&quot;b &#x3D; &#123;&#125;&quot;.format(b))
+    # a、b列数相同，行数不同，将a的每行与b对应位置相加
+    c1 &#x3D; a + b
+    c2 &#x3D; torch.add(a,b)
+    c3 &#x3D; torch.eq(c1,c2)
+    # torch.all()判断每个位置的元素是否相同
+    c4 &#x3D; torch.all(c3)
+    print(&quot;a + b &#x3D; &#123;&#125;&quot;.format(c1))
+    print(&quot;a + b &#x3D; &#123;&#125;&quot;.format(c2))
+    print(&quot;torch.eq &#x3D; &#123;&#125;&quot;.format(c3))
+    print(&quot;torch all &#x3D; &#123;&#125;&quot;.format(c4))
+    # a &#x3D; tensor([[0.8514, 0.5017, 0.3924, 0.7817],
+    #             [0.0219, 0.7352, 0.5634, 0.7285],
+    #             [0.9187, 0.1628, 0.9236, 0.3603]])
+    # b &#x3D; tensor([0.0809, 0.0295, 0.6065, 0.8024])
+    # a + b &#x3D; tensor([[0.9322, 0.5312, 0.9989, 1.5841],
+    #                 [0.1028, 0.7647, 1.1700, 1.5309],
+    #                 [0.9996, 0.1923, 1.5301, 1.1627]])
+    # a + b &#x3D; tensor([[0.9322, 0.5312, 0.9989, 1.5841],
+    #                 [0.1028, 0.7647, 1.1700, 1.5309],
+    #                 [0.9996, 0.1923, 1.5301, 1.1627]])
+    # torch.eq &#x3D; tensor([[True, True, True, True],
+    #                    [True, True, True, True],
+    #                    [True, True, True, True]])
+    # torch
+    # all &#x3D; True</code></pre>
+
+<h3 id="减法运算"><a href="#减法运算" class="headerlink" title="减法运算"></a>减法运算</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">def minus():
+    # 这两个Tensor加减乘除会对b自动进行Broadcasting
+    a &#x3D; torch.rand(3,4)
+    b &#x3D; torch.rand(4)
+    print(&quot;a &#x3D; &#123;&#125;&quot;.format(a))
+    print(&quot;b &#x3D; &#123;&#125;&quot;.format(b))
+    # a、b列数相同，行数不同，将a的每行与b对应位置相加
+    c1 &#x3D; a - b
+    c2 &#x3D; torch.sub(a,b)
+    # torch.all()判断每个位置的元素是否相同
+    c3 &#x3D; torch.eq(c1,c2)
+    c4 &#x3D; torch.all(c3)
+    print(&quot;a - b &#x3D; &#123;&#125;&quot;.format(c1))
+    print(&quot;a - b &#x3D; &#123;&#125;&quot;.format(c2))
+    print(&quot;torch.eq &#x3D; &#123;&#125;&quot;.format(c3))
+    print(&quot;torch all &#x3D; &#123;&#125;&quot;.format(c4))
+    # a &#x3D; tensor([[0.8499, 0.1003, 0.3179, 0.1217],
+    #             [0.2119, 0.7742, 0.3973, 0.7241],
+    #             [0.8559, 0.3558, 0.1549, 0.4583]])
+    # b &#x3D; tensor([0.4750, 0.9261, 0.7107, 0.1397])
+    # a - b &#x3D; tensor([[0.3749, -0.8258, -0.3928, -0.0180],
+    #                 [-0.2631, -0.1519, -0.3135, 0.5844],
+    #                 [0.3809, -0.5703, -0.5558, 0.3186]])
+    # a - b &#x3D; tensor([[0.3749, -0.8258, -0.3928, -0.0180],
+    #                 [-0.2631, -0.1519, -0.3135, 0.5844],
+    #                 [0.3809, -0.5703, -0.5558, 0.3186]])
+    # torch.eq &#x3D; tensor([[True, True, True, True],
+    #                    [True, True, True, True],
+    #                    [True, True, True, True]])
+    # torch
+    # all &#x3D; True</code></pre>
+
+<h3 id="哈达玛积-element-wise，对应元素相乘"><a href="#哈达玛积-element-wise，对应元素相乘" class="headerlink" title="哈达玛积 (element wise，对应元素相乘)"></a>哈达玛积 (element wise，对应元素相乘)</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">def mul_element():
+    # 这两个Tensor加减乘除会对b自动进行Broadcasting
+    a &#x3D; torch.rand(3,4)
+    b &#x3D; torch.rand(4)
+    print(&quot;a &#x3D; &#123;&#125;&quot;.format(a))
+    print(&quot;b &#x3D; &#123;&#125;&quot;.format(b))
+    # a、b列数相同，行数不同，将a的每行与b对应位置相加
+    c1 &#x3D; a * b
+    c2 &#x3D; torch.mul(a,b)
+    # torch.all()判断每个位置的元素是否相同
+    c3 &#x3D; torch.eq(c1,c2)
+    c4 &#x3D; torch.all(c3)
+    print(&quot;a * b &#x3D; &#123;&#125;&quot;.format(c1))
+    print(&quot;a * b &#x3D; &#123;&#125;&quot;.format(c2))
+    print(&quot;torch.eq &#x3D; &#123;&#125;&quot;.format(c3))
+    print(&quot;torch all &#x3D; &#123;&#125;&quot;.format(c4))
+    # a &#x3D; tensor([[0.9678, 0.8896, 0.5657, 0.7644],
+    #             [0.0581, 0.3479, 0.2008, 0.1259],
+    #             [0.4169, 0.9426, 0.1330, 0.5813]])
+    # b &#x3D; tensor([0.3827, 0.7139, 0.4547, 0.6798])
+    # a * b &#x3D; tensor([[0.3704, 0.6351, 0.2572, 0.5197],
+    #                 [0.0222, 0.2484, 0.0913, 0.0856],
+    #                 [0.1595, 0.6729, 0.0605, 0.3952]])
+    # a * b &#x3D; tensor([[0.3704, 0.6351, 0.2572, 0.5197],
+    #                 [0.0222, 0.2484, 0.0913, 0.0856],
+    #                 [0.1595, 0.6729, 0.0605, 0.3952]])
+    # torch.eq &#x3D; tensor([[True, True, True, True],
+    #                    [True, True, True, True],
+    #                    [True, True, True, True]])
+    # torch all &#x3D; True</code></pre>
+
+<h3 id="除法运算"><a href="#除法运算" class="headerlink" title="除法运算"></a>除法运算</h3><p>对应元素相除</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    # 这两个Tensor加减乘除会对b自动进行Broadcasting
+    a &#x3D; torch.rand(3,4)
+    b &#x3D; torch.rand(4)
+    print(&quot;a &#x3D; &#123;&#125;&quot;.format(a))
+    print(&quot;b &#x3D; &#123;&#125;&quot;.format(b))
+    # a、b列数相同，行数不同，将a的每行与b对应位置相加
+    c1 &#x3D; a &#x2F; b
+    c2 &#x3D; torch.div(a,b)
+    # torch.all()判断每个位置的元素是否相同
+    c3 &#x3D; torch.eq(c1,c2)
+    c4 &#x3D; torch.all(c3)
+    print(&quot;a &#x2F; b &#x3D; &#123;&#125;&quot;.format(c1))
+    print(&quot;a &#x2F; b &#x3D; &#123;&#125;&quot;.format(c2))
+    print(&quot;torch.eq &#x3D; &#123;&#125;&quot;.format(c3))
+    print(&quot;torch all &#x3D; &#123;&#125;&quot;.format(c4))
+    #a &#x3D; tensor([[0.6079, 0.2791, 0.0034, 0.6169],
+        # [0.5279, 0.7804, 0.5960, 0.0359],
+        # [0.3385, 0.2300, 0.2021, 0.7161]])
+    # b &#x3D; tensor([0.5951, 0.8573, 0.7276, 0.8717])
+    # a * b &#x3D; tensor([[1.0214, 0.3256, 0.0047, 0.7077],
+    #         [0.8870, 0.9103, 0.8190, 0.0412],
+    #         [0.5687, 0.2682, 0.2778, 0.8215]])
+    # a * b &#x3D; tensor([[1.0214, 0.3256, 0.0047, 0.7077],
+    #         [0.8870, 0.9103, 0.8190, 0.0412],
+    #         [0.5687, 0.2682, 0.2778, 0.8215]])
+    # torch.eq &#x3D; tensor([[True, True, True, True],
+    #         [True, True, True, True],
+    #         [True, True, True, True]])
+    # torch all &#x3D; True</code></pre>
+
+<h2 id="矩阵运算"><a href="#矩阵运算" class="headerlink" title="矩阵运算"></a>矩阵运算</h2><ul>
+<li>matmul 表示 matrix mul</li>
+<li><code>*</code> 表示的是 element-wise, 对应元素相乘</li>
+<li><code>torch.mm(a,b)</code> 只能计算 2D 不推荐，矩阵相乘</li>
+<li><code>torch.matmul(a,b)</code> 可以计算更高维度，落脚点依旧在行与列。 推荐</li>
+<li><code>@</code> 是 matmul 的重载形式</li>
+</ul>
+<h3 id="二维矩阵相乘"><a href="#二维矩阵相乘" class="headerlink" title="二维矩阵相乘"></a>二维矩阵相乘</h3><p>二维矩阵乘法运算操作包括 torch.mm()、torch.matmul()、@</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    a &#x3D; torch.ones(2,1)
+    b &#x3D; torch.ones(1,2)
+    print(&quot;a &#x3D; &#123;&#125;&quot;.format(a))
+    print(&quot;b &#x3D; &#123;&#125;&quot;.format(b))
+    c1 &#x3D; torch.mm(a,b)
+    c2 &#x3D; torch.matmul(a,b)
+    c3 &#x3D; a @ b
+    print(&quot;c1 &#x3D; &#123;&#125;&quot;.format(c1))
+    print(&quot;c2 &#x3D; &#123;&#125;&quot;.format(c2))
+    print(&quot;c3 &#x3D; &#123;&#125;&quot;.format(c3))
+    # a &#x3D; tensor([[1.],
+    #             [1.]])
+    # b &#x3D; tensor([[1., 1.]])
+    # c1 &#x3D; tensor([[1., 1.],
+    #              [1., 1.]])
+    # c2 &#x3D; tensor([[1., 1.],
+    #              [1., 1.]])
+    # c3 &#x3D; tensor([[1., 1.],
+    #              [1., 1.]])</code></pre>
+
+<h3 id="多维矩阵相乘"><a href="#多维矩阵相乘" class="headerlink" title="多维矩阵相乘"></a>多维矩阵相乘</h3><p>对于高维的 Tensor（dim&gt;2），<strong>定义其矩阵乘法仅在最后的两个维度上</strong>，要求前面的维度必须保持一致，就像矩阵的索引一样<strong>并且运算操只有 torch.matmul()。</strong></p>
+<ul>
+<li>对于 2 维以上的 matrix multiply ， <code>torch.mm(a,b)</code>就不行了。</li>
+<li>运算规则：只取最后的两维做矩阵乘法</li>
+<li>对于 [b, c, h, w] 来说，b,c 是不变的，图片的大小在改变；并且也并行的计算出了 b，c。也就是支持<strong>多个矩阵并行相乘</strong>。</li>
+<li>对于不同的 size，如果符合 broadcast，先执行 broadcast，在进行矩阵相乘。</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    # 多维矩阵计算，前两个维度必须一致
+    c &#x3D; torch.rand(4, 3, 28, 64)
+    d &#x3D; torch.rand(4, 3, 64, 32)
+    print(torch.matmul(c,d).shape)
+    # torch.Size([4, 3, 28, 32])</code></pre>
+
+<p>注意，在这种情形下的矩阵相乘，前面的 “矩阵索引维度” 如果符合 Broadcasting 机制，也会自动做广播，然后相乘。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    # 多维矩阵计算，前两个维度必须一致
+    c &#x3D; torch.rand(4, 3, 28, 64)
+    d &#x3D; torch.rand(4, 1, 64, 32)
+    print(torch.matmul(c,d).shape)
+    # torch.Size([4, 3, 28, 32])</code></pre>
+
+<h2 id="幂运算"><a href="#幂运算" class="headerlink" title="幂运算"></a>幂运算</h2><pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    # troch.full(size, fill_value)
+    # 参数：
+    # size： 生成张量的大小，list， tuple， torch.size
+    # fill_value: 填充张量的数
+    a &#x3D; torch.full([2, 2], 3)
+    print(&quot;a &#x3D; &#123;&#125;&quot;.format(a))
+    b1 &#x3D; a.pow(2)  # 也可以a**2
+    b2 &#x3D; a**2
+    print(&quot;b1 &#x3D; &#123;&#125;&quot;.format(b1))
+    print(&quot;b2 &#x3D; &#123;&#125;&quot;.format(b2))
+    # a &#x3D; tensor([[3., 3.],
+    #             [3., 3.]])
+    # b1 &#x3D; tensor([[9., 9.],
+    #              [9., 9.]])
+    # b2 &#x3D; tensor([[9., 9.],
+    #              [9., 9.]])
+    #</code></pre>
+
+<h2 id="开方运算"><a href="#开方运算" class="headerlink" title="开方运算"></a>开方运算</h2><ul>
+<li>pow(a, n) a 的 n 次方</li>
+<li><code>**</code> 也表示次方（可以是 2，0.5，0.25，3） 推荐</li>
+<li>sqrt() 表示 square root 平方根</li>
+<li>rsqrt() 表示平方根的倒数</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    a &#x3D; torch.full([2, 2], 9)
+    print(&quot;a &#x3D; &#123;&#125;&quot;.format(a))
+    b1 &#x3D; a.sqrt() # 也可以a**(0.5)
+    # 平方根的倒数
+    b2 &#x3D; a.rsqrt()
+    print(&quot;b1 &#x3D; &#123;&#125;&quot;.format(b1))
+    print(&quot;b2 &#x3D; &#123;&#125;&quot;.format(b2))
+    # a &#x3D; tensor([[9., 9.],
+    #             [9., 9.]])
+    # b1 &#x3D; tensor([[3., 3.],
+    #              [3., 3.]])
+    # b2 &#x3D; tensor([[0.3333, 0.3333],
+    #              [0.3333, 0.3333]])</code></pre>
+
+<h2 id="指数与对数运算"><a href="#指数与对数运算" class="headerlink" title="指数与对数运算"></a>指数与对数运算</h2><p>注意<code>log</code>是以自然对数为底数的，以 2 为底的用<code>log2</code>，以 10 为底的用<code>log10</code></p>
+<ul>
+<li>exp(n) 表示：e 的 n 次方</li>
+<li>log(a) 表示：ln(a)</li>
+<li>log2() 、 log10()</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    a &#x3D; torch.ones(2,2)
+    print(&quot;a &#x3D; &#123;&#125;&quot;.format(a))
+    # 得到 2*2 矩阵的全是 e 的Tensor，相当于a的所有元素乘以e
+    b &#x3D; torch.exp(a)
+    c &#x3D; torch.log(a)
+    print(&quot;b &#x3D; &#123;&#125;&quot;.format(b))
+    print(&quot;c &#x3D; &#123;&#125;&quot;.format(c))
+    # a &#x3D; tensor([[1., 1.],
+    #             [1., 1.]])
+    # b &#x3D; tensor([[2.7183, 2.7183],
+    #             [2.7183, 2.7183]])
+    # c &#x3D; tensor([[0., 0.],
+    #             [0., 0.]])</code></pre>
+
+<h2 id="近似值运算"><a href="#近似值运算" class="headerlink" title="近似值运算"></a>近似值运算</h2><p>近似相关 1</p>
+<ul>
+<li>floor、ceil 向下取整、向上取整</li>
+<li>round 4 舍 5 入</li>
+<li>trunc、frac 裁剪</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    a &#x3D; torch.tensor(3.14)
+    b &#x3D; torch.tensor(3.49)
+    c &#x3D; torch.tensor(3.5)
+    # 取下,取上,取整数,取小数
+    print(&quot;a.floor &#x3D; &#123;&#125;,a.ceil &#x3D; &#123;&#125;,a.trunc &#x3D; &#123;&#125;,a.frac &#x3D; &#123;&#125;&quot;
+          .format(a.floor(),a.ceil(),a.trunc(),a.frac()))
+    # 四舍五入
+    print(&quot;b.rounc &#x3D; &#123;&#125;, c.round &#x3D; &#123;&#125;&quot;.format(b.round(),c.round()))
+    # a.floor &#x3D; 3.0, a.ceil &#x3D; 4.0, a.trunc &#x3D; 3.0, a.frac &#x3D; 0.1400001049041748
+    # b.rounc &#x3D; 3.0, c.round &#x3D; 4.0</code></pre>
+
+<h2 id="裁剪运算"><a href="#裁剪运算" class="headerlink" title="裁剪运算"></a>裁剪运算</h2><p>即对 Tensor 中的元素进行范围过滤，<strong>不符合条件的可以把它变换到范围内部（边界）上</strong>，常用于<strong>梯度裁剪</strong>（gradient clipping），即<strong>在发生梯度离散或者梯度爆炸时对梯度的处理</strong>，实际使用时<strong>可以查看梯度的（L2 范数）模来看看需不需要做处理：<code>w.grad.norm(2)</code>。</strong></p>
+<p>近似相关 2 （用的更多一些）</p>
+<ul>
+<li>gradient clipping 梯度裁剪</li>
+<li>(min) 小于 min 的都变为某某值</li>
+<li>(min, max) 不在这个区间的都变为某某值</li>
+<li>梯度爆炸：一般来说，当梯度达到 100 左右的时候，就已经很大了，正常在 10 左右，通过打印梯度的模来查看 <code>w.grad.norm(2)</code></li>
+<li>对于 w 的限制叫做 weight clipping，对于 weight gradient clipping 称为 gradient clipping。</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">def test():
+    # 两行三列，切元素在0-15之间随机生成
+    grad &#x3D; torch.rand(2, 3) * 15  # 0~15随机生成
+    print(&quot;grad &#x3D; &#123;&#125;&quot;.format(grad))
+    # 最大值最小值平均值
+    print(&quot;grad.max &#x3D; &#123;&#125;, grad.min &#x3D; &#123;&#125;, grad.median &#x3D; &#123;&#125;&quot;
+          .format(grad.max(), grad.min(), grad.median()))
+    # 最小是10,小于10的都变成10
+    print(&quot;grad.clamp(10) &#x3D; &#123;&#125;&quot;.format(grad.clamp(10)))
+    # 最小是3, 小于3的都变成3;    最大是10, 大于10的都变成10
+    print(&quot;grad.clamp(3, 10) &#x3D; &#123;&#125;&quot;.format(grad.clamp(3, 10)))  #
+    # grad &#x3D; tensor([[7.2015, 13.5902, 3.7276],
+    #                [3.9825, 2.9701, 11.7545]])
+    # grad.max &#x3D; 13.590229034423828, grad.min &#x3D; 2.9700870513916016, grad.median &#x3D; 3.982494831085205
+    # grad.clamp(10) &#x3D; tensor([[10.0000, 13.5902, 10.0000],
+    #                          [10.0000, 10.0000, 11.7545]])
+    # grad.clamp(3, 10) &#x3D; tensor([[7.2015, 10.0000, 3.7276],
+    #                             [3.9825, 3.0000, 10.0000]])</code></pre>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer"><div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+            -------------本文结束 <i class="fa fa-paw"></i> 感谢您的阅读-------------
+        </div>
+    
+</div>
+          <div class="post-tags">
+              <a href="/tags/PyTorch/" rel="tag"># PyTorch</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2734/" rel="prev" title="CSS @font-face属性详解">
+                  <i class="fa fa-chevron-left"></i> CSS @font-face属性详解
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">IDarkBoss</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">40k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">36 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.bootcdn.net/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/prism/1.28.0/components/prism-core.min.js" integrity="sha256-4mJNT2bMXxcc1GCJaxBmMPdmah5ji0Ldnd79DKd1hoM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/prism/1.28.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha256-dL6vkUiCn30lPTN9cVrmQHo5UQmEwDMrx2ppAk4IhVk=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/prism/1.28.0/plugins/line-numbers/prism-line-numbers.min.js" integrity="sha256-9cmf7tcLdXpKsPi/2AWE93PbZpTp4M4tqzFk+lWomjU=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/next-theme-pjax/0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/hexo-generator-searchdb/1.4.0/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/quicklink/2.2.0/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://idarkboss.gitee.io/posts/52950/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"IDarkBoss","repo":"gitalk","client_id":"75b52ae366a9e59a5193","client_secret":"1bb3f02e37e8bbdb822edc4bc313d6fd4a284f0a","admin_user":"IDarkBoss","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"909cdff602474573d469bf3f8ddf9513"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div id="moon-menu-item-back2bottom" class="moon-menu-item">
+      <i class='fas fa-chevron-down'></i>    </div>
+    
+    <div id="moon-menu-item-back2top" class="moon-menu-item">
+      <i class='fas fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button">
+    <svg class="moon-menu-bg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+    </svg>
+    <div class="moon-menu-content">
+      <div class="moon-menu-icon"><i class='fas fa-ellipsis-v'></i></div>
+      <div class="moon-menu-text"></div>
+    </div>
+  </div>
+</div><script src="/js/injector.js"></script>
+
+  <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas>
+<script src="//cdn.bootcdn.net/ajax/libs/animejs/3.2.1/anime.js"></script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;  
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<script src="/live2d-widget/autoload.js"></script>
+
+
+<script src="/js/crash_cheat.js"></script>
+</body>
+</html>

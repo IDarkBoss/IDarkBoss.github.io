@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/32x32.webp">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.webp">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.webp">
+  <link rel="mask-icon" href="/images/32x32.webp" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/themes/blue/pace-theme-center-atom.css">
+  <script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"idarkboss.gitee.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":300,"onmobile":true},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="@font-face是 CSS3 中的一个模块，他主要是把自己定义的 Web 字体嵌入到你的网页中。本文介绍了该模块的一些使用方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS @font-face属性详解">
+<meta property="og:url" content="https://idarkboss.gitee.io/posts/2734/index.html">
+<meta property="og:site_name" content="大老黑的豆腐渣集散地">
+<meta property="og:description" content="@font-face是 CSS3 中的一个模块，他主要是把自己定义的 Web 字体嵌入到你的网页中。本文介绍了该模块的一些使用方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/CSS-font-face%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/2020/06/3020200630155007.jpg">
+<meta property="article:published_time" content="2020-06-30T07:35:00.000Z">
+<meta property="article:modified_time" content="2022-04-14T03:55:55.800Z">
+<meta property="article:author" content="IDarkBoss">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/CSS-font-face%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/2020/06/3020200630155007.jpg">
+
+
+<link rel="canonical" href="https://idarkboss.gitee.io/posts/2734/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://idarkboss.gitee.io/posts/2734/","path":"posts/2734/","title":"CSS @font-face属性详解"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CSS @font-face属性详解 | 大老黑的豆腐渣集散地</title>
+  
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">大老黑的豆腐渣集散地</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录日常遇到的头秃问题</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E8%A7%84%E5%88%99"><span class="nav-number">1.</span> <span class="nav-text">语法规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%BC%E5%AE%B9%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">兼容浏览器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E4%BD%93%E6%A0%BC%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">字体格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E4%BD%93%E8%BD%AC%E6%8D%A2"><span class="nav-number">3.</span> <span class="nav-text">字体转换</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="IDarkBoss"
+      src="/images/avatar.svg">
+  <p class="site-author-name" itemprop="name">IDarkBoss</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/IDarkBoss" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;IDarkBoss" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/a472714747" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;a472714747" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/IDarkBoss" title="Gitee → https:&#x2F;&#x2F;gitee.com&#x2F;IDarkBoss" rel="noopener" target="_blank"><i class="iconfont icon-gitee fa-fw"></i>Gitee</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/SKArthur" title="Zhihu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;SKArthur" rel="noopener" target="_blank"><i class="iconfont icon-zhihu fa-fw"></i>Zhihu</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://idarkboss.gitee.io/posts/2734/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.svg">
+      <meta itemprop="name" content="IDarkBoss">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大老黑的豆腐渣集散地">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="CSS @font-face属性详解 | 大老黑的豆腐渣集散地">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CSS @font-face属性详解
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-30 15:35:00" itemprop="dateCreated datePublished" datetime="2020-06-30T15:35:00+08:00">2020-06-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-04-14 11:55:55" itemprop="dateModified" datetime="2022-04-14T11:55:55+08:00">2022-04-14</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p><code>@font-face</code>是 CSS3 中的一个模块，他主要是把自己定义的 Web 字体嵌入到你的网页中。<br>本文介绍了该模块的一些使用方法。</p>
+</div>
+
+<span id="more"></span>
+
+<h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><p>首先我们一起来看看@font-face 的语法规则：</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css">@font-face &#123;
+      font-family: &lt;YourWebFontName&gt;;
+      src: &lt;source&gt; [&lt;format&gt;][,&lt;source&gt; [&lt;format&gt;]]*;
+      [font-weight: &lt;weight&gt;];
+      [font-style: &lt;style&gt;];
+    &#125;</code></pre>
+
+<ul>
+<li><code>font-family: &lt;YourWebFontName&gt;</code> ：自定义字库名称（一般设置为所引入的字库名），后续样式规则中则通过该名称来引用该字库。</li>
+<li><code>src</code> ：设置字体的加载路径和格式，通过逗号分隔多个加载路径和格式</li>
+<li><code>srouce</code> ：字体的加载路径，可以是绝对或相对 URL。</li>
+<li><code>format</code> ：字体的格式，主要用于浏览器识别，一般有以下几种——truetype, opentype, truetype-aat, embedded-opentype, avg 等。</li>
+<li><code>font-weight</code> 和 <code>font-style</code> 和之前使用的是一致的。</li>
+<li><code>src</code>属性后还有一个 <code>local(font name)</code> 字段，表示从用户系统中加载字体，失败后才加载<code>webfont</code>。<code>src: local(font name), url(&quot;font_name.ttf&quot;)</code></li>
+</ul>
+<h3 id="兼容浏览器"><a href="#兼容浏览器" class="headerlink" title="兼容浏览器"></a>兼容浏览器</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/CSS-font-face%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/2020/06/3020200630155007.jpg" alt="兼容浏览器"></p>
+<h2 id="字体格式"><a href="#字体格式" class="headerlink" title="字体格式"></a>字体格式</h2><p>对于@font-face 而言，兼容性问题就是各浏览器所能识别的字体格式不尽相同。</p>
+<ul>
+<li><p><strong>TrueType 格式(.ttf)</strong><br>Windows 和 Mac 上常见的字体格式，是一种原始格式，因此它并没有为网页进行优化处理。<br>浏览器支持：IE9+, FireFox3.5+, Chrome4.0+, Safari3+, Opera10+, IOS Mobile Safari4.2+</p>
+</li>
+<li><p><strong>OpenType 格式(.otf)</strong><br>以 TrueType 为基础，也是一种原始格式，但提供更多的功能。<br>浏览器支持：FireFox3.5+, Chrome4.0+, Safari3.1+, Opera10.0+, IOS Mobile Safari4.2+</p>
+</li>
+<li><p><strong>Web Open Font 格式(.woff)</strong><br>针对网页进行特殊优化，因此是 Web 字体中最佳格式，它是一个开放的 TrueType&#x2F;OpenType 的压缩版，同时支持元数据包的分离。<br>浏览器支持：IE9+, FireFox3.5+, Chrome6+, Safari3.6+, Opera11.1+</p>
+</li>
+<li><p><strong>Embedded Open Type 格式(.eot)</strong><br>IE 专用字体格式，可以从 TrueType 格式创建此格式字体。<br>浏览器支持：IE4+</p>
+</li>
+<li><p><strong>SVG 格式(.svg)</strong><br>基于 SVG 字体渲染的格式。<br>浏览器支持：Chrome4+, Safari3.1+, Opera10.0+, IOS Mobile Safari3.2+</p>
+</li>
+</ul>
+<p>这就意味着在@font-face 中我们至少需要.woff, .eot 两种格式字体，甚至还需要.svg 等字体达到更多种浏览版本的支持。</p>
+<p>为了使@font-face 达到更多的浏览器支持，Paul Irish 写了一个独特的@font-face 语法叫 Bulletproof @font-face:</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css">@font-face &#123;
+  font-family: &quot;YourWebFontName&quot;;
+  src: url(&quot;YourWebFontName.eot&quot;); &#x2F;* IE9 Compat Modes *&#x2F;
+  src: url(&quot;YourWebFontName.eot?#iefix&quot;) format(&quot;embedded-opentype&quot;), &#x2F;* IE6-IE8 *&#x2F;
+      url(&quot;YourWebFontName.woff&quot;) format(&quot;woff&quot;),
+    &#x2F;* Modern Browsers *&#x2F; url(&quot;YourWebFontName.ttf&quot;) format(&quot;truetype&quot;), &#x2F;* Safari, Android, iOS *&#x2F;
+      url(&quot;YourWebFontName.svg#YourWebFontName&quot;) format(&quot;svg&quot;); &#x2F;* Legacy iOS *&#x2F;
+&#125;</code></pre>
+
+<h2 id="字体转换"><a href="#字体转换" class="headerlink" title="字体转换"></a>字体转换</h2><p><a target="_blank" rel="noopener" href="https://onlinefontconverter.com/">Online Font Converter</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer"><div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+            -------------本文结束 <i class="fa fa-paw"></i> 感谢您的阅读-------------
+        </div>
+    
+</div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/24802/" rel="prev" title="仓库同时推送Github和Gitee">
+                  <i class="fa fa-chevron-left"></i> 仓库同时推送Github和Gitee
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/52950/" rel="next" title="PyTorch Tensor的数学运算">
+                  PyTorch Tensor的数学运算 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">IDarkBoss</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">40k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">36 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.bootcdn.net/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/prism/1.28.0/components/prism-core.min.js" integrity="sha256-4mJNT2bMXxcc1GCJaxBmMPdmah5ji0Ldnd79DKd1hoM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/prism/1.28.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha256-dL6vkUiCn30lPTN9cVrmQHo5UQmEwDMrx2ppAk4IhVk=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/prism/1.28.0/plugins/line-numbers/prism-line-numbers.min.js" integrity="sha256-9cmf7tcLdXpKsPi/2AWE93PbZpTp4M4tqzFk+lWomjU=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/next-theme-pjax/0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/hexo-generator-searchdb/1.4.0/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/quicklink/2.2.0/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://idarkboss.gitee.io/posts/2734/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"IDarkBoss","repo":"gitalk","client_id":"75b52ae366a9e59a5193","client_secret":"1bb3f02e37e8bbdb822edc4bc313d6fd4a284f0a","admin_user":"IDarkBoss","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"985b6622903e24d894ee242c6d79ab80"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div id="moon-menu-item-back2bottom" class="moon-menu-item">
+      <i class='fas fa-chevron-down'></i>    </div>
+    
+    <div id="moon-menu-item-back2top" class="moon-menu-item">
+      <i class='fas fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button">
+    <svg class="moon-menu-bg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+    </svg>
+    <div class="moon-menu-content">
+      <div class="moon-menu-icon"><i class='fas fa-ellipsis-v'></i></div>
+      <div class="moon-menu-text"></div>
+    </div>
+  </div>
+</div><script src="/js/injector.js"></script>
+
+  <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas>
+<script src="//cdn.bootcdn.net/ajax/libs/animejs/3.2.1/anime.js"></script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;  
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<script src="/live2d-widget/autoload.js"></script>
+
+
+<script src="/js/crash_cheat.js"></script>
+</body>
+</html>

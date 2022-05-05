@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/32x32.webp">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.webp">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.webp">
+  <link rel="mask-icon" href="/images/32x32.webp" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/themes/blue/pace-theme-center-atom.css">
+  <script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"idarkboss.gitee.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":300,"onmobile":true},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="pom 中有很多成对的参数，是不是大家跟我一样，很多都在用，但不知道参数的定义，下面来整理下这些参数，也方便日后想不起来的时候，可以很快的进行查阅，大家在看的时候尽量对比着自己的项目看，这样可以加深理解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pom参数详解">
+<meta property="og:url" content="https://idarkboss.gitee.io/posts/39421/index.html">
+<meta property="og:site_name" content="大老黑的豆腐渣集散地">
+<meta property="og:description" content="pom 中有很多成对的参数，是不是大家跟我一样，很多都在用，但不知道参数的定义，下面来整理下这些参数，也方便日后想不起来的时候，可以很快的进行查阅，大家在看的时候尽量对比着自己的项目看，这样可以加深理解。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-09T06:03:58.000Z">
+<meta property="article:modified_time" content="2022-04-14T03:55:55.815Z">
+<meta property="article:author" content="IDarkBoss">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Maven">
+<meta property="article:tag" content="POM">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://idarkboss.gitee.io/posts/39421/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://idarkboss.gitee.io/posts/39421/","path":"posts/39421/","title":"pom参数详解"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>pom参数详解 | 大老黑的豆腐渣集散地</title>
+  
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">大老黑的豆腐渣集散地</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录日常遇到的头秃问题</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#groupId"><span class="nav-number">1.</span> <span class="nav-text">groupId</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#artifactId"><span class="nav-number">2.</span> <span class="nav-text">artifactId</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#version"><span class="nav-number">3.</span> <span class="nav-text">version</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#packaging"><span class="nav-number">4.</span> <span class="nav-text">packaging</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#name"><span class="nav-number">5.</span> <span class="nav-text">name</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#url"><span class="nav-number">6.</span> <span class="nav-text">url</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dependency-%EF%BC%88%E5%A4%96%E9%83%A8%E5%8C%85%E7%9A%84%E5%BC%95%E7%94%A8%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">dependency （外部包的引用）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#type"><span class="nav-number">7.1.</span> <span class="nav-text">type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scope"><span class="nav-number">7.2.</span> <span class="nav-text">scope</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%EF%BC%88compile%EF%BC%89"><span class="nav-number">7.2.1.</span> <span class="nav-text">编译（compile）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%90%E4%BE%9B%EF%BC%88provided%EF%BC%89"><span class="nav-number">7.2.2.</span> <span class="nav-text">提供（provided）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%EF%BC%88runtime%EF%BC%89"><span class="nav-number">7.2.3.</span> <span class="nav-text">运行（runtime）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%EF%BC%88test%EF%BC%89"><span class="nav-number">7.2.4.</span> <span class="nav-text">测试（test）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%EF%BC%88system%EF%BC%89"><span class="nav-number">7.2.5.</span> <span class="nav-text">系统（system）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%EF%BC%88import%EF%BC%89%EF%BC%88%E4%BB%85%E5%9C%A8-Maven-2-0-9-%E6%88%96%E6%9B%B4%E9%AB%98%E7%89%88%E6%9C%AC%E4%B8%AD%E5%8F%AF%E7%94%A8%EF%BC%89"><span class="nav-number">7.2.6.</span> <span class="nav-text">导入（import）（仅在 Maven 2.0.9 或更高版本中可用）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#optional"><span class="nav-number">7.3.</span> <span class="nav-text">optional</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exclusions"><span class="nav-number">8.</span> <span class="nav-text">exclusions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#relativePath"><span class="nav-number">9.</span> <span class="nav-text">relativePath</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dependencyManagement"><span class="nav-number">10.</span> <span class="nav-text">dependencyManagement</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#modules"><span class="nav-number">11.</span> <span class="nav-text">modules</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#properties"><span class="nav-number">12.</span> <span class="nav-text">properties</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">13.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="IDarkBoss"
+      src="/images/avatar.svg">
+  <p class="site-author-name" itemprop="name">IDarkBoss</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/IDarkBoss" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;IDarkBoss" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/a472714747" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;a472714747" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/IDarkBoss" title="Gitee → https:&#x2F;&#x2F;gitee.com&#x2F;IDarkBoss" rel="noopener" target="_blank"><i class="iconfont icon-gitee fa-fw"></i>Gitee</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/SKArthur" title="Zhihu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;SKArthur" rel="noopener" target="_blank"><i class="iconfont icon-zhihu fa-fw"></i>Zhihu</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://idarkboss.gitee.io/posts/39421/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.svg">
+      <meta itemprop="name" content="IDarkBoss">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大老黑的豆腐渣集散地">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="pom参数详解 | 大老黑的豆腐渣集散地">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          pom参数详解
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-09 14:03:58" itemprop="dateCreated datePublished" datetime="2020-06-09T14:03:58+08:00">2020-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-04-14 11:55:55" itemprop="dateModified" datetime="2022-04-14T11:55:55+08:00">2022-04-14</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>pom 中有很多成对的参数，是不是大家跟我一样，很多都在用，但不知道参数的定义，下面来整理下这些参数，也方便日后想不起来的时候，可以很快的进行查阅，大家在看的时候尽量对比着自己的项目看，这样可以加深理解。 </p>
+</div>
+
+<span id="more"></span>
+
+<h2 id="groupId"><a href="#groupId" class="headerlink" title="groupId"></a>groupId</h2><p>项目或者组织的唯一标识，相当于是公司标识，并且配置时，默认 package 路径也是由此生成。</p>
+<h2 id="artifactId"><a href="#artifactId" class="headerlink" title="artifactId"></a>artifactId</h2><p>项目的通用名称。</p>
+<h2 id="version"><a href="#version" class="headerlink" title="version"></a>version</h2><p>项目的版本。</p>
+<h2 id="packaging"><a href="#packaging" class="headerlink" title="packaging"></a>packaging</h2><p>打包机制，项目的打包类型，常用的类型有 jar（默认）、pom、war 等（不常用的就不罗列了）。</p>
+<h2 id="name"><a href="#name" class="headerlink" title="name"></a>name</h2><p>用户描述项目的名称（可选）。</p>
+<h2 id="url"><a href="#url" class="headerlink" title="url"></a>url</h2><p>开发团队的网站（可选）。</p>
+<h2 id="dependency-（外部包的引用）"><a href="#dependency-（外部包的引用）" class="headerlink" title="dependency （外部包的引用）"></a>dependency （外部包的引用）</h2><h3 id="type"><a href="#type" class="headerlink" title="type"></a>type</h3><p>默认为 jar 类型，常用的类型有：jar、ejb-client、test-jar……，可设置 plugins 中的 extensions 值为 true 后再增加新的类型。</p>
+<h3 id="scope"><a href="#scope" class="headerlink" title="scope"></a>scope</h3><p>指定当前包的依赖范围。</p>
+<p>共有 6 种 scope 参数可选：</p>
+<h4 id="编译（compile）"><a href="#编译（compile）" class="headerlink" title="编译（compile）"></a>编译（compile）</h4><p>这是默认范围，如果未指定则使用。<strong>编译</strong>依赖项在项目的所有类路径中均可用。此外，这些依赖项会传播到相关项目。</p>
+<h4 id="提供（provided）"><a href="#提供（provided）" class="headerlink" title="提供（provided）"></a>提供（provided）</h4><p>这很像编译，但是表明您希望 JDK 或容器在运行时提供依赖项。例如，在为 Java Enterprise Edition 构建 Web 应用程序时，您将对 Servlet API 和相关 Java EE API 的依赖关系设置为提供的范围，因为 Web 容器提供了这些类。该作用域仅在编译和测试类路径上可用，并且不可传递。</p>
+<h4 id="运行（runtime）"><a href="#运行（runtime）" class="headerlink" title="运行（runtime）"></a>运行（runtime）</h4><p>此作用域表明依赖关系不是编译所必需的，而是执行所必需的。它在运行时和测试类路径中，但不在编译类路径中。</p>
+<h4 id="测试（test）"><a href="#测试（test）" class="headerlink" title="测试（test）"></a>测试（test）</h4><p>此范围表明该依赖关系对于正常使用该应用程序不是必需的，并且仅在测试编译和执行阶段可用。</p>
+<h4 id="系统（system）"><a href="#系统（system）" class="headerlink" title="系统（system）"></a>系统（system）</h4><p>该范围类似于提供的范围，除了必须提供显式包含它的 JAR 之外。该工件始终可用，并且不会在存储库中查找。</p>
+<h4 id="导入（import）（仅在-Maven-2-0-9-或更高版本中可用）"><a href="#导入（import）（仅在-Maven-2-0-9-或更高版本中可用）" class="headerlink" title="导入（import）（仅在 Maven 2.0.9 或更高版本中可用）"></a>导入（import）（仅在 Maven 2.0.9 或更高版本中可用）</h4><p>此作用域仅在 <code>&lt;dependencyManagement&gt;</code> 部分中的 pom 类型的依赖项上使用。它指示应使用该 POM 的 <code>&lt;dependencyManagement&gt;</code> 部分中的依赖项替换指定的 POM。由于已替换它们，因此具有导入范围的依赖项实际上并不参与限制依赖项的可传递性。</p>
+<h3 id="optional"><a href="#optional" class="headerlink" title="optional"></a>optional</h3><p>设置依赖是否可选，默认为 false，即子项目默认都继承；为 true，则子项目必须显示的引入，与 <code>&lt;dependencyManagement&gt;</code> 里定义的依赖类似。</p>
+<h2 id="exclusions"><a href="#exclusions" class="headerlink" title="exclusions"></a>exclusions</h2><p>假如 A 依赖 B，B 依赖 C，那么 A 可以声明不要依赖 C，只要在 exclusions 中声明 exclusion（常用的地方是日志框架的选择）。</p>
+<h2 id="relativePath"><a href="#relativePath" class="headerlink" title="relativePath"></a>relativePath</h2><p>可选，maven 会首先搜索这个地址，再搜索本地远程 repositories。</p>
+<h2 id="dependencyManagement"><a href="#dependencyManagement" class="headerlink" title="dependencyManagement"></a>dependencyManagement</h2><p>用于管理 <strong>children</strong> 的 <strong>dependencies</strong> 的，例如如果 parent 使用 dependencyManagement 定义了 dependency 是 junit4.0，那么它的 children 就可以只引用 <strong>groupId</strong> 和 <strong>artifactId</strong>,而 <strong>version</strong> 就可以通过 <strong>parent</strong> 来设置，这样的好处就是可以集中管理依赖的详情。</p>
+<h2 id="modules"><a href="#modules" class="headerlink" title="modules"></a>modules</h2><p>设置包含的子模块。</p>
+<h2 id="properties"><a href="#properties" class="headerlink" title="properties"></a>properties</h2><p>为 pom 上下文定义一些常量，在 pom 中的其它地方可以直接引用，引用方式**$(参数名)**。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/38673b6400fc">十二摩羯</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/ningbohezhijunbl/article/details/25818069">ningbohezhijun</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer"><div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+            -------------本文结束 <i class="fa fa-paw"></i> 感谢您的阅读-------------
+        </div>
+    
+</div>
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Maven/" rel="tag"># Maven</a>
+              <a href="/tags/POM/" rel="tag"># POM</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/6794/" rel="prev" title="Oracle数据库报错分析">
+                  <i class="fa fa-chevron-left"></i> Oracle数据库报错分析
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/16041/" rel="next" title="利用Gitee加速Github Clone">
+                  利用Gitee加速Github Clone <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">IDarkBoss</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">40k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">36 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.bootcdn.net/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/prism/1.28.0/components/prism-core.min.js" integrity="sha256-4mJNT2bMXxcc1GCJaxBmMPdmah5ji0Ldnd79DKd1hoM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/prism/1.28.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha256-dL6vkUiCn30lPTN9cVrmQHo5UQmEwDMrx2ppAk4IhVk=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/prism/1.28.0/plugins/line-numbers/prism-line-numbers.min.js" integrity="sha256-9cmf7tcLdXpKsPi/2AWE93PbZpTp4M4tqzFk+lWomjU=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/next-theme-pjax/0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/hexo-generator-searchdb/1.4.0/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/quicklink/2.2.0/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://idarkboss.gitee.io/posts/39421/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"IDarkBoss","repo":"gitalk","client_id":"75b52ae366a9e59a5193","client_secret":"1bb3f02e37e8bbdb822edc4bc313d6fd4a284f0a","admin_user":"IDarkBoss","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"6030db59eae79eeaf18915ee6c07b5fb"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div id="moon-menu-item-back2bottom" class="moon-menu-item">
+      <i class='fas fa-chevron-down'></i>    </div>
+    
+    <div id="moon-menu-item-back2top" class="moon-menu-item">
+      <i class='fas fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button">
+    <svg class="moon-menu-bg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+    </svg>
+    <div class="moon-menu-content">
+      <div class="moon-menu-icon"><i class='fas fa-ellipsis-v'></i></div>
+      <div class="moon-menu-text"></div>
+    </div>
+  </div>
+</div><script src="/js/injector.js"></script>
+
+  <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas>
+<script src="//cdn.bootcdn.net/ajax/libs/animejs/3.2.1/anime.js"></script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;  
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<script src="/live2d-widget/autoload.js"></script>
+
+
+<script src="/js/crash_cheat.js"></script>
+</body>
+</html>
