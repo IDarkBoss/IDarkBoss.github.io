@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>BigDecimal详解</title>
-    <url>/posts/45537/</url>
+    <url>/Blog/posts/45537/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p> 本文介绍 BigDecimal 的使用方法 <sup id="fnref:1"><a href="#fn:1" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="转载自: [LanceToBigData](https://www.cnblogs.com/zhangyinhua/p/11545305.html)
 ">[1]</span></a></sup> </p>
 </div>
@@ -439,7 +439,7 @@ public class ArithmeticUtils &#123;
   </entry>
   <entry>
     <title>CSS @font-face属性详解</title>
-    <url>/posts/2734/</url>
+    <url>/Blog/posts/2734/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p><code>@font-face</code>是 CSS3 中的一个模块，他主要是把自己定义的 Web 字体嵌入到你的网页中。<br>本文介绍了该模块的一些使用方法。</p>
 </div>
 
@@ -491,7 +491,7 @@ public class ArithmeticUtils &#123;
   </entry>
   <entry>
     <title>Chaos Monkey</title>
-    <url>/posts/29264/</url>
+    <url>/Blog/posts/29264/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>本文介绍了 Chaos Monkey </p>
 </div>
 
@@ -553,7 +553,7 @@ public class ArithmeticUtils &#123;
   </entry>
   <entry>
     <title>IDEA VMOptions设置</title>
-    <url>/posts/7328/</url>
+    <url>/Blog/posts/7328/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>IntelliJ IDEA 运行在 JVM 上，JVM 有很多的选项和开关配置可以用来调整性能，也就是说，可以通过手动的调整这些 JVM 参数来优化 IntelliJ IDEA 的性能。这篇文章主要总结了 VMOptions 的用法。</p>
 <span id="more"></span>
 
@@ -619,7 +619,7 @@ public class ArithmeticUtils &#123;
   </entry>
   <entry>
     <title>IDEA 遇到的问题</title>
-    <url>/posts/15956/</url>
+    <url>/Blog/posts/15956/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>本文收集了一些在 IDEA 中可能遇到的问题。<br>如：Project 的 SDK 设置，IDEA 的内存设置等。</p>
 </div>
 
@@ -669,36 +669,8 @@ public class ArithmeticUtils &#123;
       </tags>
   </entry>
   <entry>
-    <title>Java中List的循环用法</title>
-    <url>/posts/54882/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>Java 中 List 的循环用法</p>
-</div>
-
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">public class Liebiao &#123;
-    public static void main(String args[]) &#123;
-        int[] numbers &#x3D; &#123;10, 20, 30, 40, 50&#125;;
-
-        for (int x : numbers) &#123;
-            System.out.print(x);
-            System.out.print(&quot;,&quot;);
-        &#125;
-        System.out.print(&quot;\n&quot;);
-
-        String[] names &#x3D; &#123;&quot;James&quot;, &quot;Larry&quot;, &quot;Tom&quot;, &quot;Lacy&quot;&#125;;
-        for (String name : names) &#123;
-            System.out.print(name);
-            System.out.print(&quot;,&quot;);
-        &#125;
-    &#125;
-&#125;</code></pre>
-]]></content>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java数组使用方法</title>
-    <url>/posts/41103/</url>
+    <url>/Blog/posts/41103/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p> 本文介绍 Java 数组使用方法 <sup id="fnref:1"><a href="#fn:1" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="转载自: [菜鸟教程](https://www.runoob.com/java/java-array.html)
 ">[1]</span></a></sup> </p>
 </div>
@@ -925,8 +897,36 @@ s[1][2] &#x3D; new String(&quot;!&quot;);</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>Java中List的循环用法</title>
+    <url>/Blog/posts/54882/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>Java 中 List 的循环用法</p>
+</div>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public class Liebiao &#123;
+    public static void main(String args[]) &#123;
+        int[] numbers &#x3D; &#123;10, 20, 30, 40, 50&#125;;
+
+        for (int x : numbers) &#123;
+            System.out.print(x);
+            System.out.print(&quot;,&quot;);
+        &#125;
+        System.out.print(&quot;\n&quot;);
+
+        String[] names &#x3D; &#123;&quot;James&quot;, &quot;Larry&quot;, &quot;Tom&quot;, &quot;Lacy&quot;&#125;;
+        for (String name : names) &#123;
+            System.out.print(name);
+            System.out.print(&quot;,&quot;);
+        &#125;
+    &#125;
+&#125;</code></pre>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Manjaro更换Deepin桌面环境</title>
-    <url>/posts/1977/</url>
+    <url>/Blog/posts/1977/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>Deepin 桌面环境（DDE）是真滴好看，然而似乎有些地方并不是很稳定。So what？盘它！</p>
 <span id="more"></span>
 
@@ -967,7 +967,7 @@ reboot # 再重启一次</code></pre>
   </entry>
   <entry>
     <title>NexT-Pisces主题配置</title>
-    <url>/posts/14831/</url>
+    <url>/Blog/posts/14831/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
 <span id="more"></span>
 
@@ -1078,7 +1078,7 @@ $font-family-monospace    &#x3D; &quot;Sarasa Mono SC&quot;, get_font_family(&#3
   </entry>
   <entry>
     <title>Nginx 反代配置</title>
-    <url>/posts/13817/</url>
+    <url>/Blog/posts/13817/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>Nginx 反代配置</p>
 </div>
 
@@ -1120,7 +1120,7 @@ include &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;*;</code></pre>
   </entry>
   <entry>
     <title>Oracle数据库报错分析</title>
-    <url>/posts/6794/</url>
+    <url>/Blog/posts/6794/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>本文介绍了使用 Oracle 数据库时会遇到的一些问题。 </p>
 </div>
 
@@ -1149,7 +1149,7 @@ order by a.id asc;</code></pre>
   </entry>
   <entry>
     <title>Oracle数据库操作</title>
-    <url>/posts/50348/</url>
+    <url>/Blog/posts/50348/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>Oracle 数据库</p>
 </div>
 
@@ -1165,7 +1165,7 @@ order by a.id asc;</code></pre>
   </entry>
   <entry>
     <title>PyTorch Tensor的数学运算</title>
-    <url>/posts/52950/</url>
+    <url>/Blog/posts/52950/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="转载自"><a href="#转载自" class="headerlink" title="转载自"></a>转载自</h2><p>转载自：<a href="https://blog.csdn.net/s294878304/article/details/102945910">嘻哈吼嘿呵</a></p>
 <div class="note default"><p>本文介绍了 PyTorch 的一些数学运算方法。 </p>
 </div>
@@ -1471,7 +1471,7 @@ order by a.id asc;</code></pre>
   </entry>
   <entry>
     <title>pom参数详解</title>
-    <url>/posts/39421/</url>
+    <url>/Blog/posts/39421/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>pom 中有很多成对的参数，是不是大家跟我一样，很多都在用，但不知道参数的定义，下面来整理下这些参数，也方便日后想不起来的时候，可以很快的进行查阅，大家在看的时候尽量对比着自己的项目看，这样可以加深理解。 </p>
 </div>
 
@@ -1510,8 +1510,28 @@ order by a.id asc;</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>利用Gitee加速Github Clone</title>
+    <url>/Blog/posts/16041/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>大家都知道，要访问 Github 并 Clone 项目，如果没有什么特殊工具的话是真的很慢。<br>最近发现了可以使用 Gitee 来加速 Github Clone 的方法（属实骚操作），可以很好的解决这个问题（火星救援！）。</p>
+</div>
+
+<span id="more"></span>
+
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="注册码云账号"><a href="#注册码云账号" class="headerlink" title="注册码云账号"></a>注册码云账号</h3><p><a href="https://gitee.com/">传送门</a></p>
+<h3 id="注册完成后点击页面右上角的-“-”-号，选择新建项目"><a href="#注册完成后点击页面右上角的-“-”-号，选择新建项目" class="headerlink" title="注册完成后点击页面右上角的 “+”  号，选择新建项目"></a>注册完成后点击页面右上角的 “+”  号，选择新建项目</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/%E5%88%A9%E7%94%A8Gitee%E5%8A%A0%E9%80%9FGithub-Clone/1.png" alt="创建新项目"></p>
+<h3 id="在新页面中选择-“导入已有项目”"><a href="#在新页面中选择-“导入已有项目”" class="headerlink" title="在新页面中选择 “导入已有项目”"></a>在新页面中选择 “导入已有项目”</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/%E5%88%A9%E7%94%A8Gitee%E5%8A%A0%E9%80%9FGithub-Clone/2.png" alt="导入已有项目"></p>
+<h3 id="复制需要导入的-Github-项目地址"><a href="#复制需要导入的-Github-项目地址" class="headerlink" title="复制需要导入的 Github 项目地址"></a>复制需要导入的 Github 项目地址</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/%E5%88%A9%E7%94%A8Gitee%E5%8A%A0%E9%80%9FGithub-Clone/3.png" alt="复制项目地址"></p>
+<h3 id="填入地址之后点击-“创建按钮”"><a href="#填入地址之后点击-“创建按钮”" class="headerlink" title="填入地址之后点击 “创建按钮”"></a>填入地址之后点击 “创建按钮”</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/%E5%88%A9%E7%94%A8Gitee%E5%8A%A0%E9%80%9FGithub-Clone/4.png" alt="点击创建按钮"></p>
+<p>等待 Gitee 拉取完成，这个过程的长短因拉取项目大小而异，1-10 分钟不等。<br>拉取完成后就可以愉快的 git clone 了。</p>
+]]></content>
+      <tags>
+        <tag>Github</tag>
+        <tag>Gitee</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>仓库同时推送Github和Gitee</title>
-    <url>/posts/24802/</url>
+    <url>/Blog/posts/24802/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="本地仓库目录添加-Github"><a href="#本地仓库目录添加-Github" class="headerlink" title="本地仓库目录添加 Github"></a>本地仓库目录添加 Github</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">git remote add Github Github项仓库Clone地址</code></pre>
 
 <h2 id="本地仓库目录添加-Gitee"><a href="#本地仓库目录添加-Gitee" class="headerlink" title="本地仓库目录添加 Gitee"></a>本地仓库目录添加 Gitee</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">git remote add Gitee Gitee仓库Clone地址</code></pre>
@@ -1529,26 +1549,6 @@ git pull Gitee master</code></pre>
 <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">git push Github master -f
 或者
 git push Gitee master -f</code></pre>
-]]></content>
-      <tags>
-        <tag>Github</tag>
-        <tag>Gitee</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>利用Gitee加速Github Clone</title>
-    <url>/posts/16041/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>大家都知道，要访问 Github 并 Clone 项目，如果没有什么特殊工具的话是真的很慢。<br>最近发现了可以使用 Gitee 来加速 Github Clone 的方法（属实骚操作），可以很好的解决这个问题（火星救援！）。</p>
-</div>
-
-<span id="more"></span>
-
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="注册码云账号"><a href="#注册码云账号" class="headerlink" title="注册码云账号"></a>注册码云账号</h3><p><a href="https://gitee.com/">传送门</a></p>
-<h3 id="注册完成后点击页面右上角的-“-”-号，选择新建项目"><a href="#注册完成后点击页面右上角的-“-”-号，选择新建项目" class="headerlink" title="注册完成后点击页面右上角的 “+”  号，选择新建项目"></a>注册完成后点击页面右上角的 “+”  号，选择新建项目</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/%E5%88%A9%E7%94%A8Gitee%E5%8A%A0%E9%80%9FGithub-Clone/1.png" alt="创建新项目"></p>
-<h3 id="在新页面中选择-“导入已有项目”"><a href="#在新页面中选择-“导入已有项目”" class="headerlink" title="在新页面中选择 “导入已有项目”"></a>在新页面中选择 “导入已有项目”</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/%E5%88%A9%E7%94%A8Gitee%E5%8A%A0%E9%80%9FGithub-Clone/2.png" alt="导入已有项目"></p>
-<h3 id="复制需要导入的-Github-项目地址"><a href="#复制需要导入的-Github-项目地址" class="headerlink" title="复制需要导入的 Github 项目地址"></a>复制需要导入的 Github 项目地址</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/%E5%88%A9%E7%94%A8Gitee%E5%8A%A0%E9%80%9FGithub-Clone/3.png" alt="复制项目地址"></p>
-<h3 id="填入地址之后点击-“创建按钮”"><a href="#填入地址之后点击-“创建按钮”" class="headerlink" title="填入地址之后点击 “创建按钮”"></a>填入地址之后点击 “创建按钮”</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/%E5%88%A9%E7%94%A8Gitee%E5%8A%A0%E9%80%9FGithub-Clone/4.png" alt="点击创建按钮"></p>
-<p>等待 Gitee 拉取完成，这个过程的长短因拉取项目大小而异，1-10 分钟不等。<br>拉取完成后就可以愉快的 git clone 了。</p>
 ]]></content>
       <tags>
         <tag>Github</tag>
