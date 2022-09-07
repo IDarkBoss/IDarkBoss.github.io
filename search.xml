@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>BigDecimal详解</title>
-    <url>/Blog/posts/45537/</url>
+    <url>/posts/45537/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p> 本文介绍 BigDecimal 的使用方法 <sup id="fnref:1"><a href="#fn:1" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="转载自: [LanceToBigData](https://www.cnblogs.com/zhangyinhua/p/11545305.html)
 ">[1]</span></a></sup> </p>
 </div>
@@ -439,7 +439,7 @@ public class ArithmeticUtils &#123;
   </entry>
   <entry>
     <title>CSS @font-face属性详解</title>
-    <url>/Blog/posts/2734/</url>
+    <url>/posts/2734/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p><code>@font-face</code>是 CSS3 中的一个模块，他主要是把自己定义的 Web 字体嵌入到你的网页中。<br>本文介绍了该模块的一些使用方法。</p>
 </div>
 
@@ -491,7 +491,7 @@ public class ArithmeticUtils &#123;
   </entry>
   <entry>
     <title>Chaos Monkey</title>
-    <url>/Blog/posts/29264/</url>
+    <url>/posts/29264/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>本文介绍了 Chaos Monkey </p>
 </div>
 
@@ -507,13 +507,13 @@ public class ArithmeticUtils &#123;
 <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>我们可以手动调用 Chaos Monkey 终止实例。 例如：</p>
 <p><code>chaosmonkey terminate chaosguineapig test --cluster=chaosguineapig--region=**us**-east-1</code></p>
 <p>应用中启用 Chaos Monkey，在 Spring Boot 应用中开启 Chaos Monkey 支持仅需要两步，首先在项目依赖中添加在 chaos-monkey-spring-boot。再然后，我们在应用启动时激活 chaos-monkey 的 profile。</p>
-<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml">&lt;dependency&gt;
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;dependency&gt;
     &lt;groupId&gt;de.codecentric&lt;&#x2F;groupId&gt;
     &lt;artifactId&gt;chaos-monkey-spring-boot&lt;&#x2F;artifactId&gt;
     &lt;version&gt;2.0.0-SNAPSHOT&lt;&#x2F;version&gt;
 &lt;&#x2F;dependency&gt;</code></pre>
 
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$java -jar target&#x2F;order-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$java -jar target&#x2F;order-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
 
 <p>在 Codecentric Chaos Monkey 库的 2.0 版本中有个新的特性：Spring Boot Actuator 访问端口，通过 management.endpoint.chaosmonkey.enabled 属性来设置是否开启，在应用启动后，就可以通过 HTTP 访问端口来访问了。</p>
 <h2 id="设计场景与应用"><a href="#设计场景与应用" class="headerlink" title="设计场景与应用"></a>设计场景与应用</h2><p><a href="https://idarkboss.github.io/posts/19759">设计场景与应用</a></p>
@@ -521,14 +521,14 @@ public class ArithmeticUtils &#123;
 <h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>运行这些测试的最简单方法是在本地计算机上安装 Docker。这些测试使用 mysql:5.6 容器（使用 5.6 版以确保与<a href="https://aws.amazon.com/rds/aurora">Amazon Aurora</a>兼容）。</p>
 <p>请注意，如果使用的是 macOS，则必须使用<a href="https://docs.docker.com/engine/installation/mac/">Docker for Mac</a>而不是 Docker Toolbox。否则，将无法通过 127.0.0.1 访问 Docker 容器。</p>
 <p>如果要运行这些测试，请确保已在本地安装 Docker，并抓住 mysql：5.6 容器：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">docker pull mysql:5.6</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker pull mysql:5.6</code></pre>
 
 <p>然后使用 docker 标记运行测试，如下所示：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">go test -tags docker .&#x2F;...</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">go test -tags docker .&#x2F;...</code></pre>
 
 <p>测试将自动启动 mysql 容器，然后将其关闭。</p>
 <p>如果在不上下移动 Docker 容器的情况下进行测试。如果你不希望测试每次都启动和关闭 mysql Docker 容器（例如，你想更快地运行测试，或者想通过本地运行 mysql 实例进行测试），请使用“dockerup”标志以及“docker”标志。</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">go test -tags &quot;docker dockerup&quot; .&#x2F;...</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">go test -tags &quot;docker dockerup&quot; .&#x2F;...</code></pre>
 
 <h3 id="启用组"><a href="#启用组" class="headerlink" title="启用组"></a>启用组</h3><p>如果 Spinnaker 将服务器组标记为启用，那么 Chaos Monkey 将仅考虑有资格终止的服务器组。Spinnaker API 公开了 isDisabled 布尔标志，以指示是否禁用了组。Chaos Monkey 对此进行了过滤，以确保它仅从活动组中终止。</p>
 <h3 id="可能性"><a href="#可能性" class="headerlink" title="可能性"></a>可能性</h3><p>对于每个应用程序，Chaos Monkey 将实例分为实例组（分组取决于应用程序的配置方式）。每个工作日，对于每个实例组，Chaos Monkey 都会掷一枚加权硬币，以决定是否从该组中终止实例。如果硬币朝上，Chaos Monkey 会安排在当天的上午 9 点至下午 3 点之间的任意时间终止。</p>
@@ -553,7 +553,7 @@ public class ArithmeticUtils &#123;
   </entry>
   <entry>
     <title>IDEA VMOptions设置</title>
-    <url>/Blog/posts/7328/</url>
+    <url>/posts/7328/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>IntelliJ IDEA 运行在 JVM 上，JVM 有很多的选项和开关配置可以用来调整性能，也就是说，可以通过手动的调整这些 JVM 参数来优化 IntelliJ IDEA 的性能。这篇文章主要总结了 VMOptions 的用法。</p>
 <span id="more"></span>
 
@@ -619,7 +619,7 @@ public class ArithmeticUtils &#123;
   </entry>
   <entry>
     <title>IDEA 遇到的问题</title>
-    <url>/Blog/posts/15956/</url>
+    <url>/posts/15956/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>本文收集了一些在 IDEA 中可能遇到的问题。<br>如：Project 的 SDK 设置，IDEA 的内存设置等。</p>
 </div>
 
@@ -669,8 +669,77 @@ public class ArithmeticUtils &#123;
       </tags>
   </entry>
   <entry>
+    <title>Java中List的循环用法</title>
+    <url>/posts/54882/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>Java 中 List 的循环用法</p>
+</div>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">public class Liebiao &#123;
+    public static void main(String args[]) &#123;
+        int[] numbers &#x3D; &#123;10, 20, 30, 40, 50&#125;;
+
+        for (int x : numbers) &#123;
+            System.out.print(x);
+            System.out.print(&quot;,&quot;);
+        &#125;
+        System.out.print(&quot;\n&quot;);
+
+        String[] names &#x3D; &#123;&quot;James&quot;, &quot;Larry&quot;, &quot;Tom&quot;, &quot;Lacy&quot;&#125;;
+        for (String name : names) &#123;
+            System.out.print(name);
+            System.out.print(&quot;,&quot;);
+        &#125;
+    &#125;
+&#125;</code></pre>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Manjaro更换Deepin桌面环境</title>
+    <url>/posts/1977/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>Deepin 桌面环境（DDE）是真滴好看，然而似乎有些地方并不是很稳定。So what？盘它！</p>
+<span id="more"></span>
+
+<h2 id="下载-Deepin-桌面环境（DDE）"><a href="#下载-Deepin-桌面环境（DDE）" class="headerlink" title="下载 Deepin 桌面环境（DDE）"></a>下载 Deepin 桌面环境（DDE）</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pacman -Sy deepin deepin-extra</code></pre>
+
+<p>修改 <code>/etc/lightdm/lightdm.conf</code></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo nano &#x2F;etc&#x2F;lightdm&#x2F;lightdm.conf
+
+greeter-session&#x3D;lightdm-deepin-greeter</code></pre>
+
+<h2 id="禁用当前桌面环境"><a href="#禁用当前桌面环境" class="headerlink" title="禁用当前桌面环境"></a>禁用当前桌面环境</h2><h3 id="KDE-桌面"><a href="#KDE-桌面" class="headerlink" title="KDE 桌面"></a>KDE 桌面</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">systemctl disable sddm</code></pre>
+
+<h3 id="Xfce-桌面"><a href="#Xfce-桌面" class="headerlink" title="Xfce 桌面"></a>Xfce 桌面</h3><p>似乎不用？我也布吉岛-_-||</p>
+<h2 id="启用-LightDm"><a href="#启用-LightDm" class="headerlink" title="启用 LightDm"></a>启用 LightDm</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">systemctl enable lightdm</code></pre>
+
+<h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">reboot</code></pre>
+
+<h2 id="卸载原桌面环境的组件"><a href="#卸载原桌面环境的组件" class="headerlink" title="卸载原桌面环境的组件"></a>卸载原桌面环境的组件</h2><h3 id="KDE-环境-详见-ArchWiki-KDE"><a href="#KDE-环境-详见-ArchWiki-KDE" class="headerlink" title="KDE 环境 - 详见 ArchWiki-KDE"></a>KDE 环境 - 详见 <a href="https://wiki.archlinux.org/index.php/KDE_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">ArchWiki-KDE</a></h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pacman -Rsc plasma
+pacman -Rsc kde-applications</code></pre>
+
+<h3 id="Xfce-环境-详见-ArchWiki-Xfce"><a href="#Xfce-环境-详见-ArchWiki-Xfce" class="headerlink" title="Xfce 环境 - 详见 ArchWiki-Xfce"></a>Xfce 环境 - 详见 <a href="https://wiki.archlinux.org/index.php/Xfce_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">ArchWiki-Xfce</a></h3><p>Xfce 环境一定要卸载，不然不能切换到 DDE。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pacman -Rsc xfce4 # 别的不知道了
+reboot # 再重启一次</code></pre>
+
+<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>kde 对应的是 <a href="https://wiki.archlinux.org/index.php/SDDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">SDDM</a></p>
+<p>deepin 对应的是 <a href="https://wiki.archlinux.org/index.php/LightDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">LightDm</a></p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://www.jianshu.com/p/a1e31a9a50dc">vygjyfjt</a></li>
+<li><a href="https://blog.csdn.net/weixin_30836759/article/details/96636929">weixin_30836759</a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Manjaro</tag>
+        <tag>Deepin</tag>
+        <tag>Manjaro-Deepin</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java数组使用方法</title>
-    <url>/Blog/posts/41103/</url>
+    <url>/posts/41103/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p> 本文介绍 Java 数组使用方法 <sup id="fnref:1"><a href="#fn:1" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="转载自: [菜鸟教程](https://www.runoob.com/java/java-array.html)
 ">[1]</span></a></sup> </p>
 </div>
@@ -897,77 +966,8 @@ s[1][2] &#x3D; new String(&quot;!&quot;);</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>Java中List的循环用法</title>
-    <url>/Blog/posts/54882/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>Java 中 List 的循环用法</p>
-</div>
-
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">public class Liebiao &#123;
-    public static void main(String args[]) &#123;
-        int[] numbers &#x3D; &#123;10, 20, 30, 40, 50&#125;;
-
-        for (int x : numbers) &#123;
-            System.out.print(x);
-            System.out.print(&quot;,&quot;);
-        &#125;
-        System.out.print(&quot;\n&quot;);
-
-        String[] names &#x3D; &#123;&quot;James&quot;, &quot;Larry&quot;, &quot;Tom&quot;, &quot;Lacy&quot;&#125;;
-        for (String name : names) &#123;
-            System.out.print(name);
-            System.out.print(&quot;,&quot;);
-        &#125;
-    &#125;
-&#125;</code></pre>
-]]></content>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Manjaro更换Deepin桌面环境</title>
-    <url>/Blog/posts/1977/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>Deepin 桌面环境（DDE）是真滴好看，然而似乎有些地方并不是很稳定。So what？盘它！</p>
-<span id="more"></span>
-
-<h2 id="下载-Deepin-桌面环境（DDE）"><a href="#下载-Deepin-桌面环境（DDE）" class="headerlink" title="下载 Deepin 桌面环境（DDE）"></a>下载 Deepin 桌面环境（DDE）</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pacman -Sy deepin deepin-extra</code></pre>
-
-<p>修改 <code>/etc/lightdm/lightdm.conf</code></p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">sudo nano &#x2F;etc&#x2F;lightdm&#x2F;lightdm.conf
-
-greeter-session&#x3D;lightdm-deepin-greeter</code></pre>
-
-<h2 id="禁用当前桌面环境"><a href="#禁用当前桌面环境" class="headerlink" title="禁用当前桌面环境"></a>禁用当前桌面环境</h2><h3 id="KDE-桌面"><a href="#KDE-桌面" class="headerlink" title="KDE 桌面"></a>KDE 桌面</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">systemctl disable sddm</code></pre>
-
-<h3 id="Xfce-桌面"><a href="#Xfce-桌面" class="headerlink" title="Xfce 桌面"></a>Xfce 桌面</h3><p>似乎不用？我也布吉岛-_-||</p>
-<h2 id="启用-LightDm"><a href="#启用-LightDm" class="headerlink" title="启用 LightDm"></a>启用 LightDm</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">systemctl enable lightdm</code></pre>
-
-<h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">reboot</code></pre>
-
-<h2 id="卸载原桌面环境的组件"><a href="#卸载原桌面环境的组件" class="headerlink" title="卸载原桌面环境的组件"></a>卸载原桌面环境的组件</h2><h3 id="KDE-环境-详见-ArchWiki-KDE"><a href="#KDE-环境-详见-ArchWiki-KDE" class="headerlink" title="KDE 环境 - 详见 ArchWiki-KDE"></a>KDE 环境 - 详见 <a href="https://wiki.archlinux.org/index.php/KDE_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">ArchWiki-KDE</a></h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pacman -Rsc plasma
-pacman -Rsc kde-applications</code></pre>
-
-<h3 id="Xfce-环境-详见-ArchWiki-Xfce"><a href="#Xfce-环境-详见-ArchWiki-Xfce" class="headerlink" title="Xfce 环境 - 详见 ArchWiki-Xfce"></a>Xfce 环境 - 详见 <a href="https://wiki.archlinux.org/index.php/Xfce_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">ArchWiki-Xfce</a></h3><p>Xfce 环境一定要卸载，不然不能切换到 DDE。</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pacman -Rsc xfce4 # 别的不知道了
-reboot # 再重启一次</code></pre>
-
-<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>kde 对应的是 <a href="https://wiki.archlinux.org/index.php/SDDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">SDDM</a></p>
-<p>deepin 对应的是 <a href="https://wiki.archlinux.org/index.php/LightDM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">LightDm</a></p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a href="https://www.jianshu.com/p/a1e31a9a50dc">vygjyfjt</a></li>
-<li><a href="https://blog.csdn.net/weixin_30836759/article/details/96636929">weixin_30836759</a></li>
-</ul>
-]]></content>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Manjaro</tag>
-        <tag>Deepin</tag>
-        <tag>Manjaro-Deepin</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>NexT-Pisces主题配置</title>
-    <url>/Blog/posts/14831/</url>
+    <url>/posts/14831/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>NexT 主题虽然已经很好看，但还可以在进一步美化。本文对做过的美化进行了大致的记录。</p>
 <span id="more"></span>
 
@@ -1033,7 +1033,7 @@ code &#123;
 
 <h2 id="文章结束标识"><a href="#文章结束标识" class="headerlink" title="文章结束标识"></a>文章结束标识</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p>在博客根目录下新建 <code>source/_data/post-body-end.swig</code> ,即 <code>_data</code> 目录和 <code>_posts</code> 目录平级。</p>
 <p>在根目录的 <code>_config.yml</code> 取消 <code>custom_file_path</code> 下 <code>postBodyEnd</code> 的注释。</p>
-<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><pre class="line-numbers language-html" data-language="html"><code class="language-html">&lt;div&gt;
+<h3 id="编辑-post-body-end-swig"><a href="#编辑-post-body-end-swig" class="headerlink" title="编辑 post-body-end.swig"></a>编辑 post-body-end.swig</h3><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;div&gt;
   &#123;% if not is_index %&#125;
   &lt;div style&#x3D;&quot;text-align:center;color: #ccc;font-size:14px;&quot;&gt;
     -------------本文结束 &lt;i class&#x3D;&quot;fa fa-paw&quot;&gt;&lt;&#x2F;i&gt; 感谢您的阅读-------------
@@ -1077,50 +1077,24 @@ $font-family-monospace    &#x3D; &quot;Sarasa Mono SC&quot;, get_font_family(&#3
       </tags>
   </entry>
   <entry>
-    <title>Nginx 反代配置</title>
-    <url>/Blog/posts/13817/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>Nginx 反代配置</p>
+    <title>Oracle数据库操作</title>
+    <url>/posts/50348/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>Oracle 数据库</p>
 </div>
 
-<ul>
-<li><p>不要用宝塔下载的 Nginx！！！！（不要问我怎么知道的）</p>
-</li>
-<li><p>进入 &#x2F;etc&#x2F;nginx&#x2F;conf.d 目录</p>
-</li>
-<li><p>新建一个.conf 文件，名称任意，内容为</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">upstream ice &#123;
-        server 0.0.0.0:你的服务需要的端口;
-
-&#125;
-server &#123;
-        listen 80;
-        server_name 你的服务器IP;
-        location &#x2F; &#123;
-        # 后端的Web服务器可以通过X-Forwarded-For获取用户真实IP
-        proxy_next_upstream error timeout invalid_header http_500 http_502 http$
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host;
-        proxy_set_header X_Nginx_Proxy true;
-        proxy_redirect off;
-        &#125;
-&#125;</code></pre>
-</li>
-<li><p>&#x2F;etc&#x2F;nginx&#x2F;nginx.conf 下的 http 中添加</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">include &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;*.conf;
-include &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;*;</code></pre>
-</li>
-<li><p>重启 Nginx 服务</p>
-</li>
+<h2 id="Oracle-用读写模式查询记录"><a href="#Oracle-用读写模式查询记录" class="headerlink" title="Oracle 用读写模式查询记录"></a>Oracle 用读写模式查询记录</h2><ul>
+<li><code>select * from XXX a where AAA=&#39;258&#39; for update</code></li>
+<li><code>select a.rowid,a* from XXX a where AAA=&#39;258&#39;</code></li>
 </ul>
 ]]></content>
       <tags>
-        <tag>Nginx</tag>
+        <tag>Oracle</tag>
+        <tag>PL/SQL</tag>
       </tags>
   </entry>
   <entry>
     <title>Oracle数据库报错分析</title>
-    <url>/Blog/posts/6794/</url>
+    <url>/posts/6794/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>本文介绍了使用 Oracle 数据库时会遇到的一些问题。 </p>
 </div>
 
@@ -1148,24 +1122,50 @@ order by a.id asc;</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>Oracle数据库操作</title>
-    <url>/Blog/posts/50348/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>Oracle 数据库</p>
+    <title>Nginx 反代配置</title>
+    <url>/posts/13817/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>Nginx 反代配置</p>
 </div>
 
-<h2 id="Oracle-用读写模式查询记录"><a href="#Oracle-用读写模式查询记录" class="headerlink" title="Oracle 用读写模式查询记录"></a>Oracle 用读写模式查询记录</h2><ul>
-<li><code>select * from XXX a where AAA=&#39;258&#39; for update</code></li>
-<li><code>select a.rowid,a* from XXX a where AAA=&#39;258&#39;</code></li>
+<ul>
+<li><p>不要用宝塔下载的 Nginx！！！！（不要问我怎么知道的）</p>
+</li>
+<li><p>进入 &#x2F;etc&#x2F;nginx&#x2F;conf.d 目录</p>
+</li>
+<li><p>新建一个.conf 文件，名称任意，内容为</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">upstream ice &#123;
+        server 0.0.0.0:你的服务需要的端口;
+
+&#125;
+server &#123;
+        listen 80;
+        server_name 你的服务器IP;
+        location &#x2F; &#123;
+        # 后端的Web服务器可以通过X-Forwarded-For获取用户真实IP
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http$
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X_Nginx_Proxy true;
+        proxy_redirect off;
+        &#125;
+&#125;</code></pre>
+</li>
+<li><p>&#x2F;etc&#x2F;nginx&#x2F;nginx.conf 下的 http 中添加</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">include &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;*.conf;
+include &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;*;</code></pre>
+</li>
+<li><p>重启 Nginx 服务</p>
+</li>
 </ul>
 ]]></content>
       <tags>
-        <tag>Oracle</tag>
-        <tag>PL/SQL</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
     <title>PyTorch Tensor的数学运算</title>
-    <url>/Blog/posts/52950/</url>
+    <url>/posts/52950/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="转载自"><a href="#转载自" class="headerlink" title="转载自"></a>转载自</h2><p>转载自：<a href="https://blog.csdn.net/s294878304/article/details/102945910">嘻哈吼嘿呵</a></p>
 <div class="note default"><p>本文介绍了 PyTorch 的一些数学运算方法。 </p>
 </div>
@@ -1470,8 +1470,34 @@ order by a.id asc;</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>仓库同时推送Github和Gitee</title>
+    <url>/posts/24802/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="本地仓库目录添加-Github"><a href="#本地仓库目录添加-Github" class="headerlink" title="本地仓库目录添加 Github"></a>本地仓库目录添加 Github</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git remote add Github Github项仓库Clone地址</code></pre>
+
+<h2 id="本地仓库目录添加-Gitee"><a href="#本地仓库目录添加-Gitee" class="headerlink" title="本地仓库目录添加 Gitee"></a>本地仓库目录添加 Gitee</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git remote add Gitee Gitee仓库Clone地址</code></pre>
+
+<h2 id="推送到-Github"><a href="#推送到-Github" class="headerlink" title="推送到 Github"></a>推送到 Github</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git push Github master</code></pre>
+
+<h2 id="推送到-Gitee"><a href="#推送到-Gitee" class="headerlink" title="推送到 Gitee"></a>推送到 Gitee</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git push Gitee master</code></pre>
+
+<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>如果推送到远端时报错，可以先从远端 pull 项目</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git pull Github master
+或者
+git pull Gitee master</code></pre>
+
+<p>或者强制推送</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git push Github master -f
+或者
+git push Gitee master -f</code></pre>
+]]></content>
+      <tags>
+        <tag>Github</tag>
+        <tag>Gitee</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pom参数详解</title>
-    <url>/Blog/posts/39421/</url>
+    <url>/posts/39421/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>pom 中有很多成对的参数，是不是大家跟我一样，很多都在用，但不知道参数的定义，下面来整理下这些参数，也方便日后想不起来的时候，可以很快的进行查阅，大家在看的时候尽量对比着自己的项目看，这样可以加深理解。 </p>
 </div>
 
@@ -1511,7 +1537,7 @@ order by a.id asc;</code></pre>
   </entry>
   <entry>
     <title>利用Gitee加速Github Clone</title>
-    <url>/Blog/posts/16041/</url>
+    <url>/posts/16041/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>大家都知道，要访问 Github 并 Clone 项目，如果没有什么特殊工具的话是真的很慢。<br>最近发现了可以使用 Gitee 来加速 Github Clone 的方法（属实骚操作），可以很好的解决这个问题（火星救援！）。</p>
 </div>
 
@@ -1523,32 +1549,6 @@ order by a.id asc;</code></pre>
 <h3 id="复制需要导入的-Github-项目地址"><a href="#复制需要导入的-Github-项目地址" class="headerlink" title="复制需要导入的 Github 项目地址"></a>复制需要导入的 Github 项目地址</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/%E5%88%A9%E7%94%A8Gitee%E5%8A%A0%E9%80%9FGithub-Clone/3.png" alt="复制项目地址"></p>
 <h3 id="填入地址之后点击-“创建按钮”"><a href="#填入地址之后点击-“创建按钮”" class="headerlink" title="填入地址之后点击 “创建按钮”"></a>填入地址之后点击 “创建按钮”</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/%E5%88%A9%E7%94%A8Gitee%E5%8A%A0%E9%80%9FGithub-Clone/4.png" alt="点击创建按钮"></p>
 <p>等待 Gitee 拉取完成，这个过程的长短因拉取项目大小而异，1-10 分钟不等。<br>拉取完成后就可以愉快的 git clone 了。</p>
-]]></content>
-      <tags>
-        <tag>Github</tag>
-        <tag>Gitee</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>仓库同时推送Github和Gitee</title>
-    <url>/Blog/posts/24802/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="本地仓库目录添加-Github"><a href="#本地仓库目录添加-Github" class="headerlink" title="本地仓库目录添加 Github"></a>本地仓库目录添加 Github</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">git remote add Github Github项仓库Clone地址</code></pre>
-
-<h2 id="本地仓库目录添加-Gitee"><a href="#本地仓库目录添加-Gitee" class="headerlink" title="本地仓库目录添加 Gitee"></a>本地仓库目录添加 Gitee</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">git remote add Gitee Gitee仓库Clone地址</code></pre>
-
-<h2 id="推送到-Github"><a href="#推送到-Github" class="headerlink" title="推送到 Github"></a>推送到 Github</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">git push Github master</code></pre>
-
-<h2 id="推送到-Gitee"><a href="#推送到-Gitee" class="headerlink" title="推送到 Gitee"></a>推送到 Gitee</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">git push Gitee master</code></pre>
-
-<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>如果推送到远端时报错，可以先从远端 pull 项目</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">git pull Github master
-或者
-git pull Gitee master</code></pre>
-
-<p>或者强制推送</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">git push Github master -f
-或者
-git push Gitee master -f</code></pre>
 ]]></content>
       <tags>
         <tag>Github</tag>

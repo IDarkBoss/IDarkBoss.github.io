@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.2.0">
 
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/Blog/images/32x32.webp">
-  <link rel="icon" type="image/png" sizes="32x32" href="/Blog/images/32x32.webp">
-  <link rel="icon" type="image/png" sizes="16x16" href="/Blog/images/16x16.webp">
-  <link rel="mask-icon" href="/Blog/images/32x32.webp" color="#222">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/32x32.webp">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.webp">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.webp">
+  <link rel="mask-icon" href="/images/32x32.webp" color="#222">
 
-<link rel="stylesheet" href="/Blog/css/main.css">
+<link rel="stylesheet" href="/css/main.css">
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
@@ -22,12 +22,12 @@
   <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/themes/blue/pace-theme-center-atom.css">
   <script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"idarkboss.gitee.io","root":"/Blog/","images":"/Blog/images","scheme":"Pisces","darkmode":true,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":300,"onmobile":true},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/Blog/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/Blog/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"idarkboss.gitee.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":300,"onmobile":true},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="设计场景与应用下面例子是 Spring Boot 微服务中 Chaos Monkey 的应用，展示如何在 Spring Boot 应用程序中包含 Codecentric 的 Chaos Monkey，然后在一些微服务示例系统中实现混沌工程。Chaos Monkey 库可以与 Spring Boot 2.0 一起使用，它的当前发行版本是 1.0.1。但是，这里将使用 2.0.0-SNAPSHOT 版">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Chaos Monkey设计场景与应用">
-<meta property="og:url" content="https://idarkboss.gitee.io/Blog/posts/19759/index.html">
+<meta property="og:url" content="https://idarkboss.gitee.io/posts/19759/index.html">
 <meta property="og:site_name" content="大老黑的豆腐渣集散地">
 <meta property="og:description" content="设计场景与应用下面例子是 Spring Boot 微服务中 Chaos Monkey 的应用，展示如何在 Spring Boot 应用程序中包含 Codecentric 的 Chaos Monkey，然后在一些微服务示例系统中实现混沌工程。Chaos Monkey 库可以与 Spring Boot 2.0 一起使用，它的当前发行版本是 1.0.1。但是，这里将使用 2.0.0-SNAPSHOT 版">
 <meta property="og:locale" content="zh_CN">
@@ -40,11 +40,11 @@
 <meta name="twitter:image" content="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/Chaos-Monkey/2020/05/1320200513092642.png">
 
 
-<link rel="canonical" href="https://idarkboss.gitee.io/Blog/posts/19759/">
+<link rel="canonical" href="https://idarkboss.gitee.io/posts/19759/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://idarkboss.gitee.io/Blog/posts/19759/","path":"posts/19759/","title":"Chaos Monkey设计场景与应用"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://idarkboss.gitee.io/posts/19759/","path":"posts/19759/","title":"Chaos Monkey设计场景与应用"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Chaos Monkey设计场景与应用 | 大老黑的豆腐渣集散地</title><meta name="robots" content="noindex">
@@ -53,9 +53,9 @@
 
 
 
-<link rel="stylesheet" type="text/css" href="/Blog/css/injector/main.css" /><link rel="preload" as="style" href="/Blog/css/injector/light.css" /><link rel="preload" as="style" href="/Blog/css/injector/dark.css" />
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
   <noscript>
-    <link rel="stylesheet" href="/Blog/css/noscript.css">
+    <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
 </head>
 
@@ -75,7 +75,7 @@
 
   <div class="site-meta">
 
-    <a href="/Blog/" class="brand" rel="start">
+    <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
       <p class="site-title">大老黑的豆腐渣集散地</p>
       <i class="logo-line"></i>
@@ -93,7 +93,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/Blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/Blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-sitemap"><a href="/Blog/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -157,14 +157,14 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="IDarkBoss"
-      src="/Blog/images/avatar.svg">
+      src="/images/avatar.svg">
   <p class="site-author-name" itemprop="name">IDarkBoss</p>
   <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-        <a href="/Blog/archives/">
+        <a href="/archives/">
           <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
@@ -220,10 +220,10 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://idarkboss.gitee.io/Blog/posts/19759/">
+    <link itemprop="mainEntityOfPage" href="https://idarkboss.gitee.io/posts/19759/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/Blog/images/avatar.svg">
+      <meta itemprop="image" content="/images/avatar.svg">
       <meta itemprop="name" content="IDarkBoss">
     </span>
 
@@ -293,30 +293,30 @@
     <div class="post-body" itemprop="articleBody">
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="设计场景与应用"><a href="#设计场景与应用" class="headerlink" title="设计场景与应用"></a>设计场景与应用</h2><p>下面例子是 Spring Boot 微服务中 Chaos Monkey 的应用，展示如何在 Spring Boot 应用程序中包含 Codecentric 的 Chaos Monkey，然后在一些微服务示例系统中实现混沌工程。Chaos Monkey 库可以与 Spring Boot 2.0 一起使用，它的当前发行版本是 1.0.1。但是，这里将使用 2.0.0-SNAPSHOT 版本实现示例，因为它具有此库的早期版本中不能用的一些新的有趣功能。为了能够下载 Codecentric 的 Chaos Monkey 库的 SNAPSHOT 版本，必须记住包含 Maven 存储库 <a target="_blank" rel="noopener" href="https://oss.sonatype.org/content/repositories/snapshots">https://oss.sonatype.org/content/repositories/snapshots</a> 到 <code>pom.xml</code> 存储库中。</p>
 <h3 id="为应用程序启用-Chaos-Monkey"><a href="#为应用程序启用-Chaos-Monkey" class="headerlink" title="为应用程序启用 Chaos Monkey"></a>为应用程序启用 Chaos Monkey</h3><p>为 Spring Boot 应用程序启用 Chaos Monkey 有两个必需的步骤。首先，让我们将 chaos-monkey-spring-boot 库添加到项目的依赖项中。</p>
-<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml">&lt;dependency&gt;
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;dependency&gt;
     &lt;groupId&gt;de.codecentric&lt;&#x2F;groupId&gt;
     &lt;artifactId&gt;chaos-monkey-spring-boot&lt;&#x2F;artifactId&gt;
     &lt;version&gt;2.0.0-SNAPSHOT&lt;&#x2F;version&gt;
 &lt;&#x2F;dependency&gt;</code></pre>
 
 <p>然后，我们应该在应用程序启动时激活 chaos-monkey 文件。</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$java -jar target&#x2F;order-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$java -jar target&#x2F;order-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
 
 <h3 id="样本系统架构"><a href="#样本系统架构" class="headerlink" title="样本系统架构"></a>样本系统架构</h3><p>该示例系统由三个微服务组成，每个微服务都在两个实例中启动，还有一个服务发现服务器。微服务将自己注册到发现服务器，并通过 HTTP API 相互通信。Chaos Monkey 库包含在所有正在运行的微服务的每个实例中，但不包含在发现服务器中。</p>
 <p>样本应用程序的源代码可以在 GitHub 的仓库 <strong>sample-spring-chaosmonkey</strong> 中找到。克隆此存储库并使用 <code>mvn clean install</code> 命令构建它之后，应该首先运行 <code>discovery-service</code>。然后通过 <code>-Dserver.port</code> 使用适当的数字设置属性，在不同端口上运行每个微服务的两个实例。</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$java -jar target&#x2F;discovery-service-1.0-SNAPSHOT.jar</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$java -jar target&#x2F;discovery-service-1.0-SNAPSHOT.jar</code></pre>
 
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$java -jar target&#x2F;order-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$java -jar target&#x2F;order-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
 
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$java -jar -Dserver.port&#x3D;9091 target&#x2F;order-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$java -jar -Dserver.port&#x3D;9091 target&#x2F;order-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
 
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$java -jar target&#x2F;product-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$java -jar target&#x2F;product-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
 
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$java -jar -Dserver.port&#x3D;9092 target&#x2F;product-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$java -jar -Dserver.port&#x3D;9092 target&#x2F;product-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
 
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$java -jar target&#x2F;customer-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$java -jar target&#x2F;customer-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
 
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$java -jar -Dserver.port&#x3D;9093 target&#x2F;customer-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$java -jar -Dserver.port&#x3D;9093 target&#x2F;customer-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
 
 <h3 id="流程配置"><a href="#流程配置" class="headerlink" title="流程配置"></a>流程配置</h3><p>在版本 2.0.0-SNAPSHOT 的 chaos-monkey-spring-boot 库中，Chaos Monkey 默认启用它包含的应用程序。你可以使用 chaos.monkey.enabled 属性禁用它。但是，默认情况下启用的唯一攻击是延迟。这种类型的攻击会通过属性 chaos.monkey.assaults.latencyRangeStart 和 chaos.monkey.assaults.latencyRangeEnd 确定的范围为应用程序处理的请求添加随机延迟。受攻击请求的数量取决于属性 chaos.monkey.assaults.level，其中 1 表示每个请求，10 表示每第 10 个请求。我们还可以为我们的应用程序启用异常和 appKiller 攻击。为简单起见，我为所有微服务设置了配置。我们来看看 application.yml 文件中提供的设置。</p>
 <ul>
@@ -345,7 +345,7 @@
 </ul>
 <p>理论上，上面显示的配置应该启用所有三种可用类型的攻击。但是，如果启用 latency 和 exceptions，killApplication 永远不会发生。此外，如果同时启用 latency 和 exceptions，则无论使用 chaos.monkey.assaults.level 属性设置哪个级别，发送给应用程序的所有请求都将受到攻击。记住激活 restController 观察者很重要，默认情况下禁用观察者。</p>
 <h3 id="启用-Spring-Boot-Actuator-端点"><a href="#启用-Spring-Boot-Actuator-端点" class="headerlink" title="启用 Spring Boot Actuator 端点"></a>启用 Spring Boot Actuator 端点</h3><p>Codecentric 在其 Chaos Monkey 库的 2.0 版本中实现了一项新功能 - Spring Boot Actuator 的端点。要为我们的应用程序启用它，我们必须按照执行程序约定激活它 - 通过将属性 management.endpoint.chaosmonkey.enabled 设置为 true。此外，从 Spring Boot 2.0 版开始，我们必须公开该 HTTP 端点在应用程序启动后可用。</p>
-<pre class="line-numbers language-yml" data-language="yml"><code class="language-yml">management:
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">management:
   endpoint:
     chaosmonkey:
       enabled: true
@@ -356,7 +356,7 @@
 
 <p>chaos-monkey-spring-boot 提供了几个端点，允许你查看和修改配置。你可以使用 <code>GET /chaosmonkey</code> 方法来获取库的整个配置。你也可以在启动应用程序后，通过调用 <code>/chaosmonkey/disable</code> 方法，禁用 chaos monkey。此处列出了可用端点的完整列表：<a target="_blank" rel="noopener" href="https://codecentric.github.io/chaos-monkey-spring-boot/2.0.0-SNAPSHOT/#endpoints%E3%80%82">https://codecentric.github.io/chaos-monkey-spring-boot/2.0.0-SNAPSHOT/#endpoints。</a></p>
 <h3 id="运行应用程序"><a href="#运行应用程序" class="headerlink" title="运行应用程序"></a>运行应用程序</h3><p>所有示例微服务都在 MySQL 中存储数据。因此，第一步是使用 Docker 镜像在本地运行 MySQL 数据库。下面显示的 Docker 命令还会创建具有密码的数据库和用户。</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$docker run -d --name mysql -e MYSQL_DATABASE&#x3D;chaos -e MYSQL_USER&#x3D;chaos -e MYSQL_PASSWORD&#x3D;chaos123 -e MYSQL_ROOT_PASSWORD&#x3D;123456 -p 33306:3306 mysql</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$docker run -d --name mysql -e MYSQL_DATABASE&#x3D;chaos -e MYSQL_USER&#x3D;chaos -e MYSQL_PASSWORD&#x3D;chaos123 -e MYSQL_ROOT_PASSWORD&#x3D;123456 -p 33306:3306 mysql</code></pre>
 
 <p>在运行所有示例应用程序之后，所有微服务都在两个实例中使用不同端口。我们可以通过调用流行的性能测试库：<strong>Gatling</strong>。</p>
 <p>我们这里使用性能测试库 Gatling 来进行测试，将创建 20 个并发线程，将通过 API 网关服务来调用 <strong>order-service</strong>，每个线程调用 500 次。测试的 POST 请求访问端口是 <strong>OrderController</strong> 的 <code>add(…)</code> 方法，这个方法将通过 OpenFeign 客户端来调用 <strong>customer-service</strong> 和 <strong>product-service</strong>。如果顾客用足够的资金并且相应商品有库存的情况下，就接受订单通过 <strong>PUT</strong> 方法对顾客和商品服务进行修改。运行 Gatling 性能测试，到 <strong>performance-test</strong> 目录中运行 <code>gradle loadTest</code> 命令，测试结果跟 Chaos Monkey 袭击设置以及 Ribbon、Feign 客户端的超时设置都相关。这是针对设置延迟攻击生成的结果。当然，可以通过设置 Chaos Monkey 的延迟值或 Ribbon 和 Feign 超时值来更改此结果。</p>
@@ -376,7 +376,7 @@
     
 </div>
           <div class="post-tags">
-              <a href="/Blog/tags/Chaos-Monkey/" rel="tag"># Chaos Monkey</a>
+              <a href="/tags/Chaos-Monkey/" rel="tag"># Chaos Monkey</a>
           </div>
 
         
@@ -456,17 +456,17 @@
   <script src="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
-<script src="/Blog/js/comments.js"></script><script src="/Blog/js/utils.js"></script><script src="/Blog/js/motion.js"></script><script src="/Blog/js/next-boot.js"></script><script src="/Blog/js/pjax.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
 
   
 <script src="https://cdn.bootcdn.net/ajax/libs/hexo-generator-searchdb/1.4.0/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
-<script src="/Blog/js/third-party/search/local-search.js"></script>
+<script src="/js/third-party/search/local-search.js"></script>
 
 
 
-  <script src="/Blog/js/third-party/fancybox.js"></script>
+  <script src="/js/third-party/fancybox.js"></script>
 
-  <script src="/Blog/js/third-party/pace.js"></script>
+  <script src="/js/third-party/pace.js"></script>
 
   
   <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -475,12 +475,12 @@
 
 
   <script src="https://cdn.bootcdn.net/ajax/libs/quicklink/2.2.0/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
-  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://idarkboss.gitee.io/Blog/posts/19759/"}</script>
-  <script src="/Blog/js/third-party/quicklink.js"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://idarkboss.gitee.io/posts/19759/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
 <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
 
-<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"IDarkBoss","repo":"gitalk","client_id":"75b52ae366a9e59a5193","client_secret":"1bb3f02e37e8bbdb822edc4bc313d6fd4a284f0a","admin_user":"IDarkBoss","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"ceb46cd81ecbe8fe5f4aad28fdc69711"}</script>
-<script src="/Blog/js/third-party/comments/gitalk.js"></script>
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"IDarkBoss","repo":"gitalk","client_id":"75b52ae366a9e59a5193","client_secret":"1bb3f02e37e8bbdb822edc4bc313d6fd4a284f0a","admin_user":"IDarkBoss","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"bc5de094f177538becd89a8dc64b5977"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
 <div class="moon-menu">
   <div class="moon-menu-items">
     
@@ -501,7 +501,7 @@
       <div class="moon-menu-text"></div>
     </div>
   </div>
-</div><script src="/Blog/js/injector.js"></script>
+</div><script src="/js/injector.js"></script>
 
   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas>
 <script src="//cdn.bootcdn.net/ajax/libs/animejs/3.2.1/anime.js"></script>

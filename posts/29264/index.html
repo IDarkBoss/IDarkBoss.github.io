@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.2.0">
 
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/Blog/images/32x32.webp">
-  <link rel="icon" type="image/png" sizes="32x32" href="/Blog/images/32x32.webp">
-  <link rel="icon" type="image/png" sizes="16x16" href="/Blog/images/16x16.webp">
-  <link rel="mask-icon" href="/Blog/images/32x32.webp" color="#222">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/32x32.webp">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.webp">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.webp">
+  <link rel="mask-icon" href="/images/32x32.webp" color="#222">
 
-<link rel="stylesheet" href="/Blog/css/main.css">
+<link rel="stylesheet" href="/css/main.css">
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
@@ -22,12 +22,12 @@
   <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/themes/blue/pace-theme-center-atom.css">
   <script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"idarkboss.gitee.io","root":"/Blog/","images":"/Blog/images","scheme":"Pisces","darkmode":true,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":300,"onmobile":true},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/Blog/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/Blog/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"idarkboss.gitee.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":300,"onmobile":true},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="本文介绍了 Chaos Monkey">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Chaos Monkey">
-<meta property="og:url" content="https://idarkboss.gitee.io/Blog/posts/29264/index.html">
+<meta property="og:url" content="https://idarkboss.gitee.io/posts/29264/index.html">
 <meta property="og:site_name" content="大老黑的豆腐渣集散地">
 <meta property="og:description" content="本文介绍了 Chaos Monkey">
 <meta property="og:locale" content="zh_CN">
@@ -38,11 +38,11 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://idarkboss.gitee.io/Blog/posts/29264/">
+<link rel="canonical" href="https://idarkboss.gitee.io/posts/29264/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://idarkboss.gitee.io/Blog/posts/29264/","path":"posts/29264/","title":"Chaos Monkey"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://idarkboss.gitee.io/posts/29264/","path":"posts/29264/","title":"Chaos Monkey"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Chaos Monkey | 大老黑的豆腐渣集散地</title>
@@ -51,9 +51,9 @@
 
 
 
-<link rel="stylesheet" type="text/css" href="/Blog/css/injector/main.css" /><link rel="preload" as="style" href="/Blog/css/injector/light.css" /><link rel="preload" as="style" href="/Blog/css/injector/dark.css" />
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
   <noscript>
-    <link rel="stylesheet" href="/Blog/css/noscript.css">
+    <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
 </head>
 
@@ -73,7 +73,7 @@
 
   <div class="site-meta">
 
-    <a href="/Blog/" class="brand" rel="start">
+    <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
       <p class="site-title">大老黑的豆腐渣集散地</p>
       <i class="logo-line"></i>
@@ -91,7 +91,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/Blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/Blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-sitemap"><a href="/Blog/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -155,14 +155,14 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="IDarkBoss"
-      src="/Blog/images/avatar.svg">
+      src="/images/avatar.svg">
   <p class="site-author-name" itemprop="name">IDarkBoss</p>
   <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-        <a href="/Blog/archives/">
+        <a href="/archives/">
           <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
@@ -218,10 +218,10 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://idarkboss.gitee.io/Blog/posts/29264/">
+    <link itemprop="mainEntityOfPage" href="https://idarkboss.gitee.io/posts/29264/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/Blog/images/avatar.svg">
+      <meta itemprop="image" content="/images/avatar.svg">
       <meta itemprop="name" content="IDarkBoss">
     </span>
 
@@ -304,13 +304,13 @@
 <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>我们可以手动调用 Chaos Monkey 终止实例。 例如：</p>
 <p><code>chaosmonkey terminate chaosguineapig test --cluster=chaosguineapig--region=**us**-east-1</code></p>
 <p>应用中启用 Chaos Monkey，在 Spring Boot 应用中开启 Chaos Monkey 支持仅需要两步，首先在项目依赖中添加在 chaos-monkey-spring-boot。再然后，我们在应用启动时激活 chaos-monkey 的 profile。</p>
-<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml">&lt;dependency&gt;
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;dependency&gt;
     &lt;groupId&gt;de.codecentric&lt;&#x2F;groupId&gt;
     &lt;artifactId&gt;chaos-monkey-spring-boot&lt;&#x2F;artifactId&gt;
     &lt;version&gt;2.0.0-SNAPSHOT&lt;&#x2F;version&gt;
 &lt;&#x2F;dependency&gt;</code></pre>
 
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$java -jar target&#x2F;order-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$java -jar target&#x2F;order-service-1.0-SNAPSHOT.jar --spring.profiles.active&#x3D;chaos-monkey</code></pre>
 
 <p>在 Codecentric Chaos Monkey 库的 2.0 版本中有个新的特性：Spring Boot Actuator 访问端口，通过 management.endpoint.chaosmonkey.enabled 属性来设置是否开启，在应用启动后，就可以通过 HTTP 访问端口来访问了。</p>
 <h2 id="设计场景与应用"><a href="#设计场景与应用" class="headerlink" title="设计场景与应用"></a>设计场景与应用</h2><p><a target="_blank" rel="noopener" href="https://idarkboss.github.io/posts/19759">设计场景与应用</a></p>
@@ -318,14 +318,14 @@
 <h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>运行这些测试的最简单方法是在本地计算机上安装 Docker。这些测试使用 mysql:5.6 容器（使用 5.6 版以确保与<a target="_blank" rel="noopener" href="https://aws.amazon.com/rds/aurora">Amazon Aurora</a>兼容）。</p>
 <p>请注意，如果使用的是 macOS，则必须使用<a target="_blank" rel="noopener" href="https://docs.docker.com/engine/installation/mac/">Docker for Mac</a>而不是 Docker Toolbox。否则，将无法通过 127.0.0.1 访问 Docker 容器。</p>
 <p>如果要运行这些测试，请确保已在本地安装 Docker，并抓住 mysql：5.6 容器：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">docker pull mysql:5.6</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker pull mysql:5.6</code></pre>
 
 <p>然后使用 docker 标记运行测试，如下所示：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">go test -tags docker .&#x2F;...</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">go test -tags docker .&#x2F;...</code></pre>
 
 <p>测试将自动启动 mysql 容器，然后将其关闭。</p>
 <p>如果在不上下移动 Docker 容器的情况下进行测试。如果你不希望测试每次都启动和关闭 mysql Docker 容器（例如，你想更快地运行测试，或者想通过本地运行 mysql 实例进行测试），请使用“dockerup”标志以及“docker”标志。</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">go test -tags &quot;docker dockerup&quot; .&#x2F;...</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">go test -tags &quot;docker dockerup&quot; .&#x2F;...</code></pre>
 
 <h3 id="启用组"><a href="#启用组" class="headerlink" title="启用组"></a>启用组</h3><p>如果 Spinnaker 将服务器组标记为启用，那么 Chaos Monkey 将仅考虑有资格终止的服务器组。Spinnaker API 公开了 isDisabled 布尔标志，以指示是否禁用了组。Chaos Monkey 对此进行了过滤，以确保它仅从活动组中终止。</p>
 <h3 id="可能性"><a href="#可能性" class="headerlink" title="可能性"></a>可能性</h3><p>对于每个应用程序，Chaos Monkey 将实例分为实例组（分组取决于应用程序的配置方式）。每个工作日，对于每个实例组，Chaos Monkey 都会掷一枚加权硬币，以决定是否从该组中终止实例。如果硬币朝上，Chaos Monkey 会安排在当天的上午 9 点至下午 3 点之间的任意时间终止。</p>
@@ -358,19 +358,19 @@
     
 </div>
           <div class="post-tags">
-              <a href="/Blog/tags/Chaos-Monkey/" rel="tag"># Chaos Monkey</a>
+              <a href="/tags/Chaos-Monkey/" rel="tag"># Chaos Monkey</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/Blog/posts/7328/" rel="prev" title="IDEA VMOptions设置">
+                <a href="/posts/7328/" rel="prev" title="IDEA VMOptions设置">
                   <i class="fa fa-chevron-left"></i> IDEA VMOptions设置
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/Blog/posts/1977/" rel="next" title="Manjaro更换Deepin桌面环境">
+                <a href="/posts/1977/" rel="next" title="Manjaro更换Deepin桌面环境">
                   Manjaro更换Deepin桌面环境 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
@@ -450,17 +450,17 @@
   <script src="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
-<script src="/Blog/js/comments.js"></script><script src="/Blog/js/utils.js"></script><script src="/Blog/js/motion.js"></script><script src="/Blog/js/next-boot.js"></script><script src="/Blog/js/pjax.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
 
   
 <script src="https://cdn.bootcdn.net/ajax/libs/hexo-generator-searchdb/1.4.0/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
-<script src="/Blog/js/third-party/search/local-search.js"></script>
+<script src="/js/third-party/search/local-search.js"></script>
 
 
 
-  <script src="/Blog/js/third-party/fancybox.js"></script>
+  <script src="/js/third-party/fancybox.js"></script>
 
-  <script src="/Blog/js/third-party/pace.js"></script>
+  <script src="/js/third-party/pace.js"></script>
 
   
   <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -469,12 +469,12 @@
 
 
   <script src="https://cdn.bootcdn.net/ajax/libs/quicklink/2.2.0/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
-  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://idarkboss.gitee.io/Blog/posts/29264/"}</script>
-  <script src="/Blog/js/third-party/quicklink.js"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://idarkboss.gitee.io/posts/29264/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
 <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
 
-<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"IDarkBoss","repo":"gitalk","client_id":"75b52ae366a9e59a5193","client_secret":"1bb3f02e37e8bbdb822edc4bc313d6fd4a284f0a","admin_user":"IDarkBoss","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"a22c73c1db7a973a2095e62a40deef4b"}</script>
-<script src="/Blog/js/third-party/comments/gitalk.js"></script>
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"IDarkBoss","repo":"gitalk","client_id":"75b52ae366a9e59a5193","client_secret":"1bb3f02e37e8bbdb822edc4bc313d6fd4a284f0a","admin_user":"IDarkBoss","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"dc9a5814a0930052561feec4c8fd7372"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
 <div class="moon-menu">
   <div class="moon-menu-items">
     
@@ -495,7 +495,7 @@
       <div class="moon-menu-text"></div>
     </div>
   </div>
-</div><script src="/Blog/js/injector.js"></script>
+</div><script src="/js/injector.js"></script>
 
   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas>
 <script src="//cdn.bootcdn.net/ajax/libs/animejs/3.2.1/anime.js"></script>

@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.2.0">
 
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/Blog/images/32x32.webp">
-  <link rel="icon" type="image/png" sizes="32x32" href="/Blog/images/32x32.webp">
-  <link rel="icon" type="image/png" sizes="16x16" href="/Blog/images/16x16.webp">
-  <link rel="mask-icon" href="/Blog/images/32x32.webp" color="#222">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/32x32.webp">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.webp">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.webp">
+  <link rel="mask-icon" href="/images/32x32.webp" color="#222">
 
-<link rel="stylesheet" href="/Blog/css/main.css">
+<link rel="stylesheet" href="/css/main.css">
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
@@ -22,12 +22,12 @@
   <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/themes/blue/pace-theme-center-atom.css">
   <script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"idarkboss.gitee.io","root":"/Blog/","images":"/Blog/images","scheme":"Pisces","darkmode":true,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":300,"onmobile":true},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/Blog/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/Blog/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"idarkboss.gitee.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"width":300,"onmobile":true},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="Demo 搭建环境准备一台 Ubuntu 16.04 或者更高版本的虚机（性能基本没要求），用于部署 halyard；haryard 如果是云服务器，建议所在地北美或者能翻墙的国外节点，有能访问 Google 的镜像资源的的代理也行；一个或多个 kubernetes 集群；halyard 服务器的网络上能与 kubernetes 的集群互通； 配置部署 Spinnaker安装 halyardHal">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Chaos Monkey Demo搭建">
-<meta property="og:url" content="https://idarkboss.gitee.io/Blog/posts/51089/index.html">
+<meta property="og:url" content="https://idarkboss.gitee.io/posts/51089/index.html">
 <meta property="og:site_name" content="大老黑的豆腐渣集散地">
 <meta property="og:description" content="Demo 搭建环境准备一台 Ubuntu 16.04 或者更高版本的虚机（性能基本没要求），用于部署 halyard；haryard 如果是云服务器，建议所在地北美或者能翻墙的国外节点，有能访问 Google 的镜像资源的的代理也行；一个或多个 kubernetes 集群；halyard 服务器的网络上能与 kubernetes 的集群互通； 配置部署 Spinnaker安装 halyardHal">
 <meta property="og:locale" content="zh_CN">
@@ -38,11 +38,11 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://idarkboss.gitee.io/Blog/posts/51089/">
+<link rel="canonical" href="https://idarkboss.gitee.io/posts/51089/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://idarkboss.gitee.io/Blog/posts/51089/","path":"posts/51089/","title":"Chaos Monkey Demo搭建"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://idarkboss.gitee.io/posts/51089/","path":"posts/51089/","title":"Chaos Monkey Demo搭建"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Chaos Monkey Demo搭建 | 大老黑的豆腐渣集散地</title><meta name="robots" content="noindex">
@@ -51,9 +51,9 @@
 
 
 
-<link rel="stylesheet" type="text/css" href="/Blog/css/injector/main.css" /><link rel="preload" as="style" href="/Blog/css/injector/light.css" /><link rel="preload" as="style" href="/Blog/css/injector/dark.css" />
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
   <noscript>
-    <link rel="stylesheet" href="/Blog/css/noscript.css">
+    <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
 </head>
 
@@ -73,7 +73,7 @@
 
   <div class="site-meta">
 
-    <a href="/Blog/" class="brand" rel="start">
+    <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
       <p class="site-title">大老黑的豆腐渣集散地</p>
       <i class="logo-line"></i>
@@ -91,7 +91,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/Blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/Blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-sitemap"><a href="/Blog/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -155,14 +155,14 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="IDarkBoss"
-      src="/Blog/images/avatar.svg">
+      src="/images/avatar.svg">
   <p class="site-author-name" itemprop="name">IDarkBoss</p>
   <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-        <a href="/Blog/archives/">
+        <a href="/archives/">
           <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
@@ -218,10 +218,10 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://idarkboss.gitee.io/Blog/posts/51089/">
+    <link itemprop="mainEntityOfPage" href="https://idarkboss.gitee.io/posts/51089/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/Blog/images/avatar.svg">
+      <meta itemprop="image" content="/images/avatar.svg">
       <meta itemprop="name" content="IDarkBoss">
     </span>
 
@@ -299,7 +299,7 @@
 </li>
 <li></li>
 </ul>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">curl -O https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;spinnaker&#x2F;halyard@master&#x2F;install&#x2F;debian&#x2F;InstallHalyard.sh</code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">curl -O https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;spinnaker&#x2F;halyard@master&#x2F;install&#x2F;debian&#x2F;InstallHalyard.sh</code></pre>
 
 <!-- - `sudo adduser spinnaker`
 - `sudo passwd root` 设定 root 用户的密码
@@ -382,13 +382,13 @@ endpoint &#x3D; &quot;http:&#x2F;&#x2F;spinnaker.example.com:8084&quot;</code></
 <h3 id="设置一个运行-Chaos-Monkey-每日时间表的-cron-作业"><a href="#设置一个运行-Chaos-Monkey-每日时间表的-cron-作业" class="headerlink" title="设置一个运行 Chaos Monkey 每日时间表的 cron 作业"></a>设置一个运行 Chaos Monkey 每日时间表的 cron 作业</h3><h4 id="配置-cron-作业"><a href="#配置-cron-作业" class="headerlink" title="配置 cron 作业"></a>配置 cron 作业</h4><p>为其他文档创建 <code>/apps/chaosmonkey/chaosmonkey-schedule.sh</code>，假设你已将 <code>chaosmonkey</code> 二进制文件复制到 <code>/apps/chaosmonkey</code>，并且还将在此处创建下面描述的脚本。 但是，Chaos Monkey 没有对这些文件的位置进行任何明确的假设。</p>
 <p>创建一个名为 <code>chaosmonkey-schedule.sh</code> 的文件，该文件调用 chaosmonkey 计划并将输出写入日志文件。请注意，由于这将从 <strong>cron</strong> 调用，因此 PATH 可能不包含 chaosmonkey 二进制文件的位置，因此请确保明确指定它。</p>
 <p><code>/apps/chaosmonkey/chaosmonkey-schedule.sh:</code></p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#!&#x2F;bin&#x2F;bash
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!&#x2F;bin&#x2F;bash
 &#x2F;apps&#x2F;chaosmonkey&#x2F;chaosmonkey schedule &gt;&gt; &#x2F;var&#x2F;log&#x2F;chaosmonkey-schedule.log 2&gt;&amp;1</code></pre>
 
 <h4 id="创建-x2F-etc-x2F-cron-d-x2F-chaosmonkey-schedule"><a href="#创建-x2F-etc-x2F-cron-d-x2F-chaosmonkey-schedule" class="headerlink" title="创建 &#x2F;etc&#x2F;cron.d&#x2F;chaosmonkey-schedule"></a>创建 &#x2F;etc&#x2F;cron.d&#x2F;chaosmonkey-schedule</h4><p>有了该脚本后，创建一个 cron 作业，每天调用一次。 Chaos Monkey 在 <code>chaosmonkey.time_zone</code> 中的 <code>chaosmonkey.start_hour</code> 开始终止，因此最好在当天早些时候选择时间。</p>
 <p>下面的示例在每个工作日的系统时间 12:00（我们假定使用 UTC）生成终止时间表。</p>
 <p><code>/etc/cron.d/chaosmonkey-schedule:</code></p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"># Run the Chaos Monkey scheduler at 5AM PDT (4AM PST) every weekday
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># Run the Chaos Monkey scheduler at 5AM PDT (4AM PST) every weekday
 # This corresponds to: 12:00 UTC
 # Because system clock runs UTC, time change affects when job runs
 # The scheduler must run as root because it needs root permissions to write
@@ -399,7 +399,7 @@ endpoint &#x3D; &quot;http:&#x2F;&#x2F;spinnaker.example.com:8084&quot;</code></
 
 <h4 id="创建-x2F-apps-x2F-chaosmonkey-x2F-chaosmonkey-terminate-sh"><a href="#创建-x2F-apps-x2F-chaosmonkey-x2F-chaosmonkey-terminate-sh" class="headerlink" title="创建 &#x2F;apps&#x2F;chaosmonkey&#x2F;chaosmonkey-terminate.sh"></a>创建 &#x2F;apps&#x2F;chaosmonkey&#x2F;chaosmonkey-terminate.sh</h4><p>当 Chaos Monkey 安排终止时，它将创建 cron 作业，该作业调用 <code>chaosmonkey.term_path</code> 指定的路径，该路径默认为 <code>/apps/chaosmonkey/chaosmonkey-terminate.sh</code>。</p>
 <p><code>/apps/chaosmonkey/chaosmonkey-terminate.sh:</code></p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#!&#x2F;bin&#x2F;bash
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!&#x2F;bin&#x2F;bash
 
 &#x2F;apps&#x2F;chaosmonkey&#x2F;chaosmonkey terminate &quot;\$@&quot; &gt;&gt; &#x2F;var&#x2F;log&#x2F;chaosmonkey-terminate.log 2&gt;&amp;1</code></pre>
 <!-- flag of hidden posts -->
@@ -417,7 +417,7 @@ endpoint &#x3D; &quot;http:&#x2F;&#x2F;spinnaker.example.com:8084&quot;</code></
     
 </div>
           <div class="post-tags">
-              <a href="/Blog/tags/Chaos-Monkey/" rel="tag"># Chaos Monkey</a>
+              <a href="/tags/Chaos-Monkey/" rel="tag"># Chaos Monkey</a>
           </div>
 
         
@@ -497,17 +497,17 @@ endpoint &#x3D; &quot;http:&#x2F;&#x2F;spinnaker.example.com:8084&quot;</code></
   <script src="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
-<script src="/Blog/js/comments.js"></script><script src="/Blog/js/utils.js"></script><script src="/Blog/js/motion.js"></script><script src="/Blog/js/next-boot.js"></script><script src="/Blog/js/pjax.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
 
   
 <script src="https://cdn.bootcdn.net/ajax/libs/hexo-generator-searchdb/1.4.0/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
-<script src="/Blog/js/third-party/search/local-search.js"></script>
+<script src="/js/third-party/search/local-search.js"></script>
 
 
 
-  <script src="/Blog/js/third-party/fancybox.js"></script>
+  <script src="/js/third-party/fancybox.js"></script>
 
-  <script src="/Blog/js/third-party/pace.js"></script>
+  <script src="/js/third-party/pace.js"></script>
 
   
   <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -516,12 +516,12 @@ endpoint &#x3D; &quot;http:&#x2F;&#x2F;spinnaker.example.com:8084&quot;</code></
 
 
   <script src="https://cdn.bootcdn.net/ajax/libs/quicklink/2.2.0/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
-  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://idarkboss.gitee.io/Blog/posts/51089/"}</script>
-  <script src="/Blog/js/third-party/quicklink.js"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://idarkboss.gitee.io/posts/51089/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
 <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
 
-<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"IDarkBoss","repo":"gitalk","client_id":"75b52ae366a9e59a5193","client_secret":"1bb3f02e37e8bbdb822edc4bc313d6fd4a284f0a","admin_user":"IDarkBoss","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"8897bffae3d83ea23beeaf040e033faf"}</script>
-<script src="/Blog/js/third-party/comments/gitalk.js"></script>
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"IDarkBoss","repo":"gitalk","client_id":"75b52ae366a9e59a5193","client_secret":"1bb3f02e37e8bbdb822edc4bc313d6fd4a284f0a","admin_user":"IDarkBoss","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdn.bootcdn.net/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"95f78f549e1f3d96bfa4e234287d20c5"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
 <div class="moon-menu">
   <div class="moon-menu-items">
     
@@ -542,7 +542,7 @@ endpoint &#x3D; &quot;http:&#x2F;&#x2F;spinnaker.example.com:8084&quot;</code></
       <div class="moon-menu-text"></div>
     </div>
   </div>
-</div><script src="/Blog/js/injector.js"></script>
+</div><script src="/js/injector.js"></script>
 
   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas>
 <script src="//cdn.bootcdn.net/ajax/libs/animejs/3.2.1/anime.js"></script>
