@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>https://idarkboss.gitee.io/posts/24802/</loc>
+    <loc>https://idarkboss.gitee.io/posts/39421/</loc>
     
     <lastmod>2022-04-14</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://idarkboss.gitee.io/posts/39421/</loc>
+    <loc>https://idarkboss.gitee.io/posts/24802/</loc>
     
     <lastmod>2022-04-14</lastmod>
     
@@ -38,7 +38,7 @@
   </url>
   
   <url>
-    <loc>https://idarkboss.gitee.io/posts/50348/</loc>
+    <loc>https://idarkboss.gitee.io/posts/6794/</loc>
     
     <lastmod>2022-04-14</lastmod>
     
@@ -47,7 +47,7 @@
   </url>
   
   <url>
-    <loc>https://idarkboss.gitee.io/posts/6794/</loc>
+    <loc>https://idarkboss.gitee.io/posts/50348/</loc>
     
     <lastmod>2022-04-14</lastmod>
     
@@ -157,7 +157,7 @@
 
   <url>
     <loc>https://idarkboss.gitee.io/</loc>
-    <lastmod>2022-09-07</lastmod>
+    <lastmod>2024-01-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -165,119 +165,119 @@
   
   <url>
     <loc>https://idarkboss.gitee.io/tags/Java/</loc>
-    <lastmod>2022-09-07</lastmod>
+    <lastmod>2024-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://idarkboss.gitee.io/tags/Chaos-Monkey/</loc>
-    <lastmod>2022-09-07</lastmod>
+    <lastmod>2024-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://idarkboss.gitee.io/tags/IDEA/</loc>
-    <lastmod>2022-09-07</lastmod>
+    <lastmod>2024-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://idarkboss.gitee.io/tags/Linux/</loc>
-    <lastmod>2022-09-07</lastmod>
+    <lastmod>2024-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://idarkboss.gitee.io/tags/Manjaro/</loc>
-    <lastmod>2022-09-07</lastmod>
+    <lastmod>2024-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://idarkboss.gitee.io/tags/Deepin/</loc>
-    <lastmod>2022-09-07</lastmod>
+    <lastmod>2024-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://idarkboss.gitee.io/tags/Manjaro-Deepin/</loc>
-    <lastmod>2022-09-07</lastmod>
+    <lastmod>2024-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://idarkboss.gitee.io/tags/hexo-NexT/</loc>
-    <lastmod>2022-09-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://idarkboss.gitee.io/tags/Oracle/</loc>
-    <lastmod>2022-09-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://idarkboss.gitee.io/tags/PL-SQL/</loc>
-    <lastmod>2022-09-07</lastmod>
+    <lastmod>2024-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://idarkboss.gitee.io/tags/Nginx/</loc>
-    <lastmod>2022-09-07</lastmod>
+    <lastmod>2024-01-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://idarkboss.gitee.io/tags/Oracle/</loc>
+    <lastmod>2024-01-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://idarkboss.gitee.io/tags/PL-SQL/</loc>
+    <lastmod>2024-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://idarkboss.gitee.io/tags/PyTorch/</loc>
-    <lastmod>2022-09-07</lastmod>
+    <lastmod>2024-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://idarkboss.gitee.io/tags/Python/</loc>
-    <lastmod>2022-09-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://idarkboss.gitee.io/tags/Github/</loc>
-    <lastmod>2022-09-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://idarkboss.gitee.io/tags/Gitee/</loc>
-    <lastmod>2022-09-07</lastmod>
+    <lastmod>2024-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://idarkboss.gitee.io/tags/Maven/</loc>
-    <lastmod>2022-09-07</lastmod>
+    <lastmod>2024-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://idarkboss.gitee.io/tags/POM/</loc>
-    <lastmod>2022-09-07</lastmod>
+    <lastmod>2024-01-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://idarkboss.gitee.io/tags/Github/</loc>
+    <lastmod>2024-01-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://idarkboss.gitee.io/tags/Gitee/</loc>
+    <lastmod>2024-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

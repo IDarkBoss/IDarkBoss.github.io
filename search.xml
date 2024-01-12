@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CSS @font-face属性详解</title>
+    <url>/posts/2734/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p><code>@font-face</code>是 CSS3 中的一个模块，他主要是把自己定义的 Web 字体嵌入到你的网页中。<br>本文介绍了该模块的一些使用方法。</p>
+</div>
+
+<span id="more"></span>
+
+<h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><p>首先我们一起来看看@font-face 的语法规则：</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css">@font-face &#123;
+      font-family: &lt;YourWebFontName&gt;;
+      src: &lt;source&gt; [&lt;format&gt;][,&lt;source&gt; [&lt;format&gt;]]*;
+      [font-weight: &lt;weight&gt;];
+      [font-style: &lt;style&gt;];
+    &#125;</code></pre>
+
+<ul>
+<li><code>font-family: &lt;YourWebFontName&gt;</code> ：自定义字库名称（一般设置为所引入的字库名），后续样式规则中则通过该名称来引用该字库。</li>
+<li><code>src</code> ：设置字体的加载路径和格式，通过逗号分隔多个加载路径和格式</li>
+<li><code>srouce</code> ：字体的加载路径，可以是绝对或相对 URL。</li>
+<li><code>format</code> ：字体的格式，主要用于浏览器识别，一般有以下几种——truetype, opentype, truetype-aat, embedded-opentype, avg 等。</li>
+<li><code>font-weight</code> 和 <code>font-style</code> 和之前使用的是一致的。</li>
+<li><code>src</code>属性后还有一个 <code>local(font name)</code> 字段，表示从用户系统中加载字体，失败后才加载<code>webfont</code>。<code>src: local(font name), url(&quot;font_name.ttf&quot;)</code></li>
+</ul>
+<h3 id="兼容浏览器"><a href="#兼容浏览器" class="headerlink" title="兼容浏览器"></a>兼容浏览器</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/CSS-font-face%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/2020/06/3020200630155007.jpg" alt="兼容浏览器"></p>
+<h2 id="字体格式"><a href="#字体格式" class="headerlink" title="字体格式"></a>字体格式</h2><p>对于@font-face 而言，兼容性问题就是各浏览器所能识别的字体格式不尽相同。</p>
+<ul>
+<li><p><strong>TrueType 格式(.ttf)</strong><br>Windows 和 Mac 上常见的字体格式，是一种原始格式，因此它并没有为网页进行优化处理。<br>浏览器支持：IE9+, FireFox3.5+, Chrome4.0+, Safari3+, Opera10+, IOS Mobile Safari4.2+</p>
+</li>
+<li><p><strong>OpenType 格式(.otf)</strong><br>以 TrueType 为基础，也是一种原始格式，但提供更多的功能。<br>浏览器支持：FireFox3.5+, Chrome4.0+, Safari3.1+, Opera10.0+, IOS Mobile Safari4.2+</p>
+</li>
+<li><p><strong>Web Open Font 格式(.woff)</strong><br>针对网页进行特殊优化，因此是 Web 字体中最佳格式，它是一个开放的 TrueType&#x2F;OpenType 的压缩版，同时支持元数据包的分离。<br>浏览器支持：IE9+, FireFox3.5+, Chrome6+, Safari3.6+, Opera11.1+</p>
+</li>
+<li><p><strong>Embedded Open Type 格式(.eot)</strong><br>IE 专用字体格式，可以从 TrueType 格式创建此格式字体。<br>浏览器支持：IE4+</p>
+</li>
+<li><p><strong>SVG 格式(.svg)</strong><br>基于 SVG 字体渲染的格式。<br>浏览器支持：Chrome4+, Safari3.1+, Opera10.0+, IOS Mobile Safari3.2+</p>
+</li>
+</ul>
+<p>这就意味着在@font-face 中我们至少需要.woff, .eot 两种格式字体，甚至还需要.svg 等字体达到更多种浏览版本的支持。</p>
+<p>为了使@font-face 达到更多的浏览器支持，Paul Irish 写了一个独特的@font-face 语法叫 Bulletproof @font-face:</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css">@font-face &#123;
+  font-family: &quot;YourWebFontName&quot;;
+  src: url(&quot;YourWebFontName.eot&quot;); &#x2F;* IE9 Compat Modes *&#x2F;
+  src: url(&quot;YourWebFontName.eot?#iefix&quot;) format(&quot;embedded-opentype&quot;), &#x2F;* IE6-IE8 *&#x2F;
+      url(&quot;YourWebFontName.woff&quot;) format(&quot;woff&quot;),
+    &#x2F;* Modern Browsers *&#x2F; url(&quot;YourWebFontName.ttf&quot;) format(&quot;truetype&quot;), &#x2F;* Safari, Android, iOS *&#x2F;
+      url(&quot;YourWebFontName.svg#YourWebFontName&quot;) format(&quot;svg&quot;); &#x2F;* Legacy iOS *&#x2F;
+&#125;</code></pre>
+
+<h2 id="字体转换"><a href="#字体转换" class="headerlink" title="字体转换"></a>字体转换</h2><p><a href="https://onlinefontconverter.com/">Online Font Converter</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>BigDecimal详解</title>
     <url>/posts/45537/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p> 本文介绍 BigDecimal 的使用方法 <sup id="fnref:1"><a href="#fn:1" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="转载自: [LanceToBigData](https://www.cnblogs.com/zhangyinhua/p/11545305.html)
@@ -436,58 +488,6 @@ public class ArithmeticUtils &#123;
       <tags>
         <tag>Java</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>CSS @font-face属性详解</title>
-    <url>/posts/2734/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p><code>@font-face</code>是 CSS3 中的一个模块，他主要是把自己定义的 Web 字体嵌入到你的网页中。<br>本文介绍了该模块的一些使用方法。</p>
-</div>
-
-<span id="more"></span>
-
-<h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><p>首先我们一起来看看@font-face 的语法规则：</p>
-<pre class="line-numbers language-css" data-language="css"><code class="language-css">@font-face &#123;
-      font-family: &lt;YourWebFontName&gt;;
-      src: &lt;source&gt; [&lt;format&gt;][,&lt;source&gt; [&lt;format&gt;]]*;
-      [font-weight: &lt;weight&gt;];
-      [font-style: &lt;style&gt;];
-    &#125;</code></pre>
-
-<ul>
-<li><code>font-family: &lt;YourWebFontName&gt;</code> ：自定义字库名称（一般设置为所引入的字库名），后续样式规则中则通过该名称来引用该字库。</li>
-<li><code>src</code> ：设置字体的加载路径和格式，通过逗号分隔多个加载路径和格式</li>
-<li><code>srouce</code> ：字体的加载路径，可以是绝对或相对 URL。</li>
-<li><code>format</code> ：字体的格式，主要用于浏览器识别，一般有以下几种——truetype, opentype, truetype-aat, embedded-opentype, avg 等。</li>
-<li><code>font-weight</code> 和 <code>font-style</code> 和之前使用的是一致的。</li>
-<li><code>src</code>属性后还有一个 <code>local(font name)</code> 字段，表示从用户系统中加载字体，失败后才加载<code>webfont</code>。<code>src: local(font name), url(&quot;font_name.ttf&quot;)</code></li>
-</ul>
-<h3 id="兼容浏览器"><a href="#兼容浏览器" class="headerlink" title="兼容浏览器"></a>兼容浏览器</h3><p><img src="https://gitee.com/IDarkBoss/Blog_Resources/raw/master/CSS-font-face%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/2020/06/3020200630155007.jpg" alt="兼容浏览器"></p>
-<h2 id="字体格式"><a href="#字体格式" class="headerlink" title="字体格式"></a>字体格式</h2><p>对于@font-face 而言，兼容性问题就是各浏览器所能识别的字体格式不尽相同。</p>
-<ul>
-<li><p><strong>TrueType 格式(.ttf)</strong><br>Windows 和 Mac 上常见的字体格式，是一种原始格式，因此它并没有为网页进行优化处理。<br>浏览器支持：IE9+, FireFox3.5+, Chrome4.0+, Safari3+, Opera10+, IOS Mobile Safari4.2+</p>
-</li>
-<li><p><strong>OpenType 格式(.otf)</strong><br>以 TrueType 为基础，也是一种原始格式，但提供更多的功能。<br>浏览器支持：FireFox3.5+, Chrome4.0+, Safari3.1+, Opera10.0+, IOS Mobile Safari4.2+</p>
-</li>
-<li><p><strong>Web Open Font 格式(.woff)</strong><br>针对网页进行特殊优化，因此是 Web 字体中最佳格式，它是一个开放的 TrueType&#x2F;OpenType 的压缩版，同时支持元数据包的分离。<br>浏览器支持：IE9+, FireFox3.5+, Chrome6+, Safari3.6+, Opera11.1+</p>
-</li>
-<li><p><strong>Embedded Open Type 格式(.eot)</strong><br>IE 专用字体格式，可以从 TrueType 格式创建此格式字体。<br>浏览器支持：IE4+</p>
-</li>
-<li><p><strong>SVG 格式(.svg)</strong><br>基于 SVG 字体渲染的格式。<br>浏览器支持：Chrome4+, Safari3.1+, Opera10.0+, IOS Mobile Safari3.2+</p>
-</li>
-</ul>
-<p>这就意味着在@font-face 中我们至少需要.woff, .eot 两种格式字体，甚至还需要.svg 等字体达到更多种浏览版本的支持。</p>
-<p>为了使@font-face 达到更多的浏览器支持，Paul Irish 写了一个独特的@font-face 语法叫 Bulletproof @font-face:</p>
-<pre class="line-numbers language-css" data-language="css"><code class="language-css">@font-face &#123;
-  font-family: &quot;YourWebFontName&quot;;
-  src: url(&quot;YourWebFontName.eot&quot;); &#x2F;* IE9 Compat Modes *&#x2F;
-  src: url(&quot;YourWebFontName.eot?#iefix&quot;) format(&quot;embedded-opentype&quot;), &#x2F;* IE6-IE8 *&#x2F;
-      url(&quot;YourWebFontName.woff&quot;) format(&quot;woff&quot;),
-    &#x2F;* Modern Browsers *&#x2F; url(&quot;YourWebFontName.ttf&quot;) format(&quot;truetype&quot;), &#x2F;* Safari, Android, iOS *&#x2F;
-      url(&quot;YourWebFontName.svg#YourWebFontName&quot;) format(&quot;svg&quot;); &#x2F;* Legacy iOS *&#x2F;
-&#125;</code></pre>
-
-<h2 id="字体转换"><a href="#字体转换" class="headerlink" title="字体转换"></a>字体转换</h2><p><a href="https://onlinefontconverter.com/">Online Font Converter</a></p>
-]]></content>
   </entry>
   <entry>
     <title>Chaos Monkey</title>
@@ -1077,51 +1077,6 @@ $font-family-monospace    &#x3D; &quot;Sarasa Mono SC&quot;, get_font_family(&#3
       </tags>
   </entry>
   <entry>
-    <title>Oracle数据库操作</title>
-    <url>/posts/50348/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>Oracle 数据库</p>
-</div>
-
-<h2 id="Oracle-用读写模式查询记录"><a href="#Oracle-用读写模式查询记录" class="headerlink" title="Oracle 用读写模式查询记录"></a>Oracle 用读写模式查询记录</h2><ul>
-<li><code>select * from XXX a where AAA=&#39;258&#39; for update</code></li>
-<li><code>select a.rowid,a* from XXX a where AAA=&#39;258&#39;</code></li>
-</ul>
-]]></content>
-      <tags>
-        <tag>Oracle</tag>
-        <tag>PL/SQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Oracle数据库报错分析</title>
-    <url>/posts/6794/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>本文介绍了使用 Oracle 数据库时会遇到的一些问题。 </p>
-</div>
-
-<h2 id="ORA-00936-缺失表达式"><a href="#ORA-00936-缺失表达式" class="headerlink" title="ORA-00936: 缺失表达式"></a>ORA-00936: 缺失表达式</h2><p>SQL 语句写错啦！</p>
-<h2 id="ORA-00911-无效字符"><a href="#ORA-00911-无效字符" class="headerlink" title="ORA-00911: 无效字符"></a>ORA-00911: 无效字符</h2><p>mybatis 的 Mapper.xml 中，sql 语句最后不需要“；”，去掉就 ok 了。</p>
-<h2 id="ORA-01745-无效的主机-x2F-绑定变量名"><a href="#ORA-01745-无效的主机-x2F-绑定变量名" class="headerlink" title="ORA-01745: 无效的主机&#x2F;绑定变量名"></a>ORA-01745: 无效的主机&#x2F;绑定变量名</h2><p><code>Cause: java.sql.SQLSyntaxErrorException: ORA-01745: 无效的主机/绑定变量名.</code><br>是由于在插入数据的时候，两个填充变量之间没有逗号分隔。</p>
-<h2 id="ORA-01791-不是-SELECTED-表达式"><a href="#ORA-01791-不是-SELECTED-表达式" class="headerlink" title="ORA-01791: 不是 SELECTED 表达式"></a>ORA-01791: 不是 SELECTED 表达式</h2><p>通常 <strong>ORA-01791</strong> 的错误，都是在使用<strong>distinct</strong>后出现的。通常是因为<strong>distinct</strong>和<strong>order by</strong> 一起使用，因为字段名称冲突报错。</p>
-<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql">select distinct a.USER_NAME
-from XXX a
-order by a.id asc;</code></pre>
-
-<p>上面的 SQL 报错是因为<strong>order by</strong>后使用的字段名称，使用的是原始名称，不是使用别名所导致的。也就是说，如果有 <strong>distinct</strong> 时，<strong>order by</strong> 后面跟的字段名称，必须是最新的别名（若没有别名，就使用原来的名称，若有多层子查询，则使用最新的那个别名）。</p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql">select distinct a.USER_NAME
-from XXX a
-order by &#39;a.id&#39; asc; &#x2F;&#x2F;排序使用别名&#39;a.id&#39;</code></pre>
-
-<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql">select distinct a.USER_NAME, a.id &#x2F;&#x2F;查询结果添加a.id
-from INS_INSPECTION_APP_OLD a
-where a.CUSTOMER_NUMBER &#x3D; 740
-order by a.id asc;</code></pre>
-]]></content>
-      <tags>
-        <tag>Oracle</tag>
-        <tag>PL/SQL</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Nginx 反代配置</title>
     <url>/posts/13817/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>Nginx 反代配置</p>
@@ -1161,6 +1116,35 @@ include &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;*;</code></pre>
 ]]></content>
       <tags>
         <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Oracle数据库报错分析</title>
+    <url>/posts/6794/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>本文介绍了使用 Oracle 数据库时会遇到的一些问题。 </p>
+</div>
+
+<h2 id="ORA-00936-缺失表达式"><a href="#ORA-00936-缺失表达式" class="headerlink" title="ORA-00936: 缺失表达式"></a>ORA-00936: 缺失表达式</h2><p>SQL 语句写错啦！</p>
+<h2 id="ORA-00911-无效字符"><a href="#ORA-00911-无效字符" class="headerlink" title="ORA-00911: 无效字符"></a>ORA-00911: 无效字符</h2><p>mybatis 的 Mapper.xml 中，sql 语句最后不需要“；”，去掉就 ok 了。</p>
+<h2 id="ORA-01745-无效的主机-x2F-绑定变量名"><a href="#ORA-01745-无效的主机-x2F-绑定变量名" class="headerlink" title="ORA-01745: 无效的主机&#x2F;绑定变量名"></a>ORA-01745: 无效的主机&#x2F;绑定变量名</h2><p><code>Cause: java.sql.SQLSyntaxErrorException: ORA-01745: 无效的主机/绑定变量名.</code><br>是由于在插入数据的时候，两个填充变量之间没有逗号分隔。</p>
+<h2 id="ORA-01791-不是-SELECTED-表达式"><a href="#ORA-01791-不是-SELECTED-表达式" class="headerlink" title="ORA-01791: 不是 SELECTED 表达式"></a>ORA-01791: 不是 SELECTED 表达式</h2><p>通常 <strong>ORA-01791</strong> 的错误，都是在使用<strong>distinct</strong>后出现的。通常是因为<strong>distinct</strong>和<strong>order by</strong> 一起使用，因为字段名称冲突报错。</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql">select distinct a.USER_NAME
+from XXX a
+order by a.id asc;</code></pre>
+
+<p>上面的 SQL 报错是因为<strong>order by</strong>后使用的字段名称，使用的是原始名称，不是使用别名所导致的。也就是说，如果有 <strong>distinct</strong> 时，<strong>order by</strong> 后面跟的字段名称，必须是最新的别名（若没有别名，就使用原来的名称，若有多层子查询，则使用最新的那个别名）。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql">select distinct a.USER_NAME
+from XXX a
+order by &#39;a.id&#39; asc; &#x2F;&#x2F;排序使用别名&#39;a.id&#39;</code></pre>
+
+<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql">select distinct a.USER_NAME, a.id &#x2F;&#x2F;查询结果添加a.id
+from INS_INSPECTION_APP_OLD a
+where a.CUSTOMER_NUMBER &#x3D; 740
+order by a.id asc;</code></pre>
+]]></content>
+      <tags>
+        <tag>Oracle</tag>
+        <tag>PL/SQL</tag>
       </tags>
   </entry>
   <entry>
@@ -1470,32 +1454,6 @@ include &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;*;</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>仓库同时推送Github和Gitee</title>
-    <url>/posts/24802/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="本地仓库目录添加-Github"><a href="#本地仓库目录添加-Github" class="headerlink" title="本地仓库目录添加 Github"></a>本地仓库目录添加 Github</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git remote add Github Github项仓库Clone地址</code></pre>
-
-<h2 id="本地仓库目录添加-Gitee"><a href="#本地仓库目录添加-Gitee" class="headerlink" title="本地仓库目录添加 Gitee"></a>本地仓库目录添加 Gitee</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git remote add Gitee Gitee仓库Clone地址</code></pre>
-
-<h2 id="推送到-Github"><a href="#推送到-Github" class="headerlink" title="推送到 Github"></a>推送到 Github</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git push Github master</code></pre>
-
-<h2 id="推送到-Gitee"><a href="#推送到-Gitee" class="headerlink" title="推送到 Gitee"></a>推送到 Gitee</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git push Gitee master</code></pre>
-
-<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>如果推送到远端时报错，可以先从远端 pull 项目</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git pull Github master
-或者
-git pull Gitee master</code></pre>
-
-<p>或者强制推送</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git push Github master -f
-或者
-git push Gitee master -f</code></pre>
-]]></content>
-      <tags>
-        <tag>Github</tag>
-        <tag>Gitee</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>pom参数详解</title>
     <url>/posts/39421/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>pom 中有很多成对的参数，是不是大家跟我一样，很多都在用，但不知道参数的定义，下面来整理下这些参数，也方便日后想不起来的时候，可以很快的进行查阅，大家在看的时候尽量对比着自己的项目看，这样可以加深理解。 </p>
@@ -1536,6 +1494,32 @@ git push Gitee master -f</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>仓库同时推送Github和Gitee</title>
+    <url>/posts/24802/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="本地仓库目录添加-Github"><a href="#本地仓库目录添加-Github" class="headerlink" title="本地仓库目录添加 Github"></a>本地仓库目录添加 Github</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git remote add Github Github项仓库Clone地址</code></pre>
+
+<h2 id="本地仓库目录添加-Gitee"><a href="#本地仓库目录添加-Gitee" class="headerlink" title="本地仓库目录添加 Gitee"></a>本地仓库目录添加 Gitee</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git remote add Gitee Gitee仓库Clone地址</code></pre>
+
+<h2 id="推送到-Github"><a href="#推送到-Github" class="headerlink" title="推送到 Github"></a>推送到 Github</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git push Github master</code></pre>
+
+<h2 id="推送到-Gitee"><a href="#推送到-Gitee" class="headerlink" title="推送到 Gitee"></a>推送到 Gitee</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git push Gitee master</code></pre>
+
+<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>如果推送到远端时报错，可以先从远端 pull 项目</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git pull Github master
+或者
+git pull Gitee master</code></pre>
+
+<p>或者强制推送</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git push Github master -f
+或者
+git push Gitee master -f</code></pre>
+]]></content>
+      <tags>
+        <tag>Github</tag>
+        <tag>Gitee</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>利用Gitee加速Github Clone</title>
     <url>/posts/16041/</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>大家都知道，要访问 Github 并 Clone 项目，如果没有什么特殊工具的话是真的很慢。<br>最近发现了可以使用 Gitee 来加速 Github Clone 的方法（属实骚操作），可以很好的解决这个问题（火星救援！）。</p>
@@ -1553,6 +1537,22 @@ git push Gitee master -f</code></pre>
       <tags>
         <tag>Github</tag>
         <tag>Gitee</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Oracle数据库操作</title>
+    <url>/posts/50348/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><div class="note default"><p>Oracle 数据库</p>
+</div>
+
+<h2 id="Oracle-用读写模式查询记录"><a href="#Oracle-用读写模式查询记录" class="headerlink" title="Oracle 用读写模式查询记录"></a>Oracle 用读写模式查询记录</h2><ul>
+<li><code>select * from XXX a where AAA=&#39;258&#39; for update</code></li>
+<li><code>select a.rowid,a* from XXX a where AAA=&#39;258&#39;</code></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Oracle</tag>
+        <tag>PL/SQL</tag>
       </tags>
   </entry>
 </search>
